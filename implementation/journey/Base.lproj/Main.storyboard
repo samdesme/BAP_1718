@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Profile-->
+        <scene sceneID="hNz-n2-bh7">
+            <objects>
+                <viewController id="9pv-A4-QxB" userLabel="Profile" customClass="ProfileViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwd-wv-6x3" userLabel="NavBar">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTF-c9-o7v" userLabel="lblProfile">
+                                        <rect key="frame" x="166.5" y="11.5" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="70m-ml-uW5"/>
+                                    <constraint firstItem="lTF-c9-o7v" firstAttribute="centerX" secondItem="jwd-wv-6x3" secondAttribute="centerX" id="NUc-xq-tbG"/>
+                                    <constraint firstItem="lTF-c9-o7v" firstAttribute="centerY" secondItem="jwd-wv-6x3" secondAttribute="centerY" id="Tbd-cZ-Dcg"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="jwd-wv-6x3" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="7fY-7f-Hhu"/>
+                            <constraint firstItem="jwd-wv-6x3" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="fZ8-p4-ISD"/>
+                            <constraint firstItem="jwd-wv-6x3" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="zRe-ph-nrs"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="ic_profile_25px_grey" id="acW-dT-cKf">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.78823529411764703" green="0.62352941176470589" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="-320"/>
+        </scene>
+        <!--Journal-->
+        <scene sceneID="wg7-f3-ORb">
+            <objects>
+                <viewController id="8rJ-Kc-sve" userLabel="Journal" customClass="JournalViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ELq-5M-bzo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="djz-Ng-tve" userLabel="NavBar">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwt-Wf-zwp" userLabel="lblJournal">
+                                        <rect key="frame" x="167" y="12" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="qwt-Wf-zwp" firstAttribute="centerY" secondItem="djz-Ng-tve" secondAttribute="centerY" id="TkX-7h-Z4O"/>
+                                    <constraint firstItem="qwt-Wf-zwp" firstAttribute="centerX" secondItem="djz-Ng-tve" secondAttribute="centerX" id="ZpO-pC-bYu"/>
+                                    <constraint firstAttribute="height" constant="44" id="aky-4y-ZWY"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="djz-Ng-tve" firstAttribute="top" secondItem="Ayc-FY-kPN" secondAttribute="top" id="0nt-fz-l5h"/>
+                            <constraint firstItem="djz-Ng-tve" firstAttribute="trailing" secondItem="Ayc-FY-kPN" secondAttribute="trailing" id="ObJ-5s-oOK"/>
+                            <constraint firstItem="djz-Ng-tve" firstAttribute="leading" secondItem="Ayc-FY-kPN" secondAttribute="leading" id="bUF-or-bzn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ayc-FY-kPN"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Journal" image="ic_journal_25px_grey" id="Jb4-zb-jFM"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="400"/>
+        </scene>
+        <!--Goals-->
+        <scene sceneID="ct5-nV-zeW">
+            <objects>
+                <viewController id="DQ4-DI-f0x" userLabel="Goals" customClass="GoalsViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZHI-sa-e1T">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="rbu-5s-0oM"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Goals" image="ic_goals_25px_grey" id="JcS-So-Ma0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iQf-3I-GOP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="1115"/>
+        </scene>
+        <!--Stats-->
+        <scene sceneID="NJL-g4-Ecf">
+            <objects>
+                <viewController id="mTf-dh-PqQ" userLabel="Stats" customClass="StatsViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ezf-ii-Eek">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="qKc-Jb-QzX"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Stats" image="ic_stats_25px_grey" id="zJP-9T-iJD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zmr-42-UY1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="1847"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="yl2-sM-qoP">
+            <objects>
+                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="DQ4-DI-f0x" kind="relationship" relationship="viewControllers" id="4Nd-sl-oBQ"/>
+                        <segue destination="mTf-dh-PqQ" kind="relationship" relationship="viewControllers" id="FcI-3u-SId"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-225" y="832"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ic_goals_25px_grey" width="25" height="25"/>
+        <image name="ic_journal_25px_grey" width="25" height="25"/>
+        <image name="ic_profile_25px_grey" width="25" height="25"/>
+        <image name="ic_stats_25px_grey" width="25" height="25"/>
+    </resources>
+</document>
