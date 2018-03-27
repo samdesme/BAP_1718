@@ -14,7 +14,7 @@ import UIKit
 
 
 
-// COLORS
+//colors
 
 let purpleColor = UIColor(netHex: 0xC99FC9)
 let blueColor = UIColor(netHex: 0x82D3EC)
@@ -22,7 +22,7 @@ let whiteColor = UIColor.white
 let blackColor = UIColor.black
 
 
-// FONTS
+//fonts
 
 // font medium
 let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
@@ -80,6 +80,20 @@ extension UIView {
         self.layer.mask = mask
     }
     
+    // extention for creating a dropshadow to UIView
+    func dropShadow(scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: -1, height: 1)
+        layer.shadowRadius = 1
+        
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+    
+  
     
 }
 
