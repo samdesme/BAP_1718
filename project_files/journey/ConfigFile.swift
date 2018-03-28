@@ -18,21 +18,30 @@ import UIKit
 
 let purpleColor = UIColor(netHex: 0xC99FC9)
 let blueColor = UIColor(netHex: 0x82D3EC)
+let lightGreyColor = UIColor(netHex: 0xF2F2F2)
 let whiteColor = UIColor.white
 let blackColor = UIColor.black
+let cgColorTransBlack05 = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
 
 
 //fonts
 
-// font medium
+//font medium
 let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
 
-// font regular
-let font16Reg = UIFont(name: "BrandonGrotesque-Regular", size: 16)
+//font regular
 
-// header fonts
+
+//header fonts
 let fontHeaderMain = UIFont(name:"BrandonGrotesque-Regular", size:19)
 let fontHeaderSub = UIFont(name:"BrandonGrotesque-Regular", size:19)
+
+//text fonts
+let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:60)
+let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:22)
+
+//button fonts
+let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)
 
 
 
@@ -49,6 +58,31 @@ extension UIColor {
     
     convenience init(netHex:Int) {
         self.init(red:(netHex >> 16) & 0xff, green:(netHex >> 8) & 0xff, blue:netHex & 0xff)
+    }
+}
+
+extension UILabel {
+    
+    //extention to set lineSpacing of UILabel
+    func setLineSpacing(lineSpacing: CGFloat = 0.0, lineHeightMultiple: CGFloat = 0.0) {
+        
+        guard let labelText = self.text else { return }
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        paragraphStyle.lineHeightMultiple = lineHeightMultiple
+        
+        let attributedString:NSMutableAttributedString
+        if let labelattributedText = self.attributedText {
+            attributedString = NSMutableAttributedString(attributedString: labelattributedText)
+        } else {
+            attributedString = NSMutableAttributedString(string: labelText)
+        }
+        
+        // Line spacing attribute
+        attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        
+        self.attributedText = attributedString
     }
 }
 
