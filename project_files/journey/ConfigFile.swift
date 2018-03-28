@@ -10,21 +10,26 @@ import Foundation
 import UIKit
 
 
-// Configuration
+// Configuration file
 
 
 
-//colors
+//COLORS
 
 let purpleColor = UIColor(netHex: 0xC99FC9)
 let blueColor = UIColor(netHex: 0x82D3EC)
 let lightGreyColor = UIColor(netHex: 0xF2F2F2)
 let whiteColor = UIColor.white
 let blackColor = UIColor.black
+
+//transparant colors
 let cgColorTransBlack05 = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
+let cgColorTransBlue60 = UIColor(red: 130, green: 211, blue: 236, alpha: 0.6).cgColor
 
 
-//fonts
+
+
+//FONTS
 
 //font medium
 let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
@@ -39,11 +44,14 @@ let fontHeaderSub = UIFont(name:"BrandonGrotesque-Regular", size:19)
 //text fonts
 let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:60)
 let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:22)
+let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:22)
+let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 
 //button fonts
 let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)
 
 
+//EXTENTIONS
 
 extension UIColor {
     
@@ -106,6 +114,20 @@ extension UIView {
         self.layer.addSublayer(gradient)
     }
     
+   /*
+    
+    func applyGradientButton(colours: [UIColor]) -> Void {
+        self.applyGradientButton(colours, locations: nil)
+    }
+    
+    func applyGradientButton(colours: [UIColor], locations: [NSNumber]?) -> Void {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        gradient.locations = locations
+        self.layer.addSublayer(gradient)
+    }*/
+ 
     // extention for changing the radius of individual corners of a UIView
     func round(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))

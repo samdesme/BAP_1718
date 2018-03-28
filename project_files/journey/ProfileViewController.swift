@@ -10,7 +10,9 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    //Outlet referentions
+    //OUTLET REFERENTIONS
+    
+    //general info view
     @IBOutlet var viewProfile: UIView!
     @IBOutlet weak var viewShadow: UIView!
     @IBOutlet weak var navBarProfile: UIView!
@@ -22,9 +24,20 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var viewKeywords: UIView!
     @IBOutlet weak var viewTopGradient: UIView!
     
+    //keywords view
+    @IBOutlet weak var keyword1: UILabel!
+    @IBOutlet weak var keyword2: UILabel!
+    @IBOutlet weak var keyword3: UILabel!
+    @IBOutlet weak var btnEditKeywords: UIButton!
+    @IBOutlet weak var lblTopThree: UILabel!
+    @IBOutlet weak var viewShadowBtn: UIView!
+    
     // VARIABELS
     let  gradientLayer = CAGradientLayer()
     let  topGradientLayer = CAGradientLayer()
+    let  btnGradientLayer = CAGradientLayer()
+    
+    
     let strHeader = "profile"
     let styleTextViewAbout = NSMutableParagraphStyle()
     let styleLabelName = NSMutableParagraphStyle()
@@ -36,6 +49,9 @@ class ProfileViewController: UIViewController {
     //Convert UILayer to CALayer to create shadows and gradients
     var caLayer: CALayer {
         return viewShadow.layer
+    }
+    var caLayerBtn: CALayer {
+        return viewShadowBtn.layer
     }
     
    //Load view controller
@@ -117,17 +133,73 @@ class ProfileViewController: UIViewController {
     
     func setUpKeywordUIView() {
         
-        //Set up UIView
+        //SET UP UIVIEW
         viewKeywords.backgroundColor = whiteColor
         
-        //UIView: corner radius
+        //corner radius
         viewKeywords.layer.cornerRadius = 25
         
-        //UIView: drop shadow
+        //drop shadow
         viewKeywords.layer.shadowColor = blackColor.cgColor
         viewKeywords.layer.shadowOffset = CGSize(width: 6, height: 6)
         viewKeywords.layer.shadowOpacity = 0.05
         viewKeywords.layer.shadowRadius = 5.0
+        
+        //SET UP LABELS
+        lblTopThree.textAlignment = .center
+        lblTopThree.font = fontMainLight
+        lblTopThree.textColor = blackColor
+        lblTopThree.text = "Your top 3 biggest mental health struggles"
+        
+        keyword1.textAlignment = .left
+        keyword1.font = fontKeywordRegular
+        keyword1.textColor = blackColor
+        keyword1.text = "keyword 1"
+        
+        keyword2.textAlignment = .left
+        keyword2.font = fontKeywordRegular
+        keyword2.textColor = blackColor
+        keyword2.text = "keyword 2"
+        
+        keyword3.textAlignment = .left
+        keyword3.font = fontKeywordRegular
+        keyword3.textColor = blackColor
+        keyword3.text = "keyword 3"
+        
+        //SET UP BUTTON
+        btnEditKeywords.setTitle("Edit",for: .normal)
+        btnEditKeywords.tintColor = whiteColor
+        btnEditKeywords.backgroundColor = .clear
+       // btnEditKeywords.layer.cornerRadius = 25
+        btnEditKeywords.titleLabel?.font = fontBtnSmall
+        btnEditKeywords.clipsToBounds = true
+        
+        
+        //add gradient
+
+        btnGradientLayer.frame = btnEditKeywords.bounds
+        btnGradientLayer.colors = [blueColor.cgColor, whiteColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        //btnGradientLayer.startPoint = CGPoint(x: 1, y: 0)
+        //btnGradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        
+        
+        viewShadowBtn.backgroundColor = nil
+        viewShadowBtn.clipsToBounds = false
+        viewShadowBtn.frame = btnGradientLayer.bounds
+        
+        //Add drop shadow
+        btnGradientLayer.shadowOpacity = 0.10
+        btnGradientLayer.shadowRadius = 7.0
+        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
+        
+        //Bottom corner radius
+        btnGradientLayer.cornerRadius = 25
+   
+        viewShadowBtn.layer.addSublayer(btnGradientLayer)
+        
+        
+     
         
         
     }
