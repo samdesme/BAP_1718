@@ -18,14 +18,10 @@ import UIKit
 
 let purpleColor = UIColor(netHex: 0xC99FC9)
 let blueColor = UIColor(netHex: 0x82D3EC)
+let lightBlueColor = UIColor(netHex: 0xB2E0F1)
 let lightGreyColor = UIColor(netHex: 0xF2F2F2)
 let whiteColor = UIColor.white
 let blackColor = UIColor.black
-
-//transparant colors
-let cgColorTransBlack05 = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
-let cgColorTransBlue60 = UIColor(red: 130, green: 211, blue: 236, alpha: 0.6).cgColor
-
 
 
 
@@ -43,9 +39,11 @@ let fontHeaderSub = UIFont(name:"BrandonGrotesque-Regular", size:19)
 
 //text fonts
 let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:60)
-let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:22)
+
+let fontTextLight = UIFont(name:"BrandonGrotesque-Light", size:22)
+let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:20)
 let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:22)
-let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
+let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:21)
 
 //button fonts
 let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)

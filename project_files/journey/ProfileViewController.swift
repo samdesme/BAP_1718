@@ -33,18 +33,22 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var viewShadowBtn: UIView!
     
     // VARIABELS
+    
+    //gradient layers
     let  gradientLayer = CAGradientLayer()
     let  topGradientLayer = CAGradientLayer()
     let  btnGradientLayer = CAGradientLayer()
     
-    
-    let strHeader = "profile"
+    //paragraph styles
     let styleTextViewAbout = NSMutableParagraphStyle()
     let styleLabelName = NSMutableParagraphStyle()
+    
+    //strings
+    let strHeader = "profile"
     let strAbout = "I'm an extremely organized person who is focused on producing results. While I am always realistic when setting goals, I consistently develop."
     let strFirstName = "Ellen"
+    let strBullet = "\u{2022} "
   
-    
     
     //Convert UILayer to CALayer to create shadows and gradients
     var caLayer: CALayer {
@@ -70,27 +74,28 @@ class ProfileViewController: UIViewController {
     
     func setUpUserInfoCAView() {
         
-        //Set up bounds & styling for UIView (general user info)
+        //UIVIEW
+        
         viewShadow.clipsToBounds = false
         viewProfieInfo.clipsToBounds = false
         viewShadow.backgroundColor = nil
         
-        //Add gradient
+        //gradient
         gradientLayer.frame = viewShadow.bounds
         gradientLayer.colors = [purpleColor.cgColor, blueColor.cgColor]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         
-        //Add drop shadow
+        //drop shadow
         gradientLayer.shadowOpacity = 0.10
         gradientLayer.shadowRadius = 7.0
         gradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
         
-        //Bottom corner radius
+        //corner radius
         gradientLayer.cornerRadius = 50
         gradientLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         
-        //Add gradient layer to UIView
+        //add gradient layer to UIView
         viewShadow.layer.addSublayer(gradientLayer)
 
         //lblFirstName.setLineSpacing(lineSpacing: 2.0)
@@ -99,20 +104,23 @@ class ProfileViewController: UIViewController {
         lblFirstName.textColor = whiteColor
         lblFirstName.text = strFirstName
         
-        //Textview: about
+        //TEXTVIEW
+        
         textViewAbout.backgroundColor = UIColor.clear
         styleTextViewAbout.lineSpacing = -5
         styleTextViewAbout.alignment = .center
         let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
                           NSAttributedStringKey.foregroundColor : whiteColor,
-                          NSAttributedStringKey.font : fontMainLight! ]
+                          NSAttributedStringKey.font : fontMainRegular! ]
         textViewAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
        
-        //Button: edit general user info
+        //BUTTON
+        
         btnEditInfo.setTitle("Edit",for: .normal)
         btnEditInfo.tintColor = whiteColor
         btnEditInfo.backgroundColor = .clear
-        btnEditInfo.layer.cornerRadius = 25
+        btnEditInfo.layer.cornerRadius = 24
+        btnEditInfo.layer.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
         btnEditInfo.titleLabel?.font = fontBtnSmall
         btnEditInfo.layer.borderWidth = 2
         btnEditInfo.layer.borderColor = whiteColor.cgColor
@@ -125,7 +133,7 @@ class ProfileViewController: UIViewController {
         viewTopGradient.clipsToBounds = false
         viewTopGradient.backgroundColor = nil
         topGradientLayer.frame = viewTopGradient.bounds
-        topGradientLayer.colors = [cgColorTransBlack05, UIColor.clear.cgColor]
+        topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
         topGradientLayer.locations = [ 0.0, 1.0]
         viewTopGradient.layer.addSublayer(topGradientLayer)
         
@@ -133,7 +141,8 @@ class ProfileViewController: UIViewController {
     
     func setUpKeywordUIView() {
         
-        //SET UP UIVIEW
+        //UIVIEW
+        
         viewKeywords.backgroundColor = whiteColor
         
         //corner radius
@@ -145,61 +154,84 @@ class ProfileViewController: UIViewController {
         viewKeywords.layer.shadowOpacity = 0.05
         viewKeywords.layer.shadowRadius = 5.0
         
-        //SET UP LABELS
+        //LABELS
+        
         lblTopThree.textAlignment = .center
         lblTopThree.font = fontMainLight
         lblTopThree.textColor = blackColor
         lblTopThree.text = "Your top 3 biggest mental health struggles"
+        lblTopThree.layer.opacity = 0.6
         
-        keyword1.textAlignment = .left
+    
+        /*
+        //style the bullet points of each label by making multiple attributes
+        //and appending them to each string
+        let keyBullet = strBullet
+        let multipleAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 20),
+            NSAttributedStringKey.foregroundColor: blueColor,
+             ]
+        let attributedString1 = NSMutableAttributedString(string: keyBullet, attributes: multipleAttributes)
+        let attributedString2 = NSMutableAttributedString(string: keyBullet, attributes: multipleAttributes)
+        let attributedString3 = NSMutableAttributedString(string: keyBullet, attributes: multipleAttributes)
+        let strKey1 = NSMutableAttributedString(string: " Anger Mangagement")
+        attributedString1.append(strKey1)
+        let strKey2 = NSMutableAttributedString(string: " General Anxiety")
+        attributedString2.append(strKey2)
+        let strKey3 = NSMutableAttributedString(string: " Depression")
+        attributedString3.append(strKey3)*/
+        
+        //style top 3 keywords
+        keyword1.textAlignment = .center
         keyword1.font = fontKeywordRegular
         keyword1.textColor = blackColor
-        keyword1.text = "keyword 1"
+        keyword1.text = "General Anxiety"
+        keyword1.layer.opacity = 1
         
-        keyword2.textAlignment = .left
+        keyword2.textAlignment = .center
         keyword2.font = fontKeywordRegular
         keyword2.textColor = blackColor
-        keyword2.text = "keyword 2"
+        keyword2.text = "Anger Mangagement"
+        keyword2.layer.opacity = 0.5
         
-        keyword3.textAlignment = .left
+        keyword3.textAlignment = .center
         keyword3.font = fontKeywordRegular
         keyword3.textColor = blackColor
-        keyword3.text = "keyword 3"
+        keyword3.text = "Depression"
+        keyword3.layer.opacity = 0.25
         
-        //SET UP BUTTON
-        btnEditKeywords.setTitle("Edit",for: .normal)
-        btnEditKeywords.tintColor = whiteColor
-        btnEditKeywords.backgroundColor = .clear
-       // btnEditKeywords.layer.cornerRadius = 25
-        btnEditKeywords.titleLabel?.font = fontBtnSmall
-        btnEditKeywords.clipsToBounds = true
+        //BUTTON
         
-        
-        //add gradient
-
-        btnGradientLayer.frame = btnEditKeywords.bounds
-        btnGradientLayer.colors = [blueColor.cgColor, whiteColor.cgColor]
-        btnGradientLayer.locations = [ 0.0, 1.0]
-        //btnGradientLayer.startPoint = CGPoint(x: 1, y: 0)
-        //btnGradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        
-        
-        viewShadowBtn.backgroundColor = nil
         viewShadowBtn.clipsToBounds = false
-        viewShadowBtn.frame = btnGradientLayer.bounds
+        btnEditKeywords.clipsToBounds = false
+        viewShadowBtn.backgroundColor = nil
         
-        //Add drop shadow
+        
+        //gradient
+        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
+        btnGradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        
+        
+        //drop shadow
         btnGradientLayer.shadowOpacity = 0.10
         btnGradientLayer.shadowRadius = 7.0
         btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
         
-        //Bottom corner radius
-        btnGradientLayer.cornerRadius = 25
-   
+        //corner radius
+        btnGradientLayer.cornerRadius = 24
+        
+        
+        btnEditKeywords.setTitle("Edit",for: .normal)
+        btnEditKeywords.tintColor = whiteColor
+        btnEditKeywords.titleLabel?.font = fontBtnSmall
+       
+        //add layer with gradient & drop shadow to UIView
         viewShadowBtn.layer.addSublayer(btnGradientLayer)
         
-        
-     
+
         
         
     }
