@@ -38,11 +38,11 @@ let fontHeaderMain = UIFont(name:"BrandonGrotesque-Regular", size:19)
 let fontHeaderSub = UIFont(name:"BrandonGrotesque-Regular", size:19)
 
 //text fonts
-let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:60)
+let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:50)
 
 let fontTextLight = UIFont(name:"BrandonGrotesque-Light", size:22)
 let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:20)
-let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:22)
+let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:21)
 
 //button fonts

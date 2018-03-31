@@ -23,6 +23,10 @@
 		853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* StatsViewController.swift */; };
 		853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D52067E76100A08DD9 /* GoalsViewController.swift */; };
 		853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D82067EB6800A08DD9 /* ConfigFile.swift */; };
+		85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */; };
+		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
+		85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */; };
+		85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +69,10 @@
 		853503D42067E76100A08DD9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		853503D52067E76100A08DD9 /* GoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		853503D82067EB6800A08DD9 /* ConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFile.swift; sourceTree = "<group>"; };
+		85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
+		85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfo.xib; sourceTree = "<group>"; };
+		85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,11 +136,9 @@
 		853503A32067E4CD00A08DD9 /* journey */ = {
 			isa = PBXGroup;
 			children = (
-				853503D52067E76100A08DD9 /* GoalsViewController.swift */,
-				853503D42067E76100A08DD9 /* StatsViewController.swift */,
+				85BE5D1A206FCD3100A4C7EA /* Views */,
+				85BE5D20206FCF1C00A4C7EA /* ViewControllers */,
 				853503A42067E4CD00A08DD9 /* AppDelegate.swift */,
-				853503A62067E4CD00A08DD9 /* ProfileViewController.swift */,
-				853503A82067E4CD00A08DD9 /* JournalViewController.swift */,
 				853503AA2067E4CD00A08DD9 /* Main.storyboard */,
 				853503AD2067E4CD00A08DD9 /* Assets.xcassets */,
 				853503AF2067E4CD00A08DD9 /* LaunchScreen.storyboard */,
@@ -158,6 +164,68 @@
 				853503C82067E4CD00A08DD9 /* Info.plist */,
 			);
 			path = journeyUITests;
+			sourceTree = "<group>";
+		};
+		85BE5D1A206FCD3100A4C7EA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				85BE5D1F206FCEC900A4C7EA /* Profile */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		85BE5D1F206FCEC900A4C7EA /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */,
+				85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */,
+				85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */,
+				85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		85BE5D20206FCF1C00A4C7EA /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				85BE5D21206FCF3F00A4C7EA /* Profile */,
+				85BE5D24206FCF6400A4C7EA /* Journal */,
+				85BE5D23206FCF5D00A4C7EA /* Stats */,
+				85BE5D22206FCF5100A4C7EA /* Goals */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		85BE5D21206FCF3F00A4C7EA /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				853503A62067E4CD00A08DD9 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		85BE5D22206FCF5100A4C7EA /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				853503D52067E76100A08DD9 /* GoalsViewController.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		85BE5D23206FCF5D00A4C7EA /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				853503D42067E76100A08DD9 /* StatsViewController.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		85BE5D24206FCF6400A4C7EA /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				853503A82067E4CD00A08DD9 /* JournalViewController.swift */,
+			);
+			path = Journal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,7 +336,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				852F1FDA206940F400BBF740 /* Brandon_reg.otf in Resources */,
+				85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */,
 				853503B12067E4CD00A08DD9 /* LaunchScreen.storyboard in Resources */,
+				85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */,
 				852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */,
 				853503AE2067E4CD00A08DD9 /* Assets.xcassets in Resources */,
 				852F1FD8206940F400BBF740 /* Brandon_bld.otf in Resources */,
@@ -300,7 +370,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
+				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
+				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,

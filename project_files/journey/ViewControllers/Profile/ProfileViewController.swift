@@ -8,10 +8,17 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeaderDelegate, ProfileInfoDelegate {
     
     //OUTLET REFERENTIONS
     
+    //Main
+    @IBOutlet var viewMain: UIView!
+    @IBOutlet weak var viewHeader: UIView!
+    @IBOutlet weak var viewContent: UIView!
+    
+    
+    /*
     //general info view
     @IBOutlet var viewProfile: UIView!
     @IBOutlet weak var viewShadow: UIView!
@@ -31,6 +38,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnEditKeywords: UIButton!
     @IBOutlet weak var lblTopThree: UILabel!
     @IBOutlet weak var viewShadowBtn: UIView!
+     */
     
     // VARIABELS
     
@@ -42,78 +50,125 @@ class ProfileViewController: UIViewController {
     //paragraph styles
     let styleTextViewAbout = NSMutableParagraphStyle()
     let styleLabelName = NSMutableParagraphStyle()
+ 
     
     //strings
     let strHeader = "profile"
     let strAbout = "I'm an extremely organized person who is focused on producing results. While I am always realistic when setting goals, I consistently develop."
     let strFirstName = "Ellen"
     let strBullet = "\u{2022} "
-  
+ 
+    var headerMenu = ProfileHeader()
+    var userInfo = ProfileInfo()
     
-    //Convert UILayer to CALayer to create shadows and gradients
-    var caLayer: CALayer {
-        return viewShadow.layer
-    }
-    var caLayerBtn: CALayer {
-        return viewShadowBtn.layer
-    }
+    var table = UITableView()
+
     
    //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Functions
-        setUpProfile()
-        setUpMainNavBar()
-        setUpUserInfoCAView()
-        setUpKeywordUIView()
-        setUpTopGradient()
+       createView()
     
     }
     
+    func createView() {
+        
+        // paragraph style attributes
+        let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
+                            NSAttributedStringKey.foregroundColor : whiteColor,
+                            NSAttributedStringKey.font : fontMainRegular! ]
+        
+        // HEADER
+        viewHeader.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 70)
+        headerMenu = Bundle.main.loadNibNamed("ProfileHeader", owner: nil, options: nil)?.first as! ProfileHeader
+        headerMenu.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: viewHeader.frame.size.height)
+        headerMenu.lblHeader.font = fontHeaderMain
+        headerMenu.lblHeader.text = strHeader.uppercased()
+        headerMenu.lblHeader.textAlignment = .center
+        headerMenu.lblHeader.frame = CGRect(x: 0, y: 15, width: viewHeader.frame.size.width, height: viewHeader.frame.size.height)
+        headerMenu.delegate = self
+        viewHeader.addSubview(headerMenu)
+        
+        // CONTENT
+        
+        viewContent.backgroundColor = lightGreyColor
+        
+        
+        // profile info view
+        userInfo = Bundle.main.loadNibNamed("ProfileInfo", owner: nil, options: nil)?.first as! ProfileInfo
+        userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (viewContent.frame.size.height/1.9))
+        
+        // UILabel
+        userInfo.lblName.font = fontLblFirstName
+        userInfo.lblName.textAlignment = .center
+        userInfo.lblName.textColor = whiteColor
+        userInfo.lblName.text = strFirstName
+        userInfo.lblName.frame = CGRect(x: 15, y: (userInfo.frame.size.height/3)/3, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
+        
+        // UITextView
+        userInfo.txtAbout.backgroundColor = UIColor.clear
+        userInfo.txtAbout.textAlignment = .center
+        userInfo.txtAbout.isEditable = false
+        userInfo.txtAbout.frame = CGRect(x: 15, y: userInfo.frame.size.height/3.2, width: userInfo.frame.size.width - 30, height: userInfo.frame.size.height/2.8)
+        
+        // UIButton
+        userInfo.btnEditInfo.setTitle("Edit",for: .normal)
+        userInfo.btnEditInfo.tintColor = whiteColor
+        userInfo.btnEditInfo.backgroundColor = .clear
+        userInfo.btnEditInfo.layer.cornerRadius = 20
+        userInfo.btnEditInfo.frame = CGRect(x: (userInfo.frame.size.width - 200)/2, y: (userInfo.frame.size.height/3)*2 + ((userInfo.frame.size.height/3)-40)/2, width: 200, height: 40)
+        userInfo.btnEditInfo.titleLabel?.font = fontBtnSmall
+        userInfo.btnEditInfo.layer.borderWidth = 2
+        userInfo.btnEditInfo.layer.borderColor = whiteColor.cgColor
+       
+        // add attributes to UITextView
+        styleTextViewAbout.lineSpacing = -2
+        styleTextViewAbout.alignment = .center
+        userInfo.txtAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
+       
+        // add to view as a sub view
+        viewContent.addSubview(userInfo)
     
-    func setUpUserInfoCAView() {
+        // add a gradient layer
+        userInfo.viewShadow.clipsToBounds = false
+        viewContent.clipsToBounds = false
+        userInfo.viewShadow.backgroundColor = nil
+        userInfo.backgroundColor = UIColor.clear
         
-        //UIVIEW
-        
-        viewShadow.clipsToBounds = false
-        viewProfieInfo.clipsToBounds = false
-        viewShadow.backgroundColor = nil
-        
-        //gradient
-        gradientLayer.frame = viewShadow.bounds
+        gradientLayer.frame = userInfo.bounds
         gradientLayer.colors = [purpleColor.cgColor, blueColor.cgColor]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         
-        //drop shadow
+        // add a drop shadow to the gradient layer
         gradientLayer.shadowOpacity = 0.10
         gradientLayer.shadowRadius = 7.0
         gradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
         
-        //corner radius
+        // edit corner radius op the gradient layer
         gradientLayer.cornerRadius = 50
         gradientLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         
         //add gradient layer to UIView
-        viewShadow.layer.addSublayer(gradientLayer)
+        userInfo.viewShadow.layer.addSublayer(gradientLayer)
+        
+        //set up a gradient at the top of the page to create a 3D effect
+        userInfo.viewTopGradient.clipsToBounds = false
+        userInfo.viewTopGradient.backgroundColor = UIColor.clear
+        topGradientLayer.frame = CGRect(x: 0, y: 0, width: userInfo.frame.size.width, height: (userInfo.frame.size.height/3)/2)
+        topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
+        topGradientLayer.locations = [ 0.0, 1.0]
+        userInfo.viewTopGradient.layer.addSublayer(topGradientLayer)
 
-        //lblFirstName.setLineSpacing(lineSpacing: 2.0)
-        lblFirstName.font = fontLblFirstName
-        lblFirstName.textAlignment = .center
-        lblFirstName.textColor = whiteColor
-        lblFirstName.text = strFirstName
         
-        //TEXTVIEW
+    }
+    
+    /*
+    func setUpUserInfoCAView() {
         
-        textViewAbout.backgroundColor = UIColor.clear
-        styleTextViewAbout.lineSpacing = -5
-        styleTextViewAbout.alignment = .center
-        let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
-                          NSAttributedStringKey.foregroundColor : whiteColor,
-                          NSAttributedStringKey.font : fontMainRegular! ]
-        textViewAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
-       
+     
         //BUTTON
         
         btnEditInfo.setTitle("Edit",for: .normal)
@@ -127,17 +182,6 @@ class ProfileViewController: UIViewController {
 
     }
     
-    func setUpTopGradient() {
-        
-        //set up a gradient at the top of the page to create a 3D effect
-        viewTopGradient.clipsToBounds = false
-        viewTopGradient.backgroundColor = nil
-        topGradientLayer.frame = viewTopGradient.bounds
-        topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
-        topGradientLayer.locations = [ 0.0, 1.0]
-        viewTopGradient.layer.addSublayer(topGradientLayer)
-        
-    }
     
     func setUpKeywordUIView() {
         
@@ -235,20 +279,14 @@ class ProfileViewController: UIViewController {
         
         
     }
+    */
     
-    func setUpMainNavBar() {
-        
-        //set up main navigation bar
-        navBarProfile.backgroundColor = whiteColor
-        lblHeaderProfile.text = strHeader.uppercased()
-        lblHeaderProfile.font = fontHeaderMain
-        lblHeaderProfile.textColor = blackColor
-    }
-    
+    /*
+ 
     func showProfileInfo(){
         
         //TO DO: function if profile is created
-        /*
+        
         if(){
             lblFirstName.text = "example"
             textViewAbout.text = "example"
@@ -258,14 +296,10 @@ class ProfileViewController: UIViewController {
             lblFirstName.text = ""
             textViewAbout.text = ""
         }
-        */
+ 
     }
     
-    func setUpProfile() {
-     
-        viewProfile.backgroundColor = lightGreyColor
-     
-    }
+ */
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
