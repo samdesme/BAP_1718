@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeaderDelegate, ProfileInfoDelegate {
+class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileKeywordsDelegate {
     
     //OUTLET REFERENTIONS
     
@@ -60,6 +60,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
  
     var headerMenu = ProfileHeader()
     var userInfo = ProfileInfo()
+    var userKeywords = ProfileKeywords()
     
     var table = UITableView()
 
@@ -75,11 +76,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
     
     func createView() {
         
-        // paragraph style attributes
-        let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
-                            NSAttributedStringKey.foregroundColor : whiteColor,
-                            NSAttributedStringKey.font : fontMainRegular! ]
-        
         // HEADER
         viewHeader.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 70)
         headerMenu = Bundle.main.loadNibNamed("ProfileHeader", owner: nil, options: nil)?.first as! ProfileHeader
@@ -92,11 +88,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
         viewHeader.addSubview(headerMenu)
         
         // CONTENT
-        
         viewContent.backgroundColor = lightGreyColor
         
+        profileInfoView()
+        profileKeywordView()
+
         
-        // profile info view
+    }
+    
+    func profileInfoView() {
+        
+        // variables
+        let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
+                            NSAttributedStringKey.foregroundColor : whiteColor,
+                            NSAttributedStringKey.font : fontMainRegular! ]
+        
+        // profile info UIView
         userInfo = Bundle.main.loadNibNamed("ProfileInfo", owner: nil, options: nil)?.first as! ProfileInfo
         userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (viewContent.frame.size.height/1.9))
         
@@ -117,20 +124,20 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
         userInfo.btnEditInfo.setTitle("Edit",for: .normal)
         userInfo.btnEditInfo.tintColor = whiteColor
         userInfo.btnEditInfo.backgroundColor = .clear
-        userInfo.btnEditInfo.layer.cornerRadius = 20
-        userInfo.btnEditInfo.frame = CGRect(x: (userInfo.frame.size.width - 200)/2, y: (userInfo.frame.size.height/3)*2 + ((userInfo.frame.size.height/3)-40)/2, width: 200, height: 40)
+        userInfo.btnEditInfo.layer.cornerRadius = 22.5
+        userInfo.btnEditInfo.frame = CGRect(x: (userInfo.frame.size.width - 200)/2, y: (userInfo.frame.size.height/3)*2 + ((userInfo.frame.size.height/3)-40)/2, width: 200, height: 45)
         userInfo.btnEditInfo.titleLabel?.font = fontBtnSmall
         userInfo.btnEditInfo.layer.borderWidth = 2
         userInfo.btnEditInfo.layer.borderColor = whiteColor.cgColor
-       
+        
         // add attributes to UITextView
         styleTextViewAbout.lineSpacing = -2
         styleTextViewAbout.alignment = .center
         userInfo.txtAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
-       
+        
         // add to view as a sub view
         viewContent.addSubview(userInfo)
-    
+        
         // add a gradient layer
         userInfo.viewShadow.clipsToBounds = false
         viewContent.clipsToBounds = false
@@ -160,43 +167,104 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
         topGradientLayer.frame = CGRect(x: 0, y: 0, width: userInfo.frame.size.width, height: (userInfo.frame.size.height/3)/2)
         topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
         topGradientLayer.locations = [ 0.0, 1.0]
+        
+        //add layer to view
         userInfo.viewTopGradient.layer.addSublayer(topGradientLayer)
-
+        
+       
+        
+    }
+    
+    func profileKeywordView() {
+        
+        // variables
+        let y = viewContent.frame.size.height/1.9 + (viewContent.frame.size.height - viewContent.frame.size.height/1.9 - viewContent.frame.size.height/3)/2
+        
+        // profile keywords UIView
+        userKeywords = Bundle.main.loadNibNamed("ProfileKeywords", owner: nil, options: nil)?.first as! ProfileKeywords
+        userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: (viewContent.frame.size.height/3))
+        userKeywords.backgroundColor = whiteColor
+       
+        // edit corner radius of the view
+        userKeywords.layer.cornerRadius = 25
+        
+        // add a drop shadow to the view
+        userKeywords.layer.shadowColor = blackColor.cgColor
+        userKeywords.layer.shadowOffset = CGSize(width: 6, height: 6)
+        userKeywords.layer.shadowOpacity = 0.05
+        userKeywords.layer.shadowRadius = 5.0
+        
+        
+        // UILabels
+        userKeywords.keyword1.textAlignment = .center
+        userKeywords.keyword1.font = fontMainRegular19
+        userKeywords.keyword1.textColor = blackColor
+        userKeywords.keyword1.text = "General Anxiety"
+        userKeywords.keyword1.layer.opacity = 1
+        //userKeywords.keyword1.backgroundColor = lightBlueColor
+        //userKeywords.keyword1.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
+        
+        userKeywords.keyword2.textAlignment = .center
+        userKeywords.keyword2.font = fontMainRegular19
+        userKeywords.keyword2.textColor = blackColor
+        userKeywords.keyword2.text = "Anger Mangagement"
+        userKeywords.keyword2.layer.opacity = 0.5
+        //userKeywords.keyword2.frame = CGRect(x: 0, y: 30, width: 200, height: 30)
+        
+        userKeywords.keyword3.textAlignment = .center
+        userKeywords.keyword3.font = fontMainRegular19
+        userKeywords.keyword3.textColor = blackColor
+        userKeywords.keyword3.text = "Depression"
+        userKeywords.keyword3.layer.opacity = 0.25
+        //userKeywords.keyword3.frame = CGRect(x: 0, y: 60, width: 200, height: 30)
+        
+        userKeywords.lblTitle.textAlignment = .center
+        userKeywords.lblTitle.font = fontMainLight19
+        userKeywords.lblTitle.textColor = blackColor
+        userKeywords.lblTitle.text = "Your top 3 biggest mental health struggles"
+        userKeywords.lblTitle.layer.opacity = 0.6
+        
+        
+        // UIButton
+        userKeywords.viewBtnSadow.clipsToBounds = false
+        userKeywords.btnEditKeywords.clipsToBounds = false
+        userKeywords.viewBtnSadow.backgroundColor = nil
+        
+        // add view to content
+        viewContent.addSubview(userKeywords)
+        
+        
+        // add gradient to button
+        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
+        btnGradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        
+        userKeywords.btnEditKeywords.setTitle("Edit",for: .normal)
+        userKeywords.btnEditKeywords.tintColor = whiteColor
+        userKeywords.btnEditKeywords.titleLabel?.font = fontBtnSmall
+        
+        //drop shadow
+        btnGradientLayer.shadowOpacity = 0.10
+        btnGradientLayer.shadowRadius = 7.0
+        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
+        
+        //corner radius
+        btnGradientLayer.cornerRadius = 22.5
+        
+        //add layer with gradient & drop shadow to button
+        userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
+       
         
     }
     
     /*
-    func setUpUserInfoCAView() {
-        
-     
-        //BUTTON
-        
-        btnEditInfo.setTitle("Edit",for: .normal)
-        btnEditInfo.tintColor = whiteColor
-        btnEditInfo.backgroundColor = .clear
-        btnEditInfo.layer.cornerRadius = 24
-        btnEditInfo.layer.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
-        btnEditInfo.titleLabel?.font = fontBtnSmall
-        btnEditInfo.layer.borderWidth = 2
-        btnEditInfo.layer.borderColor = whiteColor.cgColor
-
-    }
     
     
     func setUpKeywordUIView() {
         
-        //UIVIEW
-        
-        viewKeywords.backgroundColor = whiteColor
-        
-        //corner radius
-        viewKeywords.layer.cornerRadius = 25
-        
-        //drop shadow
-        viewKeywords.layer.shadowColor = blackColor.cgColor
-        viewKeywords.layer.shadowOffset = CGSize(width: 6, height: 6)
-        viewKeywords.layer.shadowOpacity = 0.05
-        viewKeywords.layer.shadowRadius = 5.0
+     
         
         //LABELS
         
@@ -205,78 +273,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
         lblTopThree.textColor = blackColor
         lblTopThree.text = "Your top 3 biggest mental health struggles"
         lblTopThree.layer.opacity = 0.6
-        
-    
-        /*
-        //style the bullet points of each label by making multiple attributes
-        //and appending them to each string
-        let keyBullet = strBullet
-        let multipleAttributes: [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 20),
-            NSAttributedStringKey.foregroundColor: blueColor,
-             ]
-        let attributedString1 = NSMutableAttributedString(string: keyBullet, attributes: multipleAttributes)
-        let attributedString2 = NSMutableAttributedString(string: keyBullet, attributes: multipleAttributes)
-        let attributedString3 = NSMutableAttributedString(string: keyBullet, attributes: multipleAttributes)
-        let strKey1 = NSMutableAttributedString(string: " Anger Mangagement")
-        attributedString1.append(strKey1)
-        let strKey2 = NSMutableAttributedString(string: " General Anxiety")
-        attributedString2.append(strKey2)
-        let strKey3 = NSMutableAttributedString(string: " Depression")
-        attributedString3.append(strKey3)*/
-        
-        //style top 3 keywords
-        keyword1.textAlignment = .center
-        keyword1.font = fontKeywordRegular
-        keyword1.textColor = blackColor
-        keyword1.text = "General Anxiety"
-        keyword1.layer.opacity = 1
-        
-        keyword2.textAlignment = .center
-        keyword2.font = fontKeywordRegular
-        keyword2.textColor = blackColor
-        keyword2.text = "Anger Mangagement"
-        keyword2.layer.opacity = 0.5
-        
-        keyword3.textAlignment = .center
-        keyword3.font = fontKeywordRegular
-        keyword3.textColor = blackColor
-        keyword3.text = "Depression"
-        keyword3.layer.opacity = 0.25
-        
-        //BUTTON
-        
-        viewShadowBtn.clipsToBounds = false
-        btnEditKeywords.clipsToBounds = false
-        viewShadowBtn.backgroundColor = nil
-        
-        
-        //gradient
-        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
-        btnGradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
-        btnGradientLayer.locations = [ 0.0, 1.0]
-        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        
-        
-        //drop shadow
-        btnGradientLayer.shadowOpacity = 0.10
-        btnGradientLayer.shadowRadius = 7.0
-        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
-        
-        //corner radius
-        btnGradientLayer.cornerRadius = 24
-        
-        
-        btnEditKeywords.setTitle("Edit",for: .normal)
-        btnEditKeywords.tintColor = whiteColor
-        btnEditKeywords.titleLabel?.font = fontBtnSmall
-       
-        //add layer with gradient & drop shadow to UIView
-        viewShadowBtn.layer.addSublayer(btnGradientLayer)
-        
-
-        
+     
+     
         
     }
     */

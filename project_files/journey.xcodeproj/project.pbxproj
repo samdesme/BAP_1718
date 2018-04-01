@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8516069F20714708009ACC9C /* ProfileKeywords.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8516069E20714708009ACC9C /* ProfileKeywords.xib */; };
+		851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851606A0207147D1009ACC9C /* ProfileKeywords.swift */; };
 		852F1FD7206940F400BBF740 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD2206940F400BBF740 /* Brandon_med.otf */; };
 		852F1FD8206940F400BBF740 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD3206940F400BBF740 /* Brandon_bld.otf */; };
 		852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD4206940F400BBF740 /* Brandon_light.otf */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8516069E20714708009ACC9C /* ProfileKeywords.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileKeywords.xib; sourceTree = "<group>"; };
+		851606A0207147D1009ACC9C /* ProfileKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileKeywords.swift; sourceTree = "<group>"; };
 		852F1FD2206940F400BBF740 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_med.otf; sourceTree = "<group>"; };
 		852F1FD3206940F400BBF740 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_bld.otf; sourceTree = "<group>"; };
 		852F1FD4206940F400BBF740 /* Brandon_light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_light.otf; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 				85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */,
 				85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */,
 				85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */,
+				851606A0207147D1009ACC9C /* ProfileKeywords.swift */,
+				8516069E20714708009ACC9C /* ProfileKeywords.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -336,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				852F1FDA206940F400BBF740 /* Brandon_reg.otf in Resources */,
+				8516069F20714708009ACC9C /* ProfileKeywords.xib in Resources */,
 				85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */,
 				853503B12067E4CD00A08DD9 /* LaunchScreen.storyboard in Resources */,
 				85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */,
@@ -371,6 +378,7 @@
 			files = (
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
 				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
+				851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,

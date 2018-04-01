@@ -42,8 +42,11 @@ let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:50)
 
 let fontTextLight = UIFont(name:"BrandonGrotesque-Light", size:22)
 let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:20)
+let fontMainLight19 = UIFont(name:"BrandonGrotesque-Light", size:19)
 let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
-let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:21)
+let fontMainRegular19 = UIFont(name:"BrandonGrotesque-Regular", size:18)
+
+let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 
 //button fonts
 let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)
