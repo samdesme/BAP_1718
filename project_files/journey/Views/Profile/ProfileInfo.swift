@@ -10,7 +10,7 @@
 import UIKit
 
 protocol ProfileInfoDelegate {
-    
+    func create1()
 }
 
 class ProfileInfo: UIView {
@@ -22,5 +22,13 @@ class ProfileInfo: UIView {
     @IBOutlet weak var btnEditInfo: UIButton!
     @IBOutlet weak var viewShadow: UIView!
     @IBOutlet weak var viewTopGradient: UIView!
+    
+  
+/*
+    @IBAction func pushStep1(_ sender: Any) {
+        delegate?.create1()
+    }*/
+    
+    
     
 }

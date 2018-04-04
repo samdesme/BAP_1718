@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileKeywordsDelegate {
+class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileKeywordsDelegate {
+   
+    
     
     //OUTLET REFERENTIONS
     
@@ -17,28 +19,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet weak var viewContent: UIView!
     
-    
-    /*
-    //general info view
-    @IBOutlet var viewProfile: UIView!
-    @IBOutlet weak var viewShadow: UIView!
-    @IBOutlet weak var navBarProfile: UIView!
-    @IBOutlet weak var viewProfieInfo: UIView!
-    @IBOutlet weak var lblHeaderProfile: UILabel!
-    @IBOutlet weak var lblFirstName: UILabel!
-    @IBOutlet weak var textViewAbout: UITextView!
-    @IBOutlet weak var btnEditInfo: UIButton!
-    @IBOutlet weak var viewKeywords: UIView!
-    @IBOutlet weak var viewTopGradient: UIView!
-    
-    //keywords view
-    @IBOutlet weak var keyword1: UILabel!
-    @IBOutlet weak var keyword2: UILabel!
-    @IBOutlet weak var keyword3: UILabel!
-    @IBOutlet weak var btnEditKeywords: UIButton!
-    @IBOutlet weak var lblTopThree: UILabel!
-    @IBOutlet weak var viewShadowBtn: UIView!
-     */
+    @IBOutlet var viewCreate1: UIView!
     
     // VARIABELS
     
@@ -61,16 +42,20 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
     var headerMenu = ProfileHeader()
     var userInfo = ProfileInfo()
     var userKeywords = ProfileKeywords()
+    var step1 = ProfileCreate1ViewController()
     
-    var table = UITableView()
 
     
    //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
+             
         
         //Functions
        createView()
+        
+       
+      
     
     }
     
@@ -171,6 +156,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
         //add layer to view
         userInfo.viewTopGradient.layer.addSublayer(topGradientLayer)
         
+        
+        userInfo.btnEditInfo.addTarget(self,action:#selector(create1),
+                                       for:.touchUpInside)
+        
        
         
     }
@@ -259,25 +248,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
         
     }
     
-    /*
-    
-    
-    func setUpKeywordUIView() {
+ 
+ 
+    @objc func create1() {
         
-     
+          self.navigationController?.pushViewController(step1, animated: true)
         
-        //LABELS
-        
-        lblTopThree.textAlignment = .center
-        lblTopThree.font = fontMainLight
-        lblTopThree.textColor = blackColor
-        lblTopThree.text = "Your top 3 biggest mental health struggles"
-        lblTopThree.layer.opacity = 0.6
-     
-     
-        
+       
     }
-    */
+
     
     /*
  
@@ -298,6 +277,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
     }
     
  */
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -306,6 +287,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, ProfileHeade
     
   
 
-
+   
+    
 }
 

@@ -25,10 +25,13 @@
 		853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* StatsViewController.swift */; };
 		853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D52067E76100A08DD9 /* GoalsViewController.swift */; };
 		853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D82067EB6800A08DD9 /* ConfigFile.swift */; };
+		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
+		859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */; };
 		85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */; };
 		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
 		85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */; };
 		85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */; };
+		85DD8CE22072ED1A0024D69E /* FunctionDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD8CE12072ED1A0024D69E /* FunctionDefault.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,10 +76,13 @@
 		853503D42067E76100A08DD9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		853503D52067E76100A08DD9 /* GoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		853503D82067EB6800A08DD9 /* ConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFile.swift; sourceTree = "<group>"; };
+		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
+		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
 		85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfo.xib; sourceTree = "<group>"; };
 		85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfo.swift; sourceTree = "<group>"; };
+		85DD8CE12072ED1A0024D69E /* FunctionDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FunctionDefault.swift; path = "../../ui-template-for-ios/master/Material Design IOS/FunctionDefault.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,10 +150,12 @@
 				85BE5D20206FCF1C00A4C7EA /* ViewControllers */,
 				853503A42067E4CD00A08DD9 /* AppDelegate.swift */,
 				853503AA2067E4CD00A08DD9 /* Main.storyboard */,
+				85DD8CE12072ED1A0024D69E /* FunctionDefault.swift */,
 				853503AD2067E4CD00A08DD9 /* Assets.xcassets */,
 				853503AF2067E4CD00A08DD9 /* LaunchScreen.storyboard */,
 				853503B22067E4CD00A08DD9 /* Info.plist */,
 				853503D82067EB6800A08DD9 /* ConfigFile.swift */,
+				8598986C2072998E0079A746 /* journey.xcdatamodeld */,
 			);
 			path = journey;
 			sourceTree = "<group>";
@@ -206,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				853503A62067E4CD00A08DD9 /* ProfileViewController.swift */,
+				8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -380,11 +389,14 @@
 				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
 				851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
+				8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
 				853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */,
+				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,
+				85DD8CE22072ED1A0024D69E /* FunctionDefault.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +696,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8598986C2072998E0079A746 /* journey.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8598986D2072998E0079A746 /* journey.xcdatamodel */,
+			);
+			currentVersion = 8598986D2072998E0079A746 /* journey.xcdatamodel */;
+			path = journey.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 853503992067E4CD00A08DD9 /* Project object */;
 }
