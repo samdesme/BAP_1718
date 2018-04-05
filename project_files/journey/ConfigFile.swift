@@ -34,7 +34,7 @@ let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
 
 
 //header fonts
-let fontHeaderMain = UIFont(name:"BrandonGrotesque-Regular", size:19)
+let fontHeaderMain = UIFont(name:"BrandonGrotesque-Light", size:18)
 let fontHeaderSub = UIFont(name:"BrandonGrotesque-Regular", size:19)
 
 //text fonts

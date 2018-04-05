@@ -19,7 +19,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet weak var viewContent: UIView!
     
-    @IBOutlet var viewCreate1: UIView!
+    
     
     // VARIABELS
     
@@ -31,15 +31,18 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     //paragraph styles
     let styleTextViewAbout = NSMutableParagraphStyle()
     let styleLabelName = NSMutableParagraphStyle()
+    
+    let lbl = UILabel()
  
     
     //strings
     let strHeader = "profile"
+    let strHeaderCreate1 = "step 1"
     let strAbout = "I'm an extremely organized person who is focused on producing results. While I am always realistic when setting goals, I consistently develop."
     let strFirstName = "Ellen"
     let strBullet = "\u{2022} "
  
-    var headerMenu = ProfileHeader()
+    //var headerMenu = ProfileHeader()
     var userInfo = ProfileInfo()
     var userKeywords = ProfileKeywords()
     var step1 = ProfileCreate1ViewController()
@@ -52,32 +55,39 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
              
         
         //Functions
-       createView()
-        
-       
-      
+        createProfileView()
+        profileInfoView()
+        profileKeywordView()
     
     }
     
-    func createView() {
+    func createHeaderMain() {
         
+        //variables
+        let navBar = navigationController?.navigationBar
+        let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!)
+        lbl.frame = frameTitle
+        
+        //Create navigation bar
+        lbl.text = strHeader.uppercased()
+        lbl.font = fontHeaderMain
+        lbl.textAlignment = .center
+        navBar?.addSubview(lbl)
+        
+    }
+    
+   
+    
+   
+    
+    func createProfileView() {
+      
         // HEADER
-        viewHeader.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 70)
-        headerMenu = Bundle.main.loadNibNamed("ProfileHeader", owner: nil, options: nil)?.first as! ProfileHeader
-        headerMenu.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: viewHeader.frame.size.height)
-        headerMenu.lblHeader.font = fontHeaderMain
-        headerMenu.lblHeader.text = strHeader.uppercased()
-        headerMenu.lblHeader.textAlignment = .center
-        headerMenu.lblHeader.frame = CGRect(x: 0, y: 15, width: viewHeader.frame.size.width, height: viewHeader.frame.size.height)
-        headerMenu.delegate = self
-        viewHeader.addSubview(headerMenu)
+        createHeaderMain()
+        navigationController?.navigationBar.backgroundColor = whiteColor
         
         // CONTENT
         viewContent.backgroundColor = lightGreyColor
-        
-        profileInfoView()
-        profileKeywordView()
-
         
     }
     
@@ -248,14 +258,18 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
     }
     
- 
+    
+    // CREATE PROFILE
  
     @objc func create1() {
-        
-          self.navigationController?.pushViewController(step1, animated: true)
-        
-       
+        let vc1 = storyboard?.instantiateViewController(withIdentifier: "step1") as! ProfileCreate1ViewController
+        self.navigationController?.pushViewController(vc1, animated: true)
+        lbl.removeFromSuperview()
+       // createHeaderSub()
     }
+    
+    
+  
 
     
     /*
