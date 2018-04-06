@@ -13,7 +13,7 @@
         <!--Profile-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" userLabel="Profile" customClass="ProfileViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="profile" storyboardIdentifier="profile" id="9pv-A4-QxB" userLabel="Profile" customClass="ProfileViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EGs-Pj-F6F">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

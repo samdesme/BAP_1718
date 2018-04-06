@@ -264,8 +264,8 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     @objc func create1() {
         let vc1 = storyboard?.instantiateViewController(withIdentifier: "step1") as! ProfileCreate1ViewController
         self.navigationController?.pushViewController(vc1, animated: true)
-        lbl.removeFromSuperview()
-       // createHeaderSub()
+        //lbl.removeFromSuperview()
+        lbl.text = ""
     }
     
     
