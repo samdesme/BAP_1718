@@ -10,78 +10,67 @@ import UIKit
 
 class ProfileCreate1ViewController: UIViewController {
     
+    //OUTLET REFERENTIONS
     @IBOutlet var viewStep1: UIView!
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
     
     //VARIABLES
+    
+    //strings
     let strHeaderCreate1 = "step 1"
     let strHeader = "profile"
     
-    let lbl = UILabel()
+    //labels
+    let lblSub = UILabel()
+    let lblMain = UILabel()
     let rect = CGRect()
     
-    let  navGradientLayer = CAGradientLayer()
     
+    //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        viewCreate1()
-    
+        // View loads from viewWillAppear()
     }
+    
     func viewCreate1() {
-        
         self.view.backgroundColor = whiteColor
         createHeaderSub()
-        
-        
-        
     }
     
     func createHeaderSub() {
-        
+
         //variables
         let navBar = navigationController?.navigationBar
         let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!)
-        lbl.frame = frameTitle
+        lblSub.frame = frameTitle
 
         //Create navigation bar for sub views
         navBar?.barStyle = .blackTranslucent
         navBar?.applyNavigationGradient(colors: [blueColor , lightBlueColorHeader])
-        lbl.text = strHeaderCreate1.uppercased()
-        lbl.font = fontHeaderSub
-        lbl.textColor = whiteColor
-        lbl.textAlignment = .center
+        lblSub.text = strHeaderCreate1.uppercased()
+        lblSub.font = fontHeaderSub
+        lblSub.textColor = whiteColor
+        lblSub.textAlignment = .center
        
-        navBar?.addSubview(lbl)
+        navBar?.addSubview(lblSub)
         addBackButton()
         
     }
     
     func createHeaderMain() {
-        self.lbl.removeFromSuperview()
+        
         //variables
         let navBar = navigationController?.navigationBar
-        //let frameTitle = CGRect(x: 0, y: -20, width: (navBar?.frame.width)!, height: (navBar?.frame.height)! + 20)
-        let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!)
-
-        lbl.frame = frameTitle
         
-        //Create navigation bar
+        //Edit navigation bar back to main settings
         navBar?.barStyle = .default
-        lbl.text = strHeader.uppercased()
-        lbl.font = fontHeaderMain
-        lbl.textAlignment = .center
-        lbl.textColor = blackColor
-        lbl.backgroundColor = whiteColor
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
-        navBar?.addSubview(lbl)
+        navBar?.addSubview(lblMain)
         
     }
-    
-  
     
     func addBackButton() {
         let backButton = UIButton(type: .custom)
@@ -89,28 +78,23 @@ class ProfileCreate1ViewController: UIViewController {
         backButton.setTitle("", for: .normal)
         backButton.setTitleColor(whiteColor, for: .normal)
         backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
-        
+        //add btn
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
+   
     @IBAction func backAction(_ sender: UIButton) {
-        let navBar = navigationController?.navigationBar
         let _ = self.navigationController?.popViewController(animated: true)
-        
-      // let vcS = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
-       /* let profile = ProfileViewController()
-        profile.addTargetsBtn()*/
-        
-       
-        navBar?.setBackgroundImage(nil, for: .default)
-        
-        
+        lblSub.removeFromSuperview()
         createHeaderMain()
-        //self.lbl.removeFromSuperview()
-        lbl.backgroundColor = UIColor.clear
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
         
+        super.viewWillAppear(animated)
+        viewCreate1()
         
-
     }
     
     override func didReceiveMemoryWarning() {

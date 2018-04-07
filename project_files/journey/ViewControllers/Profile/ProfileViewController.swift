@@ -10,18 +10,13 @@ import UIKit
 
 class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileKeywordsDelegate {
    
-    
-    
     //OUTLET REFERENTIONS
-    
-    //Main
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet weak var viewContent: UIView!
     
-    
-    
-    // VARIABELS
+
+    //VARIABELS
     
     //gradient layers
     let  gradientLayer = CAGradientLayer()
@@ -32,9 +27,9 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     let styleTextViewAbout = NSMutableParagraphStyle()
     let styleLabelName = NSMutableParagraphStyle()
     
+    //labels
     let lbl = UILabel()
  
-    
     //strings
     let strHeader = "profile"
     let strHeaderCreate1 = "step 1"
@@ -42,23 +37,18 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     let strFirstName = "Ellen"
     let strBullet = "\u{2022} "
  
-    //var headerMenu = ProfileHeader()
+    //views
     var userInfo = ProfileInfo()
     var userKeywords = ProfileKeywords()
     var step1 = ProfileCreate1ViewController()
-    
 
     
    //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
-             
         
-        //Functions
-        createProfileView()
-        profileInfoView()
-        profileKeywordView()
-    
+         // View loads from viewWillAppear()
+        
     }
     
     func createHeaderMain() {
@@ -69,16 +59,13 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         lbl.frame = frameTitle
         
         //Create navigation bar
+        lbl.alpha = 1
         lbl.text = strHeader.uppercased()
         lbl.font = fontHeaderMain
         lbl.textAlignment = .center
         navBar?.addSubview(lbl)
         
     }
-    
-   
-    
-   
     
     func createProfileView() {
       
@@ -166,11 +153,9 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         //add layer to view
         userInfo.viewTopGradient.layer.addSublayer(topGradientLayer)
         
-        
+        //add btn attributes
         userInfo.btnEditInfo.addTarget(self,action:#selector(create1),
                                        for:.touchUpInside)
-        
-       
         
     }
     
@@ -258,41 +243,25 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
     }
     
-    
-    // CREATE PROFILE
+    // CREATE STEP 1
  
     @objc func create1() {
         let vc1 = storyboard?.instantiateViewController(withIdentifier: "step1") as! ProfileCreate1ViewController
         self.navigationController?.pushViewController(vc1, animated: true)
-        //lbl.removeFromSuperview()
-        lbl.text = ""
-    }
-    
-    
-  
+        lbl.alpha = 0
 
-    
-    /*
- 
-    func showProfileInfo(){
-        
-        //TO DO: function if profile is created
-        
-        if(){
-            lblFirstName.text = "example"
-            textViewAbout.text = "example"
-            
-        }
-        else {
-            lblFirstName.text = ""
-            textViewAbout.text = ""
-        }
- 
     }
     
- */
-    
-    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        //Functions
+        createProfileView()
+        profileInfoView()
+        profileKeywordView()
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
