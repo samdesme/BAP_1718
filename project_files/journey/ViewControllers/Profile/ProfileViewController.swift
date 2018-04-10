@@ -34,14 +34,14 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     //strings
     let strHeader = "profile"
     let strHeaderCreate1 = "step 1"
-    let strProfileAbout = "I'm an extremely organized person who is focused on producing results. While I am always realistic when setting goals, I consistently develop."
-    let strFirstName = "Ellen"
     let strBullet = "\u{2022} "
  
     //views
-    var userInfo = ProfileInfo()
+    //var userInfo = ProfileInfo()
     var userKeywords = ProfileKeywords()
     var step1 = ProfileCreate1ViewController()
+    
+    let userInfo = Bundle.main.loadNibNamed("ProfileInfo", owner: nil, options: nil)?.first as! ProfileInfo
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -84,16 +84,13 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
     }
     
-    func profileInfoView() {
-        // variables
+    
+    
+    func getData() -> (name: String, about: String) {
+     
+        var name = String()
+        var about = String()
         
-        let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
-                            NSAttributedStringKey.foregroundColor : whiteColor,
-                            NSAttributedStringKey.font : fontMainRegular! ]
-        
-        userInfo = Bundle.main.loadNibNamed("ProfileInfo", owner: nil, options: nil)?.first as! ProfileInfo
-
-        // FETCH DATA
         let context = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
         //request.predicate = NSPredicate(format: "age = %@", "12")
@@ -104,37 +101,60 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
                 
-               let strName = data.value(forKey: "name") as! String
-                let strAbout = data.value(forKey: "about") as! String
-               userInfo.lblName.text = strName
-               userInfo.txtAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
+                name = data.value(forKey: "name") as! String
+                about = data.value(forKey: "about") as! String
 
-                
             }
             
         } catch {
             
-            userInfo.lblName.text = "No Data"
-            userInfo.txtAbout.attributedText = NSAttributedString(string: "no data yet", attributes:attrTextView)
-
+            print("error")
+            
+        }
+        
+        return (name, about)
+    }
+    
+    
+    func profileInfo() {
+        
+         //let info = getData()
+        var name = String()
+        var about = String()
+        
+     
+        if(getData().name.isEmpty && getData().about.isEmpty){
+            name = "No name"
+            about = "No about yet..."
+        }
+            
+        else {
+            
+            name = getData().name
+            about = getData().about
+            
         }
         
         
+        let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
+                            NSAttributedStringKey.foregroundColor : whiteColor,
+                            NSAttributedStringKey.font : fontMainRegular! ]
         
+
         // SET UP VIEW
-        
-        
-        
         // profile info UIView
         userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (viewContent.frame.size.height/1.9))
         
         // UILabel
+        userInfo.lblName.text = name
         userInfo.lblName.font = fontLblFirstName
         userInfo.lblName.textAlignment = .center
         userInfo.lblName.textColor = whiteColor
         userInfo.lblName.frame = CGRect(x: 15, y: (userInfo.frame.size.height/3)/3, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
         
+        
         // UITextView
+        userInfo.txtAbout.attributedText = NSAttributedString(string: about, attributes:attrTextView)
         userInfo.txtAbout.backgroundColor = UIColor.clear
         userInfo.txtAbout.textAlignment = .center
         userInfo.txtAbout.isEditable = false
@@ -156,6 +176,14 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         // add to view as a sub view
         viewContent.addSubview(userInfo)
+        
+    }
+    func profileInfoView() {
+        
+        profileInfo()
+        
+        // SET UP VIEW
+        // profile info UIView
         
         // add a gradient layer
         userInfo.viewShadow.clipsToBounds = false
@@ -280,33 +308,8 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
         
     }
-    
-    // FETCH DATA
-    func createData() {
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Profile", in: context)
-        let newUser = NSManagedObject(entity: entity!, insertInto: context)
-        
-        newUser.setValue("Sam", forKey: "name")
-        newUser.setValue("student", forKey: "about")
-        
-        do {
-            
-            try context.save()
-            
-        } catch {
-            
-            print("Failed saving")
-        }
-        
-    }
-    
 
- 
-    
+
     // CREATE STEP 1
  
     @objc func create1() {
@@ -323,6 +326,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         super.viewWillAppear(animated)
         createHeaderMain()
+        profileInfo()
         
         
     }

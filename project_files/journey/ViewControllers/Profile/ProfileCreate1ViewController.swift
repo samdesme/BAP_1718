@@ -44,10 +44,9 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewCreate1()
+        createForm()
         
-        
-       viewCreate1()
-    createForm()
     }
     
     func viewCreate1() {
@@ -93,6 +92,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         create1.btnNextShadow.clipsToBounds = false
         create1.btnToStep2.clipsToBounds = false
         create1.btnNextShadow.backgroundColor = nil
+         create1.btnToStep2.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
         
         // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
@@ -101,6 +101,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
         
+       
         create1.btnToStep2.setTitle("NEXT",for: .normal)
         create1.btnToStep2.tintColor = whiteColor
         create1.btnToStep2.titleLabel?.font = fontBtnBig
@@ -114,7 +115,8 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         btnGradientLayer.cornerRadius = 25
         
         //add layer with gradient & drop shadow to button
-       create1.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
+        //create1.btnNextShadow.layer.addSublayer(btnGradientLayer)
+        create1.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
         
         //add btn attributes
         create1.btnToStep2.addTarget(self,action:#selector(createInfo),
@@ -176,33 +178,45 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         createHeaderMain()
     }
     
+
+    
     
     // SAVE PROFILE INFO
     @objc func createInfo() {
+        
         create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
-
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Profile", in: context)
         let newUser = NSManagedObject(entity: entity!, insertInto: context)
         
-        let strName = create1.txtName.text
-        let strAbout = create1.txtAbout.text
-        
-        newUser.setValue(strName, forKey: "name")
-        newUser.setValue(strAbout, forKey: "about")
+        let name = create1.txtName.text
+        let about = create1.txtAbout.text
         
         do {
+            /*if((name?.isEmpty)! && (about?.isEmpty)!){
+                
+                print("Please fill in all fields")
+            }
+                
+            else { }*/
+                
+                newUser.setValue(name, forKey: "name")
+                newUser.setValue(about, forKey: "about")
+                try context.save()
+                
             
-            try context.save()
-            let _ = self.navigationController?.popViewController(animated: true)
-
-            
+                
+           
             
         } catch {
-            
             print("Failed saving")
         }
+        
+        lblSub.removeFromSuperview()
+        createHeaderMain()
+        let _ = self.navigationController?.popViewController(animated: true)
         
     }
     
