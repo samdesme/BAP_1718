@@ -17,6 +17,7 @@ import UIKit
 //COLORS
 
 let purpleColor = UIColor(netHex: 0xC99FC9)
+let lightPurpleColor = UIColor(netHex: 0xD3B3D3)
 let blueColor = UIColor(netHex: 0x82D3EC)
 let lightBlueColor = UIColor(netHex: 0xB2E0F1)
 let lightBlueColorHeader = UIColor(netHex: 0x9CDCF0)
@@ -36,7 +37,7 @@ let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
 
 //header fonts
 let fontHeaderMain = UIFont(name:"BrandonGrotesque-Light", size:18)
-let fontHeaderSub = UIFont(name:"BrandonGrotesque-Medium", size:19)
+let fontHeaderSub = UIFont(name:"BrandonGrotesque-Medium", size:18)
 
 //text fonts
 let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:50)
@@ -46,11 +47,15 @@ let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:20)
 let fontMainLight19 = UIFont(name:"BrandonGrotesque-Light", size:19)
 let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 let fontMainRegular19 = UIFont(name:"BrandonGrotesque-Regular", size:18)
+let fontLabel = UIFont(name:"BrandonGrotesque-Regular", size:18)
+let fontInput = UIFont(name:"BrandonGrotesque-Light", size:18)
 
 let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 
 //button fonts
 let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)
+let fontBtnBig = UIFont(name:"BrandonGrotesque-Bold", size:22)
+
 
 
 //EXTENTIONS

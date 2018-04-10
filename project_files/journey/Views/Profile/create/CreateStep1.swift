@@ -8,19 +8,22 @@
 
 import UIKit
 
-protocol createStep1Delegate {
-    
+protocol CreateStep1Delegate {
+    func createInfo()
 }
 
-class createStep1: UIView {
+class CreateStep1: UIView {
     
-    var delegate: createStep1Delegate?
+    var delegate: CreateStep1Delegate?
     
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtAbout: UITextView!
     @IBOutlet weak var lblAbout: UILabel!
     @IBOutlet weak var btnToStep2: UIButton!
+    @IBOutlet weak var btnNextShadow: UIView!
+    
+    
     
 }
 

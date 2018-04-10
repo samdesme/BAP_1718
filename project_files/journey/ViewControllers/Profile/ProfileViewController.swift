@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileKeywordsDelegate {
    
@@ -33,7 +34,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     //strings
     let strHeader = "profile"
     let strHeaderCreate1 = "step 1"
-    let strAbout = "I'm an extremely organized person who is focused on producing results. While I am always realistic when setting goals, I consistently develop."
+    let strProfileAbout = "I'm an extremely organized person who is focused on producing results. While I am always realistic when setting goals, I consistently develop."
     let strFirstName = "Ellen"
     let strBullet = "\u{2022} "
  
@@ -42,12 +43,18 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     var userKeywords = ProfileKeywords()
     var step1 = ProfileCreate1ViewController()
 
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     
    //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
+        //createData()
         
-         // View loads from viewWillAppear()
+        //Functions
+        createProfileView()
+        profileInfoView()
+        profileKeywordView()
         
     }
     
@@ -70,7 +77,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     func createProfileView() {
       
         // HEADER
-        createHeaderMain()
         navigationController?.navigationBar.backgroundColor = whiteColor
         
         // CONTENT
@@ -79,21 +85,53 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     }
     
     func profileInfoView() {
-        
         // variables
+        
         let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
                             NSAttributedStringKey.foregroundColor : whiteColor,
                             NSAttributedStringKey.font : fontMainRegular! ]
         
-        // profile info UIView
         userInfo = Bundle.main.loadNibNamed("ProfileInfo", owner: nil, options: nil)?.first as! ProfileInfo
+
+        // FETCH DATA
+        let context = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
+        //request.predicate = NSPredicate(format: "age = %@", "12")
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                
+               let strName = data.value(forKey: "name") as! String
+                let strAbout = data.value(forKey: "about") as! String
+               userInfo.lblName.text = strName
+               userInfo.txtAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
+
+                
+            }
+            
+        } catch {
+            
+            userInfo.lblName.text = "No Data"
+            userInfo.txtAbout.attributedText = NSAttributedString(string: "no data yet", attributes:attrTextView)
+
+        }
+        
+        
+        
+        // SET UP VIEW
+        
+        
+        
+        // profile info UIView
         userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (viewContent.frame.size.height/1.9))
         
         // UILabel
         userInfo.lblName.font = fontLblFirstName
         userInfo.lblName.textAlignment = .center
         userInfo.lblName.textColor = whiteColor
-        userInfo.lblName.text = strFirstName
         userInfo.lblName.frame = CGRect(x: 15, y: (userInfo.frame.size.height/3)/3, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
         
         // UITextView
@@ -115,7 +153,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         // add attributes to UITextView
         styleTextViewAbout.lineSpacing = -2
         styleTextViewAbout.alignment = .center
-        userInfo.txtAbout.attributedText = NSAttributedString(string: strAbout, attributes:attrTextView)
         
         // add to view as a sub view
         viewContent.addSubview(userInfo)
@@ -128,6 +165,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         gradientLayer.frame = userInfo.bounds
         gradientLayer.colors = [purpleColor.cgColor, blueColor.cgColor]
+
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         
@@ -156,6 +194,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         //add btn attributes
         userInfo.btnEditInfo.addTarget(self,action:#selector(create1),
                                        for:.touchUpInside)
+        
         
     }
     
@@ -239,9 +278,34 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         //add layer with gradient & drop shadow to button
         userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
-       
         
     }
+    
+    // FETCH DATA
+    func createData() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Profile", in: context)
+        let newUser = NSManagedObject(entity: entity!, insertInto: context)
+        
+        newUser.setValue("Sam", forKey: "name")
+        newUser.setValue("student", forKey: "about")
+        
+        do {
+            
+            try context.save()
+            
+        } catch {
+            
+            print("Failed saving")
+        }
+        
+    }
+    
+
+ 
     
     // CREATE STEP 1
  
@@ -252,14 +316,14 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
 
     }
     
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        createHeaderMain()
         
-        //Functions
-        createProfileView()
-        profileInfoView()
-        profileKeywordView()
         
     }
 

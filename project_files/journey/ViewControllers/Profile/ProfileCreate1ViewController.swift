@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class ProfileCreate1ViewController: UIViewController {
+class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
     //OUTLET REFERENTIONS
     @IBOutlet var viewStep1: UIView!
@@ -19,26 +20,111 @@ class ProfileCreate1ViewController: UIViewController {
     //VARIABLES
     
     //strings
-    let strHeaderCreate1 = "step 1"
+    let strHeaderCreate1 = "general info"
     let strHeader = "profile"
+    let strLblName = "What's your name?"
+    let strLblAbout = "Describe yourself in a few words"
+    
+    
+    //database
     
     //labels
     let lblSub = UILabel()
     let lblMain = UILabel()
     let rect = CGRect()
     
+    //gradient layers
+    let  btnGradientLayer = CAGradientLayer()
+    
+    //views
+    var create1 = CreateStep1()
+
+    
     
     //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // View loads from viewWillAppear()
+        
+       viewCreate1()
+    createForm()
     }
     
     func viewCreate1() {
-        self.view.backgroundColor = whiteColor
-        createHeaderSub()
+        viewContent.backgroundColor = whiteColor
+        
     }
+    
+    func createForm() {
+        
+        //create form view
+        create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
+        create1.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: (viewContent.frame.height/2))
+        create1.backgroundColor = whiteColor
+        
+        // UILabels
+        create1.lblName.font = fontLabel
+        create1.lblName.text = strLblName
+        create1.lblName.textColor = blackColor
+        create1.lblName.textAlignment = .left
+        //create1.lblName.frame = CGRect(x: 0, y: 0, width: create1.frame.size.width, height: 30)
+        
+        create1.lblAbout.font = fontLabel
+        create1.lblAbout.text = strLblAbout
+        create1.lblAbout.textColor = blackColor
+        create1.lblAbout.textAlignment = .left
+        //create1.lblAbout.frame = CGRect(x: 0, y: 0, width: create1.frame.size.width, height: 30)
+        
+        //UITextView
+        create1.txtName.layer.cornerRadius = 5
+        create1.txtName.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+        create1.txtName.layer.borderWidth = 1
+        create1.txtName.font = fontInput
+        create1.txtName.clipsToBounds = true
+        
+        //UITextfield
+        create1.txtAbout.layer.cornerRadius = 5
+        create1.txtAbout.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+        create1.txtAbout.layer.borderWidth = 1
+        create1.txtAbout.font = fontInput
+        create1.txtAbout.clipsToBounds = true
+        
+        // UIButton
+        create1.btnNextShadow.clipsToBounds = false
+        create1.btnToStep2.clipsToBounds = false
+        create1.btnNextShadow.backgroundColor = nil
+        
+        // add gradient to button
+        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
+        btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        
+        create1.btnToStep2.setTitle("NEXT",for: .normal)
+        create1.btnToStep2.tintColor = whiteColor
+        create1.btnToStep2.titleLabel?.font = fontBtnBig
+        
+        //drop shadow
+        btnGradientLayer.shadowOpacity = 0.10
+        btnGradientLayer.shadowRadius = 7.0
+        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
+        
+        //corner radius
+        btnGradientLayer.cornerRadius = 25
+        
+        //add layer with gradient & drop shadow to button
+       create1.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
+        
+        //add btn attributes
+        create1.btnToStep2.addTarget(self,action:#selector(createInfo),
+                                       for:.touchUpInside)
+        
+        
+        viewContent.addSubview(create1)
+    }
+    
+    
     
     func createHeaderSub() {
 
@@ -59,6 +145,7 @@ class ProfileCreate1ViewController: UIViewController {
         addBackButton()
         
     }
+   
     
     func createHeaderMain() {
         
@@ -90,10 +177,40 @@ class ProfileCreate1ViewController: UIViewController {
     }
     
     
+    // SAVE PROFILE INFO
+    @objc func createInfo() {
+        create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
+
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Profile", in: context)
+        let newUser = NSManagedObject(entity: entity!, insertInto: context)
+        
+        let strName = create1.txtName.text
+        let strAbout = create1.txtAbout.text
+        
+        newUser.setValue(strName, forKey: "name")
+        newUser.setValue(strAbout, forKey: "about")
+        
+        do {
+            
+            try context.save()
+            let _ = self.navigationController?.popViewController(animated: true)
+
+            
+            
+        } catch {
+            
+            print("Failed saving")
+        }
+        
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        viewCreate1()
+        createHeaderSub()
         
     }
     
