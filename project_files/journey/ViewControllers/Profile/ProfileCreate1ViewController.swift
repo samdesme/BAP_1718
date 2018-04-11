@@ -16,6 +16,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
+    @IBOutlet weak var pageControl: UIPageControl!
     
     //VARIABLES
     
@@ -25,6 +26,11 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     let strLblName = "What's your name?"
     let strLblAbout = "Describe yourself in a few words"
     
+    //page control
+    
+    //view
+    let create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
+
     
     //database
     
@@ -35,9 +41,6 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
-    
-    //views
-    var create1 = CreateStep1()
 
     
     
@@ -46,18 +49,19 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         super.viewDidLoad()
         viewCreate1()
         createForm()
+        setupPageControl()
         
     }
     
     func viewCreate1() {
         viewContent.backgroundColor = whiteColor
+        self.tabBarController?.tabBar.isHidden = true
         
     }
     
     func createForm() {
         
         //create form view
-        create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
         create1.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: (viewContent.frame.height/2))
         create1.backgroundColor = whiteColor
         
@@ -80,6 +84,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         create1.txtName.layer.borderWidth = 1
         create1.txtName.font = fontInput
         create1.txtName.clipsToBounds = true
+        //create1.txtName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         //UITextfield
         create1.txtAbout.layer.cornerRadius = 5
@@ -119,14 +124,18 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         create1.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
         
         //add btn attributes
-        create1.btnToStep2.addTarget(self,action:#selector(createInfo),
-                                       for:.touchUpInside)
+        
         
         
         viewContent.addSubview(create1)
+        
+        
     }
     
-    
+    func addTarget() {
+        create1.btnToStep2.addTarget(self,action:#selector(createInfo),
+                                     for:.touchUpInside)
+    }
     
     func createHeaderSub() {
 
@@ -180,44 +189,91 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
 
     
-    
-    // SAVE PROFILE INFO
-    @objc func createInfo() {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    {
+        // text hasn't changed yet, you have to compute the text AFTER the edit yourself
+        let updatedStringName = (self.create1.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
+        self.create1.txtName.text = updatedStringName
         
-        create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
+        let updatedStringAbout = (self.create1.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
+        self.create1.txtAbout.text = updatedStringAbout
+        // do whatever you need with this updated string (your code)
+        
+        
+        // always return true so that changes propagate
+        return true
+    }
+    
+    func popBack() {
+        lblSub.removeFromSuperview()
+        createHeaderMain()
+        let _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    func saveData() {
+        
+        let name = create1.txtName.text
+        let about = create1.txtAbout.text
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Profile", in: context)
         let newUser = NSManagedObject(entity: entity!, insertInto: context)
         
-        let name = create1.txtName.text
-        let about = create1.txtAbout.text
+        
         
         do {
-            /*if((name?.isEmpty)! && (about?.isEmpty)!){
-                
-                print("Please fill in all fields")
-            }
-                
-            else { }*/
-                
-                newUser.setValue(name, forKey: "name")
-                newUser.setValue(about, forKey: "about")
-                try context.save()
-                
+            /* if((name?.isEmpty)! && (about?.isEmpty)!){
+             
+             print("Please fill in all fields")
+             }
+             
+             else {}*/
             
-                
-           
+            newUser.setValue(name, forKey: "name")
+            newUser.setValue(about, forKey: "about")
+            try context.save()
+            
+            popBack()
+            
+            
             
         } catch {
             print("Failed saving")
         }
         
-        lblSub.removeFromSuperview()
-        createHeaderMain()
-        let _ = self.navigationController?.popViewController(animated: true)
         
+        
+    }
+    
+    private func setupPageControl() {
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = 3
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.currentPageIndicatorTintColor = purpleColor
+        pageControl.pageIndicatorTintColor = purpleColor.withAlphaComponent(0.5)
+        pageControl.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        
+        viewContent.insertSubview(pageControl, at: 0)
+        viewContent.bringSubview(toFront: pageControl)
+    
+    }
+    
+    
+    func toStep2() {
+        
+        lblSub.removeFromSuperview()
+        let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
+        self.navigationController?.pushViewController(vc2, animated: true)
+    }
+    
+    // SAVE PROFILE INFO
+    @objc func createInfo() {
+
+        //saveData()
+        toStep2()
+    
     }
     
     
@@ -225,6 +281,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         
         super.viewWillAppear(animated)
         createHeaderSub()
+        addTarget()
         
     }
     

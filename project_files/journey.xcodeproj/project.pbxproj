@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		8516069F20714708009ACC9C /* ProfileKeywords.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8516069E20714708009ACC9C /* ProfileKeywords.xib */; };
 		851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851606A0207147D1009ACC9C /* ProfileKeywords.swift */; };
+		85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */; };
+		85265D66207E9E6E001B0B32 /* CreateStep2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85265D65207E9E6E001B0B32 /* CreateStep2.xib */; };
+		85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D67207E9E88001B0B32 /* CreateStep2.swift */; };
 		852F1FD7206940F400BBF740 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD2206940F400BBF740 /* Brandon_med.otf */; };
 		852F1FD8206940F400BBF740 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD3206940F400BBF740 /* Brandon_bld.otf */; };
 		852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD4206940F400BBF740 /* Brandon_light.otf */; };
@@ -55,6 +58,9 @@
 /* Begin PBXFileReference section */
 		8516069E20714708009ACC9C /* ProfileKeywords.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileKeywords.xib; sourceTree = "<group>"; };
 		851606A0207147D1009ACC9C /* ProfileKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileKeywords.swift; sourceTree = "<group>"; };
+		85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate2ViewController.swift; sourceTree = "<group>"; };
+		85265D65207E9E6E001B0B32 /* CreateStep2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep2.xib; sourceTree = "<group>"; };
+		85265D67207E9E88001B0B32 /* CreateStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep2.swift; sourceTree = "<group>"; };
 		852F1FD2206940F400BBF740 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_med.otf; sourceTree = "<group>"; };
 		852F1FD3206940F400BBF740 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_bld.otf; sourceTree = "<group>"; };
 		852F1FD4206940F400BBF740 /* Brandon_light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_light.otf; sourceTree = "<group>"; };
@@ -184,6 +190,8 @@
 			children = (
 				8582976620768FB800BC0F6A /* CreateStep1.xib */,
 				85829768207692EC00BC0F6A /* CreateStep1.swift */,
+				85265D65207E9E6E001B0B32 /* CreateStep2.xib */,
+				85265D67207E9E88001B0B32 /* CreateStep2.swift */,
 			);
 			path = create;
 			sourceTree = "<group>";
@@ -226,6 +234,7 @@
 			children = (
 				853503A62067E4CD00A08DD9 /* ProfileViewController.swift */,
 				8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */,
+				85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -368,6 +377,7 @@
 				85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */,
 				852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */,
 				853503AE2067E4CD00A08DD9 /* Assets.xcassets in Resources */,
+				85265D66207E9E6E001B0B32 /* CreateStep2.xib in Resources */,
 				852F1FD8206940F400BBF740 /* Brandon_bld.otf in Resources */,
 				852F1FDB206940F400BBF740 /* Brandon_thin.otf in Resources */,
 				853503AC2067E4CD00A08DD9 /* Main.storyboard in Resources */,
@@ -409,6 +419,8 @@
 				853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */,
 				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,
 				85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */,
+				85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */,
+				85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -73,7 +73,16 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jbc-nI-1fm" userLabel="Content View">
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <subviews>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dfD-Cw-GvU">
+                                        <rect key="frame" x="188" y="561" width="39" height="37"/>
+                                    </pageControl>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="dfD-Cw-GvU" firstAttribute="bottom" secondItem="Jbc-nI-1fm" secondAttribute="bottom" constant="-25" id="HIb-ZS-4AY"/>
+                                    <constraint firstItem="dfD-Cw-GvU" firstAttribute="centerX" secondItem="Jbc-nI-1fm" secondAttribute="centerX" id="nwT-TW-6pK"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -92,14 +101,68 @@
                     <navigationItem key="navigationItem" id="PXP-kj-uwC"/>
                     <connections>
                         <outlet property="backButtonItem" destination="PXP-kj-uwC" id="aR9-Ur-D2i"/>
+                        <outlet property="pageControl" destination="dfD-Cw-GvU" id="wdw-hP-7dl"/>
                         <outlet property="viewContent" destination="Jbc-nI-1fm" id="0fO-u5-U0k"/>
                         <outlet property="viewHeader" destination="tRP-em-qim" id="RTC-xu-Eq9"/>
                         <outlet property="viewStep1" destination="ZUO-C3-mTO" id="XD1-h9-ZIy"/>
+                        <segue destination="Cj3-50-v4C" kind="push" id="o4o-tR-4ST"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YHC-E8-s1v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1584" y="-322"/>
+        </scene>
+        <!--step2-->
+        <scene sceneID="MiH-3Z-CwF">
+            <objects>
+                <viewController restorationIdentifier="step2" storyboardIdentifier="step2" id="Cj3-50-v4C" userLabel="step2" customClass="ProfileCreate2ViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Waq-x5-XEu" userLabel="Profile Create 2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCz-U1-LJm" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <subviews>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="eie-AO-Vb4">
+                                        <rect key="frame" x="187" y="561" width="39" height="37"/>
+                                    </pageControl>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="eie-AO-Vb4" firstAttribute="bottom" secondItem="eCz-U1-LJm" secondAttribute="bottom" constant="-25" id="QeH-40-RiF"/>
+                                    <constraint firstItem="eie-AO-Vb4" firstAttribute="centerX" secondItem="eCz-U1-LJm" secondAttribute="centerX" id="s3y-s1-zHI"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gpQ-Bp-cir" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="eCz-U1-LJm" firstAttribute="top" secondItem="gpQ-Bp-cir" secondAttribute="bottom" id="7OA-YG-XeR"/>
+                            <constraint firstItem="gpQ-Bp-cir" firstAttribute="bottom" secondItem="ldu-34-ase" secondAttribute="top" id="Nmd-Q3-DUb"/>
+                            <constraint firstItem="eCz-U1-LJm" firstAttribute="bottom" secondItem="ldu-34-ase" secondAttribute="bottom" id="RZW-59-qOr"/>
+                            <constraint firstItem="eCz-U1-LJm" firstAttribute="leading" secondItem="ldu-34-ase" secondAttribute="leading" id="XaR-dp-UDe"/>
+                            <constraint firstItem="eCz-U1-LJm" firstAttribute="trailing" secondItem="ldu-34-ase" secondAttribute="trailing" id="YXa-En-OwL"/>
+                            <constraint firstItem="gpQ-Bp-cir" firstAttribute="leading" secondItem="ldu-34-ase" secondAttribute="leading" id="bBI-kd-8cE"/>
+                            <constraint firstItem="gpQ-Bp-cir" firstAttribute="trailing" secondItem="ldu-34-ase" secondAttribute="trailing" id="cwb-th-zZF"/>
+                            <constraint firstItem="gpQ-Bp-cir" firstAttribute="top" secondItem="Waq-x5-XEu" secondAttribute="top" id="hVX-2C-x3Y"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ldu-34-ase"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pwg-lv-9P7"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="pwg-lv-9P7" id="59L-Ci-ZC2"/>
+                        <outlet property="pageControl" destination="eie-AO-Vb4" id="dPh-si-73S"/>
+                        <outlet property="viewContent" destination="eCz-U1-LJm" id="xhr-sB-LVg"/>
+                        <outlet property="viewHeader" destination="gpQ-Bp-cir" id="i4N-HV-jzx"/>
+                        <outlet property="viewMain" destination="Waq-x5-XEu" id="BrG-eP-5Gx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AzM-AH-WYe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2425" y="-322"/>
         </scene>
         <!--Journal-->
         <scene sceneID="wg7-f3-ORb">

@@ -27,7 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         UITabBar.appearance().tintColor = purpleColor
-        UITabBar.appearance().backgroundColor = whiteColor
+        //UITabBar.appearance().backgroundColor = whiteColor
+        UITabBar.appearance().backgroundImage = UIImage.colorForNavBar(color: .white)
+        UITabBar.appearance().shadowImage = UIImage.colorForNavBar(color: blackColor.withAlphaComponent(0.2))
+        
         return true
     }
 
