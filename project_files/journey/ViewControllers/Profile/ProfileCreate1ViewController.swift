@@ -120,19 +120,17 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         btnGradientLayer.cornerRadius = 25
         
         //add layer with gradient & drop shadow to button
-        //create1.btnNextShadow.layer.addSublayer(btnGradientLayer)
         create1.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
         
-        //add btn attributes
-        
-        
-        
+        //add view to content view
         viewContent.addSubview(create1)
         
         
     }
     
     func addTarget() {
+        
+        //add btn attributes
         create1.btnToStep2.addTarget(self,action:#selector(createInfo),
                                      for:.touchUpInside)
     }
@@ -265,7 +263,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         
         lblSub.removeFromSuperview()
         let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
-        self.navigationController?.pushViewController(vc2, animated: true)
+        self.navigationController?.pushViewController(vc2, animated: false)
     }
     
     // SAVE PROFILE INFO

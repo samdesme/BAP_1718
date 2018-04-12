@@ -18,5 +18,9 @@ class CreateStep2: UIView {
     
     @IBOutlet weak var lblMain: UILabel!
     @IBOutlet weak var lblSub: UILabel!
+    @IBOutlet weak var viewKeywords: UIView!
+    @IBOutlet weak var btnNextShadow: UIView!
+    @IBOutlet weak var btnToStep3: UIButton!
+    @IBOutlet weak var keyword: UIButton!
     
 }

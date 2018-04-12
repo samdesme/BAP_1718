@@ -15,8 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="419"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jc-fO-6c0" userLabel="lblName">
-                    <rect key="frame" x="15" y="21" width="345" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jc-fO-6c0" userLabel="lblName">
+                    <rect key="frame" x="15" y="20" width="345" height="22"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -27,7 +27,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFo-FE-bgw" userLabel="lblAbout">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFo-FE-bgw" userLabel="lblAbout">
                     <rect key="frame" x="15" y="100" width="345" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
@@ -43,7 +43,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x8W-cQ-CSp" userLabel="btnNextShadow">
-                    <rect key="frame" x="67" y="305" width="240" height="50"/>
+                    <rect key="frame" x="67" y="307" width="240" height="50"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="75l-Hl-glB"/>
@@ -51,8 +51,8 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1b4-94-1aF" userLabel="btnToStep2">
-                    <rect key="frame" x="67" y="305" width="240" height="50"/>
-                    <state key="normal" title="NEXT"/>
+                    <rect key="frame" x="67" y="307" width="240" height="50"/>
+                    <state key="normal" title="BUTTON TO STEP 2"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -63,6 +63,7 @@
                 <constraint firstItem="68q-OF-VWu" firstAttribute="top" secondItem="7jc-fO-6c0" secondAttribute="bottom" constant="8" symbolic="YES" id="AyL-Kn-VHJ"/>
                 <constraint firstItem="XFo-FE-bgw" firstAttribute="top" secondItem="68q-OF-VWu" secondAttribute="bottom" constant="20" id="BhE-bs-UT1"/>
                 <constraint firstItem="x8W-cQ-CSp" firstAttribute="top" secondItem="1b4-94-1aF" secondAttribute="top" id="HGq-wc-RdH"/>
+                <constraint firstItem="7jc-fO-6c0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="L0L-AX-bEa"/>
                 <constraint firstItem="JKh-e6-aTC" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" constant="-15" id="OiG-Bb-GLF"/>
                 <constraint firstItem="68q-OF-VWu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="PRx-3W-0Ht"/>
                 <constraint firstItem="x8W-cQ-CSp" firstAttribute="leading" secondItem="1b4-94-1aF" secondAttribute="leading" id="Z4i-bF-78Y"/>
@@ -71,7 +72,7 @@
                 <constraint firstItem="JKh-e6-aTC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="cjc-cp-YVD"/>
                 <constraint firstItem="x8W-cQ-CSp" firstAttribute="trailing" secondItem="1b4-94-1aF" secondAttribute="trailing" id="knz-WN-Nmr"/>
                 <constraint firstItem="68q-OF-VWu" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" constant="-15" id="osz-pD-gcd"/>
-                <constraint firstItem="1b4-94-1aF" firstAttribute="top" secondItem="JKh-e6-aTC" secondAttribute="bottom" constant="48" id="pm6-uU-k4l"/>
+                <constraint firstItem="1b4-94-1aF" firstAttribute="top" secondItem="JKh-e6-aTC" secondAttribute="bottom" constant="50" id="pm6-uU-k4l"/>
                 <constraint firstItem="x8W-cQ-CSp" firstAttribute="bottom" secondItem="1b4-94-1aF" secondAttribute="bottom" id="wjZ-8A-bNJ"/>
                 <constraint firstItem="68q-OF-VWu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="50" id="xoo-GT-vnX"/>
                 <constraint firstItem="1b4-94-1aF" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="zuM-lc-2pb"/>
