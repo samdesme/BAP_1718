@@ -28,6 +28,7 @@
 		853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* StatsViewController.swift */; };
 		853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D52067E76100A08DD9 /* GoalsViewController.swift */; };
 		853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D82067EB6800A08DD9 /* ConfigFile.swift */; };
+		856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */; };
 		8582976720768FB800BC0F6A /* CreateStep1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8582976620768FB800BC0F6A /* CreateStep1.xib */; };
 		85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85829768207692EC00BC0F6A /* CreateStep1.swift */; };
 		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
@@ -83,6 +84,7 @@
 		853503D42067E76100A08DD9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		853503D52067E76100A08DD9 /* GoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		853503D82067EB6800A08DD9 /* ConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFile.swift; sourceTree = "<group>"; };
+		856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate3ViewController.swift; sourceTree = "<group>"; };
 		8582976620768FB800BC0F6A /* CreateStep1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep1.xib; sourceTree = "<group>"; };
 		85829768207692EC00BC0F6A /* CreateStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep1.swift; sourceTree = "<group>"; };
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				853503A62067E4CD00A08DD9 /* ProfileViewController.swift */,
 				8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */,
 				85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */,
+				856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
+				856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
 				853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */,
 				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,

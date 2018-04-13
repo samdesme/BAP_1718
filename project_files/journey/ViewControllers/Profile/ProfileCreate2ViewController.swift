@@ -24,6 +24,12 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     let strHeaderCreate2 = "choose keywords"
     let strLblMain = "Issues I identify with"
     let strLblSub = "Tab the options below"
+    //passed data
+    var strNamePassed = ""
+    var strAboutPassed = ""
+    
+    //arrays
+    var arraySelection = [String]()
     
     //view
     let create2 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
@@ -33,7 +39,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
-    
 
 
     //Load view controller
@@ -41,6 +46,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         super.viewDidLoad()
         viewCreate2()
         setupPageControl()
+        //showAlert()
         
     }
     
@@ -63,10 +69,12 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         create2.lblSub.textAlignment = .left
         
         // UIButton
+        let bottomScrollView = create2.lblMain.frame.size.height + create2.lblSub.frame.size.height + (viewContent.frame.height/4)*3
         create2.btnNextShadow.clipsToBounds = false
         create2.btnToStep3.clipsToBounds = false
         create2.btnNextShadow.backgroundColor = nil
-        create2.btnToStep3.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
+        create2.btnNextShadow.frame = create2.btnToStep3.bounds
+        create2.btnToStep3.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView + 20, width: 240, height: 50)
         
         // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
@@ -91,8 +99,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         //add layer with gradient & drop shadow to button
         create2.btnToStep3.layer.insertSublayer(btnGradientLayer, at: 0)
         
-        //keyword view
-        create2.viewKeywords.backgroundColor = UIColor.clear
+        //keyword scrollview
+      
         
         //add view to content view
         viewContent.addSubview(create2)
@@ -105,7 +113,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     func setUpKeywords() {
         
         //list all keywords on screen as buttons
-        let arrayKeywords = ["General Anxiety", "Social Anxiety", "Depression", "ADHD", "ADD", "Bipolar Disorder", "OCD", "Schizophrenia", "Sexual Abuse", "Verbal Abuse", "Physical Abuse", "Trauma", "Addiction", "Weight Issues", "Autism", "Burn Out", "Anger Management", "LGBT"]
+        let arrayKeywords = ["General Anxiety", "Social Anxiety", "Depression", "Bipolar Disorder", "ADHD", "ADD","Schizophrenia","OCD","Trauma", "Sexual Abuse", "Verbal Abuse", "Physical Abuse", "Addiction", "Weight Issues", "LGBT", "Burn Out", "Anger Management","Autism"]
         
         var buttonX: CGFloat = 0
         var buttonY: CGFloat = 10
@@ -120,7 +128,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             let btnWidth = size.width + 20
             let totalWidth = buttonX + btnWidth
             
-            if(totalWidth >= create2.viewKeywords.frame.size.width){
+            if(totalWidth >= create2.scrollView.frame.size.width){
                 buttonY = buttonY + 40 + CGFloat(ySpace)
                 buttonX = 0
             }
@@ -132,20 +140,75 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword.titleLabel?.font = fontBtnKeyword
             btnKeyword.setTitleColor(blackColor, for: .normal)
             btnKeyword.titleLabel?.textAlignment = .center
+             btnKeyword.backgroundColor = whiteColor
+            btnKeyword.isSelected = false
+            
+            btnKeyword.addTarget(self,action:#selector(selectKeyword),
+                                         for:.touchUpInside)
 
-            btnKeyword.backgroundColor = whiteColor
+            btnKeyword.isEnabled = true
             
             btnKeyword.layer.cornerRadius = 20
             btnKeyword.layer.borderWidth = 1.5
             btnKeyword.layer.borderColor = blackColor.cgColor
             
+            
             //add button to keyword view
-            create2.viewKeywords.addSubview(btnKeyword)
+            create2.scrollView.addSubview(btnKeyword)
             
         }
         
+        create2.scrollView.contentSize = CGSize(width: create2.scrollView.frame.size.width , height: buttonY + create2.lblMain.frame.size.height + create2.lblSub.frame.size.height)
+        create2.scrollView.backgroundColor = UIColor.clear
+        create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/4)*3)
+        create2.scrollView.isScrollEnabled = true
         
     }
+    
+    @objc func selectKeyword(sender: UIButton) {
+        
+        sender.isSelected = !sender.isSelected
+        
+        if sender.isSelected {
+            
+            print(sender.isSelected)
+            
+            //styling when selected
+            sender.setTitleColor(whiteColor, for: .normal)
+            sender.backgroundColor = blueColor
+            sender.layer.borderWidth = 0
+            
+            //add label to array
+            arraySelection.append((sender.titleLabel?.text)!)
+            
+             
+        }
+            
+        else {
+            
+            print(sender.isSelected)
+            
+            //styling when deselected
+            sender.setTitleColor(blackColor, for: .normal)
+            sender.backgroundColor = whiteColor
+            sender.layer.borderWidth = 1.5
+            
+            //remove label from array
+            if let indexValue = arraySelection.index(of: (sender.titleLabel?.text)!) {
+                arraySelection.remove(at: indexValue)
+            }
+        }
+     
+        
+    }
+    
+    func addTarget() {
+        
+        //add btn attributes
+        create2.btnToStep3.addTarget(self,action:#selector(createSelection),
+                                     for:.touchUpInside)
+    }
+    
     
     func addKeyword() {
         
@@ -170,14 +233,27 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         addBackButton()
         
     }
+
     
-    func createHeaderStep1() {
+    
+    
+    
+    func showAlert() {
         
-        //variables
-        //let navBar = navigationController?.navigationBar
-     
+        let refreshAlert = UIAlertController(title: "Passed data", message: "Name:" + strNamePassed + ", About:" + strAboutPassed, preferredStyle: UIAlertControllerStyle.alert)
         
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            print("Handle Ok logic here")
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Handle Cancel Logic here")
+        }))
+
+        present(refreshAlert, animated: true, completion: nil)
     }
+    
+    
     
     func addBackButton() {
         let backButton = UIButton(type: .custom)
@@ -205,9 +281,25 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     @IBAction func backAction(_ sender: UIButton) {
         let _ = self.navigationController?.popViewController(animated: false)
         lblSubHeader.removeFromSuperview()
-        createHeaderStep1()
+        
     }
     
+    
+    func toStep3() {
+        
+        lblSubHeader.removeFromSuperview()
+        let vc2 = storyboard?.instantiateViewController(withIdentifier: "step3") as! ProfileCreate3ViewController
+        vc2.arraySelection = arraySelection
+        self.navigationController?.pushViewController(vc2, animated: false)
+    }
+    
+    // SAVE PROFILE INFO
+    @objc func createSelection() {
+        
+        //saveData()
+        toStep3()
+        
+    }
     
     
     
@@ -215,6 +307,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
         super.viewWillAppear(animated)
          createHeaderSub()
+         addTarget()
      
         
     }

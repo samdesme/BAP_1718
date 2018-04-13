@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,48 +27,36 @@
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xmz-fu-StG" userLabel="Keywords view">
-                    <rect key="frame" x="15" y="64" width="345" height="269.5"/>
-                    <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXR-3E-LBM" userLabel="BtnNextShadow">
-                    <rect key="frame" x="67.5" y="567" width="240" height="50"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kCM-kh-H6u">
+                    <rect key="frame" x="15" y="56" width="345" height="278"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </scrollView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jXR-3E-LBM" userLabel="BtnNextShadow">
+                    <rect key="frame" x="67" y="355" width="240" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="ASD-uY-Loq"/>
-                        <constraint firstAttribute="width" constant="240" id="ZiT-q7-bzU"/>
-                    </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laI-FC-9DC" userLabel="btnToStep3">
-                    <rect key="frame" x="67.5" y="567" width="240" height="50"/>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laI-FC-9DC" userLabel="btnToStep3">
+                    <rect key="frame" x="67" y="355" width="240" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="BUTTON TO STEP 3"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="laI-FC-9DC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="83x-N7-7PK"/>
-                <constraint firstItem="xmz-fu-StG" firstAttribute="top" secondItem="nno-X1-SPq" secondAttribute="bottom" constant="8" symbolic="YES" id="8w4-58-50u"/>
-                <constraint firstItem="jXR-3E-LBM" firstAttribute="top" secondItem="laI-FC-9DC" secondAttribute="top" id="9SH-Un-LkX"/>
                 <constraint firstItem="hLm-72-6b4" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" constant="-15" id="CM7-QA-9mg"/>
-                <constraint firstItem="jXR-3E-LBM" firstAttribute="bottom" secondItem="laI-FC-9DC" secondAttribute="bottom" id="HnF-Ge-w0G"/>
-                <constraint firstItem="xmz-fu-StG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="KsN-tr-CXb"/>
-                <constraint firstItem="xmz-fu-StG" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" constant="-15" id="Lgs-gz-TfO"/>
-                <constraint firstItem="jXR-3E-LBM" firstAttribute="leading" secondItem="laI-FC-9DC" secondAttribute="leading" id="YHS-ya-vbr"/>
-                <constraint firstItem="laI-FC-9DC" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-50" id="Ypv-kQ-76c"/>
                 <constraint firstItem="hLm-72-6b4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="ZLo-hz-N2M"/>
                 <constraint firstItem="nno-X1-SPq" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" constant="-15" id="bu7-lm-mMK"/>
                 <constraint firstItem="nno-X1-SPq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="ev1-1A-MRF"/>
                 <constraint firstItem="hLm-72-6b4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="gsT-4x-ZOB"/>
                 <constraint firstItem="nno-X1-SPq" firstAttribute="top" secondItem="hLm-72-6b4" secondAttribute="bottom" constant="-1" id="pvJ-jt-baw"/>
-                <constraint firstItem="jXR-3E-LBM" firstAttribute="trailing" secondItem="laI-FC-9DC" secondAttribute="trailing" id="uDY-IB-f6r"/>
-                <constraint firstItem="xmz-fu-StG" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="centerY" id="x2c-mA-uiG"/>
             </constraints>
             <connections>
                 <outlet property="btnNextShadow" destination="jXR-3E-LBM" id="dB3-UM-hXB"/>
                 <outlet property="btnToStep3" destination="laI-FC-9DC" id="znf-rN-Mfo"/>
                 <outlet property="lblMain" destination="hLm-72-6b4" id="lBK-HI-rcZ"/>
                 <outlet property="lblSub" destination="nno-X1-SPq" id="0nM-yN-Rp5"/>
-                <outlet property="viewKeywords" destination="xmz-fu-StG" id="A3o-rE-wJl"/>
+                <outlet property="scrollView" destination="kCM-kh-H6u" id="2Lm-9L-Imf"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>

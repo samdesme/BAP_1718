@@ -26,7 +26,6 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     let strLblName = "What's your name?"
     let strLblAbout = "Describe yourself in a few words"
     
-    //page control
     
     //view
     let create1 = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
@@ -180,9 +179,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
    
     @IBAction func backAction(_ sender: UIButton) {
-        let _ = self.navigationController?.popViewController(animated: true)
-        lblSub.removeFromSuperview()
-        createHeaderMain()
+       showAlertQuit()
     }
     
 
@@ -208,6 +205,33 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         let _ = self.navigationController?.popViewController(animated: true)
     }
     
+    func showAlertQuit() {
+        
+        let refreshAlert = UIAlertController(title: "Go back to profile", message: "Are you sure you want to quit setting up your profile? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Quit", style: .default, handler: { (action: UIAlertAction!) in
+            self.popBack()
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Nevermind", style: .cancel, handler: { (action: UIAlertAction!) in
+
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    func showAlertFormCheck() {
+        
+        let refreshAlert = UIAlertController(title: "Please fill in all fields", message: "To continue to the next step, You must fill in both fields.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+           
+        }))
+    
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    
     func saveData() {
         
         let name = create1.txtName.text
@@ -222,18 +246,12 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         
         
         do {
-            /* if((name?.isEmpty)! && (about?.isEmpty)!){
-             
-             print("Please fill in all fields")
-             }
-             
-             else {}*/
+            
             
             newUser.setValue(name, forKey: "name")
             newUser.setValue(about, forKey: "about")
             try context.save()
             
-            popBack()
             
             
             
@@ -260,10 +278,26 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
     
     func toStep2() {
+        let name = create1.txtName.text
+        let about = create1.txtAbout.text
         
-        lblSub.removeFromSuperview()
-        let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
-        self.navigationController?.pushViewController(vc2, animated: false)
+        if((name?.isEmpty)! || (about?.isEmpty)!){
+         
+         showAlertFormCheck()
+            
+         }
+         
+         else {
+            
+            lblSub.removeFromSuperview()
+            let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
+            vc2.strNamePassed = create1.txtName.text!
+            vc2.strAboutPassed = create1.txtAbout.text
+            self.navigationController?.pushViewController(vc2, animated: false)
+            
+        }
+        
+       
     }
     
     // SAVE PROFILE INFO

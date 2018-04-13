@@ -158,11 +158,63 @@
                         <outlet property="viewContent" destination="eCz-U1-LJm" id="xhr-sB-LVg"/>
                         <outlet property="viewHeader" destination="gpQ-Bp-cir" id="i4N-HV-jzx"/>
                         <outlet property="viewMain" destination="Waq-x5-XEu" id="BrG-eP-5Gx"/>
+                        <segue destination="Jzu-EP-4TN" kind="push" id="ipZ-aX-y6Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AzM-AH-WYe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2425" y="-322"/>
+        </scene>
+        <!--step3-->
+        <scene sceneID="qlw-yx-4QR">
+            <objects>
+                <viewController restorationIdentifier="step3" storyboardIdentifier="step3" id="Jzu-EP-4TN" userLabel="step3" customClass="ProfileCreate3ViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tRU-FZ-4tV" userLabel="Profile Create 3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jct-42-ShP" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <subviews>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="LZ4-WH-PZh">
+                                        <rect key="frame" x="187" y="561" width="39" height="37"/>
+                                    </pageControl>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="LZ4-WH-PZh" firstAttribute="centerX" secondItem="Jct-42-ShP" secondAttribute="centerX" id="UDq-2N-60t"/>
+                                    <constraint firstItem="LZ4-WH-PZh" firstAttribute="bottom" secondItem="Jct-42-ShP" secondAttribute="bottom" constant="-25" id="X8B-k4-llO"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8jm-ee-8Su" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8jm-ee-8Su" firstAttribute="bottom" secondItem="BKx-IS-b8f" secondAttribute="top" id="7y7-fD-19g"/>
+                            <constraint firstItem="Jct-42-ShP" firstAttribute="trailing" secondItem="BKx-IS-b8f" secondAttribute="trailing" id="7yn-k7-l9G"/>
+                            <constraint firstItem="8jm-ee-8Su" firstAttribute="top" secondItem="tRU-FZ-4tV" secondAttribute="top" id="ABD-wP-ctU"/>
+                            <constraint firstItem="Jct-42-ShP" firstAttribute="top" secondItem="8jm-ee-8Su" secondAttribute="bottom" id="JfV-Ef-d5u"/>
+                            <constraint firstItem="Jct-42-ShP" firstAttribute="leading" secondItem="BKx-IS-b8f" secondAttribute="leading" id="LHu-ba-FfL"/>
+                            <constraint firstItem="8jm-ee-8Su" firstAttribute="trailing" secondItem="BKx-IS-b8f" secondAttribute="trailing" id="LTE-Pu-H26"/>
+                            <constraint firstItem="8jm-ee-8Su" firstAttribute="leading" secondItem="BKx-IS-b8f" secondAttribute="leading" id="xYg-PQ-kln"/>
+                            <constraint firstItem="Jct-42-ShP" firstAttribute="bottom" secondItem="BKx-IS-b8f" secondAttribute="bottom" id="xnD-Fe-Bjr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="BKx-IS-b8f"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KI3-Ul-6M7"/>
+                    <connections>
+                        <outlet property="pageControl" destination="LZ4-WH-PZh" id="1xl-SF-fxJ"/>
+                        <outlet property="viewContent" destination="Jct-42-ShP" id="l6W-bW-I8K"/>
+                        <outlet property="viewHeader" destination="8jm-ee-8Su" id="fOn-7n-Ha9"/>
+                        <outlet property="viewMain" destination="tRU-FZ-4tV" id="NrY-FH-mxz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="POm-fL-aDg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3217" y="-322"/>
         </scene>
         <!--Journal-->
         <scene sceneID="wg7-f3-ORb">
