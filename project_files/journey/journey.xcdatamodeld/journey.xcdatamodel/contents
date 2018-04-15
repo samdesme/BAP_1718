@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
+    <entity name="Keywords" representedClassName=".Keywords" syncable="YES">
+        <attribute name="addedByUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Keywords_profile" representedClassName="Keywords_profile" syncable="YES">
+        <attribute name="ranking" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="keyword_id" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keywords" syncable="YES"/>
+        <relationship name="profile_id" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Profile" syncable="YES"/>
+    </entity>
+    <entity name="Profile" representedClassName="Profile" syncable="YES">
         <attribute name="about" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Profile" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="Profile" positionX="-4203" positionY="-1438" width="126" height="88"/>
+        <element name="Keywords" positionX="-3780" positionY="-1224" width="128" height="88"/>
+        <element name="Keywords_profile" positionX="-3852" positionY="-1449" width="128" height="88"/>
     </elements>
 </model>

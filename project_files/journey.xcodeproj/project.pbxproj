@@ -28,6 +28,8 @@
 		853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* StatsViewController.swift */; };
 		853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D52067E76100A08DD9 /* GoalsViewController.swift */; };
 		853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D82067EB6800A08DD9 /* ConfigFile.swift */; };
+		85452B8120828EC90027A594 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85452B8020828EC90027A594 /* DataHelper.swift */; };
+		85452B84208290430027A594 /* Keywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85452B83208290430027A594 /* Keywords.swift */; };
 		856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */; };
 		8582976720768FB800BC0F6A /* CreateStep1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8582976620768FB800BC0F6A /* CreateStep1.xib */; };
 		85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85829768207692EC00BC0F6A /* CreateStep1.swift */; };
@@ -84,6 +86,8 @@
 		853503D42067E76100A08DD9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		853503D52067E76100A08DD9 /* GoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		853503D82067EB6800A08DD9 /* ConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFile.swift; sourceTree = "<group>"; };
+		85452B8020828EC90027A594 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
+		85452B83208290430027A594 /* Keywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keywords.swift; sourceTree = "<group>"; };
 		856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate3ViewController.swift; sourceTree = "<group>"; };
 		8582976620768FB800BC0F6A /* CreateStep1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep1.xib; sourceTree = "<group>"; };
 		85829768207692EC00BC0F6A /* CreateStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep1.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		853503A32067E4CD00A08DD9 /* journey */ = {
 			isa = PBXGroup;
 			children = (
+				85452B82208290250027A594 /* Models */,
 				85BE5D1A206FCD3100A4C7EA /* Views */,
 				85BE5D20206FCF1C00A4C7EA /* ViewControllers */,
 				853503A42067E4CD00A08DD9 /* AppDelegate.swift */,
@@ -165,6 +170,7 @@
 				853503B22067E4CD00A08DD9 /* Info.plist */,
 				853503D82067EB6800A08DD9 /* ConfigFile.swift */,
 				8598986C2072998E0079A746 /* journey.xcdatamodeld */,
+				85452B8020828EC90027A594 /* DataHelper.swift */,
 			);
 			path = journey;
 			sourceTree = "<group>";
@@ -185,6 +191,14 @@
 				853503C82067E4CD00A08DD9 /* Info.plist */,
 			);
 			path = journeyUITests;
+			sourceTree = "<group>";
+		};
+		85452B82208290250027A594 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				85452B83208290430027A594 /* Keywords.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8582976520768F7000BC0F6A /* create */ = {
@@ -415,12 +429,14 @@
 				851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
 				8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */,
+				85452B8120828EC90027A594 /* DataHelper.swift in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
 				853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */,
+				85452B84208290430027A594 /* Keywords.swift in Sources */,
 				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,
 				85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */,
 				85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */,
