@@ -113,12 +113,12 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     
     // TO DO
     func setUpTableView() {
-        
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/4)*3))
-        
-        //create3.scrollView.isHidden = true
-        create3.scrollView.backgroundColor = UIColor.clear
-        create3.scrollView.isScrollEnabled = true
+        //let cellCount = arrayKeywords.count
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: viewContent.frame.height/2))
+        tableView.tableFooterView = UIView()
+        create3.scrollView.isHidden = true
+        tableView.backgroundColor = UIColor.clear
+        //tableView.isScrollEnabled = true
         
         tableView.isEditing = true
         tableView.dataSource = self
@@ -126,46 +126,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "keywordCell")
         
         
-       /*
-        var buttonY: CGFloat = 10
-        
-        for keyword in arraySelection {
-            
-            let btnKeyword = UIButton()
-            let ySpace: Int = 10
-            
-            let myString: String = "\(keyword)"
-            let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
-            let btnWidth = size.width + 20
-            let margins = 15
-            let buttonX = (viewContent.frame.size.width - CGFloat(margins*2) - btnWidth)/2
-            
-            btnKeyword.frame = CGRect(x: buttonX, y: buttonY, width: btnWidth, height: 40)
-            buttonY = buttonY + 40 + CGFloat(ySpace)
-            
-            btnKeyword.setTitle("\(keyword)",for: .normal)
-            btnKeyword.titleLabel?.font = fontBtnKeyword
-            btnKeyword.setTitleColor(whiteColor, for: .normal)
-            btnKeyword.titleLabel?.textAlignment = .center
-            btnKeyword.backgroundColor = blueColor
-           
-            
-            //btnKeyword.addTarget(self,action:#selector(selectKeyword),for:.touchUpInside)
-            
-            btnKeyword.isEnabled = true
-            
-            btnKeyword.layer.cornerRadius = 20
-            btnKeyword.layer.borderWidth = 0
-            
-            
-            //add button to keyword view
-            tableView.addSubview(btnKeyword)
-            
-        }*/
-        
-        
-        
-        create3.scrollView.addSubview(tableView)
+        create3.addSubview(tableView)
         
     }
     
@@ -183,45 +144,35 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "keywordCell", for: indexPath)
-
-        //var buttonY: CGFloat = 10
         
-        for keyword in arraySelection {
-            
-            let btnKeyword = UIButton()
-            //let ySpace: Int = 10
-            
-            let myString: String = "\(keyword)"
-            let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
-            let btnWidth = size.width + 20
-            let margins = 15
-            let buttonX = (viewContent.frame.size.width - CGFloat(margins*2) - btnWidth)/2
-            
-            btnKeyword.frame = CGRect(x: buttonX, y: 0, width: btnWidth, height: 40)
-            //buttonY = buttonY + 40 + CGFloat(ySpace)
-            
-            btnKeyword.setTitle("\(keyword)",for: .normal)
-            btnKeyword.titleLabel?.font = fontBtnKeyword
-            btnKeyword.setTitleColor(whiteColor, for: .normal)
-            btnKeyword.titleLabel?.textAlignment = .center
-            btnKeyword.backgroundColor = blueColor
-            
-            
-            //btnKeyword.addTarget(self,action:#selector(selectKeyword),for:.touchUpInside)
-            
-            btnKeyword.isEnabled = true
-            
-            btnKeyword.layer.cornerRadius = 20
-            btnKeyword.layer.borderWidth = 0
-            
-            
-            //add button to keyword view
-            cell.contentView.addSubview(btnKeyword)
-            
-        }
+        let keywordTitle = arraySelection[indexPath.row]
+        cell.textLabel?.text = keywordTitle
+        cell.textLabel?.font = fontBtnKeyword
+        
+        //for button:
+        /*
+        let btn = UIButton(type: UIButtonType.custom) as UIButton
+        btn.backgroundColor = blueColor
+        btn.setTitle(arraySelection[indexPath.row], for: .normal)
+        btn.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+        btn.addTarget(self,action:#selector(buttonPressed), for:.touchUpInside)
+         btn.tag = indexPath.row
+         cell.contentView.addSubview(btn)
+         
+         */
+        
+       
         
         
         return cell
+    }
+    
+    //Button Action is
+    @objc func buttonPressed(sender:UIButton!)
+    {
+        let buttonRow = sender.tag
+        print("button is Pressed")
+        print("Clicked Button Row is",buttonRow)
     }
     
     // MARK: - Reordering
@@ -235,19 +186,26 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+       
         let movedObject = self.arraySelection[sourceIndexPath.row]
         arraySelection.remove(at: sourceIndexPath.row)
         arraySelection.insert(movedObject, at: destinationIndexPath.row)
         NSLog("%@", "\(sourceIndexPath.row) => \(destinationIndexPath.row) \(arraySelection)")
+        
+        //let ip = tableView.indexPathForRow(at: 0)
+        
+        if (destinationIndexPath.row == 0) {
+            //tableView.cellForRow(at: ip)?.backgroundColor = blueColor
+        }
+        else {
+            //tableView.cellForRow(at: destinationIndexPath)?.backgroundColor = UIColor.clear
+         
+
+        }
+        
         // To check for correctness enable: self.tableView.reloadData()
     }
-    
-    
-    
-    
-    
-    
-    
     
     
     // TO DO
