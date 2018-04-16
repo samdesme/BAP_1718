@@ -10,7 +10,9 @@ import UIKit
 import CoreData
 
 
-class ProfileCreate3ViewController: UIViewController {
+class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+   
+    
     
     //OUTLET REFERENTIONS
     
@@ -19,20 +21,20 @@ class ProfileCreate3ViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var viewHeader: UIView!
     
-    
     //VARIABLES
     
     //strings
-    let strHeaderCreate3 = "orden keywords"
-    let strLblMain = "Orden your selected issues from less to most severe"
-    let strLblSub = "Drag and drop to orden the keywords"
+    let strHeaderCreate3 = "rank your selection"
+    let strLblMain = "Rank your selection from most to less severe"
+    let strLblSub = "Drag and drop to rank the keywords"
     
     //arrays
     var arraySelection = [String]()
-    
-    // TO DO
+     var arrayKeywords = [String]()
+ 
     //view
-    //let create3 = Bundle.main.loadNibNamed("CreateStep3", owner: nil, options: nil)?.first as! CreateStep3
+    let create3 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
+    
     
     //labels
     let lblSubHeader = UILabel()
@@ -46,17 +48,40 @@ class ProfileCreate3ViewController: UIViewController {
         super.viewDidLoad()
         viewCreate3()
         setupPageControl()
-        //showAlertSelection()
+    
         
     }
     
+    
     func viewCreate3() {
+        
+        let btnFinish = create3.btnToStep3
         self.tabBarController?.tabBar.isHidden = true
         
-        // TO DO
-        // add gradient to button
+        //create form view
+        create3.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
+        create3.backgroundColor = whiteColor
         
-        /*
+        // UILabels
+        create3.lblMain.font = fontLabel
+        create3.lblMain.text = strLblMain
+        create3.lblMain.textColor = blackColor
+        create3.lblMain.textAlignment = .left
+        
+        create3.lblSub.font = fontLabelSub
+        create3.lblSub.text = strLblSub
+        create3.lblSub.textColor = blackColor.withAlphaComponent(0.8)
+        create3.lblSub.textAlignment = .left
+        
+        // UIButton
+        let bottomTableView = create3.lblMain.frame.size.height + create3.lblSub.frame.size.height + (viewContent.frame.height/4)*3
+        create3.btnNextShadow.clipsToBounds = false
+        btnFinish?.clipsToBounds = false
+        create3.btnNextShadow.backgroundColor = nil
+        create3.btnNextShadow.frame = (btnFinish?.bounds)!
+        btnFinish?.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomTableView + 20, width: 240, height: 50)
+        
+        // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
         btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
         btnGradientLayer.locations = [ 0.0, 1.0]
@@ -64,9 +89,9 @@ class ProfileCreate3ViewController: UIViewController {
         btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
         
         
-        create3.btnFinish.setTitle("FINISH",for: .normal)
-        create3.btnFinish.tintColor = whiteColor
-        create3.btnFinish.titleLabel?.font = fontBtnBig
+        btnFinish?.setTitle("FINISH",for: .normal)
+        btnFinish?.tintColor = whiteColor
+        btnFinish?.titleLabel?.font = fontBtnBig
         
         //drop shadow
         btnGradientLayer.shadowOpacity = 0.10
@@ -77,22 +102,153 @@ class ProfileCreate3ViewController: UIViewController {
         btnGradientLayer.cornerRadius = 25
         
         //add layer with gradient & drop shadow to button
-        create3.btnFinish.layer.insertSublayer(btnGradientLayer, at: 0)
+        btnFinish?.layer.insertSublayer(btnGradientLayer, at: 0)
         
         //add view to content view
         viewContent.addSubview(create3)
- */
-        
-        
-        
+
+        //set up selected keywords
+        setUpTableView()
     }
     
     // TO DO
-    func setUpKeywords() {
+    func setUpTableView() {
+        
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/4)*3))
+        
+        //create3.scrollView.isHidden = true
+        create3.scrollView.backgroundColor = UIColor.clear
+        create3.scrollView.isScrollEnabled = true
+        
+        tableView.isEditing = true
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "keywordCell")
         
         
+       /*
+        var buttonY: CGFloat = 10
+        
+        for keyword in arraySelection {
+            
+            let btnKeyword = UIButton()
+            let ySpace: Int = 10
+            
+            let myString: String = "\(keyword)"
+            let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
+            let btnWidth = size.width + 20
+            let margins = 15
+            let buttonX = (viewContent.frame.size.width - CGFloat(margins*2) - btnWidth)/2
+            
+            btnKeyword.frame = CGRect(x: buttonX, y: buttonY, width: btnWidth, height: 40)
+            buttonY = buttonY + 40 + CGFloat(ySpace)
+            
+            btnKeyword.setTitle("\(keyword)",for: .normal)
+            btnKeyword.titleLabel?.font = fontBtnKeyword
+            btnKeyword.setTitleColor(whiteColor, for: .normal)
+            btnKeyword.titleLabel?.textAlignment = .center
+            btnKeyword.backgroundColor = blueColor
+           
+            
+            //btnKeyword.addTarget(self,action:#selector(selectKeyword),for:.touchUpInside)
+            
+            btnKeyword.isEnabled = true
+            
+            btnKeyword.layer.cornerRadius = 20
+            btnKeyword.layer.borderWidth = 0
+            
+            
+            //add button to keyword view
+            tableView.addSubview(btnKeyword)
+            
+        }*/
+        
+        
+        
+        create3.scrollView.addSubview(tableView)
         
     }
+    
+    
+
+    // MARK: - Table view data source
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arraySelection.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "keywordCell", for: indexPath)
+
+        //var buttonY: CGFloat = 10
+        
+        for keyword in arraySelection {
+            
+            let btnKeyword = UIButton()
+            //let ySpace: Int = 10
+            
+            let myString: String = "\(keyword)"
+            let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
+            let btnWidth = size.width + 20
+            let margins = 15
+            let buttonX = (viewContent.frame.size.width - CGFloat(margins*2) - btnWidth)/2
+            
+            btnKeyword.frame = CGRect(x: buttonX, y: 0, width: btnWidth, height: 40)
+            //buttonY = buttonY + 40 + CGFloat(ySpace)
+            
+            btnKeyword.setTitle("\(keyword)",for: .normal)
+            btnKeyword.titleLabel?.font = fontBtnKeyword
+            btnKeyword.setTitleColor(whiteColor, for: .normal)
+            btnKeyword.titleLabel?.textAlignment = .center
+            btnKeyword.backgroundColor = blueColor
+            
+            
+            //btnKeyword.addTarget(self,action:#selector(selectKeyword),for:.touchUpInside)
+            
+            btnKeyword.isEnabled = true
+            
+            btnKeyword.layer.cornerRadius = 20
+            btnKeyword.layer.borderWidth = 0
+            
+            
+            //add button to keyword view
+            cell.contentView.addSubview(btnKeyword)
+            
+        }
+        
+        
+        return cell
+    }
+    
+    // MARK: - Reordering
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedObject = self.arraySelection[sourceIndexPath.row]
+        arraySelection.remove(at: sourceIndexPath.row)
+        arraySelection.insert(movedObject, at: destinationIndexPath.row)
+        NSLog("%@", "\(sourceIndexPath.row) => \(destinationIndexPath.row) \(arraySelection)")
+        // To check for correctness enable: self.tableView.reloadData()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     // TO DO
     func addTarget() {
@@ -122,37 +278,7 @@ class ProfileCreate3ViewController: UIViewController {
         
     }
     
-    func showAlertSelection() {
-        let stringRepresentation = arraySelection.joined(separator: ",")
-        
-        let refreshAlert = UIAlertController(title: "Passed data", message: stringRepresentation, preferredStyle: UIAlertControllerStyle.alert)
-        
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            print("Handle Ok logic here")
-        }))
-        
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            print("Handle Cancel Logic here")
-        }))
-        
-        present(refreshAlert, animated: true, completion: nil)
-    }
-    
-    
-    func showAlert() {
-        
-        let refreshAlert = UIAlertController(title: "Passed data", message: " ", preferredStyle: UIAlertControllerStyle.alert)
-        
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            print("Handle Ok logic here")
-        }))
-        
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            print("Handle Cancel Logic here")
-        }))
-        
-        present(refreshAlert, animated: true, completion: nil)
-    }
+ 
     
     func addBackButton() {
         let backButton = UIButton(type: .custom)
@@ -191,6 +317,47 @@ class ProfileCreate3ViewController: UIViewController {
         
         
     }
+    
+    
+    // ALERTS
+    // -----------------------
+    
+    func showAlertSelection() {
+        let stringRepresentation = arraySelection.joined(separator: ",")
+        
+        let refreshAlert = UIAlertController(title: "Passed data", message: stringRepresentation, preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            print("Handle Ok logic here")
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Handle Cancel Logic here")
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    
+    func showAlert() {
+        
+        let refreshAlert = UIAlertController(title: "Passed data", message: " ", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            print("Handle Ok logic here")
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Handle Cancel Logic here")
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    // END ALERTS
+    // -----------------------
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dataHelper = DataHelper(context: self.managedObjectContext)
         dataHelper.seedDataStore()
         
-        dataHelper.printAllKeywords()
+        //dataHelper.printAllKeywords()
         
         
         UITabBar.appearance().tintColor = purpleColor

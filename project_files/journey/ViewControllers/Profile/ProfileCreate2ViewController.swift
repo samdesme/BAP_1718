@@ -30,6 +30,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     
     //arrays
     var arraySelection = [String]()
+    var arrayKeywords = [String]()
     
     //view
     let create2 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
@@ -39,14 +40,14 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
-
-
+    
+ 
     //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         viewCreate2()
         setupPageControl()
-        //showAlert()
         
     }
     
@@ -99,9 +100,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         //add layer with gradient & drop shadow to button
         create2.btnToStep3.layer.insertSublayer(btnGradientLayer, at: 0)
         
-        //keyword scrollview
-      
-        
         //add view to content view
         viewContent.addSubview(create2)
         
@@ -110,10 +108,16 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
     }
     
+
     func setUpKeywords() {
         
         //list all keywords on screen as buttons
-        let arrayKeywords = ["General Anxiety", "Social Anxiety", "Depression", "Bipolar Disorder", "ADHD", "ADD","Schizophrenia","OCD","Trauma", "Sexual Abuse", "Verbal Abuse", "Physical Abuse", "Addiction", "Weight Issues", "LGBT", "Burn Out", "Anger Management","Autism"]
+        //let arrayKeywords = ["General Anxiety", "Social Anxiety", "Depression", "Bipolar Disorder", "ADHD", "ADD","Schizophrenia","OCD","Trauma", "Sexual Abuse", "Verbal Abuse", "Physical Abuse", "Addiction", "Weight Issues", "LGBT", "Burn Out", "Anger Management","Autism"]
+        
+        //fetch all keywords from database
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let dataHelper = DataHelper(context: delegate.managedObjectContext)
+        arrayKeywords = dataHelper.fetchAllKeywordsToArray(inputArray: arrayKeywords)
         
         var buttonX: CGFloat = 0
         var buttonY: CGFloat = 10
@@ -234,7 +238,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
     }
 
-    
+   
     
     
     
@@ -300,7 +304,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         toStep3()
         
     }
-    
     
     
     override func viewWillAppear(_ animated: Bool) {

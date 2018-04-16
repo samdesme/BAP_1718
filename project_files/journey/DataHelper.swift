@@ -11,6 +11,7 @@ import CoreData
 
 public class DataHelper {
     
+    var arrayKeywords = [String]()
     let context: NSManagedObjectContext
     
     init(context: NSManagedObjectContext) {
@@ -55,7 +56,7 @@ public class DataHelper {
         }
     }
     
-    public func printAllKeywords() {
+    public func fetchAllKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
@@ -64,8 +65,11 @@ public class DataHelper {
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
         for key in allKeywords {
-            print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
+            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
+            arrayKeywords.append(key.title)
         }
+        
+        return arrayKeywords
     }
    
 }
