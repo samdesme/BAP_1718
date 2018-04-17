@@ -55,9 +55,11 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     
     func viewCreate3() {
         
-        let btnFinish = create3.btnToStep3
+        //let btnFinish = create3.btnToStep3
         self.tabBarController?.tabBar.isHidden = true
-        
+        create3.btnToStep3.isHidden = true
+        create3.btnNextShadow.isHidden = true
+        create3.btnAddKeyword.isHidden = true
         //create form view
         create3.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
         create3.backgroundColor = whiteColor
@@ -73,37 +75,6 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         create3.lblSub.textColor = blackColor.withAlphaComponent(0.8)
         create3.lblSub.textAlignment = .left
         
-        // UIButton
-        let bottomTableView = create3.lblMain.frame.size.height + create3.lblSub.frame.size.height + (viewContent.frame.height/4)*3
-        create3.btnNextShadow.clipsToBounds = false
-        btnFinish?.clipsToBounds = false
-        create3.btnNextShadow.backgroundColor = nil
-        create3.btnNextShadow.frame = (btnFinish?.bounds)!
-        btnFinish?.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomTableView + 20, width: 240, height: 50)
-        
-        // add gradient to button
-        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
-        btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
-        btnGradientLayer.locations = [ 0.0, 1.0]
-        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        
-        
-        btnFinish?.setTitle("FINISH",for: .normal)
-        btnFinish?.tintColor = whiteColor
-        btnFinish?.titleLabel?.font = fontBtnBig
-        
-        //drop shadow
-        btnGradientLayer.shadowOpacity = 0.10
-        btnGradientLayer.shadowRadius = 7.0
-        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
-        
-        //corner radius
-        btnGradientLayer.cornerRadius = 25
-        
-        //add layer with gradient & drop shadow to button
-        btnFinish?.layer.insertSublayer(btnGradientLayer, at: 0)
-        
         //add view to content view
         viewContent.addSubview(create3)
 
@@ -114,19 +85,65 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     // TO DO
     func setUpTableView() {
         //let cellCount = arrayKeywords.count
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: viewContent.frame.height/2))
+        //let ySize = (viewContent.frame.size.height - viewContent.frame.height/2)/2
+        //let ySize = (viewContent.frame.size.height - viewContent.frame.height/1.5)/2
+        let btnFinish = UIButton()
+        let btnNextShadow = UIView()
+        
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: viewContent.frame.width - 30, height: viewContent.frame.height/2))
         tableView.tableFooterView = UIView()
         create3.scrollView.isHidden = true
         tableView.backgroundColor = UIColor.clear
-        //tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = true
         
         tableView.isEditing = true
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "keywordCell")
         
-        
         create3.addSubview(tableView)
+        
+        // UIButton
+        var y = Int()
+         y = arraySelection.count
+        
+        if(y >= 5){
+            y = 5
+        }
+        
+        let bottomTableView = 100  + 65*y
+       
+        btnNextShadow.clipsToBounds = false
+        btnFinish.clipsToBounds = false
+        btnNextShadow.backgroundColor = nil
+        btnNextShadow.frame = btnFinish.bounds
+        btnFinish.frame = CGRect(x: Int((self.view.frame.size.width - 240)/2), y: Int(bottomTableView) + 50, width: 240, height: 50)
+        
+        // add gradient to button
+        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
+        btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        
+        
+        btnFinish.setTitle("FINISH",for: .normal)
+        btnFinish.tintColor = whiteColor
+        btnFinish.titleLabel?.font = fontBtnBig
+        btnFinish.addTarget(self,action:#selector(buttonPressed),for:.touchUpInside)
+        
+        //drop shadow
+        btnGradientLayer.shadowOpacity = 0.10
+        btnGradientLayer.shadowRadius = 7.0
+        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
+        
+        //corner radius
+        btnGradientLayer.cornerRadius = 25
+        
+        //add layer with gradient & drop shadow to button
+        btnFinish.layer.insertSublayer(btnGradientLayer, at: 0)
+        create3.addSubview(btnNextShadow)
+        create3.addSubview(btnFinish)
         
     }
     
@@ -148,20 +165,40 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         let keywordTitle = arraySelection[indexPath.row]
         cell.textLabel?.text = keywordTitle
         cell.textLabel?.font = fontBtnKeyword
+        cell.textLabel?.textColor = whiteColor
+        cell.textLabel?.textAlignment = .center
         
         //for button:
-        /*
-        let btn = UIButton(type: UIButtonType.custom) as UIButton
-        btn.backgroundColor = blueColor
-        btn.setTitle(arraySelection[indexPath.row], for: .normal)
-        btn.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-        btn.addTarget(self,action:#selector(buttonPressed), for:.touchUpInside)
-         btn.tag = indexPath.row
-         cell.contentView.addSubview(btn)
-         
-         */
         
+        let myString: String = (cell.textLabel?.text)!
+        let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
+        let titleWidth = CGFloat(size.width)
+        //let ySize = (cell.frame.size.height - size.height)/2
+        
+        let btn = CALayer()
+        btn.backgroundColor = blueColor.cgColor
+        btn.frame = CGRect(x: (viewContent.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
+        //btn.setTitle(arraySelection[indexPath.row], for: .normal)
+        //btn.titleLabel?.font = fontBtnKeyword
+        //btn.titleLabel?.textColor = whiteColor
+        btn.cornerRadius = 20
+        //btn.addTarget(self,action:#selector(buttonPressed), for:.touchUpInside)
+        //btn.tag = indexPath.row
+        cell.backgroundView = UIView()
+        cell.backgroundView?.layer.insertSublayer(btn, at: 0)
        
+        let rank = UILabel()
+        rank.frame = CGRect(x: 0, y: 12, width: 40, height: 40)
+        //rank.backgroundColor = blueColor
+        rank.text = "\(indexPath.row + 1)"
+        rank.textColor = purpleColor
+        rank.font = fontBtnKeyword
+        rank.textAlignment = .center
+        rank.layer.backgroundColor = whiteColor.cgColor
+        rank.layer.borderWidth = 2
+        rank.layer.borderColor = purpleColor.cgColor
+        rank.layer.cornerRadius = 20
+        cell.contentView.addSubview(rank)
         
         
         return cell
@@ -170,9 +207,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     //Button Action is
     @objc func buttonPressed(sender:UIButton!)
     {
-        let buttonRow = sender.tag
-        print("button is Pressed")
-        print("Clicked Button Row is",buttonRow)
+        showAlertRanking()
     }
     
     // MARK: - Reordering
@@ -181,30 +216,20 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         return .none
     }
     
+    
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
        
         let movedObject = self.arraySelection[sourceIndexPath.row]
         arraySelection.remove(at: sourceIndexPath.row)
         arraySelection.insert(movedObject, at: destinationIndexPath.row)
         NSLog("%@", "\(sourceIndexPath.row) => \(destinationIndexPath.row) \(arraySelection)")
         
-        //let ip = tableView.indexPathForRow(at: 0)
-        
-        if (destinationIndexPath.row == 0) {
-            //tableView.cellForRow(at: ip)?.backgroundColor = blueColor
-        }
-        else {
-            //tableView.cellForRow(at: destinationIndexPath)?.backgroundColor = UIColor.clear
-         
-
-        }
-        
-        // To check for correctness enable: self.tableView.reloadData()
+    tableView.reloadData()
+      
     }
     
     
@@ -280,7 +305,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     // ALERTS
     // -----------------------
     
-    func showAlertSelection() {
+    func showAlertRanking() {
         let stringRepresentation = arraySelection.joined(separator: ",")
         
         let refreshAlert = UIAlertController(title: "Passed data", message: stringRepresentation, preferredStyle: UIAlertControllerStyle.alert)

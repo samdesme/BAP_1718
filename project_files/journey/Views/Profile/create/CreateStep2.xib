@@ -32,14 +32,28 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </scrollView>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jXR-3E-LBM" userLabel="BtnNextShadow">
-                    <rect key="frame" x="67" y="355" width="240" height="50"/>
+                    <rect key="frame" x="67" y="404" width="240" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laI-FC-9DC" userLabel="btnToStep3">
-                    <rect key="frame" x="67" y="355" width="240" height="50"/>
+                    <rect key="frame" x="67" y="404" width="240" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="BUTTON TO STEP 3"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CdQ-C0-Ob9" userLabel="btnAddKeyword">
+                    <rect key="frame" x="67" y="356" width="240" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <attributedString key="attributedTitle">
+                            <fragment content="Add keywords +">
+                                <attributes>
+                                    <font key="NSFont" metaFont="system" size="15"/>
+                                    <integer key="NSUnderline" value="1"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -52,6 +66,7 @@
                 <constraint firstItem="nno-X1-SPq" firstAttribute="top" secondItem="hLm-72-6b4" secondAttribute="bottom" constant="-1" id="pvJ-jt-baw"/>
             </constraints>
             <connections>
+                <outlet property="btnAddKeyword" destination="CdQ-C0-Ob9" id="JeG-m0-gwB"/>
                 <outlet property="btnNextShadow" destination="jXR-3E-LBM" id="dB3-UM-hXB"/>
                 <outlet property="btnToStep3" destination="laI-FC-9DC" id="znf-rN-Mfo"/>
                 <outlet property="lblMain" destination="hLm-72-6b4" id="lBK-HI-rcZ"/>

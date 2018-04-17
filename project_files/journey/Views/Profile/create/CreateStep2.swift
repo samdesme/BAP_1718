@@ -22,5 +22,6 @@ class CreateStep2: UIView {
     @IBOutlet weak var btnNextShadow: UIView!
     @IBOutlet weak var btnToStep3: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var btnAddKeyword: UIButton!
     
 }

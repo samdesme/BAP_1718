@@ -24,6 +24,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     let strHeaderCreate2 = "choose keywords"
     let strLblMain = "Issues I identify with"
     let strLblSub = "Tab the options below"
+    let strNewKeyword = "I don't see my issue here..."
+
     //passed data
     var strNamePassed = ""
     var strAboutPassed = ""
@@ -71,11 +73,17 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
         // UIButton
         let bottomScrollView = create2.lblMain.frame.size.height + create2.lblSub.frame.size.height + (viewContent.frame.height/4)*3
+        
+        create2.btnAddKeyword.setTitle(strNewKeyword,for: .normal)
+        create2.btnAddKeyword.titleLabel?.font = fontLabel
+        create2.btnAddKeyword.titleLabel?.textColor = blackColor
+        create2.btnAddKeyword.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView + 10, width: 240, height: 20)
+        
         create2.btnNextShadow.clipsToBounds = false
         create2.btnToStep3.clipsToBounds = false
         create2.btnNextShadow.backgroundColor = nil
         create2.btnNextShadow.frame = create2.btnToStep3.bounds
-        create2.btnToStep3.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView + 20, width: 240, height: 50)
+        create2.btnToStep3.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView + 30 + 10, width: 240, height: 50)
         
         // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
