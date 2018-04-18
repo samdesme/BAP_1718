@@ -130,7 +130,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     func addTarget() {
         
         //add btn attributes
-        create1.btnToStep2.addTarget(self,action:#selector(createInfo),
+        create1.btnToStep2.addTarget(self,action:#selector(create),
                                      for:.touchUpInside)
     }
     
@@ -302,9 +302,9 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
 
     // SAVE PROFILE INFO
-    @objc func createInfo() {
+    @objc func create() {
 
-        //saveData()
+        saveData()
         toStep2()
     
     }

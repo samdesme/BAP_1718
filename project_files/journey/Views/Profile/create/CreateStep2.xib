@@ -41,19 +41,11 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="BUTTON TO STEP 3"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CdQ-C0-Ob9" userLabel="btnAddKeyword">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdQ-C0-Ob9" userLabel="btnAddKeyword">
                     <rect key="frame" x="67" y="356" width="240" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal">
-                        <attributedString key="attributedTitle">
-                            <fragment content="Add keywords +">
-                                <attributes>
-                                    <font key="NSFont" metaFont="system" size="15"/>
-                                    <integer key="NSUnderline" value="1"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                    </state>
+                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                    <state key="normal" title="Add keywords +"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -66,7 +58,7 @@
                 <constraint firstItem="nno-X1-SPq" firstAttribute="top" secondItem="hLm-72-6b4" secondAttribute="bottom" constant="-1" id="pvJ-jt-baw"/>
             </constraints>
             <connections>
-                <outlet property="btnAddKeyword" destination="CdQ-C0-Ob9" id="JeG-m0-gwB"/>
+                <outlet property="btnAddKeyword" destination="CdQ-C0-Ob9" id="d79-IC-dqs"/>
                 <outlet property="btnNextShadow" destination="jXR-3E-LBM" id="dB3-UM-hXB"/>
                 <outlet property="btnToStep3" destination="laI-FC-9DC" id="znf-rN-Mfo"/>
                 <outlet property="lblMain" destination="hLm-72-6b4" id="lBK-HI-rcZ"/>

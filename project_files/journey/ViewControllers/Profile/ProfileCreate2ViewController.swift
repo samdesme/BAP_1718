@@ -33,6 +33,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     //arrays
     var arraySelection = [String]()
     var arrayKeywords = [String]()
+    var arrayCustomKeywords = [String]()
     
     //view
     let create2 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
@@ -42,7 +43,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
-    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
  
     //Load view controller
     override func viewDidLoad() {
@@ -54,7 +56,16 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     }
     
     func viewCreate2() {
+        
+        let keywordAttr : [NSAttributedStringKey: Any] = [
+            NSAttributedStringKey.font : fontLabel!,
+            NSAttributedStringKey.foregroundColor : blackColor,
+            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+        let attributeString = NSMutableAttributedString(string: strNewKeyword,
+                                                        attributes: keywordAttr)
+        
         self.tabBarController?.tabBar.isHidden = true
+        create2.scrollView.isScrollEnabled = true
         
         //create form view
         create2.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
@@ -73,11 +84,10 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
         // UIButton
         let bottomScrollView = create2.lblMain.frame.size.height + create2.lblSub.frame.size.height + (viewContent.frame.height/4)*3
-        
-        create2.btnAddKeyword.setTitle(strNewKeyword,for: .normal)
-        create2.btnAddKeyword.titleLabel?.font = fontLabel
+    
+        create2.btnAddKeyword.setAttributedTitle(attributeString, for: .normal)
         create2.btnAddKeyword.titleLabel?.textColor = blackColor
-        create2.btnAddKeyword.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView + 10, width: 240, height: 20)
+        create2.btnAddKeyword.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView, width: 240, height: 20)
         
         create2.btnNextShadow.clipsToBounds = false
         create2.btnToStep3.clipsToBounds = false
@@ -119,13 +129,13 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
 
     func setUpKeywords() {
         
-        //list all keywords on screen as buttons
-        //let arrayKeywords = ["General Anxiety", "Social Anxiety", "Depression", "Bipolar Disorder", "ADHD", "ADD","Schizophrenia","OCD","Trauma", "Sexual Abuse", "Verbal Abuse", "Physical Abuse", "Addiction", "Weight Issues", "LGBT", "Burn Out", "Anger Management","Autism"]
+        /*
+        let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
+        arrayKeywords = dataHelper.fetchStandardKeywordsToArray(inputArray: arrayKeywords)
+        arrayCustomKeywords = dataHelper.fetchCustomKeywordsToArray(inputArray: arrayCustomKeywords)
+        */
         
-        //fetch all keywords from database
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let dataHelper = DataHelper(context: delegate.managedObjectContext)
-        arrayKeywords = dataHelper.fetchAllKeywordsToArray(inputArray: arrayKeywords)
+        getData()
         
         var buttonX: CGFloat = 0
         var buttonY: CGFloat = 10
@@ -140,7 +150,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             let btnWidth = size.width + 20
             let totalWidth = buttonX + btnWidth
             
-            if(totalWidth >= create2.scrollView.frame.size.width){
+            if(totalWidth > create2.scrollView.frame.size.width){
                 buttonY = buttonY + 40 + CGFloat(ySpace)
                 buttonX = 0
             }
@@ -152,29 +162,89 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword.titleLabel?.font = fontBtnKeyword
             btnKeyword.setTitleColor(blackColor, for: .normal)
             btnKeyword.titleLabel?.textAlignment = .center
-             btnKeyword.backgroundColor = whiteColor
+            btnKeyword.backgroundColor = whiteColor
+            
             btnKeyword.isSelected = false
             
             btnKeyword.addTarget(self,action:#selector(selectKeyword),
                                          for:.touchUpInside)
 
             btnKeyword.isEnabled = true
-            
             btnKeyword.layer.cornerRadius = 20
             btnKeyword.layer.borderWidth = 1.5
             btnKeyword.layer.borderColor = blackColor.cgColor
-            
             
             //add button to keyword view
             create2.scrollView.addSubview(btnKeyword)
             
         }
         
+        for custom in arrayCustomKeywords {
+            
+            let btnKeyword2 = UIButton()
+            let ySpace: Int = 10
+            
+            let myString: String = "\(custom)"
+            let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
+            let btnWidth = size.width + 20
+            let totalWidth = buttonX + btnWidth
+            
+            if(totalWidth > create2.scrollView.frame.size.width){
+                buttonY = buttonY + 40 + CGFloat(ySpace)
+                buttonX = 0
+            }
+            
+            btnKeyword2.frame = CGRect(x: buttonX, y: buttonY, width: btnWidth, height: 40)
+            buttonX = buttonX + btnWidth + 10
+            
+            btnKeyword2.setTitle("\(custom)",for: .normal)
+            btnKeyword2.titleLabel?.font = fontBtnKeyword
+            btnKeyword2.setTitleColor(blackColor, for: .normal)
+            btnKeyword2.titleLabel?.textAlignment = .center
+            btnKeyword2.backgroundColor = blueColor
+            btnKeyword2.isSelected = false
+            
+            btnKeyword2.addTarget(self,action:#selector(selectKeyword),
+                                 for:.touchUpInside)
+            
+            btnKeyword2.isEnabled = true
+            btnKeyword2.layer.cornerRadius = 20
+            btnKeyword2.layer.borderWidth = 1.5
+            btnKeyword2.layer.borderColor = blackColor.cgColor
+            
+            //add button to keyword view
+            create2.scrollView.addSubview(btnKeyword2)
+            
+        }
+        
         create2.scrollView.contentSize = CGSize(width: create2.scrollView.frame.size.width , height: buttonY + create2.lblMain.frame.size.height + create2.lblSub.frame.size.height)
         create2.scrollView.backgroundColor = UIColor.clear
-        create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/4)*3)
-        create2.scrollView.isScrollEnabled = true
+        create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*2)
         
+        
+    }
+    
+    func getData() {
+        let context = appDelegate.persistentContainer.viewContext
+        let keywordFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Keywords")
+        let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        
+        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+        keywordFetchRequest.returnsObjectsAsFaults = false
+        
+        let allKeywords = try! context.fetch(keywordFetchRequest)
+        
+        for key in allKeywords as! [NSManagedObject] {
+            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
+            let bool = key.value(forKey: "addedByUser") as! Bool
+            
+            if(bool == true){
+                
+                arrayCustomKeywords.append(key.value(forKey: "title") as! String)
+                
+            }
+            
+        }
     }
     
     @objc func selectKeyword(sender: UIButton) {
@@ -219,7 +289,11 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         //add btn attributes
         create2.btnToStep3.addTarget(self,action:#selector(createSelection),
                                      for:.touchUpInside)
+        create2.btnAddKeyword.addTarget(self,action:#selector(toNewKeyword),
+                                     for:.touchUpInside)
     }
+    
+    
     
     
     func addKeyword() {
@@ -310,6 +384,14 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
         //saveData()
         toStep3()
+        
+    }
+    
+    @objc func toNewKeyword() {
+        
+        lblSubHeader.removeFromSuperview()
+        let vc2 = storyboard?.instantiateViewController(withIdentifier: "newkeyword") as! ProfileAddKeywordViewController
+        self.navigationController?.pushViewController(vc2, animated: true)
         
     }
     

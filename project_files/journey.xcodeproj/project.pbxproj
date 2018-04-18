@@ -35,6 +35,7 @@
 		85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85829768207692EC00BC0F6A /* CreateStep1.swift */; };
 		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
 		859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */; };
+		859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */; };
 		85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */; };
 		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
 		85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */; };
@@ -93,6 +94,7 @@
 		85829768207692EC00BC0F6A /* CreateStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep1.swift; sourceTree = "<group>"; };
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
 		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
+		859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAddKeywordViewController.swift; sourceTree = "<group>"; };
 		85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfo.xib; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */,
 				85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */,
 				856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */,
+				859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
 				851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
+				859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */,
 				8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */,
 				85452B8120828EC90027A594 /* DataHelper.swift in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,

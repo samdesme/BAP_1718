@@ -159,11 +159,53 @@
                         <outlet property="viewHeader" destination="gpQ-Bp-cir" id="i4N-HV-jzx"/>
                         <outlet property="viewMain" destination="Waq-x5-XEu" id="BrG-eP-5Gx"/>
                         <segue destination="Jzu-EP-4TN" kind="push" id="ipZ-aX-y6Z"/>
+                        <segue destination="Gqc-bJ-gTV" kind="push" id="1mb-XI-4sK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AzM-AH-WYe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2425" y="-322"/>
+        </scene>
+        <!--add keyword-->
+        <scene sceneID="2Ql-xK-5nf">
+            <objects>
+                <viewController restorationIdentifier="newkeyword" storyboardIdentifier="newkeyword" id="Gqc-bJ-gTV" userLabel="add keyword" customClass="ProfileAddKeywordViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="78u-b0-hJP" userLabel="Add Keyword">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7A-My-K5g" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hOH-cX-sDC" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="v7A-My-K5g" firstAttribute="trailing" secondItem="SIb-Cv-JcL" secondAttribute="trailing" id="1hq-dW-3ig"/>
+                            <constraint firstItem="hOH-cX-sDC" firstAttribute="leading" secondItem="SIb-Cv-JcL" secondAttribute="leading" id="92G-NR-ZvH"/>
+                            <constraint firstItem="hOH-cX-sDC" firstAttribute="trailing" secondItem="SIb-Cv-JcL" secondAttribute="trailing" id="Cmf-G0-IU6"/>
+                            <constraint firstItem="v7A-My-K5g" firstAttribute="leading" secondItem="SIb-Cv-JcL" secondAttribute="leading" id="Epe-gE-wfx"/>
+                            <constraint firstItem="v7A-My-K5g" firstAttribute="bottom" secondItem="SIb-Cv-JcL" secondAttribute="bottom" id="XFU-cv-pxj"/>
+                            <constraint firstItem="hOH-cX-sDC" firstAttribute="top" secondItem="78u-b0-hJP" secondAttribute="top" id="lYc-LT-n7y"/>
+                            <constraint firstItem="hOH-cX-sDC" firstAttribute="bottom" secondItem="SIb-Cv-JcL" secondAttribute="top" id="lpA-Lb-dUK"/>
+                            <constraint firstItem="v7A-My-K5g" firstAttribute="top" secondItem="hOH-cX-sDC" secondAttribute="bottom" id="oNO-ZH-zks"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SIb-Cv-JcL"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="TWx-gx-YZL"/>
+                    <connections>
+                        <outlet property="viewContent" destination="v7A-My-K5g" id="hMt-W6-XCU"/>
+                        <outlet property="viewHeader" destination="hOH-cX-sDC" id="tQH-dM-dPe"/>
+                        <outlet property="viewMain" destination="78u-b0-hJP" id="yfX-rr-aFL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0oP-bV-jQu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2425" y="440"/>
         </scene>
         <!--step3-->
         <scene sceneID="qlw-yx-4QR">
