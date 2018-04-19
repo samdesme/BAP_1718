@@ -35,6 +35,9 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     var arrayKeywords = [String]()
     var arrayCustomKeywords = [String]()
     
+    var buttonX: CGFloat = 0
+    var buttonY: CGFloat = 10
+    
     //view
     let create2 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
     
@@ -129,19 +132,19 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
 
     func setUpKeywords() {
         
-        /*
+        //retrieve data from arrays
         let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
-        arrayKeywords = dataHelper.fetchStandardKeywordsToArray(inputArray: arrayKeywords)
-        arrayCustomKeywords = dataHelper.fetchCustomKeywordsToArray(inputArray: arrayCustomKeywords)
-        */
         
+        //custom keywords
         getData()
         
-        var buttonX: CGFloat = 0
-        var buttonY: CGFloat = 10
+        //standard keywords (seeded and declared in DataHelper)
+        arrayKeywords = dataHelper.fetchStandardKeywordsToArray(inputArray: arrayKeywords)
+        
+        buttonX = 0
+        buttonY = 10
         
         for keyword in arrayKeywords {
-            
             let btnKeyword = UIButton()
             let ySpace: Int = 10
             
@@ -150,7 +153,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             let btnWidth = size.width + 20
             let totalWidth = buttonX + btnWidth
             
-            if(totalWidth > create2.scrollView.frame.size.width){
+            if(totalWidth > self.view.frame.size.width - 35){
                 buttonY = buttonY + 40 + CGFloat(ySpace)
                 buttonX = 0
             }
@@ -168,12 +171,12 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             
             btnKeyword.addTarget(self,action:#selector(selectKeyword),
                                          for:.touchUpInside)
-
+            
             btnKeyword.isEnabled = true
             btnKeyword.layer.cornerRadius = 20
             btnKeyword.layer.borderWidth = 1.5
             btnKeyword.layer.borderColor = blackColor.cgColor
-            
+
             //add button to keyword view
             create2.scrollView.addSubview(btnKeyword)
             
@@ -182,6 +185,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         for custom in arrayCustomKeywords {
             
             let btnKeyword2 = UIButton()
+            let btnRemove = UIButton()
             let ySpace: Int = 10
             
             let myString: String = "\(custom)"
@@ -189,7 +193,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             let btnWidth = size.width + 20
             let totalWidth = buttonX + btnWidth
             
-            if(totalWidth > create2.scrollView.frame.size.width){
+            if(totalWidth > self.view.frame.size.width - 35){
                 buttonY = buttonY + 40 + CGFloat(ySpace)
                 buttonX = 0
             }
@@ -204,6 +208,16 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword2.backgroundColor = blueColor
             btnKeyword2.isSelected = false
             
+            btnRemove.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            btnRemove.titleLabel?.font = fontBtnKeyword
+            btnRemove.setTitle("X", for: .normal)
+            btnRemove.setTitleColor(blackColor, for: .normal)
+            btnRemove.layer.cornerRadius = 15
+            btnRemove.backgroundColor = lightGreyColor
+            btnRemove.addTarget(self,action:#selector(deleteData),
+                                 for:.touchUpInside)
+            btnRemove.isSelected = false
+            
             btnKeyword2.addTarget(self,action:#selector(selectKeyword),
                                  for:.touchUpInside)
             
@@ -211,6 +225,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword2.layer.cornerRadius = 20
             btnKeyword2.layer.borderWidth = 1.5
             btnKeyword2.layer.borderColor = blackColor.cgColor
+            
+            btnKeyword2.addSubview(btnRemove)
             
             //add button to keyword view
             create2.scrollView.addSubview(btnKeyword2)
@@ -224,28 +240,103 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
     }
     
+    
+    
     func getData() {
+         arrayCustomKeywords.removeAll()
+        //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
-        let keywordFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Keywords")
+        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
         keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
         keywordFetchRequest.returnsObjectsAsFaults = false
         
+       
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
-        for key in allKeywords as! [NSManagedObject] {
+        for key in allKeywords {
             //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
-            let bool = key.value(forKey: "addedByUser") as! Bool
-            
+            let bool = key.addedByUser as Bool
+        
             if(bool == true){
                 
-                arrayCustomKeywords.append(key.value(forKey: "title") as! String)
+                arrayCustomKeywords.append(key.title as String)
                 
             }
             
         }
     }
+    
+    @objc func deleteData(sender: UIButton) {
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let keywords : [Keywords] = dataHelper.getAll()
+        
+        
+        //let firstkeyword = dataHelper.getById(id: keywords[2].objectID)
+        //let key = firstkeyword?.title
+        
+        //get the superview of the clicked button via sender
+        let btn = getCellForView(view: sender)
+        
+        //if superview if UIButton, get the text of the titlelable of that button
+        let title = btn?.titleLabel?.text as! String
+        
+        //find out the index of the object in [Keywords] that matches that title
+        let i = keywords.index(where: { $0.title == title }) as! Int
+        let toBeDeleted = dataHelper.getById(id: keywords[i].objectID)
+   
+        //delete that object
+         print("\(String(describing: toBeDeleted!.objectID))")
+        
+        //if (firstkeyword?.addedByUser == true){
+        
+        //}
+       
+       
+        
+        do {
+            
+          dataHelper.delete(id: toBeDeleted!.objectID)
+            try context.save()
+            
+            create2.scrollView.removeSubviews()
+            setUpKeywords()
+           
+            
+            
+        } catch {
+            print("Failed deleting")
+        }
+        
+        
+        
+    }
+    
+
+    
+    
+    func getCellForView(view:UIView) -> UIButton?
+    {
+        //function to easily get access to superview of UI item
+        var superView = view.superview
+        
+        while superView != nil
+        {
+            if superView is UIButton
+            {
+                return superView as? UIButton
+            }
+            else
+            {
+                superView = superView?.superview
+            }
+        }
+        
+        return nil
+    }
+  
     
     @objc func selectKeyword(sender: UIButton) {
         

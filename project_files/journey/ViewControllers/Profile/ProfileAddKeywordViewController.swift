@@ -151,7 +151,7 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
             
         else {
             
-            saveDataOld()
+            saveData()
             
             lblSubHeader.removeFromSuperview()
             let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
@@ -171,55 +171,23 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
     }
     
     
-    func saveData() {
-        
-        let keyword = form.txtName.text
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        let context = appDelegate.persistentContainer.viewContext
-        let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: context) as! Keywords
-
-        
-        do {
-            newKeyword.title = keyword!
-            newKeyword.addedByUser = true
-            
-            try context.save()
-            
-        } catch {
-            print("Failed saving")
-        }
-        
-    }
     
-    func saveDataOld() {
-        
-         let title = form.txtName.text
-        
-        
-        
+    func saveData() {
+    
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Keywords", in: context)
         let newKeyword = NSManagedObject(entity: entity!, insertInto: context)
         
-        
-        
+        let title = form.txtName.text
         do {
-            
             
             newKeyword.setValue(title, forKey: "title")
             newKeyword.setValue(true, forKey: "addedByUser")
             try context.save()
             
-            
-            
-            
         } catch {
             print("Failed saving")
         }
-        
-        
         
     }
     

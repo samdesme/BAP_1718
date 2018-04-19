@@ -46,16 +46,21 @@ public class DataHelper {
         ]
         
         for keyword in keywords {
+            
+            //without model:
+            /*
             let entity = NSEntityDescription.entity(forEntityName: "Keywords", in: context)
             let newKeyords = NSManagedObject(entity: entity!, insertInto: context)
             newKeyords.setValue(keyword.title, forKey: "title")
             newKeyords.setValue(keyword.addedByUser, forKey: "addedByUser")
+            */
             
-            /*
+            //with model:
+            
             let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: context) as! Keywords
             newKeyword.title = keyword.title
             newKeyword.addedByUser = keyword.addedByUser
-             */
+            
         }
         
         do {
@@ -64,6 +69,46 @@ public class DataHelper {
         }
     }
     
+    // Returns all keywords
+    func getAll() -> [Keywords]{
+        return get(withPredicate: NSPredicate(value:true))
+    }
+    
+    func get(withPredicate queryPredicate: NSPredicate) -> [Keywords]{
+        let fetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+        fetchRequest.predicate = queryPredicate
+        
+      
+            let response = try! context.fetch(fetchRequest)
+            return response as [Keywords]
+        
+       
+    }
+    
+    // Returns a keyword by id
+    func getById(id: NSManagedObjectID) -> Keywords? {
+        return context.object(with: id) as? Keywords
+    }
+
+    
+    // Deletes a keyword by id
+    func delete(id: NSManagedObjectID){
+        if let keywordToDelete = getById(id:id){
+            context.delete(keywordToDelete)
+        }
+    }
+    
+    // Saves all changes
+    func saveChanges(){
+        do{
+            try context.save()
+        } catch let error as NSError {
+            // failure
+            print(error)
+        }
+    }
+    
+    /*
     public func fetchStandardKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
@@ -88,6 +133,7 @@ public class DataHelper {
         
         return arrayKeywords
     }
+ */
     
     public func fetchCustomKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Keywords")
@@ -114,15 +160,13 @@ public class DataHelper {
         return arrayCustomKeywords
     }
     
+   
     
     
     
-    /*
     public func fetchStandardKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-        let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
-        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
         
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
@@ -136,6 +180,7 @@ public class DataHelper {
         return arrayKeywords
     }
     
+    /*
     public func fetchCustomKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)

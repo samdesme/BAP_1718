@@ -9,10 +9,16 @@
 import Foundation
 import CoreData
 
-public class Keywords: NSManagedObject {
+extension Keywords {
     
     @NSManaged var title: String
     @NSManaged var addedByUser: Bool
     
+}
+
+
+class Keywords: NSManagedObject {
+    // Add this line, the string must be equal to your class name
+    static let entityName = "Keywords"
 }
 
