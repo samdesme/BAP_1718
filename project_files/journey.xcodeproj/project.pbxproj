@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8516069F20714708009ACC9C /* ProfileKeywords.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8516069E20714708009ACC9C /* ProfileKeywords.xib */; };
-		851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851606A0207147D1009ACC9C /* ProfileKeywords.swift */; };
+		8516069F20714708009ACC9C /* ProfileTopKeywords.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8516069E20714708009ACC9C /* ProfileTopKeywords.xib */; };
+		851606A1207147D1009ACC9C /* ProfileTopKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851606A0207147D1009ACC9C /* ProfileTopKeywords.swift */; };
 		85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */; };
 		85265D66207E9E6E001B0B32 /* CreateStep2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85265D65207E9E6E001B0B32 /* CreateStep2.xib */; };
 		85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D67207E9E88001B0B32 /* CreateStep2.swift */; };
@@ -40,6 +40,8 @@
 		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
 		85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */; };
 		85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */; };
+		85E4392F208A6A4200E139FA /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4392E208A6A4200E139FA /* Profile.swift */; };
+		85E43933208A822700E139FA /* ProfileKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E43932208A822700E139FA /* ProfileKeywords.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +62,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8516069E20714708009ACC9C /* ProfileKeywords.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileKeywords.xib; sourceTree = "<group>"; };
-		851606A0207147D1009ACC9C /* ProfileKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileKeywords.swift; sourceTree = "<group>"; };
+		8516069E20714708009ACC9C /* ProfileTopKeywords.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTopKeywords.xib; sourceTree = "<group>"; };
+		851606A0207147D1009ACC9C /* ProfileTopKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTopKeywords.swift; sourceTree = "<group>"; };
 		85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate2ViewController.swift; sourceTree = "<group>"; };
 		85265D65207E9E6E001B0B32 /* CreateStep2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep2.xib; sourceTree = "<group>"; };
 		85265D67207E9E88001B0B32 /* CreateStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep2.swift; sourceTree = "<group>"; };
@@ -99,6 +101,8 @@
 		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfo.xib; sourceTree = "<group>"; };
 		85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfo.swift; sourceTree = "<group>"; };
+		85E4392E208A6A4200E139FA /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		85E43932208A822700E139FA /* ProfileKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileKeywords.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				85452B83208290430027A594 /* Keywords.swift */,
+				85E4392E208A6A4200E139FA /* Profile.swift */,
+				85E43932208A822700E139FA /* ProfileKeywords.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -230,8 +236,8 @@
 				85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */,
 				85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */,
 				85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */,
-				851606A0207147D1009ACC9C /* ProfileKeywords.swift */,
-				8516069E20714708009ACC9C /* ProfileKeywords.xib */,
+				851606A0207147D1009ACC9C /* ProfileTopKeywords.swift */,
+				8516069E20714708009ACC9C /* ProfileTopKeywords.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -391,7 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				852F1FDA206940F400BBF740 /* Brandon_reg.otf in Resources */,
-				8516069F20714708009ACC9C /* ProfileKeywords.xib in Resources */,
+				8516069F20714708009ACC9C /* ProfileTopKeywords.xib in Resources */,
 				85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */,
 				853503B12067E4CD00A08DD9 /* LaunchScreen.storyboard in Resources */,
 				85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */,
@@ -429,13 +435,14 @@
 			files = (
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
 				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
-				851606A1207147D1009ACC9C /* ProfileKeywords.swift in Sources */,
+				851606A1207147D1009ACC9C /* ProfileTopKeywords.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
 				859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */,
 				8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */,
 				85452B8120828EC90027A594 /* DataHelper.swift in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
+				85E43933208A822700E139FA /* ProfileKeywords.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
@@ -443,6 +450,7 @@
 				85452B84208290430027A594 /* Keywords.swift in Sources */,
 				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,
 				85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */,
+				85E4392F208A6A4200E139FA /* Profile.swift in Sources */,
 				85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */,
 				85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */,
 			);

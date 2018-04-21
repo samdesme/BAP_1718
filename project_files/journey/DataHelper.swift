@@ -8,13 +8,15 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 public class DataHelper {
     
     var arrayKeywords = [String]()
     var arrayCustomKeywords = [String]()
     let context: NSManagedObjectContext
-    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     init(context: NSManagedObjectContext) {
         self.context = context
     }
@@ -23,7 +25,9 @@ public class DataHelper {
         seedKeywords()
     }
     
+    // SEEDING
     fileprivate func seedKeywords() {
+
         let keywords = [
             (title: "General Anxiety", addedByUser: false),
             (title: "Social Anxiety", addedByUser: false),
@@ -57,18 +61,20 @@ public class DataHelper {
             
             //with model:
             
-            let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: context) as! Keywords
+            let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: appDelegate.persistentContainer.viewContext) as! Keywords
             newKeyword.title = keyword.title
             newKeyword.addedByUser = keyword.addedByUser
             
         }
         
         do {
-            try context.save()
+            try appDelegate.persistentContainer.viewContext.save()
         } catch _ {
         }
     }
     
+    // KEYWORDS
+
     // Returns all keywords
     func getAll() -> [Keywords]{
         return get(withPredicate: NSPredicate(value:true))
@@ -90,6 +96,13 @@ public class DataHelper {
         return context.object(with: id) as? Keywords
     }
 
+    // Updates a person
+    func update(updatedKeyword: Keywords){
+        if let keyword = getById(id: updatedKeyword.objectID){
+            keyword.ranking = updatedKeyword.ranking
+           keyword.profile = updatedKeyword.profile
+        }
+    }
     
     // Deletes a keyword by id
     func delete(id: NSManagedObjectID){
@@ -97,6 +110,59 @@ public class DataHelper {
             context.delete(keywordToDelete)
         }
     }
+    
+    
+    
+    
+    
+    // PROFILE
+    
+    func getAllProfiles() -> [Profile]{
+        return getProfile(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getProfile(withPredicate queryPredicate: NSPredicate) -> [Profile] {
+        let fetchRequest = NSFetchRequest<Profile>(entityName: "Profile")
+        fetchRequest.predicate = queryPredicate
+        
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [Profile]
+        
+        
+    }
+    
+    func getProfileById(id: NSManagedObjectID) -> Profile? {
+        return context.object(with: id) as? Profile
+    }
+    
+    
+    
+    
+    
+    
+    
+    // PROFILE
+    
+    func getAllProfileKeywords() -> [ProfileKeywords]{
+        return getProfileKeyword(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getProfileKeyword(withPredicate queryPredicate: NSPredicate) -> [ProfileKeywords] {
+        let fetchRequest = NSFetchRequest<ProfileKeywords>(entityName: "ProfileKeywords")
+        fetchRequest.predicate = queryPredicate
+        
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [ProfileKeywords]
+        
+        
+    }
+    
+    func getProfileKeywordsById(id: NSManagedObjectID) -> ProfileKeywords? {
+        return context.object(with: id) as? ProfileKeywords
+    }
+    
     
     // Saves all changes
     func saveChanges(){

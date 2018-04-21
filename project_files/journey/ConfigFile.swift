@@ -50,6 +50,9 @@ let fontMainRegular19 = UIFont(name:"BrandonGrotesque-Regular", size:18)
 let fontLabel = UIFont(name:"BrandonGrotesque-Regular", size:22)
 let fontTextLink = UIFont(name:"BrandonGrotesque-Light", size:22)
 
+let fontMainMedium = UIFont(name:"BrandonGrotesque-Medium", size:20)
+
+
 let fontLabelSub = UIFont(name:"BrandonGrotesque-Light", size:20)
 
 let fontInput = UIFont(name:"BrandonGrotesque-Light", size:18)

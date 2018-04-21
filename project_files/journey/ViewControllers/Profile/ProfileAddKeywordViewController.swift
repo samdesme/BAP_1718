@@ -175,14 +175,13 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
     func saveData() {
     
         let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Keywords", in: context)
-        let newKeyword = NSManagedObject(entity: entity!, insertInto: context)
-        
+        let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: context) as! Keywords
+
         let title = form.txtName.text
         do {
             
-            newKeyword.setValue(title, forKey: "title")
-            newKeyword.setValue(true, forKey: "addedByUser")
+            newKeyword.title = title!
+            newKeyword.addedByUser = true
             try context.save()
             
         } catch {

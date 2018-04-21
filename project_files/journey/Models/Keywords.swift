@@ -13,7 +13,8 @@ extension Keywords {
     
     @NSManaged var title: String
     @NSManaged var addedByUser: Bool
-    
+    @NSManaged var ranking: Int16
+   @NSManaged var profile: Profile
 }
 
 

@@ -9,13 +9,13 @@
 
 import UIKit
 
-protocol ProfileKeywordsDelegate {
+protocol ProfileTopKeywordsDelegate {
     
 }
 
-class ProfileKeywords: UIView {
+class ProfileTopKeywords: UIView {
     
-    var delegate: ProfileKeywordsDelegate?
+    var delegate: ProfileTopKeywordsDelegate?
     
   
     @IBOutlet weak var keyword1: UILabel!

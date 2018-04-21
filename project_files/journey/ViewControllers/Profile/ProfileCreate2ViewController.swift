@@ -19,7 +19,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     @IBOutlet weak var pageControl: UIPageControl!
     
     //VARIABLES
-    
     //strings
     let strHeaderCreate2 = "choose keywords"
     let strLblMain = "Issues I identify with"
@@ -132,14 +131,14 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
 
     func setUpKeywords() {
         
-        //retrieve data from arrays
-        let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
+       
         
+     
         //custom keywords
         getData()
         
         //standard keywords (seeded and declared in DataHelper)
-        arrayKeywords = dataHelper.fetchStandardKeywordsToArray(inputArray: arrayKeywords)
+        //arrayKeywords = dataHelper.fetchStandardKeywordsToArray(inputArray: arrayKeywords)
         
         buttonX = 0
         buttonY = 10
@@ -190,7 +189,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             
             let myString: String = "\(custom)"
             let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
-            let btnWidth = size.width + 20
+            let btnWidth = size.width + 20 + 40
             let totalWidth = buttonX + btnWidth
             
             if(totalWidth > self.view.frame.size.width - 35){
@@ -201,18 +200,21 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword2.frame = CGRect(x: buttonX, y: buttonY, width: btnWidth, height: 40)
             buttonX = buttonX + btnWidth + 10
             
+            btnKeyword2.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 40)
             btnKeyword2.setTitle("\(custom)",for: .normal)
             btnKeyword2.titleLabel?.font = fontBtnKeyword
             btnKeyword2.setTitleColor(blackColor, for: .normal)
             btnKeyword2.titleLabel?.textAlignment = .center
-            btnKeyword2.backgroundColor = blueColor
+            btnKeyword2.backgroundColor = whiteColor
             btnKeyword2.isSelected = false
             
-            btnRemove.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            btnRemove.titleLabel?.font = fontBtnKeyword
+            btnRemove.frame = CGRect(x: btnWidth - 30 - 10, y: 5, width: 30, height: 30)
+            btnRemove.titleLabel?.font = fontMainRegular
             btnRemove.setTitle("X", for: .normal)
             btnRemove.setTitleColor(blackColor, for: .normal)
             btnRemove.layer.cornerRadius = 15
+            //btnRemove.layer.borderWidth = 1
+            //btnRemove.layer.borderColor = whiteColor.cgColor
             btnRemove.backgroundColor = lightGreyColor
             btnRemove.addTarget(self,action:#selector(deleteData),
                                  for:.touchUpInside)
@@ -243,17 +245,30 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     
     
     func getData() {
-         arrayCustomKeywords.removeAll()
+        
+        let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
+        
+        
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
-        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
-        keywordFetchRequest.returnsObjectsAsFaults = false
+        //empty array before fetching updated data
+        arrayCustomKeywords.removeAll()
+        arrayKeywords.removeAll()
         
-       
+        //first check if the database is empty
+        let results:NSArray? = try! context.fetch(keywordFetchRequest) as NSArray
+        if(results?.count == 0){
+            dataHelper.seedDataStore()
+        }
+        
         let allKeywords = try! context.fetch(keywordFetchRequest)
+
+        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+        //keywordFetchRequest.returnsObjectsAsFaults = false
+        
         
         for key in allKeywords {
             //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
@@ -262,6 +277,11 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             if(bool == true){
                 
                 arrayCustomKeywords.append(key.title as String)
+                
+            }
+            else{
+                
+                arrayKeywords.append(key.title as String)
                 
             }
             
@@ -274,28 +294,20 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         let keywords : [Keywords] = dataHelper.getAll()
         
         
-        //let firstkeyword = dataHelper.getById(id: keywords[2].objectID)
-        //let key = firstkeyword?.title
-        
         //get the superview of the clicked button via sender
         let btn = getCellForView(view: sender)
         
         //if superview if UIButton, get the text of the titlelable of that button
-        let title = btn?.titleLabel?.text as! String
+        let title = btn?.titleLabel?.text as String!
         
         //find out the index of the object in [Keywords] that matches that title
         let i = keywords.index(where: { $0.title == title }) as! Int
         let toBeDeleted = dataHelper.getById(id: keywords[i].objectID)
    
         //delete that object
-         print("\(String(describing: toBeDeleted!.objectID))")
+         //print("\(String(describing: keywords))")
         
-        //if (firstkeyword?.addedByUser == true){
-        
-        //}
-       
-       
-        
+      
         do {
             
           dataHelper.delete(id: toBeDeleted!.objectID)
@@ -348,8 +360,10 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             
             //styling when selected
             sender.setTitleColor(whiteColor, for: .normal)
+            sender.titleLabel?.font = fontMainMedium
             sender.backgroundColor = blueColor
             sender.layer.borderWidth = 0
+           
             
             //add label to array
             arraySelection.append((sender.titleLabel?.text)!)
@@ -363,8 +377,10 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             
             //styling when deselected
             sender.setTitleColor(blackColor, for: .normal)
+            sender.titleLabel?.font = fontBtnKeyword
             sender.backgroundColor = whiteColor
             sender.layer.borderWidth = 1.5
+            
             
             //remove label from array
             if let indexValue = arraySelection.index(of: (sender.titleLabel?.text)!) {
@@ -430,6 +446,17 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         present(refreshAlert, animated: true, completion: nil)
     }
     
+    func showAlertSelectionCheck() {
+        
+        let refreshAlert = UIAlertController(title: "Nothing selected", message: "To continue to the next step, you must make a selection.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
     
     
     func addBackButton() {
@@ -462,12 +489,22 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     }
     
     
+    
+    
     func toStep3() {
         
-        lblSubHeader.removeFromSuperview()
-        let vc2 = storyboard?.instantiateViewController(withIdentifier: "step3") as! ProfileCreate3ViewController
-        vc2.arraySelection = arraySelection
-        self.navigationController?.pushViewController(vc2, animated: false)
+        if(!arraySelection.isEmpty){
+            lblSubHeader.removeFromSuperview()
+            let vc3 = storyboard?.instantiateViewController(withIdentifier: "step3") as! ProfileCreate3ViewController
+            vc3.arraySelection = arraySelection
+            vc3.strNamePassed = strNamePassed
+            vc3.strAboutPassed = strAboutPassed
+            self.navigationController?.pushViewController(vc3, animated: false)
+        }
+        else {
+            showAlertSelectionCheck()
+        }
+      
     }
     
     // SAVE PROFILE INFO

@@ -222,7 +222,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     
     func showAlertFormCheck() {
         
-        let refreshAlert = UIAlertController(title: "Please fill in all fields", message: "To continue to the next step, You must fill in both fields.", preferredStyle: UIAlertControllerStyle.alert)
+        let refreshAlert = UIAlertController(title: "Empty fields", message: "To continue to the next step, you must fill in both fields.", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
            

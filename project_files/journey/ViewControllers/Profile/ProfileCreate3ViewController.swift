@@ -23,6 +23,8 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     
     //VARIABLES
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     //strings
     let strHeaderCreate3 = "rank your selection"
     let strLblMain = "Rank your selection from most to less severe"
@@ -35,6 +37,9 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     //view
     let create3 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
     
+    //passed data
+    var strNamePassed = ""
+    var strAboutPassed = ""
     
     //labels
     let lblSubHeader = UILabel()
@@ -130,7 +135,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         btnFinish.setTitle("FINISH",for: .normal)
         btnFinish.tintColor = whiteColor
         btnFinish.titleLabel?.font = fontBtnBig
-        btnFinish.addTarget(self,action:#selector(buttonPressed),for:.touchUpInside)
+        btnFinish.addTarget(self,action:#selector(buttonFinish),for:.touchUpInside)
         
         //drop shadow
         btnGradientLayer.shadowOpacity = 0.10
@@ -205,10 +210,70 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     //Button Action is
-    @objc func buttonPressed(sender:UIButton!)
+    @objc func buttonFinish(sender:UIButton!)
     {
-        showAlertRanking()
+        //showAlertRanking()
+        saveData()
     }
+    
+    func saveData() {
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
+        
+        let keywords : [Keywords] = dataHelper.getAll()
+
+        //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
+        
+        newProfile.name = strNamePassed
+        newProfile.about = strAboutPassed
+        newProfile.id = 1
+        //newProfile.keywords = NSSet(array: arraySelection)
+       
+        print("\(String(describing: keywords))")
+        print("\(String(describing: newProfile))")
+
+        for (index, element ) in arraySelection.enumerated() {
+            
+            let i = keywords.index(where: { $0.title == element }) as! Int
+            let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
+            
+            //toBeUpdated?.profile = newProfile
+            toBeUpdated?.ranking = Int16(index)
+            newProfile.keywords = NSSet.init(array: arraySelection)
+            dataHelper.update(updatedKeyword: toBeUpdated!)
+            
+            /*
+            print(" --------------------------- ")
+             print("\(String(describing: i))")
+             print("\(String(describing: toBeUpdated?.title))")
+             print(" --------------------------- ")
+             print(" --------------------------- ")
+            print("\(String(describing: index))")
+            print("\(String(describing: element))")
+            print(" --------------------------- ")
+             */
+            
+        }
+    
+        
+        do {
+        
+            
+            try context.save()
+            print("Saved successfully")
+            let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
+            self.navigationController?.pushViewController(profilevc, animated: false)
+            
+            
+        } catch {
+            print("Failed saving")
+        }
+        
+        
+    }
+    
     
     // MARK: - Reordering
     

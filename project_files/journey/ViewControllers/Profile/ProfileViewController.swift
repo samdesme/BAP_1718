@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileKeywordsDelegate {
+class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInfoDelegate, ProfileTopKeywordsDelegate {
    
     //OUTLET REFERENTIONS
     @IBOutlet var viewMain: UIView!
@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
  
     //views
     //var userInfo = ProfileInfo()
-    var userKeywords = ProfileKeywords()
+    var userKeywords = ProfileTopKeywords()
     var step1 = ProfileCreate1ViewController()
     
     let userInfo = Bundle.main.loadNibNamed("ProfileInfo", owner: nil, options: nil)?.first as! ProfileInfo
@@ -92,17 +92,17 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         var about = String()
         
         let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Profile")
+        let request = NSFetchRequest<Profile>(entityName: "Profile")
         //request.predicate = NSPredicate(format: "age = %@", "12")
         request.returnsObjectsAsFaults = false
         
         do {
             
             let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
+            for data in result {
                 
-                name = data.value(forKey: "name") as! String
-                about = data.value(forKey: "about") as! String
+                name = data.name as String
+                about = data.about as String 
 
             }
             
@@ -232,7 +232,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         let y = viewContent.frame.size.height/1.9 + (viewContent.frame.size.height - viewContent.frame.size.height/1.9 - viewContent.frame.size.height/3)/2
         
         // profile keywords UIView
-        userKeywords = Bundle.main.loadNibNamed("ProfileKeywords", owner: nil, options: nil)?.first as! ProfileKeywords
+        userKeywords = Bundle.main.loadNibNamed("ProfileTopKeywords", owner: nil, options: nil)?.first as! ProfileTopKeywords
         userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: (viewContent.frame.size.height/3))
         userKeywords.backgroundColor = whiteColor
        
