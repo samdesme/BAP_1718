@@ -4,15 +4,16 @@
         <attribute name="addedByUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ranking" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="keywords" inverseEntity="Profile" syncable="YES"/>
     </entity>
     <entity name="Profile" representedClassName=".Profile" syncable="YES">
         <attribute name="about" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keywords" syncable="YES"/>
+        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keywords" inverseName="profile" inverseEntity="Keywords" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Keywords" positionX="-3602" positionY="-1314" width="128" height="88"/>
+        <element name="Keywords" positionX="-3602" positionY="-1314" width="128" height="103"/>
         <element name="Profile" positionX="-3861" positionY="-1296" width="126" height="103"/>
     </elements>
 </model>

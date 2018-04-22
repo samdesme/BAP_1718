@@ -42,6 +42,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     var strAboutPassed = ""
     
     //labels
+    let lblMain = UILabel()
     let lblSubHeader = UILabel()
     
     //gradient layers
@@ -220,49 +221,46 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
-        let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
+        let profile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
         
         let keywords : [Keywords] = dataHelper.getAll()
+        let profiles : [Profile] = dataHelper.getAllProfiles()
+        
+        let updateProfile = dataHelper.getProfileById(id: profiles[0].objectID)
+
 
         //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
         
-        newProfile.name = strNamePassed
-        newProfile.about = strAboutPassed
-        newProfile.id = 1
-        //newProfile.keywords = NSSet(array: arraySelection)
+        updateProfile?.name = strNamePassed
+        updateProfile?.about = strAboutPassed
+        updateProfile?.id = 1
+        
        
         print("\(String(describing: keywords))")
-        print("\(String(describing: newProfile))")
+        print("\(String(describing: updateProfile))")
+        
+        dataHelper.updateProfile(updatedProfile: updateProfile!)
 
         for (index, element ) in arraySelection.enumerated() {
             
             let i = keywords.index(where: { $0.title == element }) as! Int
             let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
             
-            //toBeUpdated?.profile = newProfile
-            toBeUpdated?.ranking = Int16(index)
-            newProfile.keywords = NSSet.init(array: arraySelection)
-            dataHelper.update(updatedKeyword: toBeUpdated!)
+            toBeUpdated?.ranking = Int16(index+1)
+            toBeUpdated?.profile = updateProfile!
             
-            /*
-            print(" --------------------------- ")
-             print("\(String(describing: i))")
-             print("\(String(describing: toBeUpdated?.title))")
-             print(" --------------------------- ")
-             print(" --------------------------- ")
-            print("\(String(describing: index))")
-            print("\(String(describing: element))")
-            print(" --------------------------- ")
-             */
+            dataHelper.update(updatedKeyword: toBeUpdated!)
             
         }
     
         
         do {
         
-            
+            printKeywords()
             try context.save()
             print("Saved successfully")
+            lblSubHeader.removeFromSuperview()
+            createHeaderMain()
             let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
             self.navigationController?.pushViewController(profilevc, animated: false)
             
@@ -274,6 +272,20 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+   
+    
+    func printKeywords() {
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let keywords : [Keywords] = dataHelper.getAll()
+        
+        
+        let i = keywords.index(where: { $0.ranking == 2}) as! Int
+        let showRelation = dataHelper.getById(id: keywords[i].objectID)
+        
+        print("\(String(describing: showRelation))")
+        
+    }
     
     // MARK: - Reordering
     
@@ -305,6 +317,17 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         //create3.btnFinish.addTarget(self,action:#selector(showAlertSelection),for:.touchUpInside)
     }
     
+    func createHeaderMain() {
+        
+        //variables
+        let navBar = navigationController?.navigationBar
+        
+        //Edit navigation bar back to main settings
+        navBar?.barStyle = .default
+        navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
+        navBar?.addSubview(lblMain)
+        
+    }
     
     func createHeaderSub() {
         

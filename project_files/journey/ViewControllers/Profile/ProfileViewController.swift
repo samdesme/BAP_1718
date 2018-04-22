@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         createProfileView()
         profileInfoView()
         profileKeywordView()
-        
+        //printKeywords()
     }
     
     func createHeaderMain() {
@@ -309,6 +309,18 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
     }
 
+    func printKeywords() {
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let keywords : [Keywords] = dataHelper.getAll()
+        
+        
+        let i = keywords.index(where: { $0.ranking == 1}) as! Int
+        let showRelation = dataHelper.getById(id: keywords[i].objectID)
+
+        print("\(String(describing: showRelation))")
+        
+    }
 
     // CREATE STEP 1
  

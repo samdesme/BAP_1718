@@ -14,6 +14,12 @@ extension Profile {
     @NSManaged var name: String
     @NSManaged var about: String
     @NSManaged var keywords: NSSet
+    
+    @objc(addKeywordsObject:)
+    @NSManaged public func addToKeywords(_ value: Keywords)
+    
+    @objc(addKeywords:)
+    @NSManaged public func addToKeywords(_ values: NSSet)
 }
 
 

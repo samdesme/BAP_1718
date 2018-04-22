@@ -62,8 +62,17 @@ public class DataHelper {
             //with model:
             
             let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: appDelegate.persistentContainer.viewContext) as! Keywords
+            let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: appDelegate.persistentContainer.viewContext) as! Profile
+
+            newProfile.name = ""
+            newProfile.about = ""
+            newProfile.id = 1 
+            
+            
             newKeyword.title = keyword.title
             newKeyword.addedByUser = keyword.addedByUser
+            newKeyword.profile = newProfile
+            newKeyword.ranking = 0
             
         }
         
@@ -96,7 +105,7 @@ public class DataHelper {
         return context.object(with: id) as? Keywords
     }
 
-    // Updates a person
+    // Updates a keyword
     func update(updatedKeyword: Keywords){
         if let keyword = getById(id: updatedKeyword.objectID){
             keyword.ranking = updatedKeyword.ranking
@@ -137,31 +146,23 @@ public class DataHelper {
     }
     
     
-    
-    
-    
-    
-    
-    // PROFILE
-    
-    func getAllProfileKeywords() -> [ProfileKeywords]{
-        return getProfileKeyword(withPredicate: NSPredicate(value:true))
+    // Updates a profile
+    func updateProfile(updatedProfile: Profile){
+        if let profile = getProfileById(id: updatedProfile.objectID){
+            profile.name = updatedProfile.name
+            profile.about = updatedProfile.about
+            profile.id = updatedProfile.id
+        }
     }
     
-    func getProfileKeyword(withPredicate queryPredicate: NSPredicate) -> [ProfileKeywords] {
-        let fetchRequest = NSFetchRequest<ProfileKeywords>(entityName: "ProfileKeywords")
-        fetchRequest.predicate = queryPredicate
-        
-        
-        let response = try! context.fetch(fetchRequest)
-        return response as [ProfileKeywords]
-        
-        
+    // Deletes a profile by id
+    func deleteProfile(id: NSManagedObjectID){
+        if let profileToDelete = getProfileById(id:id){
+            context.delete(profileToDelete)
+        }
     }
     
-    func getProfileKeywordsById(id: NSManagedObjectID) -> ProfileKeywords? {
-        return context.object(with: id) as? ProfileKeywords
-    }
+    
     
     
     // Saves all changes

@@ -37,6 +37,11 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
     
+    //passed data
+    var strNamePassed = ""
+    var strAboutPassed = ""
+    var arraySelection = [String]()
+    
     
     //Load view controller
     override func viewDidLoad() {
@@ -155,6 +160,9 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
             
             lblSubHeader.removeFromSuperview()
             let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
+            vc2.strNamePassed = strNamePassed
+            vc2.strAboutPassed = strAboutPassed
+            vc2.arraySelection = arraySelection
             self.navigationController?.pushViewController(vc2, animated: true)
             
         }

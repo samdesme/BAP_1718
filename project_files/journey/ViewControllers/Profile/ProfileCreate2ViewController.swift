@@ -40,6 +40,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     //view
     let create2 = Bundle.main.loadNibNamed("CreateStep2", owner: nil, options: nil)?.first as! CreateStep2
     
+    
     //labels
     let lblSubHeader = UILabel()
     
@@ -67,7 +68,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
                                                         attributes: keywordAttr)
         
         self.tabBarController?.tabBar.isHidden = true
-        create2.scrollView.isScrollEnabled = true
         
         //create form view
         create2.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
@@ -131,14 +131,9 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
 
     func setUpKeywords() {
         
-       
-        
      
-        //custom keywords
+        //get data from arrays
         getData()
-        
-        //standard keywords (seeded and declared in DataHelper)
-        //arrayKeywords = dataHelper.fetchStandardKeywordsToArray(inputArray: arrayKeywords)
         
         buttonX = 0
         buttonY = 10
@@ -146,6 +141,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         for keyword in arrayKeywords {
             let btnKeyword = UIButton()
             let ySpace: Int = 10
+            
+            if(!btnKeyword.isDescendant(of: create2.scrollView)) {
             
             let myString: String = "\(keyword)"
             let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
@@ -176,8 +173,21 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword.layer.borderWidth = 1.5
             btnKeyword.layer.borderColor = blackColor.cgColor
 
-            //add button to keyword view
-            create2.scrollView.addSubview(btnKeyword)
+            
+            if(arraySelection.contains("\(keyword)")){
+                btnKeyword.isSelected = true
+                
+                //styling when selected
+                btnKeyword.setTitleColor(whiteColor, for: .normal)
+                btnKeyword.titleLabel?.font = fontMainMedium
+                btnKeyword.backgroundColor = blueColor
+                btnKeyword.layer.borderWidth = 0
+
+             }
+                //add button to keyword view
+                create2.scrollView.addSubview(btnKeyword)
+            }
+            
             
         }
         
@@ -228,16 +238,27 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnKeyword2.layer.borderWidth = 1.5
             btnKeyword2.layer.borderColor = blackColor.cgColor
             
+            if(arraySelection.contains("\(custom)")){
+                btnKeyword2.isSelected = true
+                
+                //styling when selected
+                btnKeyword2.setTitleColor(whiteColor, for: .normal)
+                btnKeyword2.titleLabel?.font = fontMainMedium
+                btnKeyword2.backgroundColor = blueColor
+                btnKeyword2.layer.borderWidth = 0
+                
+            }
+            
             btnKeyword2.addSubview(btnRemove)
             
             //add button to keyword view
             create2.scrollView.addSubview(btnKeyword2)
             
         }
-        
-        create2.scrollView.contentSize = CGSize(width: create2.scrollView.frame.size.width , height: buttonY + create2.lblMain.frame.size.height + create2.lblSub.frame.size.height)
+        create2.scrollView.isScrollEnabled = true
+        create2.scrollView.contentSize = CGSize(width: create2.scrollView.frame.size.width , height: buttonY + 80)
         create2.scrollView.backgroundColor = UIColor.clear
-        create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*2)
+        create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*1.8)
         
         
     }
@@ -288,6 +309,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         }
     }
     
+    
     @objc func deleteData(sender: UIButton) {
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
@@ -296,6 +318,12 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         
         //get the superview of the clicked button via sender
         let btn = getCellForView(view: sender)
+        
+        
+        //remove label from array
+        if let indexValue = arraySelection.index(of: (btn?.titleLabel?.text)!) {
+            arraySelection.remove(at: indexValue)
+        }
         
         //if superview if UIButton, get the text of the titlelable of that button
         let title = btn?.titleLabel?.text as String!
@@ -518,8 +546,11 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     @objc func toNewKeyword() {
         
         lblSubHeader.removeFromSuperview()
-        let vc2 = storyboard?.instantiateViewController(withIdentifier: "newkeyword") as! ProfileAddKeywordViewController
-        self.navigationController?.pushViewController(vc2, animated: true)
+        let vcAdd = storyboard?.instantiateViewController(withIdentifier: "newkeyword") as! ProfileAddKeywordViewController
+        vcAdd.strNamePassed = strNamePassed
+        vcAdd.strAboutPassed = strAboutPassed
+        vcAdd.arraySelection = arraySelection
+        self.navigationController?.pushViewController(vcAdd, animated: true)
         
     }
     
