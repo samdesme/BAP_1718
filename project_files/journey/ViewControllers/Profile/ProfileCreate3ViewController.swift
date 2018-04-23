@@ -221,26 +221,34 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
-        let profile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
         
-        let keywords : [Keywords] = dataHelper.getAll()
+        /*let profile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
         let profiles : [Profile] = dataHelper.getAllProfiles()
-        
         let updateProfile = dataHelper.getProfileById(id: profiles[0].objectID)
-
-
-        //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
-        
         updateProfile?.name = strNamePassed
         updateProfile?.about = strAboutPassed
-        updateProfile?.id = 1
+        updateProfile?.id = 1*/
+        //let newProfile = dataHelper.createProfile(name: strNamePassed, about: strAboutPassed, id: 1)
+
+
+        let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: appDelegate.persistentContainer.viewContext) as! Profile
+        let keywords : [Keywords] = dataHelper.getAll()
         
-       
-        print("\(String(describing: keywords))")
+        newProfile.name = strNamePassed
+        newProfile.about = strAboutPassed
+        newProfile.id = 1
+        
+        dataHelper.saveChanges()
+        
+        print("NEW PROFILE: ")
+        print("\(String(describing: newProfile))")
+        
+        let profiles : [Profile] = dataHelper.getAllProfiles()
+        let updateProfile = dataHelper.getProfileById(id: profiles[0].objectID)
+        
+        print("TO UPDATE PROFILE: ")
         print("\(String(describing: updateProfile))")
         
-        dataHelper.updateProfile(updatedProfile: updateProfile!)
-
         for (index, element ) in arraySelection.enumerated() {
             
             let i = keywords.index(where: { $0.title == element }) as! Int
@@ -262,7 +270,8 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
             lblSubHeader.removeFromSuperview()
             createHeaderMain()
             let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
-            self.navigationController?.pushViewController(profilevc, animated: false)
+            self.navigationController?.pushViewController(profilevc, animated: true)
+            
             
             
         } catch {

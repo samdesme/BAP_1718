@@ -62,16 +62,9 @@ public class DataHelper {
             //with model:
             
             let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: appDelegate.persistentContainer.viewContext) as! Keywords
-            let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: appDelegate.persistentContainer.viewContext) as! Profile
-
-            newProfile.name = ""
-            newProfile.about = ""
-            newProfile.id = 1 
-            
             
             newKeyword.title = keyword.title
             newKeyword.addedByUser = keyword.addedByUser
-            newKeyword.profile = newProfile
             newKeyword.ranking = 0
             
         }
@@ -125,6 +118,17 @@ public class DataHelper {
     
     
     // PROFILE
+    
+    func createProfile(name: String, about: String, id: Int16) -> Profile {
+        
+        let newProfile = NSEntityDescription.insertNewObject(forEntityName: Profile.entityName, into: context) as! Profile
+        
+        newProfile.name = name
+        newProfile.about = about
+        newProfile.id = id
+        
+        return newProfile
+    }
     
     func getAllProfiles() -> [Profile]{
         return getProfile(withPredicate: NSPredicate(value:true))

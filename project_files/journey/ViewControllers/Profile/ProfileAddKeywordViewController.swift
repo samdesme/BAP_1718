@@ -163,7 +163,7 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
             vc2.strNamePassed = strNamePassed
             vc2.strAboutPassed = strAboutPassed
             vc2.arraySelection = arraySelection
-            self.navigationController?.pushViewController(vc2, animated: true)
+            self.navigationController?.pushViewController(vc2, animated: false)
             
         }
     }

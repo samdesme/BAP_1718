@@ -30,6 +30,9 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     
     //labels
     let lbl = UILabel()
+    
+    //arrays
+     var arrayTop3 = [String]()
  
     //strings
     let strHeader = "profile"
@@ -55,7 +58,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         createProfileView()
         profileInfoView()
         profileKeywordView()
-        //printKeywords()
+        
     }
     
     func createHeaderMain() {
@@ -92,65 +95,86 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         var about = String()
         
         let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<Profile>(entityName: "Profile")
+        //let request = NSFetchRequest<Profile>(entityName: "Profile")
         //request.predicate = NSPredicate(format: "age = %@", "12")
-        request.returnsObjectsAsFaults = false
+        //request.returnsObjectsAsFaults = false
+        //let profile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
         
-        do {
+        let dataHelper = DataHelper(context: context)
+        let profiles : [Profile] = dataHelper.getAllProfiles()
+        
+       
+        if (profiles.count != 0){
             
-            let result = try context.fetch(request)
-            for data in result {
-                
-                name = data.name as String
-                about = data.about as String 
-
-            }
+            let firstProfile = dataHelper.getProfileById(id: profiles[0].objectID)!
             
-        } catch {
+            print("\(String(describing: firstProfile))")
             
-            print("error")
+            name = firstProfile.name
+            about = firstProfile.about
+            
+        }
+        else {
+            
+            name = ""
+            about = ""
             
         }
         
         return (name, about)
     }
     
+   
+    
+    
+    func checkProfileExists() -> Bool {
+        if (getData().name == "" && getData().name == "") {
+            return false
+        } else {
+            return true
+        }
+    }
     
     func profileInfo() {
-        
-         //let info = getData()
-        var name = String()
-        var about = String()
-        
-     
-        if(getData().name.isEmpty && getData().about.isEmpty){
-            name = "No name"
-            about = "No about yet..."
-        }
-            
-        else {
-            
-            name = getData().name
-            about = getData().about
-            
-        }
-        
         
         let attrTextView = [NSAttributedStringKey.paragraphStyle : styleTextViewAbout,
                             NSAttributedStringKey.foregroundColor : whiteColor,
                             NSAttributedStringKey.font : fontMainRegular! ]
         
-
+        var name = String()
+        var about = String()
+        var btnTitle = String()
+        
+        
         // SET UP VIEW
         // profile info UIView
         userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (viewContent.frame.size.height/1.9))
+        
+        if checkProfileExists() {
+            name = getData().name
+            about = getData().about
+            btnTitle = "Edit"
+            userInfo.lblName.frame = CGRect(x: 15, y: userInfo.frame.size.height/3.9, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
+            userInfo.txtAbout.frame = CGRect(x: 15, y: (userInfo.frame.size.height - (userInfo.frame.size.height/3)/2)/2, width: userInfo.frame.size.width - 30, height: userInfo.frame.size.height/3)
+
+
+            
+        } else {
+            name = "Welcome."
+            about = "Create your profile to begin"
+            btnTitle = "Create"
+            userInfo.lblName.frame = CGRect(x: 15, y: userInfo.frame.size.height/3, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
+            userInfo.txtAbout.frame = CGRect(x: 15, y: userInfo.frame.size.height/2, width: userInfo.frame.size.width - 30, height: userInfo.frame.size.height/2.8)
+
+
+        }
+        
         
         // UILabel
         userInfo.lblName.text = name
         userInfo.lblName.font = fontLblFirstName
         userInfo.lblName.textAlignment = .center
         userInfo.lblName.textColor = whiteColor
-        userInfo.lblName.frame = CGRect(x: 15, y: (userInfo.frame.size.height/3)/3, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
         
         
         // UITextView
@@ -158,10 +182,9 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         userInfo.txtAbout.backgroundColor = UIColor.clear
         userInfo.txtAbout.textAlignment = .center
         userInfo.txtAbout.isEditable = false
-        userInfo.txtAbout.frame = CGRect(x: 15, y: userInfo.frame.size.height/3.2, width: userInfo.frame.size.width - 30, height: userInfo.frame.size.height/2.8)
         
         // UIButton
-        userInfo.btnEditInfo.setTitle("Edit",for: .normal)
+        userInfo.btnEditInfo.setTitle(btnTitle,for: .normal)
         userInfo.btnEditInfo.tintColor = whiteColor
         userInfo.btnEditInfo.backgroundColor = .clear
         userInfo.btnEditInfo.layer.cornerRadius = 22.5
@@ -245,36 +268,24 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         userKeywords.layer.shadowOpacity = 0.05
         userKeywords.layer.shadowRadius = 5.0
         
-        
         // UILabels
-        userKeywords.keyword1.textAlignment = .center
-        userKeywords.keyword1.font = fontMainRegular19
-        userKeywords.keyword1.textColor = blackColor
-        userKeywords.keyword1.text = "General Anxiety"
-        userKeywords.keyword1.layer.opacity = 1
-        //userKeywords.keyword1.backgroundColor = lightBlueColor
-        //userKeywords.keyword1.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
-        
-        userKeywords.keyword2.textAlignment = .center
-        userKeywords.keyword2.font = fontMainRegular19
-        userKeywords.keyword2.textColor = blackColor
-        userKeywords.keyword2.text = "Anger Mangagement"
-        userKeywords.keyword2.layer.opacity = 0.5
-        //userKeywords.keyword2.frame = CGRect(x: 0, y: 30, width: 200, height: 30)
-        
-        userKeywords.keyword3.textAlignment = .center
-        userKeywords.keyword3.font = fontMainRegular19
-        userKeywords.keyword3.textColor = blackColor
-        userKeywords.keyword3.text = "Depression"
-        userKeywords.keyword3.layer.opacity = 0.25
-        //userKeywords.keyword3.frame = CGRect(x: 0, y: 60, width: 200, height: 30)
-        
         userKeywords.lblTitle.textAlignment = .center
         userKeywords.lblTitle.font = fontMainLight19
         userKeywords.lblTitle.textColor = blackColor
         userKeywords.lblTitle.text = "Your top 3 biggest mental health struggles"
         userKeywords.lblTitle.layer.opacity = 0.6
         
+        displayUserKeywords()
+
+        if checkProfileExists() {
+            
+            userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: viewContent.frame.size.height/3)
+            userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
+        } else {
+            
+            userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: (viewContent.frame.size.height/3) + 22.5)
+            userKeywords.btnEditKeywords.isHidden = true
+        }
         
         // UIButton
         userKeywords.viewBtnSadow.clipsToBounds = false
@@ -283,7 +294,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         // add view to content
         viewContent.addSubview(userKeywords)
-        
         
         // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
@@ -304,8 +314,9 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         //corner radius
         btnGradientLayer.cornerRadius = 22.5
         
-        //add layer with gradient & drop shadow to button
-        userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
+        
+        
+        
         
     }
 
@@ -321,9 +332,73 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         print("\(String(describing: showRelation))")
         
     }
+    
+    //display top 3 biggest struggles after profile setup
+    func displayUserKeywords() {
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let keywords : [Keywords] = dataHelper.getAll()
+        
+        let rank1 =  userKeywords.keyword1
+        let rank2 =  userKeywords.keyword2
+        let rank3 =  userKeywords.keyword3
+        
+        /*let i1 = keywords.index(where: { $0.ranking == 1}) as! Int
+        let i2 = keywords.index(where: { $0.ranking == 2}) as! Int
+        let i3 = keywords.index(where: { $0.ranking == 3}) as! Int*/
+
+        
+       
+       if( keywords.index(where: { $0.ranking == 1}) != nil){
+                
+          for i in 1..<4 {
+                    
+            let place = keywords.index(where: { $0.ranking == i}) as! Int
+            let item = dataHelper.getById(id: keywords[place].objectID)
+            arrayTop3.append(item?.title as! String)
+                
+            }
+        
+        rank1?.text = arrayTop3[0]
+        rank2?.text = arrayTop3[1]
+        rank3?.text = arrayTop3[2]
+        
+        rank1?.textColor = blackColor
+        rank2?.textColor = blackColor
+        rank3?.textColor = blackColor
+        
+        }
+        
+       else {
+        
+        rank1?.text = ""
+        rank2?.text = "No data yet ..."
+        rank3?.text = ""
+        
+        rank1?.textColor = blackColor.withAlphaComponent(0.5)
+        rank2?.textColor = blackColor.withAlphaComponent(0.5)
+        rank3?.textColor = blackColor.withAlphaComponent(0.5)
+        
+        }
+        
+       
+        
+        
+        rank1?.textAlignment = .center
+        rank1?.font = fontMainRegular20
+        rank1?.layer.opacity = 1
+        
+        rank2?.textAlignment = .center
+        rank2?.font = fontMainRegular20
+        rank2?.layer.opacity = 0.5
+        
+        rank3?.textAlignment = .center
+        rank3?.font = fontMainRegular20
+        rank3?.layer.opacity = 0.25
+        
+    }
 
     // CREATE STEP 1
- 
     @objc func create1() {
         let vc1 = storyboard?.instantiateViewController(withIdentifier: "step1") as! ProfileCreate1ViewController
         self.navigationController?.pushViewController(vc1, animated: true)
@@ -339,7 +414,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         super.viewWillAppear(animated)
         createHeaderMain()
         profileInfo()
-        
+        self.navigationItem.setHidesBackButton(true, animated: false)
         
     }
 

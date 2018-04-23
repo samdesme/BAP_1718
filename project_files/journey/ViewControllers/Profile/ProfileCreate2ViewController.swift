@@ -291,6 +291,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         //keywordFetchRequest.returnsObjectsAsFaults = false
         
         
+        
         for key in allKeywords {
             //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
             let bool = key.addedByUser as Bool
