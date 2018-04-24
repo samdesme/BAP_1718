@@ -154,6 +154,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
             name = getData().name
             about = getData().about
             btnTitle = "Edit"
+            userInfo.btnEditInfo.addTarget(self,action:#selector(editInfo), for:.touchUpInside)
             userInfo.lblName.frame = CGRect(x: 15, y: userInfo.frame.size.height/3.9, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
             userInfo.txtAbout.frame = CGRect(x: 15, y: (userInfo.frame.size.height - (userInfo.frame.size.height/3)/2)/2, width: userInfo.frame.size.width - 30, height: userInfo.frame.size.height/3)
 
@@ -163,10 +164,11 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
             name = "Welcome."
             about = "Create your profile to begin"
             btnTitle = "Create"
+            
+            //add btn attributes
+            userInfo.btnEditInfo.addTarget(self,action:#selector(create1), for:.touchUpInside)
             userInfo.lblName.frame = CGRect(x: 15, y: userInfo.frame.size.height/3, width: userInfo.frame.size.width - 30, height: (userInfo.frame.size.height/3)/2)
             userInfo.txtAbout.frame = CGRect(x: 15, y: userInfo.frame.size.height/2, width: userInfo.frame.size.width - 30, height: userInfo.frame.size.height/2.8)
-
-
         }
         
         
@@ -242,9 +244,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         //add layer to view
         userInfo.viewTopGradient.layer.addSublayer(topGradientLayer)
         
-        //add btn attributes
-        userInfo.btnEditInfo.addTarget(self,action:#selector(create1),
-                                       for:.touchUpInside)
+
         
         
     }
@@ -278,11 +278,10 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         displayUserKeywords()
 
         if checkProfileExists() {
-            
+            userKeywords.btnEditKeywords.addTarget(self,action:#selector(editKeywords), for:.touchUpInside)
             userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: viewContent.frame.size.height/3)
             userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
         } else {
-            
             userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: (viewContent.frame.size.height/3) + 22.5)
             userKeywords.btnEditKeywords.isHidden = true
         }
@@ -313,10 +312,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         //corner radius
         btnGradientLayer.cornerRadius = 22.5
-        
-        
-        
-        
         
     }
 
@@ -381,9 +376,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         }
         
-       
-        
-        
         rank1?.textAlignment = .center
         rank1?.font = fontMainRegular20
         rank1?.layer.opacity = 1
@@ -397,25 +389,35 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         rank3?.layer.opacity = 0.25
         
     }
+    
 
     // CREATE STEP 1
     @objc func create1() {
         let vc1 = storyboard?.instantiateViewController(withIdentifier: "step1") as! ProfileCreate1ViewController
         self.navigationController?.pushViewController(vc1, animated: true)
         lbl.alpha = 0
-
     }
     
+    // CREATE EDIT INFO
+    @objc func editInfo() {
+        let vcInfo = storyboard?.instantiateViewController(withIdentifier: "editInfo") as! ProfileEditInfoViewController
+        self.navigationController?.pushViewController(vcInfo, animated: true)
+        lbl.alpha = 0
+    }
     
-    
+    // CREATE EDIT KEYWORDS
+    @objc func editKeywords() {
+        let vcKeywords = storyboard?.instantiateViewController(withIdentifier: "editKeywordRange") as! ProfileEditKeywords1ViewController
+        self.navigationController?.pushViewController(vcKeywords, animated: true)
+        lbl.alpha = 0
+    }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
         createHeaderMain()
         profileInfo()
+        self.tabBarController?.tabBar.isHidden = false
         self.navigationItem.setHidesBackButton(true, animated: false)
-        
     }
 
     override func didReceiveMemoryWarning() {

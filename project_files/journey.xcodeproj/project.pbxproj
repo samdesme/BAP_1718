@@ -12,6 +12,9 @@
 		85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */; };
 		85265D66207E9E6E001B0B32 /* CreateStep2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85265D65207E9E6E001B0B32 /* CreateStep2.xib */; };
 		85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D67207E9E88001B0B32 /* CreateStep2.swift */; };
+		852D862D208FAB25001E60CF /* ProfileEditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D862C208FAB25001E60CF /* ProfileEditInfoViewController.swift */; };
+		852D862F208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D862E208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift */; };
+		852D8631208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D8630208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift */; };
 		852F1FD7206940F400BBF740 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD2206940F400BBF740 /* Brandon_med.otf */; };
 		852F1FD8206940F400BBF740 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD3206940F400BBF740 /* Brandon_bld.otf */; };
 		852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD4206940F400BBF740 /* Brandon_light.otf */; };
@@ -67,6 +70,9 @@
 		85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate2ViewController.swift; sourceTree = "<group>"; };
 		85265D65207E9E6E001B0B32 /* CreateStep2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep2.xib; sourceTree = "<group>"; };
 		85265D67207E9E88001B0B32 /* CreateStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep2.swift; sourceTree = "<group>"; };
+		852D862C208FAB25001E60CF /* ProfileEditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditInfoViewController.swift; sourceTree = "<group>"; };
+		852D862E208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditKeywords1ViewController.swift; sourceTree = "<group>"; };
+		852D8630208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditKeywords2ViewController.swift; sourceTree = "<group>"; };
 		852F1FD2206940F400BBF740 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_med.otf; sourceTree = "<group>"; };
 		852F1FD3206940F400BBF740 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_bld.otf; sourceTree = "<group>"; };
 		852F1FD4206940F400BBF740 /* Brandon_light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_light.otf; sourceTree = "<group>"; };
@@ -261,6 +267,9 @@
 				85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */,
 				856B58CC20813F7800509EA8 /* ProfileCreate3ViewController.swift */,
 				859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */,
+				852D862C208FAB25001E60CF /* ProfileEditInfoViewController.swift */,
+				852D862E208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift */,
+				852D8630208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -433,14 +442,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				852D8631208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift in Sources */,
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
 				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
+				852D862F208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift in Sources */,
 				851606A1207147D1009ACC9C /* ProfileTopKeywords.swift in Sources */,
 				853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */,
 				859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */,
 				8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */,
 				85452B8120828EC90027A594 /* DataHelper.swift in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
+				852D862D208FAB25001E60CF /* ProfileEditInfoViewController.swift in Sources */,
 				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
 				85E43933208A822700E139FA /* ProfileKeywords.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,

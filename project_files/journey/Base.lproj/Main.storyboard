@@ -53,11 +53,13 @@
                         <outlet property="viewHeader" destination="Eg2-6X-1Lu" id="LN2-ok-8C5"/>
                         <outlet property="viewMain" destination="EGs-Pj-F6F" id="6vT-LQ-AHm"/>
                         <segue destination="TxA-TG-5Xy" kind="push" identifier="toStep1" id="D6K-aF-4de"/>
+                        <segue destination="4ai-2E-4kX" kind="push" id="X5u-oY-RKJ"/>
+                        <segue destination="8l5-79-q1x" kind="push" id="ZLL-Ba-Pwv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="749" y="-322"/>
+            <point key="canvasLocation" x="749" y="-705"/>
         </scene>
         <!--step1-->
         <scene sceneID="M0m-Zj-66R">
@@ -384,6 +386,127 @@
                 </label>
             </objects>
             <point key="canvasLocation" x="-226" y="-322"/>
+        </scene>
+        <!--EDIT info-->
+        <scene sceneID="TZg-xI-oEl">
+            <objects>
+                <viewController restorationIdentifier="editInfo" storyboardIdentifier="editInfo" id="4ai-2E-4kX" userLabel="EDIT info" customClass="ProfileEditInfoViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qm7-FM-Crm" userLabel="Profile Edit Info">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JzW-Ms-CBr" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfo-2k-Xc4" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JzW-Ms-CBr" firstAttribute="bottom" secondItem="Atj-hN-qE6" secondAttribute="top" id="14R-gI-ILU"/>
+                            <constraint firstItem="Tfo-2k-Xc4" firstAttribute="bottom" secondItem="Atj-hN-qE6" secondAttribute="bottom" id="9rq-mo-hbq"/>
+                            <constraint firstItem="JzW-Ms-CBr" firstAttribute="top" secondItem="Qm7-FM-Crm" secondAttribute="top" id="AV2-A2-VU4"/>
+                            <constraint firstItem="JzW-Ms-CBr" firstAttribute="leading" secondItem="Atj-hN-qE6" secondAttribute="leading" id="Cad-ac-wIl"/>
+                            <constraint firstItem="Tfo-2k-Xc4" firstAttribute="trailing" secondItem="Atj-hN-qE6" secondAttribute="trailing" id="K3N-E9-4EC"/>
+                            <constraint firstItem="JzW-Ms-CBr" firstAttribute="trailing" secondItem="Atj-hN-qE6" secondAttribute="trailing" id="VVN-Si-UT8"/>
+                            <constraint firstItem="Tfo-2k-Xc4" firstAttribute="leading" secondItem="Atj-hN-qE6" secondAttribute="leading" id="X0O-QX-M2i"/>
+                            <constraint firstItem="Tfo-2k-Xc4" firstAttribute="top" secondItem="JzW-Ms-CBr" secondAttribute="bottom" id="rYj-dL-hDN"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Atj-hN-qE6"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="tmw-fM-87j"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="tmw-fM-87j" id="wYy-fD-EWB"/>
+                        <outlet property="viewContent" destination="Tfo-2k-Xc4" id="xcu-tv-5Tt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5au-UM-PDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1583" y="-1059"/>
+        </scene>
+        <!--EDIT keyword range-->
+        <scene sceneID="gQU-Mb-dnW">
+            <objects>
+                <viewController restorationIdentifier="editKeywordRange" storyboardIdentifier="editKeywordRange" id="8l5-79-q1x" userLabel="EDIT keyword range" customClass="ProfileEditKeywords1ViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K4Q-He-AL4" userLabel="Profile Edit Keywords 1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VTk-vO-Hyc" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SCY-7W-Eyw" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SCY-7W-Eyw" firstAttribute="top" secondItem="VTk-vO-Hyc" secondAttribute="bottom" id="3rh-tM-VIT"/>
+                            <constraint firstItem="SCY-7W-Eyw" firstAttribute="bottom" secondItem="l7w-ha-q9g" secondAttribute="bottom" id="7QS-G6-OjW"/>
+                            <constraint firstItem="SCY-7W-Eyw" firstAttribute="leading" secondItem="l7w-ha-q9g" secondAttribute="leading" id="Xi4-cN-baC"/>
+                            <constraint firstItem="VTk-vO-Hyc" firstAttribute="bottom" secondItem="l7w-ha-q9g" secondAttribute="top" id="Yxx-Ld-cyN"/>
+                            <constraint firstItem="VTk-vO-Hyc" firstAttribute="leading" secondItem="l7w-ha-q9g" secondAttribute="leading" id="d04-C9-RHO"/>
+                            <constraint firstItem="VTk-vO-Hyc" firstAttribute="trailing" secondItem="l7w-ha-q9g" secondAttribute="trailing" id="gLD-7i-sL2"/>
+                            <constraint firstItem="SCY-7W-Eyw" firstAttribute="trailing" secondItem="l7w-ha-q9g" secondAttribute="trailing" id="xzE-Mw-uu2"/>
+                            <constraint firstItem="VTk-vO-Hyc" firstAttribute="top" secondItem="K4Q-He-AL4" secondAttribute="top" id="yXT-uz-ENH"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="l7w-ha-q9g"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uh4-gw-LtT"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="uh4-gw-LtT" id="fNs-SQ-hqf"/>
+                        <outlet property="viewContent" destination="SCY-7W-Eyw" id="VpF-Bz-eW2"/>
+                        <segue destination="igb-iC-n6A" kind="push" id="0O6-IU-xgt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3ok-pF-QeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1583" y="-1793"/>
+        </scene>
+        <!--EDIT keyword selection-->
+        <scene sceneID="Ujn-G3-s5J">
+            <objects>
+                <viewController restorationIdentifier="editKeywordSelection" storyboardIdentifier="editKeywordSelection" id="igb-iC-n6A" userLabel="EDIT keyword selection" customClass="ProfileEditKeywords2ViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fcu-wb-qhS" userLabel="Profile Edit Keywords 2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZX-sx-b6U" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqa-bM-VUG" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cZX-sx-b6U" firstAttribute="leading" secondItem="4t0-My-zqe" secondAttribute="leading" id="0Yg-Jj-tdP"/>
+                            <constraint firstItem="cZX-sx-b6U" firstAttribute="trailing" secondItem="4t0-My-zqe" secondAttribute="trailing" id="G8J-6W-beh"/>
+                            <constraint firstItem="cZX-sx-b6U" firstAttribute="bottom" secondItem="4t0-My-zqe" secondAttribute="top" id="HFP-Gn-W7o"/>
+                            <constraint firstItem="eqa-bM-VUG" firstAttribute="trailing" secondItem="4t0-My-zqe" secondAttribute="trailing" id="Qd1-vp-RpP"/>
+                            <constraint firstItem="eqa-bM-VUG" firstAttribute="bottom" secondItem="4t0-My-zqe" secondAttribute="bottom" id="fm0-bs-LDy"/>
+                            <constraint firstItem="cZX-sx-b6U" firstAttribute="top" secondItem="fcu-wb-qhS" secondAttribute="top" id="kxf-ne-x5b"/>
+                            <constraint firstItem="eqa-bM-VUG" firstAttribute="top" secondItem="cZX-sx-b6U" secondAttribute="bottom" id="s4G-JE-84Z"/>
+                            <constraint firstItem="eqa-bM-VUG" firstAttribute="leading" secondItem="4t0-My-zqe" secondAttribute="leading" id="seU-ql-oet"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4t0-My-zqe"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="loa-d5-Jwu"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="loa-d5-Jwu" id="KPK-WR-NXq"/>
+                        <outlet property="viewContent" destination="eqa-bM-VUG" id="qNy-bo-QyY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U3v-CM-ngJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2425" y="-1793"/>
         </scene>
     </scenes>
     <resources>
