@@ -33,7 +33,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
     let strHeaderCreate3 = "rank your selection"
     let strLblMain = "Rank your selection from most to less severe"
     let strLblSub = "Drag and drop to rank the keywords"
-    let strNewKeyword = "Edit your selection"
+    let strKeyword2 = "Edit your selection"
     
     //arrays
     var arraySelection = [String]()
@@ -56,9 +56,10 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
     //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewCreate3()
-      
         
+        getData()
+      viewCreate3()
+      
         
     }
     
@@ -89,8 +90,8 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         //add view to content view
         viewContent.addSubview(editKeyword1)
         
-        //set up selected keywords
         setUpTableView()
+        
     }
     
 
@@ -101,7 +102,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             NSAttributedStringKey.font : fontLabel!,
             NSAttributedStringKey.foregroundColor : blackColor,
             NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
-        let attributeString = NSMutableAttributedString(string: strNewKeyword,
+        let attributeString = NSMutableAttributedString(string: strKeyword2,
                                                         attributes: keywordAttr)
         let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: viewContent.frame.width - 30, height: viewContent.frame.height/2))
         
@@ -124,7 +125,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             y = 5
         }
         
-        let bottomTableView = 100  + 65*y
+        let bottomTableView = 150  + 65*y
         
 
         btnSelection.frame = CGRect(x: Int((self.view.frame.size.width - 240)/2), y: Int(bottomTableView) + 50, width: 240, height: 50)
@@ -133,7 +134,37 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             btnSelection.setAttributedTitle(attributeString, for: .normal)
         btnSelection.titleLabel?.textColor = blackColor
         btnSelection.frame = CGRect(x: Int((self.view.frame.size.width - 240)/2), y: bottomTableView, width: 240, height: 20)
+        
+        
+        btnSelection.addTarget(self,action:#selector(toSelection),
+                               for:.touchUpInside)
+        
         editKeyword1.addSubview(btnSelection)
+    }
+    
+    func getData() {
+        //arraySelection.removeAll()
+        if(arraySelection.count == 0){
+            //fetch the user's selected keywords and return them as an array
+            let context = appDelegate.persistentContainer.viewContext
+            let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+            let primarySortDescriptor = NSSortDescriptor(key: "ranking", ascending: true)
+            
+            keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+            
+            let allKeywords = try! context.fetch(keywordFetchRequest)
+            
+            for key in allKeywords {
+                let ranking = key.ranking
+                
+                //append only if the keyword is linked to the profile (all keywords that have a ranking value)
+                if(ranking != 0){
+                    arraySelection.append(key.title as String)
+                }
+            }
+        }
+       
+        
     }
     
     
@@ -161,23 +192,16 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         let myString: String = (cell.textLabel?.text)!
         let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
         let titleWidth = CGFloat(size.width)
-        //let ySize = (cell.frame.size.height - size.height)/2
         
         let btn = CALayer()
         btn.backgroundColor = blueColor.cgColor
         btn.frame = CGRect(x: (viewContent.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
-        //btn.setTitle(arraySelection[indexPath.row], for: .normal)
-        //btn.titleLabel?.font = fontBtnKeyword
-        //btn.titleLabel?.textColor = whiteColor
         btn.cornerRadius = 20
-        //btn.addTarget(self,action:#selector(buttonPressed), for:.touchUpInside)
-        //btn.tag = indexPath.row
         cell.backgroundView = UIView()
         cell.backgroundView?.layer.insertSublayer(btn, at: 0)
         
         let rank = UILabel()
         rank.frame = CGRect(x: 0, y: 12, width: 40, height: 40)
-        //rank.backgroundColor = blueColor
         rank.text = "\(indexPath.row + 1)"
         rank.textColor = purpleColor
         rank.font = fontBtnKeyword
@@ -272,7 +296,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         //btnCreate.setTitleColor(whiteColor, for: .normal)
         //btnCreate.titleLabel?.font = fontBtnNavLink
         btnCreate.setAttributedTitle(attributeString, for: .normal)
-        btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
+        btnCreate.addTarget(self, action: #selector(buttonFinish), for: .touchUpInside)
         //add btn
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
     }
@@ -282,31 +306,15 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
     @objc func buttonFinish(sender:UIButton!)
     {
         //showAlertRanking()
-        saveData()
+        updateData()
     }
     
-    func saveData() {
+    func updateData() {
         
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
-        
-        let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: appDelegate.persistentContainer.viewContext) as! Profile
         let keywords : [Keywords] = dataHelper.getAll()
-        
-        newProfile.name = strNamePassed
-        newProfile.about = strAboutPassed
-        newProfile.id = 1
-        
-        dataHelper.saveChanges()
-        
-        print("NEW PROFILE: ")
-        print("\(String(describing: newProfile))")
-        
-        let profiles : [Profile] = dataHelper.getAllProfiles()
-        let updateProfile = dataHelper.getProfileById(id: profiles[0].objectID)
-        
-        print("TO UPDATE PROFILE: ")
-        print("\(String(describing: updateProfile))")
+ 
         
         for (index, element ) in arraySelection.enumerated() {
             
@@ -314,7 +322,6 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
             
             toBeUpdated?.ranking = Int16(index+1)
-            toBeUpdated?.profile = updateProfile!
             
             dataHelper.update(updatedKeyword: toBeUpdated!)
             
@@ -325,10 +332,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             
             try context.save()
             print("Saved successfully")
-            lblSubHeader.removeFromSuperview()
-            createHeaderMain()
-            let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
-            self.navigationController?.pushViewController(profilevc, animated: true)
+            toMainPage()
             
             
             
@@ -345,16 +349,21 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         let _ = self.navigationController?.popViewController(animated: true)
     }
     
-    
-    // TRIGGERED ACTIONS
-    
-    @objc func toMainPage() {
+    func toMainPage() {
         lblSubHeader.removeFromSuperview()
         createHeaderMain()
         let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
-        self.navigationController?.pushViewController(profilevc, animated: true)
+        self.navigationController?.pushViewController(profilevc, animated: false)
     }
     
+    // TRIGGERED ACTIONS
+    
+    @objc func toSelection() {
+        lblSubHeader.removeFromSuperview()
+        let selectionvc = storyboard?.instantiateViewController(withIdentifier: "editKeywordSelection") as! ProfileEditKeywords2ViewController
+        selectionvc.arraySelection = arraySelection
+        self.navigationController?.pushViewController(selectionvc, animated: true)
+    }
     
     // CANCEL EDIT
     @IBAction func backAction(_ sender: UIButton) {
@@ -385,7 +394,6 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createHeaderSub()
-        //addTarget()
         
         
     }

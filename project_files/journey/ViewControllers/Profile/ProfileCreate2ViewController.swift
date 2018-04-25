@@ -284,13 +284,12 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         if(results?.count == 0){
             dataHelper.seedDataStore()
         }
-        
-        let allKeywords = try! context.fetch(keywordFetchRequest)
 
         keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
         //keywordFetchRequest.returnsObjectsAsFaults = false
         
-        
+        let allKeywords = try! context.fetch(keywordFetchRequest)
+
         
         for key in allKeywords {
             //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")

@@ -96,34 +96,8 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         editKeyword2.btnAddKeyword.titleLabel?.textColor = blackColor
         editKeyword2.btnAddKeyword.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView, width: 240, height: 20)
         
-        editKeyword2.btnNextShadow.clipsToBounds = false
-        editKeyword2.btnToStep3.clipsToBounds = false
-        editKeyword2.btnNextShadow.backgroundColor = nil
-        editKeyword2.btnNextShadow.frame = editKeyword2.btnToStep3.bounds
-        editKeyword2.btnToStep3.frame = CGRect(x: (self.view.frame.size.width - 240)/2, y: bottomScrollView + 30 + 10, width: 240, height: 50)
-        
-        // add gradient to button
-        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 50)
-        btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
-        btnGradientLayer.locations = [ 0.0, 1.0]
-        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        
-        
-        editKeyword2.btnToStep3.setTitle("NEXT",for: .normal)
-        editKeyword2.btnToStep3.tintColor = whiteColor
-        editKeyword2.btnToStep3.titleLabel?.font = fontBtnBig
-        
-        //drop shadow
-        btnGradientLayer.shadowOpacity = 0.10
-        btnGradientLayer.shadowRadius = 7.0
-        btnGradientLayer.shadowOffset = CGSize(width: 0.0, height: 7.0)
-        
-        //corner radius
-        btnGradientLayer.cornerRadius = 25
-        
-        //add layer with gradient & drop shadow to button
-        editKeyword2.btnToStep3.layer.insertSublayer(btnGradientLayer, at: 0)
+        editKeyword2.btnNextShadow.isHidden = true
+        editKeyword2.btnToStep3.isHidden = true
         
         //add view to content view
         viewContent.addSubview(editKeyword2)
@@ -133,12 +107,27 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         
     }
     
+    func addSaveButton() {
+        let NavLinkAttr : [NSAttributedStringKey: Any] = [
+            NSAttributedStringKey.font : fontBtnNavLink!,
+            NSAttributedStringKey.foregroundColor : whiteColor,
+            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+        let attributeString = NSMutableAttributedString(string: "Save",
+                                                        attributes: NavLinkAttr)
+        
+        let btnCreate = UIButton(type: .custom)
+        btnCreate.setAttributedTitle(attributeString, for: .normal)
+        btnCreate.addTarget(self, action: #selector(toRanking), for: .touchUpInside)
+        //add btn
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
+    }
     
     func setUpKeywords() {
         
         
         //get data from arrays
         getData()
+        //getSelection()
         
         buttonX = 0
         buttonY = 10
@@ -315,6 +304,35 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         }
     }
     
+    func getSelection() {
+        arraySelection.removeAll()
+        //fetch the user's selected keywords and return them as an array
+        let context = appDelegate.persistentContainer.viewContext
+        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+        let primarySortDescriptor = NSSortDescriptor(key: "ranking", ascending: true)
+        
+        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+        
+        let allKeywords = try! context.fetch(keywordFetchRequest)
+        
+        for key in allKeywords {
+            let ranking = key.ranking
+            
+            //append only if the keyword is linked to the profile (all keywords that have a ranking value)
+            if(ranking != 0){
+                arraySelection.append(key.title as String)
+            }
+        }
+        
+    }
+    
+    @objc func toRanking() {
+        lblSubHeader.removeFromSuperview()
+        let rankingvc = storyboard?.instantiateViewController(withIdentifier: "editKeywordRange") as! ProfileEditKeywords1ViewController
+        print(arraySelection)
+        rankingvc.arraySelection = arraySelection
+        self.navigationController?.pushViewController(rankingvc, animated: false)
+    }
     
     @objc func deleteData(sender: UIButton) {
         let context = appDelegate.persistentContainer.viewContext
@@ -428,8 +446,6 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
     func addTarget() {
         
         //add btn attributes
-        editKeyword2.btnToStep3.addTarget(self,action:#selector(createSelection),
-                                     for:.touchUpInside)
         editKeyword2.btnAddKeyword.addTarget(self,action:#selector(toNewKeyword),
                                         for:.touchUpInside)
     }
@@ -458,6 +474,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         
         navBar?.addSubview(lblSubHeader)
         addBackButton()
+        addSaveButton()
         
     }
     

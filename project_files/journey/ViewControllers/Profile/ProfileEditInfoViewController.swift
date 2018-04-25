@@ -35,7 +35,8 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     
     //view
     let editInfo = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
-    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     
     //database
     
@@ -122,12 +123,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
         
     }
     
-    func addTarget() {
-        
-        //add btn attributes
-        editInfo.btnToStep2.addTarget(self,action:#selector(create),
-                                     for:.touchUpInside)
-    }
+   
     
     func createHeaderSub() {
         
@@ -218,7 +214,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     
     func showAlertFormCheck() {
         
-        let refreshAlert = UIAlertController(title: "Empty fields", message: "To continue to the next step, you must fill in both fields.", preferredStyle: UIAlertControllerStyle.alert)
+        let refreshAlert = UIAlertController(title: "Empty fields", message: "To save your data, you must fill in both fields.", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             
@@ -260,28 +256,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     }
     
     
-    func toStep2() {
-        let name = editInfo.txtName.text
-        let about = editInfo.txtAbout.text
-        
-        if((name?.isEmpty)! || (about?.isEmpty)!){
-            
-            showAlertFormCheck()
-            
-        }
-            
-        else {
-            
-            lblSub.removeFromSuperview()
-            let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
-            vc2.strNamePassed = editInfo.txtName.text!
-            vc2.strAboutPassed = editInfo.txtAbout.text
-            self.navigationController?.pushViewController(vc2, animated: false)
-            
-        }
-        
-        
-    }
+
     
     func addSaveButton() {
         let NavLinkAttr : [NSAttributedStringKey: Any] = [
@@ -301,30 +276,89 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
     }
     
+    func getData() -> (name: String, about: String) {
+        
+        var name = String()
+        var about = String()
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let profiles : [Profile] = dataHelper.getAllProfiles()
+        
+        
+        if (profiles.count != 0){
+            
+            let firstProfile = dataHelper.getProfileById(id: profiles[0].objectID)!
+            
+            print("\(String(describing: firstProfile))")
+            
+            name = firstProfile.name
+            about = firstProfile.about
+            
+        }
+        else {
+            
+            name = ""
+            about = ""
+            
+        }
+        
+        return (name, about)
+    }
+    
+    func fillTextFields() {
+        editInfo.txtName.text = getData().name
+        editInfo.txtAbout.text = getData().about
+    }
+    
+    func update() {
+        let name = editInfo.txtName.text
+        let about = editInfo.txtAbout.text
+        
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+
+        
+        let profiles : [Profile] = dataHelper.getAllProfiles()
+        let updateProfile = dataHelper.getProfileById(id: profiles[0].objectID)
+        
+        updateProfile?.name = name!
+        updateProfile?.about = about!
+        
+        dataHelper.updateProfile(updatedProfile: updateProfile!)
+        dataHelper.saveChanges()
+        
+    }
+    
     // TO MAIN PAGE
     @objc func toMainPage() {
-        lblSub.removeFromSuperview()
-        createHeaderMain()
-        let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
-        self.navigationController?.pushViewController(profilevc, animated: true)
-    }
-    
-    
-    // SAVE PROFILE INFO
-    @objc func create() {
+        let name = editInfo.txtName.text
+        let about = editInfo.txtAbout.text
         
-        //saveData()
-        toStep2()
-        
+        if((name?.isEmpty)! || (about?.isEmpty)!){
+            
+            showAlertFormCheck()
+            
+        }
+            
+        else {
+            
+            update()
+            lblSub.removeFromSuperview()
+            createHeaderMain()
+            let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
+            self.navigationController?.pushViewController(profilevc, animated: false)
+            
+        }
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         createHeaderSub()
-        addTarget()
-        
+        fillTextFields()
+   
     }
     
     override func didReceiveMemoryWarning() {

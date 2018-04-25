@@ -159,11 +159,21 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
             saveData()
             
             lblSubHeader.removeFromSuperview()
-            let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
-            vc2.strNamePassed = strNamePassed
-            vc2.strAboutPassed = strAboutPassed
-            vc2.arraySelection = arraySelection
-            self.navigationController?.pushViewController(vc2, animated: false)
+            
+            if(strNamePassed.isEmpty && strAboutPassed.isEmpty){
+                let selectionvc = storyboard?.instantiateViewController(withIdentifier: "editKeywordSelection") as! ProfileEditKeywords2ViewController
+                selectionvc.arraySelection = arraySelection
+                self.navigationController?.pushViewController(selectionvc, animated: false)
+            }
+            
+            else {
+                let vc2 = storyboard?.instantiateViewController(withIdentifier: "step2") as! ProfileCreate2ViewController
+                vc2.strNamePassed = strNamePassed
+                vc2.strAboutPassed = strAboutPassed
+                vc2.arraySelection = arraySelection
+                self.navigationController?.pushViewController(vc2, animated: false)
+            }
+           
             
         }
     }

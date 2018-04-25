@@ -319,13 +319,6 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     
-    // TO DO
-    func addTarget() {
-        
-        //add btn attributes
-        //create3.btnFinish.addTarget(self,action:#selector(showAlertSelection),for:.touchUpInside)
-    }
-    
     func createHeaderMain() {
         
         //variables

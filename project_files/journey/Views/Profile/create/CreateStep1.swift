@@ -9,7 +9,6 @@
 import UIKit
 
 protocol CreateStep1Delegate {
-    func create()
 }
 
 class CreateStep1: UIView {
