@@ -31,6 +31,8 @@ let blackColor = UIColor.black
 
 //font medium
 let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
+let font17Med = UIFont(name: "BrandonGrotesque-Medium", size: 17)
+
 
 //font regular
 

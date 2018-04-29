@@ -64,6 +64,9 @@
 		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
 		85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */; };
 		85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */; };
+		85C88EEC2096631A00B745C3 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C88EEB2096631A00B745C3 /* Events.swift */; };
+		85C88EEF2096654500B745C3 /* eventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85C88EEE2096654500B745C3 /* eventCell.xib */; };
+		85C88EF12096656100B745C3 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C88EF02096656100B745C3 /* eventCell.swift */; };
 		85E4392F208A6A4200E139FA /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E4392E208A6A4200E139FA /* Profile.swift */; };
 		85E43933208A822700E139FA /* ProfileKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E43932208A822700E139FA /* ProfileKeywords.swift */; };
 /* End PBXBuildFile section */
@@ -167,6 +170,9 @@
 		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfo.xib; sourceTree = "<group>"; };
 		85BE5D2B206FF71700A4C7EA /* ProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfo.swift; sourceTree = "<group>"; };
+		85C88EEB2096631A00B745C3 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		85C88EEE2096654500B745C3 /* eventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = eventCell.xib; sourceTree = "<group>"; };
+		85C88EF02096656100B745C3 /* eventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eventCell.swift; sourceTree = "<group>"; };
 		85E4392E208A6A4200E139FA /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		85E43932208A822700E139FA /* ProfileKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileKeywords.swift; sourceTree = "<group>"; };
 		E47F9BB7B6C3777D71AF68EB /* Pods-journey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-journey.debug.xcconfig"; path = "Pods/Target Support Files/Pods-journey/Pods-journey.debug.xcconfig"; sourceTree = "<group>"; };
@@ -293,6 +299,7 @@
 				85452B83208290430027A594 /* Keywords.swift */,
 				85E4392E208A6A4200E139FA /* Profile.swift */,
 				85E43932208A822700E139FA /* ProfileKeywords.swift */,
+				85C88EEB2096631A00B745C3 /* Events.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -352,6 +359,7 @@
 		85BE5D1A206FCD3100A4C7EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				85C88EED2096651400B745C3 /* Journal */,
 				85BE5D1F206FCEC900A4C7EA /* Profile */,
 			);
 			path = Views;
@@ -420,6 +428,15 @@
 				8567DDCF20938C5A0044BE87 /* CalendarViewController.swift */,
 				8567DDD120938C8E0044BE87 /* EntriesViewController.swift */,
 				8567DDD32093D9D40044BE87 /* JournalTabBarController.swift */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		85C88EED2096651400B745C3 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				85C88EEE2096654500B745C3 /* eventCell.xib */,
+				85C88EF02096656100B745C3 /* eventCell.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -548,6 +565,7 @@
 				853503AC2067E4CD00A08DD9 /* Main.storyboard in Resources */,
 				852F1FD7206940F400BBF740 /* Brandon_med.otf in Resources */,
 				8582976720768FB800BC0F6A /* CreateStep1.xib in Resources */,
+				85C88EEF2096654500B745C3 /* eventCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,6 +633,7 @@
 				8567DE0A209533370044BE87 /* FSCalendarDelegationFactory.m in Sources */,
 				8567DDFE209533370044BE87 /* FSCalendar+Deprecated.m in Sources */,
 				852D8631208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift in Sources */,
+				85C88EEC2096631A00B745C3 /* Events.swift in Sources */,
 				8567DDFD209533370044BE87 /* FSCalendarAppearance.m in Sources */,
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
 				8567DE01209533370044BE87 /* FSCalendarScopeHandle.m in Sources */,
@@ -646,6 +665,7 @@
 				85452B84208290430027A594 /* Keywords.swift in Sources */,
 				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,
 				8567DDFF209533370044BE87 /* FSCalendarConstants.m in Sources */,
+				85C88EF12096656100B745C3 /* eventCell.swift in Sources */,
 				8567DE05209533370044BE87 /* FSCalendarCell.m in Sources */,
 				8567DDFC209533370044BE87 /* FSCalendar.m in Sources */,
 				85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */,

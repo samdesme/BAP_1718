@@ -167,6 +167,45 @@ public class DataHelper {
     }
     
     
+    // EVENTS
+    
+    // Returns all keywords
+    func getAllEvents() -> [Events]{
+        return getEvent(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getEvent(withPredicate queryPredicate: NSPredicate) -> [Events]{
+        let fetchRequest = NSFetchRequest<Events>(entityName: "Events")
+        fetchRequest.predicate = queryPredicate
+        
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [Events]
+        
+        
+    }
+    
+    // Returns a keyword by id
+    func getEventById(id: NSManagedObjectID) -> Events? {
+        return context.object(with: id) as? Events
+    }
+    
+    // Updates a keyword
+    func updateEvent(updatedEvent: Events){
+        if let event = getEventById(id: updatedEvent.objectID){
+            event.title = updatedEvent.title
+            event.note = updatedEvent.note
+            event.date = updatedEvent.date
+        }
+    }
+    
+    // Deletes a keyword by id
+    func deleteEvent(id: NSManagedObjectID){
+        if let EventToDelete = getEventById(id:id){
+            context.delete(EventToDelete)
+        }
+    }
+    
     
     
     // Saves all changes
