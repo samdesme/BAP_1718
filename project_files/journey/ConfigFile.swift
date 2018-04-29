@@ -38,6 +38,8 @@ let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
 //header fonts
 let fontHeaderMain = UIFont(name:"BrandonGrotesque-Light", size:18)
 let fontHeaderSub = UIFont(name:"BrandonGrotesque-Medium", size:18)
+let fontHeaderTabs = UIFont(name:"BrandonGrotesque-Regular", size:17)
+
 
 //text fonts
 let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:50)
@@ -168,6 +170,8 @@ extension UIView {
 
 }
 
+
+
 extension UIImage {
     
     // Extention for quick UIImage styling
@@ -184,6 +188,15 @@ extension UIImage {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
+        return image!
+    }
+    
+    func createSelectionIndicator(color: UIColor, size: CGSize, lineWidth: CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(CGRect(x: 0, y: size.height - lineWidth, width: size.width, height: lineWidth))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         return image!
     }
 }

@@ -64,6 +64,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             NSAttributedStringKey.font : fontLabel!,
             NSAttributedStringKey.foregroundColor : blackColor,
             NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+        
         let attributeString = NSMutableAttributedString(string: strNewKeyword,
                                                         attributes: keywordAttr)
         

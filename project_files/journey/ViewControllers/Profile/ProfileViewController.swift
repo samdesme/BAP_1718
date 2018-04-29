@@ -65,7 +65,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         //variables
         let navBar = navigationController?.navigationBar
-        let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!)
+        let frameTitle = CGRect(x: 0, y: (navBar?.frame.height)!/2 - 5, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!/2)
         lbl.frame = frameTitle
         
         //Create navigation bar
@@ -243,9 +243,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         //add layer to view
         userInfo.viewTopGradient.layer.addSublayer(topGradientLayer)
-        
-
-        
         
     }
     
