@@ -17,16 +17,13 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var viewHeader: UIView!
    // @IBOutlet weak var tableView: UITableView!
+    var selectedDate : String = ""
+    var dateToSave = Date()
     
     @IBOutlet weak var calendar: FSCalendar!
-    
+
     var datePicker = UIDatePicker()
-    
-    fileprivate lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        return formatter
-    }()
+
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -34,9 +31,12 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     var alert = UIAlertController()
 
     let  topGradientLayer = CAGradientLayer()
+    let btnGradientLayer = CAGradientLayer()
     let  gradientLayer = CAGradientLayer()
+    
     var viewTopGradient = UIView()
     var viewCalendar = UIView()
+    var viewTableContainer = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +46,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         tabBarController?.selectedIndex = 0
         self.title = "CALENDAR"
         self.view.backgroundColor = lightGreyColor
+        self.view.isUserInteractionEnabled = true
         
     }
     
@@ -55,7 +56,11 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         // CONTENT
         self.view.backgroundColor = lightGreyColor
-        self.datePicker.datePickerMode = .time
+        
+        //self.datePicker.datePickerMode = .time
+        let currentDate = Date()  //5 -  get the current date
+        datePicker.minimumDate = currentDate  //6- set the current date/time as a minimum
+        datePicker.date = currentDate //7 - defaults to current time but shows how to use it.
 
         //set up a gradient at the top of the page to create a 3D effect
         viewTopGradient.clipsToBounds = false
@@ -64,8 +69,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
         topGradientLayer.locations = [ 0.0, 1.0]
         
-        self.view.addSubview(viewTopGradient)
-        viewTopGradient.layer.addSublayer(topGradientLayer)
+        //self.view.addSubview(viewTopGradient)
+        //viewTopGradient.layer.addSublayer(topGradientLayer)
         
         createCalendar()
         setUpTableView()
@@ -145,28 +150,171 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     func setUpTableView() {
         let navBar = navigationController?.navigationBar
+        let btnAdd = UIButton()
         
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: (navBar?.frame.size.height)!*2 + viewCalendar.frame.size.height + 15, width: self.view.frame.size.width - 30, height: viewCalendar.frame.size.height/1.5))
+        //containerview fot tableview
+        viewTableContainer.frame = CGRect(x: 15, y: (navBar?.frame.size.height)!*2 + viewCalendar.frame.size.height + 15, width: self.view.frame.size.width - 30, height: viewCalendar.frame.size.height/1.5)
+        viewTableContainer.clipsToBounds = false
+        viewTableContainer.backgroundColor = whiteColor
+        viewTableContainer.layer.cornerRadius = 25
+        viewTableContainer.layer.shadowColor = blackColor.cgColor
+        viewTableContainer.layer.shadowOffset = CGSize(width: 6, height: 6)
+        viewTableContainer.layer.shadowOpacity = 0.05
+        viewTableContainer.layer.shadowRadius = 10.0
         
-        //tableView.tableFooterView = UIView()
-        tableView.backgroundColor = whiteColor
-        tableView.isScrollEnabled = true
+        self.view.addSubview(viewTableContainer)
+
+       let tableView = UITableView()
         
-        tableView.layer.cornerRadius = 25
-        
-        tableView.layer.shadowColor = blackColor.cgColor
-        tableView.layer.shadowOffset = CGSize(width: 6, height: 6)
-        tableView.layer.shadowOpacity = 0.05
-        tableView.layer.shadowRadius = 5.0
-        
+         //tableView.frame = viewTableContainer.bounds
+        tableView.frame = CGRect(x: 0, y: 0, width: viewTableContainer.bounds.width, height: viewTableContainer.bounds.height - 22.5 - 15)
+        //tableView.frame.size.height = viewTableContainer.frame.size.height - 250
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellEvent")
+        tableView.isScrollEnabled = true
+        tableView.layer.cornerRadius = 25
+        tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        //tableView.tableFooterView = UIView()
 
-        self.view.addSubview(tableView)
+        viewTableContainer.addSubview(tableView)
+        
+        // UIButton: Add Event
+        btnAdd.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
+        btnAdd.frame = CGRect(x: (viewTableContainer.frame.size.width - 200)/2, y: viewTableContainer.bounds.height - 22.5, width: 200, height: 45)
+        
+        // add gradient to button
+        btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
+        btnGradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        btnGradientLayer.cornerRadius = 22.5
+        
+        btnAdd.layer.addSublayer(btnGradientLayer)
+        
+        btnAdd.setTitle("Add",for: .normal)
+        btnAdd.tintColor = whiteColor
+        btnAdd.titleLabel?.font = fontBtnSmall
+        
+        viewTableContainer.addSubview(btnAdd)
 
     }
+    
+    
     // MARK: data functions
+    
+    func saveEvent(date : Date){
+        
+        let formatterDate = DateFormatter()
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "dd-MM-yyyy hh:mm a"
+        formatterDate.dateFormat = "dd-MM-yyyy"
+        let dateOnly = formatter.string(from: date)
+        let result = formatter.string(from: date)
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+
+        //self.datePicker.datePickerMode = .time
+        self.datePicker.datePickerMode = UIDatePickerMode.time
+        self.datePicker.locale = Locale(identifier: "en_GB")
+        
+        alert = UIAlertController(title: "New event: " + dateOnly, message: nil, preferredStyle: .alert)
+        alert.view.tintColor = purpleColor
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.placeholder = "Title"
+            textField.textAlignment = .center
+            textField.font = fontInput
+            textField.addConstraint(textField.heightAnchor.constraint(equalToConstant: 40))
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Add a note"
+            textField.textAlignment = .center
+            textField.font = fontInput
+            textField.addConstraint(textField.heightAnchor.constraint(equalToConstant: 40))
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Add time"
+            textField.textAlignment = .center
+            textField.inputView = self.datePicker
+            textField.font = fontInput
+            textField.addConstraint(textField.heightAnchor.constraint(equalToConstant: 20))
+            self.datePicker.addTarget(self, action: #selector(self.myDateView(sender:)), for: .valueChanged)
+            
+            // ToolBar
+            let toolBar = UIToolbar()
+            toolBar.barStyle = UIBarStyle.default
+            toolBar.isTranslucent = true
+            toolBar.tintColor = blueColor
+            toolBar.sizeToFit()
+            
+            // Adding Button ToolBar
+            let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(CalendarViewController.doneClick))
+            let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            doneButton.setTitleTextAttributes([NSAttributedStringKey.font: fontHeaderSub!], for: .normal)
+            doneButton.tintColor = blackColor
+            toolBar.setItems([spaceButton, doneButton], animated: false)
+            toolBar.isUserInteractionEnabled = true
+            textField.inputAccessoryView = toolBar
+        }
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
+            
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let title = textField?.text
+            let note = alert?.textFields![1].text
+            //let timePick = result
+            
+          /*  let event = Events(context: context)
+            event.note = note!
+            event.date = date */
+            
+            //let newEvent = NSEntityDescription.insertNewObject(forEntityName: "Events", into: self.appDelegate.persistentContainer.viewContext) as! Events
+  
+            let newEvent = dataHelper.createEvent(title: title!, note: note!, date: self.dateToSave)
+            
+            //dataHelper.saveChanges()
+            
+            print("\(String(describing: newEvent))")
+            //self.printEvents()
+            /*
+            do {
+                try context.save()
+                //self.listTask.append(event)
+                
+                /*
+                let indexPath = IndexPath(row: self.listTask.count-1 , section: 0)
+                self.tableView.beginUpdates()
+                self.tableView.insertRows(at: [indexPath], with: .automatic)
+                self.tableView.endUpdates()
+                */
+                
+            }
+            catch{
+                print(error)
+            }*/
+            
+        }))
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func printEvents() {
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let events : [Events] = dataHelper.getAllEvents()
+        print("ALL EVENTS -----------------------")
+        print(events)
+        print("END ALL EVENTS -----------------------")
+    }
     
     func editEvent(indexTask : IndexPath){
         
@@ -248,7 +396,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     // MARK:- UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -274,7 +422,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
     }
 
-    
     
     // MARK:- UITableViewDelegate
     
@@ -334,7 +481,52 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         return [delete, edit]
     }
     
+    // MARK: actions
     
+    @objc func addEvent(){
+        let date = calendar.selectedDate
+        if(date == nil){
+            saveEvent(date: calendar.today!)
+        }
+        else {
+            saveEvent(date: date!)
+        }
+        
+        
+        
+    }
+    
+    @objc func doneClick(sender: UITextField){
+        alert.textFields![2].resignFirstResponder()
+        alert.textFields![2].text = selectedDate
+    }
+    
+    //MARK: - Instance Methods
+    func getDateFromPicker(date:Date){
+        let dateFormatter = DateFormatter()//3
+        dateFormatter.locale = Locale(identifier: "en_GB")
+        
+        let theDateFormat = DateFormatter.Style.short //5
+        let theTimeFormat = DateFormatter.Style.short//6
+        
+        //dateFormatter.dateStyle = theDateFormat
+        dateFormatter.timeStyle = theTimeFormat//9
+        
+        let value: String =  dateFormatter.string(from: date)
+
+
+        dateToSave = date.addingTimeInterval(120.0 * 60.0)
+        
+        selectedDate = value
+        
+        print("TO SAVE: \(dateToSave)")
+        print("Selected value \(value)")
+    }
+    
+    @IBAction func myDateView(sender: UIDatePicker) {
+        getDateFromPicker(date: sender.date)
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
