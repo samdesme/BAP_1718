@@ -489,6 +489,10 @@
                                 <rect key="frame" x="0.0" y="316" width="414" height="216"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ztI-GO-xcJ" id="E76-ae-gPm"/>
+                                    <outlet property="delegate" destination="ztI-GO-xcJ" id="hnD-Q1-LvK"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <constraints>
@@ -502,6 +506,7 @@
                     <navigationItem key="navigationItem" id="74H-y0-sOb"/>
                     <connections>
                         <outlet property="calendar" destination="XYA-pw-c3X" id="fWc-Pe-Tcd"/>
+                        <outlet property="tableView" destination="fjH-NH-46b" id="CW0-i7-Yp4"/>
                         <outlet property="viewHeader" destination="7l0-9q-vhE" id="gta-Rx-KYV"/>
                         <outlet property="viewMain" destination="nOU-wa-O3W" id="1E5-Z3-g5j"/>
                     </connections>

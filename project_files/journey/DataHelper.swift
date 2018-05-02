@@ -169,13 +169,14 @@ public class DataHelper {
     
     // EVENTS
     
-    func createEvent(title: String, note: String, date: Date) -> Events {
+    func createEvent(title: String, note: String, date: String, time: Date) -> Events {
         
         let newEvent = NSEntityDescription.insertNewObject(forEntityName: Events.entityName, into: context) as! Events
         
         newEvent.title = title
         newEvent.note = note
         newEvent.date = date
+        newEvent.time = time
         
         return newEvent
     }
@@ -205,6 +206,7 @@ public class DataHelper {
             event.title = updatedEvent.title
             event.note = updatedEvent.note
             event.date = updatedEvent.date
+            event.time = updatedEvent.time
         }
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class cellEvent: UITableViewCell {
+class eventCell: UITableViewCell {
     
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblTime: UILabel!

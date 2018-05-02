@@ -69,6 +69,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         lbl.frame = frameTitle
         
         //Create navigation bar
+        navBar?.backgroundColor = whiteColor
         lbl.alpha = 1
         lbl.text = strHeader.uppercased()
         lbl.font = fontHeaderMain
@@ -79,11 +80,10 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     
     func createProfileView() {
       
-        // HEADER
-        navigationController?.navigationBar.backgroundColor = whiteColor
+
         
         // CONTENT
-        viewContent.backgroundColor = lightGreyColor
+        self.view.backgroundColor = lightGreyColor
         
     }
     
@@ -148,7 +148,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         // SET UP VIEW
         // profile info UIView
-        userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (viewContent.frame.size.height/1.9))
+        userInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (self.view.frame.size.height/1.9))
         
         if checkProfileExists() {
             name = getData().name
@@ -200,7 +200,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         styleTextViewAbout.alignment = .center
         
         // add to view as a sub view
-        viewContent.addSubview(userInfo)
+        self.view.addSubview(userInfo)
         
     }
     func profileInfoView() {
@@ -212,7 +212,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         // add a gradient layer
         userInfo.viewShadow.clipsToBounds = false
-        viewContent.clipsToBounds = false
+        self.view.clipsToBounds = false
         userInfo.viewShadow.backgroundColor = nil
         userInfo.backgroundColor = UIColor.clear
         
@@ -249,11 +249,11 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     func profileKeywordView() {
         
         // variables
-        let y = viewContent.frame.size.height/1.9 + (viewContent.frame.size.height - viewContent.frame.size.height/1.9 - viewContent.frame.size.height/3)/2
+        let y = self.view.frame.size.height/1.9 + (self.view.frame.size.height - self.view.frame.size.height/1.9 - self.view.frame.size.height/3)/2
         
         // profile keywords UIView
         userKeywords = Bundle.main.loadNibNamed("ProfileTopKeywords", owner: nil, options: nil)?.first as! ProfileTopKeywords
-        userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: (viewContent.frame.size.height/3))
+        userKeywords.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3))
         userKeywords.backgroundColor = whiteColor
        
         // edit corner radius of the view
@@ -276,10 +276,10 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
 
         if checkProfileExists() {
             userKeywords.btnEditKeywords.addTarget(self,action:#selector(editKeywords), for:.touchUpInside)
-            userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: viewContent.frame.size.height/3)
+            userKeywords.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: self.view.frame.size.height/3.9)
             userKeywords.viewBtnSadow.layer.addSublayer(btnGradientLayer)
         } else {
-            userKeywords.frame = CGRect(x: 15, y: y, width: viewContent.frame.size.width - 30, height: (viewContent.frame.size.height/3) + 22.5)
+            userKeywords.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3.7) )
             userKeywords.btnEditKeywords.isHidden = true
         }
         
@@ -289,7 +289,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         userKeywords.viewBtnSadow.backgroundColor = nil
         
         // add view to content
-        viewContent.addSubview(userKeywords)
+        self.view.addSubview(userKeywords)
         
         // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)

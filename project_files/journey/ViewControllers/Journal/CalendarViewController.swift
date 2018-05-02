@@ -16,7 +16,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var viewHeader: UIView!
-   // @IBOutlet weak var tableView: UITableView!
+    //@IBOutlet weak var tableView: UITableView!
+    var tableView: UITableView = UITableView()
     var selectedDate : String = ""
     var dateToSave = Date()
     
@@ -38,15 +39,33 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     var viewCalendar = UIView()
     var viewTableContainer = UIView()
     
+    fileprivate lazy var scopeGesture: UIPanGestureRecognizer = {
+        [unowned self] in
+        let panGesture = UIPanGestureRecognizer(target: self.calendar, action: #selector(self.calendar.handleScopeGesture(_:)))
+        panGesture.delegate = self
+        panGesture.minimumNumberOfTouches = 1
+        panGesture.maximumNumberOfTouches = 2
+        return panGesture
+        }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        //print("\(String(describing: tableView))")
+        tableView.register(UINib(nibName: "eventCell", bundle: nil), forCellReuseIdentifier: "eventCell")
         createCalendarView()
         tabBarController?.selectedIndex = 0
+        
         self.title = "CALENDAR"
         self.view.backgroundColor = lightGreyColor
         self.view.isUserInteractionEnabled = true
+        //deleteRow()
+         // _ = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(CalendarViewController.update), userInfo: nil, repeats: true)
+        fetchData()
+        print("LIST TASKS (PAGELOAD) --------------------------------")
+        print("\(String(describing: self.listTask))")
+        print("END LIST TASKS (PAGELOAD) --------------------------------")
         
     }
     
@@ -77,7 +96,15 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
 
     }
     
-
+    func printEvents() {
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        let events : [Events] = dataHelper.getAllEvents()
+        print("ALL EVENTS -----------------------")
+        print(events)
+        print("END ALL EVENTS -----------------------")
+    }
+    
     func createCalendar() {
         
         let navBar = navigationController?.navigationBar
@@ -143,6 +170,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         calendar.delegate = self
         viewCalendar.insertSubview(calendar, at: 1)
         self.calendar = calendar
+        
+        calendar.select(Date())
+        calendar.accessibilityIdentifier = "calendar"
     
         //add gradient layer to UIView
         self.view.addSubview(viewCalendar)
@@ -163,23 +193,22 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         viewTableContainer.layer.shadowRadius = 10.0
         
         self.view.addSubview(viewTableContainer)
-
-       let tableView = UITableView()
         
-         //tableView.frame = viewTableContainer.bounds
-        tableView.frame = CGRect(x: 0, y: 0, width: viewTableContainer.bounds.width, height: viewTableContainer.bounds.height - 22.5 - 15)
-        //tableView.frame.size.height = viewTableContainer.frame.size.height - 250
+        
 
+        tableView.frame = CGRect(x: 0, y: 0, width: viewTableContainer.bounds.width, height: viewTableContainer.bounds.height - 22.5 - 15)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellEvent")
+        
         tableView.isScrollEnabled = true
         tableView.layer.cornerRadius = 25
+        //tableView.isEditing = true
+
         tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         //tableView.tableFooterView = UIView()
-
-        viewTableContainer.addSubview(tableView)
         
+        viewTableContainer.addSubview(tableView)
+ 
         // UIButton: Add Event
         btnAdd.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
         btnAdd.frame = CGRect(x: (viewTableContainer.frame.size.width - 200)/2, y: viewTableContainer.bounds.height - 22.5, width: 200, height: 45)
@@ -202,8 +231,103 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
 
     }
     
+    // MARK: functions that get data per calendar date
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        //print("did select date \(self.dateFormatter.string(from: date))")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        //print(formatter.string(from: date))
+        //let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
+        //print("selected dates is \(selectedDates)")
+        fetchData()
+        let range = NSMakeRange(0, tableView.numberOfSections)
+        let sections = NSIndexSet(indexesIn: range)
+        tableView.reloadSections(sections as IndexSet, with: .automatic)
+        if monthPosition == .next || monthPosition == .previous {
+            calendar.setCurrentPage(date, animated: true)
+        }
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        //print("\(self.dateFormatter.string(from: calendar.currentPage))")
+    }
     
     // MARK: data functions
+    
+    func deleteRow(){
+        
+        let context = appDelegate.persistentContainer.viewContext
+
+        let dataHelper = DataHelper(context: context)
+        let events : [Events] = dataHelper.getAllEvents()
+        let i = events.index(where: { $0.title == "Katy Perry" }) as! Int
+        let toBeDeleted = dataHelper.getEventById(id: events[i].objectID)
+        
+        do {
+            
+            dataHelper.delete(id: toBeDeleted!.objectID)
+            try context.save()
+            
+            
+        } catch {
+            print("Failed deleting")
+        }
+    }
+    
+    
+    func fetchData(){
+        listTask.removeAll()
+        let context = appDelegate.persistentContainer.viewContext
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        let stringFetch = formatter.string(from: calendar.selectedDate!)
+        let dateFetch = formatter.date(from: stringFetch)
+
+        var records:[Events] = []
+        
+ 
+        /*
+        print("SELECTED DATE -----------------------")
+        print("\(String(describing: dateFetch))")
+        print("END SELECTED DATE -----------------------")
+        
+        print("SELECTED DATE as CVarArg -----------------------")
+        print("\(String(describing: dateFetch! as CVarArg))")
+        print("END SELECTED DATE as CVarArg-----------------------")
+         */
+        
+        
+        // Create Fetch Request
+        let fetchRequest = NSFetchRequest<Events>(entityName: "Events")
+        
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        // Add Predicate
+        let predicate = NSPredicate(format: "date = %@", stringFetch)
+        fetchRequest.predicate = predicate
+        
+        records = try! context.fetch(fetchRequest) as [Events]
+        
+        if(records == listTask) {
+            return
+        }
+        else{
+            listTask.removeAll()
+            for record in records {
+                print("new event detected")
+                listTask.append(record)
+            }
+            let range = NSMakeRange(0, tableView.numberOfSections)
+            let sections = NSIndexSet(indexesIn: range)
+            tableView.reloadSections(sections as IndexSet, with: .automatic)
+        }
+        
+      
+    }
+    
     
     func saveEvent(date : Date){
         
@@ -213,7 +337,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         formatter.dateFormat = "dd-MM-yyyy hh:mm a"
         formatterDate.dateFormat = "dd-MM-yyyy"
         let dateOnly = formatter.string(from: date)
-        let result = formatter.string(from: date)
+        let result = formatterDate.string(from: date)
         
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
@@ -269,52 +393,35 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
             let title = textField?.text
             let note = alert?.textFields![1].text
+
             //let timePick = result
+            let newEvent = dataHelper.createEvent(title: title!, note: note!, date: result, time: self.dateToSave)
             
-          /*  let event = Events(context: context)
-            event.note = note!
-            event.date = date */
-            
-            //let newEvent = NSEntityDescription.insertNewObject(forEntityName: "Events", into: self.appDelegate.persistentContainer.viewContext) as! Events
-  
-            let newEvent = dataHelper.createEvent(title: title!, note: note!, date: self.dateToSave)
-            
-            //dataHelper.saveChanges()
+            dataHelper.saveChanges()
             
             print("\(String(describing: newEvent))")
             //self.printEvents()
-            /*
-            do {
-                try context.save()
-                //self.listTask.append(event)
+        
+                self.listTask.append(newEvent)
                 
-                /*
+            
                 let indexPath = IndexPath(row: self.listTask.count-1 , section: 0)
+         
                 self.tableView.beginUpdates()
                 self.tableView.insertRows(at: [indexPath], with: .automatic)
                 self.tableView.endUpdates()
-                */
-                
-            }
-            catch{
-                print(error)
-            }*/
+            
+            
             
         }))
+        
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
         
     }
     
-    func printEvents() {
-        let context = appDelegate.persistentContainer.viewContext
-        let dataHelper = DataHelper(context: context)
-        let events : [Events] = dataHelper.getAllEvents()
-        print("ALL EVENTS -----------------------")
-        print(events)
-        print("END ALL EVENTS -----------------------")
-    }
+
     
     func editEvent(indexTask : IndexPath){
         
@@ -335,7 +442,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             
             let formatter = DateFormatter()
             formatter.dateFormat = "dd-MM-yyyy"
-            let dateFetch = formatter.string(from: eventSelected.date)
+            let dateFetch = formatter.string(from: eventSelected.time)
             
             textField.text = dateFetch
             textField.inputView = self.datePicker
@@ -380,9 +487,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
                 }
            
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            let range = NSMakeRange(0, self.tableView.numberOfSections)
+            let range = NSMakeRange(0, tableView.numberOfSections)
             let sections = NSIndexSet(indexesIn: range)
-            self.tableView.reloadSections(sections as IndexSet, with: .automatic)
+            tableView.reloadSections(sections as IndexSet, with: .automatic)
             
         }))
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
@@ -391,7 +498,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         */
     }
-    
     
     // MARK:- UITableViewDataSource
     
@@ -407,21 +513,20 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         let task = listTask[indexPath.row]
         let title = task.title
-        let timestamp = task.date
-    
+        let timestamp = task.time
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as! eventCell
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.dateFormat = "HH:mm:ss"
         let time = formatter.string(from: timestamp)
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellEvent", for: indexPath) as! cellEvent
-        
+        print("\(String(describing: cell))")
+
         cell.lblTitle.text = title
         cell.lblTime.text = time
-       
+        
         return cell
         
     }
-
     
     // MARK:- UITableViewDelegate
     
@@ -455,31 +560,34 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         let task = self.listTask[indexPath.row]
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
-
+        
+        
         let delete = UITableViewRowAction(style: .normal, title: "Delete") { (action, indexPath) in
             // code to delete the item goes here
             dataHelper.deleteEvent(id: task.objectID)
             
-                dataHelper.saveChanges()
-                self.listTask.remove(at: indexPath.row)
-                tableView.beginUpdates()
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-                tableView.endUpdates()
-                
-           
+            dataHelper.saveChanges()
+            self.listTask.remove(at: indexPath.row)
+            
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.tableView.endUpdates()
+            
+            
         }
         delete.backgroundColor = .red
         
         let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
             // code to implement the edit task goes here
             self.editEvent(indexTask: indexPath)
-        
+            
             
         }
         edit.backgroundColor = UIColor(netHex: 0xF2A104)
         
         return [delete, edit]
     }
+    
     
     // MARK: actions
     
@@ -501,6 +609,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         alert.textFields![2].text = selectedDate
     }
     
+
+    
     //MARK: - Instance Methods
     func getDateFromPicker(date:Date){
         let dateFormatter = DateFormatter()//3
@@ -515,7 +625,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         let value: String =  dateFormatter.string(from: date)
 
 
-        dateToSave = date.addingTimeInterval(120.0 * 60.0)
+       dateToSave = date.addingTimeInterval(120.0 * 60.0)
         
         selectedDate = value
         

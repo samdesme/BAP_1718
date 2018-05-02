@@ -13,7 +13,8 @@ extension Events {
     
     @NSManaged var title: String
     @NSManaged var note: String
-    @NSManaged var date: Date
+    @NSManaged var date: String
+    @NSManaged var time: Date
 }
 
 

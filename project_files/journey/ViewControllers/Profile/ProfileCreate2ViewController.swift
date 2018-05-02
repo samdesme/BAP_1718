@@ -60,6 +60,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
     
     func viewCreate2() {
         
+         let navBar = navigationController?.navigationBar
         let keywordAttr : [NSAttributedStringKey: Any] = [
             NSAttributedStringKey.font : fontLabel!,
             NSAttributedStringKey.foregroundColor : blackColor,
@@ -69,9 +70,10 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
                                                         attributes: keywordAttr)
         
         self.tabBarController?.tabBar.isHidden = true
-        
+       
+
         //create form view
-        create2.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
+        create2.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: viewContent.frame.width, height: viewContent.frame.height)
         create2.backgroundColor = whiteColor
         
         // UILabels
@@ -122,7 +124,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         create2.btnToStep3.layer.insertSublayer(btnGradientLayer, at: 0)
         
         //add view to content view
-        viewContent.addSubview(create2)
+        self.view.addSubview(create2)
         
         //add keywords
         setUpKeywords()
@@ -260,6 +262,9 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         create2.scrollView.contentSize = CGSize(width: create2.scrollView.frame.size.width , height: buttonY + 80)
         create2.scrollView.backgroundColor = UIColor.clear
         create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*1.8)
+        
+        let bottomOffset = CGPoint(x: 0, y: create2.scrollView.contentSize.height - create2.scrollView.bounds.size.height)
+        create2.scrollView.setContentOffset(bottomOffset, animated: true)
         
         
     }
@@ -506,8 +511,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         pageControl.pageIndicatorTintColor = purpleColor.withAlphaComponent(0.5)
         pageControl.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         
-        viewContent.insertSubview(pageControl, at: 0)
-        viewContent.bringSubview(toFront: pageControl)
+        self.view.insertSubview(pageControl, at: 0)
+        self.view.bringSubview(toFront: pageControl)
         
     }
     

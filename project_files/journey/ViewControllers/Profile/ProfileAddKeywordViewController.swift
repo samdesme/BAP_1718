@@ -51,7 +51,8 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
     
     
     func viewNewKeyword() {
-        
+        let navBar = navigationController?.navigationBar
+
         //some elements of the view "CreateStep1" will be reused to create this form
         let lblNew = form.lblName
         let txtNew = form.txtName
@@ -64,7 +65,7 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
         
         //create form view
         self.tabBarController?.tabBar.isHidden = true
-        form.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: (viewContent.frame.height/2))
+        form.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: (viewContent.frame.height/2))
         form.backgroundColor = whiteColor
         
         // UILabels
@@ -81,7 +82,7 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
         txtNew?.clipsToBounds = true
    
         //add view to content view
-        viewContent.addSubview(form)
+        self.view.addSubview(form)
        
     }
     

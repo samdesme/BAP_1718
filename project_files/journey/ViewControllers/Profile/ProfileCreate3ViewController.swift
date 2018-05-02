@@ -60,14 +60,15 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     
     
     func viewCreate3() {
-        
+        let navBar = navigationController?.navigationBar
+
         //let btnFinish = create3.btnToStep3
         self.tabBarController?.tabBar.isHidden = true
         create3.btnToStep3.isHidden = true
         create3.btnNextShadow.isHidden = true
         create3.btnAddKeyword.isHidden = true
         //create form view
-        create3.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
+        create3.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: viewContent.frame.height)
         create3.backgroundColor = whiteColor
         
         // UILabels
@@ -82,7 +83,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         create3.lblSub.textAlignment = .left
         
         //add view to content view
-        viewContent.addSubview(create3)
+        self.view.addSubview(create3)
 
         //set up selected keywords
         setUpTableView()
@@ -96,7 +97,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         let btnFinish = UIButton()
         let btnNextShadow = UIView()
         
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: viewContent.frame.width - 30, height: viewContent.frame.height/2))
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: self.view.frame.width - 30, height: viewContent.frame.height/2))
         tableView.tableFooterView = UIView()
         create3.scrollView.isHidden = true
         tableView.backgroundColor = UIColor.clear
@@ -183,7 +184,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         
         let btn = CALayer()
         btn.backgroundColor = blueColor.cgColor
-        btn.frame = CGRect(x: (viewContent.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
+        btn.frame = CGRect(x: (self.view.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
         //btn.setTitle(arraySelection[indexPath.row], for: .normal)
         //btn.titleLabel?.font = fontBtnKeyword
         //btn.titleLabel?.textColor = whiteColor
@@ -371,8 +372,8 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         pageControl.pageIndicatorTintColor = purpleColor.withAlphaComponent(0.5)
         pageControl.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         
-        viewContent.insertSubview(pageControl, at: 0)
-        viewContent.bringSubview(toFront: pageControl)
+        self.view.insertSubview(pageControl, at: 0)
+        self.view.bringSubview(toFront: pageControl)
         
     }
     

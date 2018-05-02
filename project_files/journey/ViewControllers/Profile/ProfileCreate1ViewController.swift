@@ -53,15 +53,17 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
     }
     
     func viewCreate1() {
-        viewContent.backgroundColor = whiteColor
+        self.view.backgroundColor = whiteColor
         self.tabBarController?.tabBar.isHidden = true
         
     }
     
     func createForm() {
         
+        let navBar = navigationController?.navigationBar
+
         //create form view
-        create1.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: (viewContent.frame.height/2))
+        create1.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: (self.view.frame.height/2))
         create1.backgroundColor = whiteColor
         
         // UILabels
@@ -122,7 +124,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         create1.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
         
         //add view to content view
-        viewContent.addSubview(create1)
+        self.view.addSubview(create1)
         
         
     }
@@ -138,7 +140,7 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
 
         //variables
         let navBar = navigationController?.navigationBar
-        let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!)
+        let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.size.width)!, height: (navBar?.frame.size.height)!)
         lblSub.frame = frameTitle
 
         //Create navigation bar for sub views
@@ -159,7 +161,6 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         
         //variables
         let navBar = navigationController?.navigationBar
-        
         //Edit navigation bar back to main settings
         navBar?.barStyle = .default
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
@@ -271,8 +272,8 @@ class ProfileCreate1ViewController: UIViewController, CreateStep1Delegate {
         pageControl.pageIndicatorTintColor = purpleColor.withAlphaComponent(0.5)
         pageControl.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         
-        viewContent.insertSubview(pageControl, at: 0)
-        viewContent.bringSubview(toFront: pageControl)
+        self.view.insertSubview(pageControl, at: 0)
+        self.view.bringSubview(toFront: pageControl)
     
     }
     
