@@ -429,7 +429,6 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7l0-9q-vhE" userLabel="Header View">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" restorationIdentifier="calendar" translatesAutoresizingMaskIntoConstraints="NO" id="XYA-pw-c3X" userLabel="Calendar" customClass="FSCalendar">
                                 <rect key="frame" x="0.0" y="64" width="414" height="252"/>
@@ -507,7 +506,7 @@
                     <connections>
                         <outlet property="calendar" destination="XYA-pw-c3X" id="fWc-Pe-Tcd"/>
                         <outlet property="tableView" destination="fjH-NH-46b" id="CW0-i7-Yp4"/>
-                        <outlet property="viewHeader" destination="7l0-9q-vhE" id="gta-Rx-KYV"/>
+                        <outlet property="viewHeader" destination="7l0-9q-vhE" id="7YD-KF-JRb"/>
                         <outlet property="viewMain" destination="nOU-wa-O3W" id="1E5-Z3-g5j"/>
                     </connections>
                 </viewController>

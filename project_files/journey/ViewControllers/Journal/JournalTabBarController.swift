@@ -18,7 +18,6 @@ class JournalTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         let attributes = [NSAttributedStringKey.font: fontHeaderMain,
                           NSAttributedStringKey.foregroundColor: blackColor]
         
@@ -26,11 +25,8 @@ class JournalTabBarController: UITabBarController {
 
         vcCalendar.tabBarItem = UITabBarItem(title: "CALENDAR", image: nil, selectedImage: nil)
         vcEnties.tabBarItem = UITabBarItem(title: "ENTRIES", image: nil, selectedImage: nil)
-        let navBar = navigationController?.navigationBar
-        tabBar.frame = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: 64)
-
         
-        tabBar.selectionIndicatorImage = UIImage().createSelectionIndicator(color: blackColor, size: CGSize(width: tabBar.frame.width/CGFloat(tabBar.items!.count), height: tabBar.frame.height), lineWidth: 2.0)
+        tabBar.selectionIndicatorImage = UIImage().createSelectionIndicator(color: blackColor, size: CGSize(width: tabBar.frame.width/CGFloat(tabBar.items!.count), height: tabBar.frame.height - 2), lineWidth: 2.0)
         
         UITabBarItem.appearance().setTitleTextAttributes(attributes, for: .normal)
         
@@ -43,8 +39,12 @@ class JournalTabBarController: UITabBarController {
       
         let navBar = navigationController?.navigationBar
         
-        self.tabBar.frame = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: 64)
-        navBar?.isHidden = true
+        tabBar.frame = CGRect(x: 0, y: 0, width: (navBar?.frame.width)!, height: (navBar?.frame.height)!)
+        tabBar.clipsToBounds = true
+        
+        navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
+        navBar?.addSubview(self.tabBar)
+        
         
     }
     

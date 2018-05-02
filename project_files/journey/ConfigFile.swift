@@ -187,6 +187,7 @@ extension UIImage {
         context!.setFillColor(color.cgColor)
         context!.fill(rect)
         
+        
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

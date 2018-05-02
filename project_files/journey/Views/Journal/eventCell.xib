@@ -28,7 +28,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ze7-KX-etg" userLabel="Title Event">
-                        <rect key="frame" x="255" y="36" width="49" height="43"/>
+                        <rect key="frame" x="100" y="23.5" width="205" height="43"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="43" id="7fu-tf-djV"/>
                         </constraints>
@@ -37,18 +37,19 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnl-ZV-bt0" userLabel="Time">
-                        <rect key="frame" x="269.5" y="11" width="34.5" height="17"/>
+                        <rect key="frame" x="0.0" y="36.5" width="100" height="16.5"/>
                         <fontDescription key="fontDescription" name="SFUIText-Medium" family="SF UI Text" pointSize="14"/>
-                        <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="tnl-ZV-bt0" secondAttribute="trailing" constant="16" id="05N-BT-p7B"/>
-                    <constraint firstItem="tnl-ZV-bt0" firstAttribute="top" secondItem="HQD-ra-Ji2" secondAttribute="top" constant="11" id="Ip7-Eg-gvC"/>
-                    <constraint firstAttribute="trailing" secondItem="ze7-KX-etg" secondAttribute="trailing" constant="16" id="bM3-LJ-BLm"/>
-                    <constraint firstItem="ze7-KX-etg" firstAttribute="top" secondItem="tnl-ZV-bt0" secondAttribute="bottom" constant="8" id="eb2-yw-SF3"/>
-                    <constraint firstAttribute="bottom" secondItem="ze7-KX-etg" secondAttribute="bottom" constant="10.5" id="v7O-Nc-hJY"/>
+                    <constraint firstItem="tnl-ZV-bt0" firstAttribute="leading" secondItem="HQD-ra-Ji2" secondAttribute="leading" id="05N-BT-p7B"/>
+                    <constraint firstItem="tnl-ZV-bt0" firstAttribute="trailing" secondItem="ze7-KX-etg" secondAttribute="leading" id="26P-c2-akT"/>
+                    <constraint firstItem="tnl-ZV-bt0" firstAttribute="centerY" secondItem="HQD-ra-Ji2" secondAttribute="centerY" id="Ip7-Eg-gvC"/>
+                    <constraint firstItem="ze7-KX-etg" firstAttribute="leading" secondItem="HQD-ra-Ji2" secondAttribute="leading" constant="100" id="bM3-LJ-BLm"/>
+                    <constraint firstItem="ze7-KX-etg" firstAttribute="trailing" secondItem="HQD-ra-Ji2" secondAttribute="trailing" constant="-15" id="k4E-B6-tI0"/>
+                    <constraint firstItem="ze7-KX-etg" firstAttribute="centerY" secondItem="HQD-ra-Ji2" secondAttribute="centerY" id="v7O-Nc-hJY"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="j1x-i2-FMp"/>
