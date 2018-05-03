@@ -68,6 +68,7 @@ let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)
 let fontBtnBig = UIFont(name:"BrandonGrotesque-Bold", size:22)
 let fontBtnKeyword = UIFont(name:"BrandonGrotesque-Regular", size:22)
 let fontBtnNavLink = UIFont(name:"BrandonGrotesque-Regular", size:19)
+let fontCounter = UIFont(name:"BrandonGrotesque-Bold", size:33)
 
 
 
@@ -204,6 +205,7 @@ extension UIImage {
     }
 }
 
+
 extension UIView {
     
     // Recursive remove subviews and constraints
@@ -224,6 +226,26 @@ extension UIView {
             $0.removeConstraints($0.constraints)
             $0.removeFromSuperview()
         })
+    }
+    
+    
+    enum ViewSide {
+        case Left, Right, Top, Bottom
+    }
+    
+    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat) {
+        
+        let border = CALayer()
+        border.backgroundColor = color
+        
+        switch side {
+        case .Left: border.frame = CGRect(x: frame.minX, y: frame.minY, width: thickness, height: frame.height); break
+        case .Right: border.frame = CGRect(x: frame.maxX, y: frame.minY, width: thickness, height: frame.height); break
+        case .Top: border.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: thickness); break
+        case .Bottom: border.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: thickness); break
+        }
+        
+        layer.addSublayer(border)
     }
     
 }

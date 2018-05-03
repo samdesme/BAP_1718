@@ -15,7 +15,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     
     @IBOutlet var viewMain: UIView!
-    //@IBOutlet weak var tableView: UITableView!
     var tableView: UITableView = UITableView()
     var selectedDate : String = ""
     var dateToSave = Date()
@@ -25,7 +24,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     var datePicker = UIDatePicker()
 
-    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var listTask:[Events] = []
@@ -41,6 +39,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     var viewCalendar = UIView()
     var viewTableContainer = UIView()
     var viewEntryCount = UIView()
+    var viewTaskCount = UIView()
+    var viewGoalCount = UIView()
 
     
     fileprivate lazy var scopeGesture: UIPanGestureRecognizer = {
@@ -56,7 +56,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //print("\(String(describing: tableView))")
         self.view.addSubview(scrollView)
         tableView.register(UINib(nibName: "eventCell", bundle: nil), forCellReuseIdentifier: "eventCell")
         createCalendarView()
@@ -67,34 +66,19 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         self.view.isUserInteractionEnabled = true
           fetchData()
         
-        // _ = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(CalendarViewController.update), userInfo: nil, repeats: true)
-      
-        
-        /*
-        print("LIST TASKS (PAGELOAD) --------------------------------")
-        print("\(String(describing: self.listTask))")
-        print("END LIST TASKS (PAGELOAD) --------------------------------")
-         */
-        
     }
     
     func createCalendarView() {
         
-        let navBar = navigationController?.navigationBar
-        
-        
         // CONTENT
         scrollView.backgroundColor = lightGreyColor
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height*1.5)
         scrollView.isScrollEnabled = true
         
         let verticalConstraint = NSLayoutConstraint(item: scrollView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view.safeAreaLayoutGuide, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
         
         self.view.addConstraints([verticalConstraint])
         
-        
-        //self.datePicker.datePickerMode = .time
         let currentDate = Date()  //5 -  get the current date
         datePicker.minimumDate = currentDate  //6- set the current date/time as a minimum
         datePicker.date = currentDate //7 - defaults to current time but shows how to use it.
@@ -106,12 +90,11 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
         topGradientLayer.locations = [ 0.0, 1.0]
         
-        //self.view.addSubview(viewTopGradient)
-        //viewTopGradient.layer.addSublayer(topGradientLayer)
-        
         createCalendar()
         setUpTableView()
         setUpEntryCount()
+        setUpTaskCount()
+        setUpGoalCount()
 
     }
     
@@ -126,8 +109,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     func createCalendar() {
         
-        let navBar = navigationController?.navigationBar
-    
         viewCalendar.frame = CGRect(x: 15, y: 15, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3))
         viewCalendar.backgroundColor = whiteColor
         
@@ -198,7 +179,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     func setUpTableView() {
-        let navBar = navigationController?.navigationBar
+
         let btnAdd = UIButton()
 
         //containerview fot tableview
@@ -213,25 +194,18 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         scrollView.addSubview(viewTableContainer)
         
-        
-
-        tableView.frame = CGRect(x: 0, y: 0, width: viewTableContainer.bounds.width, height: viewTableContainer.bounds.height - 22.5 - 15)
+        tableView.frame = CGRect(x: 0, y: 0, width: viewTableContainer.bounds.width, height: viewTableContainer.bounds.height - 75)
         tableView.dataSource = self
         tableView.delegate = self
-        
-        
         tableView.isScrollEnabled = true
         tableView.layer.cornerRadius = 25
-        //tableView.isEditing = true
-
         tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        //tableView.tableFooterView = UIView()
         
         viewTableContainer.addSubview(tableView)
  
         // UIButton: Add Event
         btnAdd.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
-        btnAdd.frame = CGRect(x: (viewTableContainer.frame.size.width - 200)/2, y: viewTableContainer.bounds.height - 22.5, width: 200, height: 45)
+        btnAdd.frame = CGRect(x: (viewTableContainer.frame.size.width - 200)/2, y: viewTableContainer.bounds.height - 45 - 15, width: 200, height: 45)
         
         // add gradient to button
         btnGradientLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 45)
@@ -242,7 +216,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         btnGradientLayer.cornerRadius = 22.5
         
         btnAdd.layer.addSublayer(btnGradientLayer)
-        
         btnAdd.setTitle("Add",for: .normal)
         btnAdd.tintColor = whiteColor
         btnAdd.titleLabel?.font = fontBtnSmall
@@ -252,11 +225,14 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     func setUpEntryCount() {
-        let navBar = navigationController?.navigationBar
         
         let btnViewEntries = UIButton()
-        let y = 30 + viewCalendar.frame.size.height + viewCalendar.frame.size.height/1.5 + 15 + 22.5
+        let y = 30 + viewCalendar.frame.size.height + viewCalendar.frame.size.height/1.5 + 15
         let btnViewGradient = CAGradientLayer()
+        let entryIcon = UIView()
+        let entryCounter = UIView()
+        let lblIcon = UILabel()
+        let lblCounter = UILabel()
 
         //containerview fot tableview
         viewEntryCount.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: viewCalendar.frame.size.height/1.5)
@@ -271,7 +247,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         scrollView.addSubview(viewEntryCount)
         
         // UIButton: Add Event
-        btnViewEntries.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
+        btnViewEntries.addTarget(self,action:#selector(toEntries), for:.touchUpInside)
         btnViewEntries.frame = CGRect(x: (viewTableContainer.frame.size.width - 200)/2, y: viewEntryCount.bounds.height - 45 - 15, width: 200, height: 45)
         
         // add gradient to button
@@ -288,7 +264,178 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         btnViewEntries.tintColor = whiteColor
         btnViewEntries.titleLabel?.font = fontBtnSmall
         
+        entryIcon.frame = CGRect(x: 0, y: 0, width: viewEntryCount.frame.size.width/2, height: viewEntryCount.frame.size.height - 60)
+        entryIcon.backgroundColor = UIColor.clear
+        entryIcon.addBorder(toSide: .Right, withColor: blackColor.cgColor, andThickness: 0.5)
+        
+        let aspect = viewEntryCount.frame.size.height - 45
+        
+        lblIcon.frame = CGRect(x: 0, y: 0, width: entryIcon.frame.size.width, height: aspect/3)
+        lblIcon.textAlignment = .center
+        lblIcon.font = fontMainLight
+        lblIcon.text = "Overall Mood"
+        
+        let imgMood = UIImage(named: "ic_mood4")
+        let imgMoodView = UIImageView(image: imgMood)
+        imgMoodView.frame = CGRect(x: (entryIcon.frame.size.width - 60)/2, y: (aspect - 45)/2, width: 60, height: 60)
+
+        entryIcon.addSubview(imgMoodView)
+        entryIcon.addSubview(lblIcon)
+        viewEntryCount.addSubview(entryIcon)
+        
+        entryCounter.frame = CGRect(x: viewEntryCount.frame.size.width/2, y: 0, width: viewEntryCount.frame.size.width/2, height: viewEntryCount.frame.size.height)
+        entryCounter.backgroundColor = UIColor.clear
+        lblCounter.frame = CGRect(x: 0, y: 0, width: entryCounter.frame.size.width, height: viewEntryCount.frame.size.height/4)
+        lblCounter.textAlignment = .center
+        lblCounter.font = fontMainLight
+        lblCounter.text = "Entries"
+        
+        let lblCount = UILabel()
+        lblCount.text = "4"
+        lblCount.textAlignment = .center
+        lblCount.font = fontCounter
+        lblCount.textColor = purpleColor
+        lblCount.frame = CGRect(x: (entryIcon.frame.size.width - 60)/2, y: (aspect - 45)/2, width: 60, height: 60)
+        
+        entryCounter.addSubview(lblCount)
+        entryCounter.addSubview(lblCounter)
+        viewEntryCount.addSubview(entryCounter)
+        
         viewEntryCount.addSubview(btnViewEntries)
+        
+    }
+    
+    func setUpTaskCount() {
+        
+        let btnViewTaskManager = UIButton()
+        let y = 30 + viewCalendar.frame.size.height + viewCalendar.frame.size.height/1.5 + 15 + viewEntryCount.frame.size.height + 15
+        let btnViewGradient2 = CAGradientLayer()
+        
+        //containerview fot tableview
+        viewTaskCount.frame = CGRect(x: 15, y: y, width: (viewEntryCount.frame.size.width/2) - 7.5, height: viewEntryCount.frame.size.height)
+        viewTaskCount.clipsToBounds = false
+        viewTaskCount.backgroundColor = whiteColor
+        viewTaskCount.layer.cornerRadius = 25
+        viewTaskCount.layer.shadowColor = blackColor.cgColor
+        viewTaskCount.layer.shadowOffset = CGSize(width: 6, height: 6)
+        viewTaskCount.layer.shadowOpacity = 0.05
+        viewTaskCount.layer.shadowRadius = 10.0
+        
+        scrollView.addSubview(viewTaskCount)
+        
+        // UIButton: Add Event
+        btnViewTaskManager.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
+        btnViewTaskManager.frame = CGRect(x: 15, y: viewTaskCount.bounds.height - 45 - 15, width: viewTaskCount.frame.size.width - 30, height: 45)
+        
+        // add gradient to button
+        btnViewGradient2.frame = CGRect(x: 0, y: 0, width: btnViewTaskManager.frame.size.width, height: 45)
+        btnViewGradient2.colors = [blueColor.cgColor, lightBlueColor.cgColor]
+        btnViewGradient2.locations = [ 0.0, 1.0]
+        btnViewGradient2.startPoint = CGPoint(x: 0, y: 0.5)
+        btnViewGradient2.endPoint = CGPoint(x: 1, y: 0.5)
+        btnViewGradient2.cornerRadius = 22.5
+        
+        btnViewTaskManager.layer.addSublayer(btnViewGradient2)
+        
+        btnViewTaskManager.setTitle("View",for: .normal)
+        btnViewTaskManager.tintColor = whiteColor
+        btnViewTaskManager.titleLabel?.font = fontBtnSmall
+        
+        viewTaskCount.addSubview(btnViewTaskManager)
+
+        let taskCount = UIView()
+        let lbltitle = UILabel()
+        let lblCounter = UILabel()
+        
+        taskCount.frame = CGRect(x: 0, y: 0, width: viewTaskCount.frame.size.width, height: viewTaskCount.frame.size.height)
+        taskCount.backgroundColor = UIColor.clear
+        
+        let aspect = taskCount.frame.size.height - 45
+        let width = taskCount.frame.size.width
+        
+        lbltitle.frame = CGRect(x: 0, y: 0, width: width, height: aspect/3)
+        lbltitle.textAlignment = .center
+        lbltitle.font = fontMainLight
+        lbltitle.text = "Completed Tasks"
+        
+        lblCounter.frame = CGRect(x: 0, y: (aspect - 45)/2, width: width, height: 60)
+        lblCounter.text = "4/7"
+        lblCounter.textAlignment = .center
+        lblCounter.font = fontCounter
+        lblCounter.textColor = purpleColor
+        
+        taskCount.addSubview(lbltitle)
+        taskCount.addSubview(lblCounter)
+        viewTaskCount.addSubview(taskCount)
+        
+    }
+    
+    func setUpGoalCount() {
+        
+        let btnViewGoals = UIButton()
+        let y = 30 + viewCalendar.frame.size.height + viewCalendar.frame.size.height/1.5 + 15 + viewEntryCount.frame.size.height + 15
+        let btnViewGradient3 = CAGradientLayer()
+        
+        //containerview fot tableview
+        viewGoalCount.frame = CGRect(x: 15 + viewTaskCount.frame.size.width + 15, y: y, width: viewTaskCount.frame.size.width, height: viewTaskCount.frame.size.height)
+        viewGoalCount.clipsToBounds = false
+        viewGoalCount.backgroundColor = whiteColor
+        viewGoalCount.layer.cornerRadius = 25
+        viewGoalCount.layer.shadowColor = blackColor.cgColor
+        viewGoalCount.layer.shadowOffset = CGSize(width: 6, height: 6)
+        viewGoalCount.layer.shadowOpacity = 0.05
+        viewGoalCount.layer.shadowRadius = 10.0
+        
+        scrollView.addSubview(viewGoalCount)
+        
+        // UIButton: Add Event
+        btnViewGoals.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
+        btnViewGoals.frame = CGRect(x: 15, y: viewGoalCount.bounds.height - 45 - 15, width: viewGoalCount.frame.size.width - 30, height: 45)
+        
+        // add gradient to button
+        btnViewGradient3.frame = CGRect(x: 0, y: 0, width: btnViewGoals.frame.size.width, height: 45)
+        btnViewGradient3.colors = [blueColor.cgColor, lightBlueColor.cgColor]
+        btnViewGradient3.locations = [ 0.0, 1.0]
+        btnViewGradient3.startPoint = CGPoint(x: 0, y: 0.5)
+        btnViewGradient3.endPoint = CGPoint(x: 1, y: 0.5)
+        btnViewGradient3.cornerRadius = 22.5
+        
+        btnViewGoals.layer.addSublayer(btnViewGradient3)
+        
+        btnViewGoals.setTitle("View",for: .normal)
+        btnViewGoals.tintColor = whiteColor
+        btnViewGoals.titleLabel?.font = fontBtnSmall
+        
+        viewGoalCount.addSubview(btnViewGoals)
+        
+        let taskCount = UIView()
+        let lbltitle = UILabel()
+        let lblCounter = UILabel()
+        
+        taskCount.frame = CGRect(x: 0, y: 0, width: viewGoalCount.frame.size.width, height: viewGoalCount.frame.size.height)
+        taskCount.backgroundColor = UIColor.clear
+        
+        let aspect = taskCount.frame.size.height - 45
+        let width = taskCount.frame.size.width
+        
+        lbltitle.frame = CGRect(x: 0, y: 0, width: width, height: aspect/3)
+        lbltitle.textAlignment = .center
+        lbltitle.font = fontMainLight
+        lbltitle.text = "Goals"
+        
+        lblCounter.frame = CGRect(x: 0, y: (aspect - 45)/2, width: width, height: 60)
+        lblCounter.text = "1"
+        lblCounter.textAlignment = .center
+        lblCounter.font = fontCounter
+        lblCounter.textColor = purpleColor
+        
+        taskCount.addSubview(lbltitle)
+        taskCount.addSubview(lblCounter)
+        viewGoalCount.addSubview(taskCount)
+        
+        let totalHeight = 30 + viewCalendar.frame.size.height + viewCalendar.frame.size.height/1.5 + 15 + viewEntryCount.frame.size.height + 15 + viewGoalCount.frame.size.height + 15
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: totalHeight)
+
         
     }
     
@@ -309,6 +456,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             calendar.setCurrentPage(date, animated: true)
         }
     }
+    
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         //print("\(self.dateFormatter.string(from: calendar.currentPage))")
@@ -344,21 +492,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
         let stringFetch = formatter.string(from: calendar.selectedDate!)
-        let dateFetch = formatter.date(from: stringFetch)
-
         var records:[Events] = []
-        
- 
-        /*
-        print("SELECTED DATE -----------------------")
-        print("\(String(describing: dateFetch))")
-        print("END SELECTED DATE -----------------------")
-        
-        print("SELECTED DATE as CVarArg -----------------------")
-        print("\(String(describing: dateFetch! as CVarArg))")
-        print("END SELECTED DATE as CVarArg-----------------------")
-         */
-        
         
         // Create Fetch Request
         let fetchRequest = NSFetchRequest<Events>(entityName: "Events")
@@ -472,8 +606,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
                 self.tableView.insertRows(at: [indexPath], with: .automatic)
                 self.tableView.endUpdates()
             
-            
-            
         }))
         
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
@@ -487,9 +619,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     func editEvent(indexTask : IndexPath){
         
         let eventSelected = self.listTask[indexTask.row]
-        
         let context = appDelegate.persistentContainer.viewContext
-        let dataHelper = DataHelper(context: context)
         
         self.datePicker.datePickerMode = UIDatePickerMode.time
         self.datePicker.locale = Locale(identifier: "en_GB")
@@ -543,8 +673,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             textField.inputAccessoryView = toolBar
         }
         
-        
-        
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             
@@ -583,7 +711,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
-        
  
     }
     
@@ -614,7 +741,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         let time = formatter.string(from: dateInterval)
         print("\(String(describing: cell))")
         
-            
         //time
         cell.lblTime.text = time
         cell.lblTime.textAlignment = .center
@@ -633,15 +759,11 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     // MARK:- UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        tableView.deselectRow(at: indexPath, animated: true)
-        //        if indexPath.section == 0 {
-        //            let scope: FSCalendarScope = (indexPath.row == 0) ? .month : .week
-        //            self.calendar.setScope(scope, animated: true)
-        //        }
+       
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70.0
+        return 52.5
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -703,8 +825,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             saveEvent(date: date!)
         }
         
-        
-        
     }
     
     @objc func doneClick(sender: UITextField){
@@ -712,7 +832,10 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         alert.textFields![2].text = selectedDate
     }
     
-
+    // TO ENTRIES (second tab)
+    @objc func toEntries() {
+         self.tabBarController?.selectedIndex = 1
+    }
     
     //MARK: - Instance Methods
     func getDateFromPicker(date:Date){
@@ -727,9 +850,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         let value: String =  dateFormatter.string(from: date)
 
-
-       dateToSave = date.addingTimeInterval(120.0 * 60.0)
-        
+        dateToSave = date.addingTimeInterval(120.0 * 60.0)
         selectedDate = value
         
         print("TO SAVE: \(dateToSave)")
@@ -739,8 +860,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     @IBAction func myDateView(sender: UIDatePicker) {
         getDateFromPicker(date: sender.date)
     }
-
     
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
