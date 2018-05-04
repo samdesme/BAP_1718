@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="Entry">
+        <view contentMode="scaleToFill" restorationIdentifier="entyView" id="iN0-l3-epB" userLabel="Entry" customClass="entryView" customModule="journey" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="248"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -91,6 +91,17 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="btnEdit" destination="Wc6-bj-sRA" id="g8F-Vo-LXL"/>
+                <outlet property="btnExpand" destination="y1P-14-h5d" id="79v-ts-x2R"/>
+                <outlet property="imgMood" destination="tA5-Vy-rAQ" id="20A-Eu-vqw"/>
+                <outlet property="lblCreated" destination="p6Z-ts-UYz" id="6lC-6J-NcZ"/>
+                <outlet property="lblDate" destination="qsw-aN-hO8" id="uY6-qy-y0C"/>
+                <outlet property="lblTitle" destination="djQ-gB-d9U" id="X1F-4A-u51"/>
+                <outlet property="txtEntry" destination="oxa-GY-mgK" id="BCa-5t-e3J"/>
+                <outlet property="viewContent" destination="zBN-n9-q6h" id="jev-2Y-Wul"/>
+                <outlet property="viewHeader" destination="nup-cu-jsR" id="YIs-Cz-WO6"/>
+            </connections>
             <point key="canvasLocation" x="33.5" y="-156"/>
         </view>
     </objects>

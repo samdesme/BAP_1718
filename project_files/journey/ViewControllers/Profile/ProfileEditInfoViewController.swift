@@ -57,7 +57,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     }
     
     func viewCreate1() {
-        viewContent.backgroundColor = whiteColor
+        self.view.backgroundColor = whiteColor
         self.tabBarController?.tabBar.isHidden = true
         
     }
@@ -65,7 +65,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     func createForm() {
         
         //create form view
-        editInfo.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: (viewContent.frame.height/2))
+        editInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (self.view.frame.height/2))
         editInfo.backgroundColor = whiteColor
         
         // UILabels
@@ -118,7 +118,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
         editInfo.btnToStep2.layer.insertSublayer(btnGradientLayer, at: 0)
         
         //add view to content view
-        viewContent.addSubview(editInfo)
+        self.view.addSubview(editInfo)
         
         
     }

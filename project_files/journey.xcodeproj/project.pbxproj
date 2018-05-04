@@ -32,6 +32,7 @@
 		853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* StatsViewController.swift */; };
 		853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D52067E76100A08DD9 /* GoalsViewController.swift */; };
 		853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D82067EB6800A08DD9 /* ConfigFile.swift */; };
+		853D110A209D0F45000C2944 /* createEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D1109209D0F45000C2944 /* createEntryViewController.swift */; };
 		85452B8120828EC90027A594 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85452B8020828EC90027A594 /* DataHelper.swift */; };
 		85452B84208290430027A594 /* Keywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85452B83208290430027A594 /* Keywords.swift */; };
 		8567DDD020938C5A0044BE87 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8567DDCF20938C5A0044BE87 /* CalendarViewController.swift */; };
@@ -123,6 +124,7 @@
 		853503D42067E76100A08DD9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		853503D52067E76100A08DD9 /* GoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		853503D82067EB6800A08DD9 /* ConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFile.swift; sourceTree = "<group>"; };
+		853D1109209D0F45000C2944 /* createEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createEntryViewController.swift; sourceTree = "<group>"; };
 		85452B8020828EC90027A594 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		85452B83208290430027A594 /* Keywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keywords.swift; sourceTree = "<group>"; };
 		8567DDCF20938C5A0044BE87 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				8567DDCF20938C5A0044BE87 /* CalendarViewController.swift */,
 				8567DDD120938C8E0044BE87 /* EntriesViewController.swift */,
 				8567DDD32093D9D40044BE87 /* JournalTabBarController.swift */,
+				853D1109209D0F45000C2944 /* createEntryViewController.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				8567DDFB209533370044BE87 /* FSCalendarDelegationProxy.m in Sources */,
 				856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */,
 				8567DE04209533370044BE87 /* FSCalendarTransitionCoordinator.m in Sources */,
+				853D110A209D0F45000C2944 /* createEntryViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
 				8567DE02209533370044BE87 /* FSCalendarWeekdayView.m in Sources */,
 				8567DDD42093D9D40044BE87 /* JournalTabBarController.swift in Sources */,
