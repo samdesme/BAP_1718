@@ -75,9 +75,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.isScrollEnabled = true
         
-        let verticalConstraint = NSLayoutConstraint(item: scrollView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view.safeAreaLayoutGuide, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
-        
-        self.view.addConstraints([verticalConstraint])
+
         
         let currentDate = Date()  //5 -  get the current date
         datePicker.minimumDate = currentDate  //6- set the current date/time as a minimum

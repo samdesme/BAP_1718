@@ -9,11 +9,11 @@
 import UIKit
 import CoreData
 
-class createEntryViewController: UIViewController, CreateStep1Delegate {
+class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     //OUTLET REFERENTIONS
+    @IBOutlet var viewMain: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
-
     
     //VARIABLES
     
@@ -24,30 +24,33 @@ class createEntryViewController: UIViewController, CreateStep1Delegate {
     let strSeverity = "Rate the severity of your mental issues in this situation (opinional)"
     let strRate = "Rate your overall mood"
 
+    
     //view
     let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
+    let viewActions = UIView()
     
     //database
     
     //labels
     let lblSub = UILabel()
     let lblMain = UILabel()
-    
+    var lblDisplay = UILabel()
+
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
     
     //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         createView()
         createForm()
         setUpSliders()
-        setUpMoods()
+        //setUpMoods()
     }
     
     func createView() {
         self.view.backgroundColor = whiteColor
-        self.tabBarController?.tabBar.isHidden = true
         
     }
     
@@ -58,10 +61,11 @@ class createEntryViewController: UIViewController, CreateStep1Delegate {
         let navBar = navigationController?.navigationBar
         
         //create form view
-        form.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: (self.view.frame.height/2))
-        form.backgroundColor = whiteColor
+        form.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: (self.view.frame.height/3))
+        form.backgroundColor = purpleColor.withAlphaComponent(0.1)
         
         // UILabels
+        form.lblName.frame.size.height = 100
         form.lblName.font = fontLabel
         form.lblName.text = strLblTitle
         form.lblName.textColor = blackColor
@@ -95,12 +99,51 @@ class createEntryViewController: UIViewController, CreateStep1Delegate {
     }
     
     func setUpSliders() {
+        
+        let navBar = navigationController?.navigationBar
+
+        let keywordSlider = UISlider()
         getData()
+        
+        viewActions.frame = CGRect(x: 15, y: (navBar?.frame.size.height)! + 50 + self.view.frame.height/3 + 25, width: self.view.frame.width - 30, height: self.view.frame.height/3)
+        viewActions.backgroundColor = lightGreyColor
+        
+        lblDisplay.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
+        keywordSlider.frame = CGRect(x: 60, y: 0, width: viewActions.frame.size.width - 60, height: 20)
+        
+        keywordSlider.minimumValue = 0
+        keywordSlider.maximumValue = 100
+        keywordSlider.value = 0
+        keywordSlider.isContinuous = true
+        keywordSlider.tintColor = blueColor
+        keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
+
+        lblDisplay.font = fontMainRegular20
+        lblDisplay.textColor = blueColor
+        
+        viewActions.addSubview(lblDisplay)
+        viewActions.addSubview(keywordSlider)
+
+        self.view.addSubview(viewActions)
         
     }
     
-    func setUpMoods() {
+    @objc func sliderValueDidChange(_ sender:UISlider!)
+    {
+        print("Slider value changed")
         
+        let value = round(sender.value)
+        lblDisplay.text = String(value)
+        
+        // Use this code below only if you want UISlider to snap to values step by step
+        //let roundedStepValue = round(sender.value / step) * step
+        //sender.value = roundedStepValue
+        
+        //print("Slider step value \(Int(roundedStepValue))")
+    }
+    
+    func setUpMoods() {
+
     }
 
     
@@ -136,7 +179,7 @@ class createEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.barStyle = .default
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
         navBar?.addSubview(lblMain)
-        
+
     }
     
     
@@ -190,6 +233,7 @@ class createEntryViewController: UIViewController, CreateStep1Delegate {
     func popBack() {
         lblSub.removeFromSuperview()
         createHeaderMain()
+        self.tabBarController?.tabBar.alpha = 1
         let _ = self.navigationController?.popViewController(animated: true)
     }
 
@@ -259,6 +303,8 @@ class createEntryViewController: UIViewController, CreateStep1Delegate {
         
         super.viewWillAppear(animated)
         createHeaderSub()
+        self.tabBarController?.tabBar.alpha = 0
+
     }
     
     override func didReceiveMemoryWarning() {

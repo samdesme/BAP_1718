@@ -411,7 +411,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="ztI-GO-xcJ" kind="relationship" relationship="viewControllers" id="Drt-CE-BhE"/>
-                        <segue destination="jw3-XW-7G3" kind="relationship" relationship="viewControllers" id="BWY-Gh-h6H"/>
+                        <segue destination="Wuz-He-le8" kind="relationship" relationship="viewControllers" id="BWY-Gh-h6H"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6c-AL-vi4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -505,7 +505,6 @@
                     <navigationItem key="navigationItem" id="74H-y0-sOb"/>
                     <connections>
                         <outlet property="calendar" destination="XYA-pw-c3X" id="fWc-Pe-Tcd"/>
-                        <outlet property="tableView" destination="fjH-NH-46b" id="CW0-i7-Yp4"/>
                         <outlet property="viewHeader" destination="7l0-9q-vhE" id="7YD-KF-JRb"/>
                         <outlet property="viewMain" destination="nOU-wa-O3W" id="1E5-Z3-g5j"/>
                     </connections>
@@ -536,24 +535,22 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="9qL-ZX-Irx"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="5BS-UX-1dK"/>
                     <navigationItem key="navigationItem" id="u0w-A7-GEJ"/>
                     <connections>
-                        <outlet property="viewContent" destination="EY2-wJ-ZU6" id="gcH-Lc-anB"/>
-                        <outlet property="viewHeader" destination="u0u-Lm-Hig" id="u2l-BN-MtR"/>
-                        <outlet property="viewMain" destination="r7z-eM-Xdl" id="xKp-pp-Bxm"/>
-                        <segue destination="OnF-sr-oRP" kind="push" id="AiZ-Il-tkL"/>
+                        <outlet property="backButtonItem" destination="u0w-A7-GEJ" id="1pW-59-w0L"/>
+                        <outlet property="viewMain" destination="r7z-eM-Xdl" id="SzZ-Z1-Tib"/>
+                        <segue destination="OnF-sr-oRP" kind="show" id="qat-al-tZs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coX-J3-pJw" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1104" y="1542"/>
+            <point key="canvasLocation" x="1410.144927536232" y="1541.5760869565217"/>
         </scene>
-        <!--CREATE entry-->
+        <!--createEntry-->
         <scene sceneID="gWV-Uk-3rh">
             <objects>
-                <viewController restorationIdentifier="createEntry" storyboardIdentifier="createEntry" id="OnF-sr-oRP" userLabel="CREATE entry" customClass="createEntryViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4tV-V8-VCY">
+                <viewController restorationIdentifier="createEntry" storyboardIdentifier="createEntry" id="OnF-sr-oRP" userLabel="createEntry" customClass="CreateEntryViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4tV-V8-VCY" userLabel="View Main">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -561,12 +558,32 @@
                     </view>
                     <navigationItem key="navigationItem" id="DEn-1G-v2I" userLabel="Back Button Item"/>
                     <connections>
-                        <outlet property="backButtonItem" destination="DEn-1G-v2I" id="d6Y-P8-Dl2"/>
+                        <outlet property="backButtonItem" destination="DEn-1G-v2I" id="pbd-d7-x4Z"/>
+                        <outlet property="viewMain" destination="4tV-V8-VCY" id="kbM-Sf-h23"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MC1-XZ-Iry" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1935" y="1541"/>
+            <point key="canvasLocation" x="2242.0289855072465" y="1540.7608695652175"/>
+        </scene>
+        <!--Entries Nav Controller-->
+        <scene sceneID="40E-rM-P2y">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Wuz-He-le8" userLabel="Entries Nav Controller" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="5BS-UX-1dK"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wQw-tW-9st">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jw3-XW-7G3" kind="relationship" relationship="rootViewController" id="P9B-6A-upx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oe7-B5-hna" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="609" y="1541"/>
         </scene>
     </scenes>
     <resources>

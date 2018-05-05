@@ -10,7 +10,11 @@ import UIKit
 import CoreData
 
 class EntriesViewController: UIViewController {
+    
 
+    
+    @IBOutlet weak var backButtonItem: UINavigationItem!
+    
     var selectedDate : String = ""
     var scrollView = UIScrollView()
     var viewTopGradient = UIView()
@@ -25,11 +29,17 @@ class EntriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.tabBar.isHidden = false
+        self.view.addSubview(scrollView)
+
         self.title = "ENTRIES"
         tabBarController?.selectedIndex = 1
         self.view.backgroundColor = lightGreyColor
-
+        
+        createEntriesViewToday()
         setUpBtnAdd()
+
+
     }
     
     func createEntriesViewToday() {
@@ -39,9 +49,7 @@ class EntriesViewController: UIViewController {
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (self.view.frame.size.height/4)*3)
         scrollView.isScrollEnabled = true
         
-        let verticalConstraint = NSLayoutConstraint(item: scrollView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view.safeAreaLayoutGuide, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
-        
-        self.view.addConstraints([verticalConstraint])
+
         
         //set up a gradient at the top of the page to create a 3D effect
         viewTopGradient.clipsToBounds = false
@@ -50,12 +58,15 @@ class EntriesViewController: UIViewController {
         topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
         topGradientLayer.locations = [ 0.0, 1.0]
         
+        scrollView.removeSubviews()
        viewTopGradient.layer.addSublayer(topGradientLayer)
        scrollView.addSubview(viewTopGradient)
        setUpTodaysEntry()
     }
     
     func setUpTodaysEntry() {
+        
+        
         let gradientLayer = CAGradientLayer()
         viewEntry.frame = CGRect(x: 15, y: 60, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3))
         
@@ -127,6 +138,37 @@ class EntriesViewController: UIViewController {
 
     }
     
+    func setUpBtnAdd() {
+        
+        let btnGradientLayer = CAGradientLayer()
+        
+        btnAdd.frame =  CGRect(x: (self.view.frame.size.width - 70)/2, y: (self.view.frame.size.height/4)*3, width: 70, height: 70)
+        btnGradientLayer.frame =  btnAdd.bounds
+        btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
+        btnGradientLayer.locations = [ 0.0, 1.0]
+        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        btnGradientLayer.cornerRadius = 35
+
+        btnAdd.layer.addSublayer(btnGradientLayer)
+
+        btnAdd.setTitle("+",for: .normal)
+        btnAdd.tintColor = whiteColor
+        btnAdd.titleLabel?.font = fontIconBig
+        btnAdd.addTarget(self,action:#selector(toCreate), for:.touchUpInside)
+
+        
+        self.view.addSubview(btnAdd)
+
+    }
+    
+    @objc func toCreate() {
+    self.tabBarController?.tabBar.isHidden = true
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "createEntry") as! CreateEntryViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func getData() {
         
         let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
@@ -145,36 +187,14 @@ class EntriesViewController: UIViewController {
         }
     }
     
-    func setUpBtnAdd() {
-        
-        let btnGradientLayer = CAGradientLayer()
-        
-        btnAdd.frame =  CGRect(x: (self.view.frame.size.width - 70)/2, y: (self.view.frame.size.height/4)*3, width: 70, height: 70)
-        btnGradientLayer.frame =  btnAdd.bounds
-        btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
-        btnGradientLayer.locations = [ 0.0, 1.0]
-        btnGradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        btnGradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        btnGradientLayer.cornerRadius = 35
-
-        btnAdd.layer.addSublayer(btnGradientLayer)
-
-        btnAdd.setTitle("+",for: .normal)
-        btnAdd.tintColor = whiteColor
-        btnAdd.titleLabel?.font = fontIconBig
-        
-        self.view.addSubview(btnAdd)
-
-    }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-         self.view.addSubview(scrollView)
-        createEntriesViewToday()
-        
+        //createEntriesViewToday()
+        self.tabBarController?.tabBar.isHidden = false
+
+
     }
 
     

@@ -2,4 +2,99 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "journey/ViewControllers/Journal/EntriesViewController.swift"
+            timestampString = "547253458.02126"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "journey.EntriesViewController.__deallocating_deinit"
+                  moduleName = "journey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samdesmedt/Desktop/journey_app/journey/ViewControllers/Journal/EntriesViewController.swift"
+                  timestampString = "547231301.3329279"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "journey.EntriesViewController.__allocating_init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; journey.EntriesViewController"
+                  moduleName = "journey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samdesmedt/Desktop/journey_app/journey/ViewControllers/Journal/EntriesViewController.swift"
+                  timestampString = "547231301.3357691"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "journey.EntriesViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; journey.EntriesViewController"
+                  moduleName = "journey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samdesmedt/Desktop/journey_app/journey/ViewControllers/Journal/EntriesViewController.swift"
+                  timestampString = "547231301.337626"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "79">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "journey.EntriesViewController.__allocating_init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;journey.EntriesViewController&gt;"
+                  moduleName = "journey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samdesmedt/Desktop/journey_app/journey/ViewControllers/Journal/EntriesViewController.swift"
+                  timestampString = "547231301.339312"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "journey.EntriesViewController.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;journey.EntriesViewController&gt;"
+                  moduleName = "journey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samdesmedt/Desktop/journey_app/journey/ViewControllers/Journal/EntriesViewController.swift"
+                  timestampString = "547231301.3408591"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
