@@ -15,26 +15,39 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
     
+
+    
     //VARIABLES
     
     //strings
     let strHeader = "create new entry"
     let strLblTitle = "Title"
+    var value = String()
+
     let strLblDescr = "Describe your entry"
     let strSeverity = "Rate the severity of your mental issues in this situation (opinional)"
-    let strRate = "Rate your overall mood"
+    let strMood = "Rate your overall mood"
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var arrayUserKeywords = [String]()
 
     
     //view
     let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
-    let viewActions = UIView()
-    
+    let viewSliders = UIView()
+    let viewOptions = UIView()
+    var scrollView = UIScrollView()
+
     //database
     
     //labels
     let lblSub = UILabel()
     let lblMain = UILabel()
     var lblDisplay = UILabel()
+    
+    let btnMood1 = DownStateButton()
+    let btnMood2 = DownStateButton()
+    let btnMood3 = DownStateButton()
 
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
@@ -42,11 +55,16 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     //Load view controller
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
+        self.view.addSubview(scrollView)
+        
+
+        
+        
         createView()
         createForm()
         setUpSliders()
-        //setUpMoods()
+        setUpMoods()
     }
     
     func createView() {
@@ -58,12 +76,16 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     func createForm() {
         
-        let navBar = navigationController?.navigationBar
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height*1.5)
+        scrollView.isScrollEnabled = true
+        //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
+
         
         //create form view
-        form.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: (self.view.frame.height/3))
-        form.backgroundColor = purpleColor.withAlphaComponent(0.1)
-        
+        form.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (self.view.frame.height/3))
+        form.backgroundColor = whiteColor
+
         // UILabels
         form.lblName.frame.size.height = 100
         form.lblName.font = fontLabel
@@ -85,6 +107,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         //UITextfield
         form.txtAbout.layer.cornerRadius = 5
+        form.txtAbout.frame.size.height = 200
         form.txtAbout.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
         form.txtAbout.layer.borderWidth = 1
         form.txtAbout.font = fontInput
@@ -95,59 +118,136 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         form.btnToStep2.isHidden = true
         
         //add view to content view
-        self.view.addSubview(form)
+        scrollView.addSubview(form)
     }
     
     func setUpSliders() {
+        let lblSliders = UILabel()
         
-        let navBar = navigationController?.navigationBar
-
-        let keywordSlider = UISlider()
         getData()
         
-        viewActions.frame = CGRect(x: 15, y: (navBar?.frame.size.height)! + 50 + self.view.frame.height/3 + 25, width: self.view.frame.width - 30, height: self.view.frame.height/3)
-        viewActions.backgroundColor = lightGreyColor
+        let count = Int(arrayUserKeywords.count)
+        let viewHeight = 80 + (60 * count)
         
-        lblDisplay.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
-        keywordSlider.frame = CGRect(x: 60, y: 0, width: viewActions.frame.size.width - 60, height: 20)
+        viewSliders.frame = CGRect(x: 15, y: self.view.frame.height/3, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
+        //viewSliders.backgroundColor = blueColor.withAlphaComponent(0.2)
         
+        lblSliders.frame = CGRect(x: 0, y: 0, width: viewSliders.frame.width, height: 80)
+        lblSliders.font = fontLabel
+        lblSliders.textColor = blackColor
+        lblSliders.textAlignment = .left
+        lblSliders.text = strSeverity
+        lblSliders.numberOfLines = 0
+        
+        viewSliders.addSubview(lblSliders)
+        
+        var yTitle = 0
+        var ySlider = 20
+        var tag = 1
+        
+        for keyword in arrayUserKeywords {
+        
+         let lblTitle = UILabel()
+         let lbltag = UILabel()
+
+         lblDisplay = lbltag
+
+         let keywordSlider = UISlider()
+            
+        lblTitle.frame = CGRect(x: 0, y: 80 + yTitle, width: Int(viewSliders.frame.size.width), height: 20)
+        lblTitle.text = "\(keyword)"
+        lblTitle.textAlignment = .right
+        lblTitle.font = fontInput
+        lblTitle.textColor = blackColor
+        //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+            
+        lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
+        lblDisplay.text = "0"
+        lblDisplay.textAlignment = .center
+        lblDisplay.font = fontMainRegular20
+        lblDisplay.tag = tag
+        lblDisplay.textColor = blueColor
+        
+        keywordSlider.frame = CGRect(x: 60, y: 80 + ySlider, width: Int(viewSliders.frame.size.width - 60), height: 40)
         keywordSlider.minimumValue = 0
         keywordSlider.maximumValue = 100
-        keywordSlider.value = 0
+        keywordSlider.tag = tag
         keywordSlider.isContinuous = true
         keywordSlider.tintColor = blueColor
         keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
 
-        lblDisplay.font = fontMainRegular20
-        lblDisplay.textColor = blueColor
+            
+        viewSliders.addSubview(lblTitle)
+        viewSliders.addSubview(lblDisplay)
+        viewSliders.addSubview(keywordSlider)
+          
+        tag = tag + 1
+        yTitle = yTitle + 60
+        ySlider = ySlider + 60
         
-        viewActions.addSubview(lblDisplay)
-        viewActions.addSubview(keywordSlider)
+        }
+        
+        scrollView.addSubview(viewSliders)
+    }
+    
+    func setUpMoods() {
+        
+        let lblMoodRate = UILabel()
+      
 
-        self.view.addSubview(viewActions)
+        let y = self.view.frame.height/3 + viewSliders.frame.size.height + 30
+        
+        viewOptions.frame =  CGRect(x: 15, y: y, width: self.view.frame.width - 30, height: 80)
+        
+        lblMoodRate.frame = CGRect(x: 0, y: 0, width: viewOptions.frame.width, height: 20)
+        lblMoodRate.font = fontLabel
+        lblMoodRate.textColor = blackColor
+        lblMoodRate.textAlignment = .left
+        lblMoodRate.text = strMood
+        lblMoodRate.numberOfLines = 0
+
+        btnMood1.frame =  CGRect(x: 0, y: 20, width: 60, height: 60)
+
+        btnMood1.downStateImage = "ic_mood1"
+        btnMood1.myAlternateButton = [btnMood2]
+        btnMood1.isSelected = true
+        btnMood1.frame =  CGRect(x: 0, y: 20, width: 60, height: 60)
+        
+        btnMood2.downStateImage = "ic_mood1_outline"
+        btnMood2.myAlternateButton = [btnMood1]
+        btnMood2.frame =  CGRect(x: 60, y: 20, width: 60, height: 60)
+
+        viewOptions.addSubview(lblMoodRate)
+        viewOptions.addSubview(btnMood1)
+        viewOptions.addSubview(btnMood2)
+
+
+        
+        
+        scrollView.addSubview(viewOptions)
+
         
     }
     
     @objc func sliderValueDidChange(_ sender:UISlider!)
     {
-        print("Slider value changed")
         
-        let value = round(sender.value)
-        lblDisplay.text = String(value)
-        
-        // Use this code below only if you want UISlider to snap to values step by step
-        //let roundedStepValue = round(sender.value / step) * step
-        //sender.value = roundedStepValue
-        
-        //print("Slider step value \(Int(roundedStepValue))")
+        for i in 1...arrayUserKeywords.count {
+            
+            if (sender.tag == i){
+                
+                let value = Int(round(sender.value))
+                
+                if let theLabel = view.viewWithTag(i) as? UILabel {
+                    theLabel.text = String(value)
+                }
+                
+            }
+            
+        }
+   
     }
     
-    func setUpMoods() {
-
-    }
-
-    
-
     
     func createHeaderSub() {
         
@@ -191,8 +291,31 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     func getData() {
         
+        let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
         
+        
+        //fetch data from custom added keywords and return them as an array
+        let context = appDelegate.persistentContainer.viewContext
+        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+        let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        
+        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+        let allKeywords = try! context.fetch(keywordFetchRequest)
+        
+        for key in allKeywords {
+            
+            let rank = key.ranking
+            if(rank != 0){
+                
+                arrayUserKeywords.append(key.title as String)
+                
+            }
+
+            
+        }
     }
+    
+    
     
     
     // MARK: alerts

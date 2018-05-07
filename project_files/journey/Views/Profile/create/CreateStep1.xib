@@ -34,16 +34,16 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JKh-e6-aTC" userLabel="txtAbout">
-                    <rect key="frame" x="15" y="129" width="345" height="128"/>
+                    <rect key="frame" x="15" y="129" width="345" height="100"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="128" id="9yB-LX-eCH"/>
+                        <constraint firstAttribute="height" constant="100" id="9yB-LX-eCH"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x8W-cQ-CSp" userLabel="btnNextShadow">
-                    <rect key="frame" x="67" y="307" width="240" height="50"/>
+                    <rect key="frame" x="67" y="279" width="240" height="50"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="75l-Hl-glB"/>
@@ -51,7 +51,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1b4-94-1aF" userLabel="btnToStep2">
-                    <rect key="frame" x="67" y="307" width="240" height="50"/>
+                    <rect key="frame" x="67" y="279" width="240" height="50"/>
                     <state key="normal" title="BUTTON TO STEP 2"/>
                 </button>
             </subviews>

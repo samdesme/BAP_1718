@@ -21,6 +21,8 @@
 		852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD4206940F400BBF740 /* Brandon_light.otf */; };
 		852F1FDA206940F400BBF740 /* Brandon_reg.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD5206940F400BBF740 /* Brandon_reg.otf */; };
 		852F1FDB206940F400BBF740 /* Brandon_thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 852F1FD6206940F400BBF740 /* Brandon_thin.otf */; };
+		85318191209FD7F200836827 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85318190209FD7F200836827 /* RadioButton.swift */; };
+		85318193209FD9F500836827 /* DownStateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85318192209FD9F500836827 /* DownStateButton.swift */; };
 		853503A52067E4CD00A08DD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503A42067E4CD00A08DD9 /* AppDelegate.swift */; };
 		853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503A62067E4CD00A08DD9 /* ProfileViewController.swift */; };
 		853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503A82067E4CD00A08DD9 /* JournalViewController.swift */; };
@@ -107,6 +109,8 @@
 		852F1FD4206940F400BBF740 /* Brandon_light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_light.otf; sourceTree = "<group>"; };
 		852F1FD5206940F400BBF740 /* Brandon_reg.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_reg.otf; sourceTree = "<group>"; };
 		852F1FD6206940F400BBF740 /* Brandon_thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_thin.otf; sourceTree = "<group>"; };
+		85318190209FD7F200836827 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		85318192209FD9F500836827 /* DownStateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownStateButton.swift; sourceTree = "<group>"; };
 		853503A12067E4CD00A08DD9 /* journey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = journey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		853503A42067E4CD00A08DD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		853503A62067E4CD00A08DD9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
@@ -435,6 +439,8 @@
 				8567DDD120938C8E0044BE87 /* EntriesViewController.swift */,
 				8567DDD32093D9D40044BE87 /* JournalTabBarController.swift */,
 				853D1109209D0F45000C2944 /* CreateEntryViewController.swift */,
+				85318190209FD7F200836827 /* RadioButton.swift */,
+				85318192209FD9F500836827 /* DownStateButton.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -671,10 +677,12 @@
 				853D110A209D0F45000C2944 /* CreateEntryViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
 				8567DE02209533370044BE87 /* FSCalendarWeekdayView.m in Sources */,
+				85318191209FD7F200836827 /* RadioButton.swift in Sources */,
 				8567DDD42093D9D40044BE87 /* JournalTabBarController.swift in Sources */,
 				853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */,
 				85452B84208290430027A594 /* Keywords.swift in Sources */,
 				859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */,
+				85318193209FD9F500836827 /* DownStateButton.swift in Sources */,
 				8567DDFF209533370044BE87 /* FSCalendarConstants.m in Sources */,
 				85E0C1FF209BA8B5004BFC4C /* entryView.swift in Sources */,
 				85C88EF12096656100B745C3 /* eventCell.swift in Sources */,

@@ -334,12 +334,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         let rank2 =  userKeywords.keyword2
         let rank3 =  userKeywords.keyword3
         
-        /*let i1 = keywords.index(where: { $0.ranking == 1}) as! Int
-        let i2 = keywords.index(where: { $0.ranking == 2}) as! Int
-        let i3 = keywords.index(where: { $0.ranking == 3}) as! Int*/
-
-        
-       
        if( keywords.index(where: { $0.ranking == 1}) != nil){
                 
           for i in 1..<4 {
