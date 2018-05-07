@@ -15,6 +15,7 @@ extension Keywords {
     @NSManaged var addedByUser: Bool
     @NSManaged var ranking: Int16
    @NSManaged var profile: Profile
+    @NSManaged var entries: EntryKeyword
 }
 
 

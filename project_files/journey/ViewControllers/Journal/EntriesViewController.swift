@@ -49,8 +49,6 @@ class EntriesViewController: UIViewController {
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: (self.view.frame.size.height/4)*3)
         scrollView.isScrollEnabled = true
         
-
-        
         //set up a gradient at the top of the page to create a 3D effect
         viewTopGradient.clipsToBounds = false
         viewTopGradient.backgroundColor = UIColor.clear

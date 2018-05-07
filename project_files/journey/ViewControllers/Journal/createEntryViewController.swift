@@ -22,6 +22,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     //strings
     let strHeader = "create new entry"
     let strLblTitle = "Title"
+    
     var value = String()
 
     let strLblDescr = "Describe your entry"
@@ -30,7 +31,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var arrayUserKeywords = [String]()
-
+    
+    @IBOutlet var myRadioYesButton:DownStateButton?
+    @IBOutlet var myRadioNoButton:DownStateButton?
     
     //view
     let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
@@ -39,16 +42,14 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     var scrollView = UIScrollView()
 
     //database
+    var moodInt = Int16()
+
     
     //labels
     let lblSub = UILabel()
     let lblMain = UILabel()
     var lblDisplay = UILabel()
     
-    let btnMood1 = DownStateButton()
-    let btnMood2 = DownStateButton()
-    let btnMood3 = DownStateButton()
-
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
     
@@ -57,10 +58,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         super.viewDidLoad()
         
         self.view.addSubview(scrollView)
-        
 
-        
-        
         createView()
         createForm()
         setUpSliders()
@@ -77,7 +75,6 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     func createForm() {
         
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height*1.5)
         scrollView.isScrollEnabled = true
         //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
 
@@ -143,7 +140,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         var yTitle = 0
         var ySlider = 20
-        var tag = 1
+        var tag = 0
         
         for keyword in arrayUserKeywords {
         
@@ -193,41 +190,128 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     func setUpMoods() {
         
         let lblMoodRate = UILabel()
-      
+        var x = 0
 
         let y = self.view.frame.height/3 + viewSliders.frame.size.height + 30
         
         viewOptions.frame =  CGRect(x: 15, y: y, width: self.view.frame.width - 30, height: 80)
-        
+        let columnWidth = (viewOptions.frame.width - 60*5)/4
+
         lblMoodRate.frame = CGRect(x: 0, y: 0, width: viewOptions.frame.width, height: 20)
         lblMoodRate.font = fontLabel
         lblMoodRate.textColor = blackColor
         lblMoodRate.textAlignment = .left
         lblMoodRate.text = strMood
         lblMoodRate.numberOfLines = 0
-
-        btnMood1.frame =  CGRect(x: 0, y: 20, width: 60, height: 60)
-
-        btnMood1.downStateImage = "ic_mood1"
-        btnMood1.myAlternateButton = [btnMood2]
-        btnMood1.isSelected = true
-        btnMood1.frame =  CGRect(x: 0, y: 20, width: 60, height: 60)
         
-        btnMood2.downStateImage = "ic_mood1_outline"
-        btnMood2.myAlternateButton = [btnMood1]
-        btnMood2.frame =  CGRect(x: 60, y: 20, width: 60, height: 60)
-
         viewOptions.addSubview(lblMoodRate)
-        viewOptions.addSubview(btnMood1)
-        viewOptions.addSubview(btnMood2)
 
+        for i in 1...5 {
+            
+            let btnMood = UIButton()
+            let image = UIImage(named: "ic_mood\(i)_outline")
+            
+            btnMood.setBackgroundImage(image, for: .normal)
+            btnMood.tag = 1110 + i
+            btnMood.isSelected = false
+            btnMood.frame =  CGRect(x: x, y: 30, width: 60, height: 60)
+            btnMood.addTarget(self,action:#selector(selectMood), for:.touchUpInside)
+            
+            viewOptions.addSubview(btnMood)
+            
+            x = x + 60 + Int(columnWidth)
+            
+        }
 
-        
-        
         scrollView.addSubview(viewOptions)
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: form.frame.size.height + viewSliders.frame.size.height + viewOptions.frame.size.height + 50)
 
+    }
+    
+    @objc func selectMood(sender: UIButton) {
+        
+        sender.isSelected = !sender.isSelected
+        
+        if sender.isSelected {
+            
+            if (sender.tag == 1111){
+                let img = UIImage(named: "ic_mood1")
+                sender.setBackgroundImage(img, for: .normal)
+                deselect(tag: 1111)
+                moodInt = 1
+            }
+            else if (sender.tag == 1112) {
+                let img = UIImage(named: "ic_mood2")
+                sender.setBackgroundImage(img, for: .normal)
+                deselect(tag: 1112)
+                moodInt = 2
+
+            }
+            else if (sender.tag == 1113) {
+                let img = UIImage(named: "ic_mood3")
+                sender.setBackgroundImage(img, for: .normal)
+                deselect(tag: 1113)
+                moodInt = 3
+
+            }
+            else if (sender.tag == 1114) {
+                let img = UIImage(named: "ic_mood4")
+                sender.setBackgroundImage(img, for: .normal)
+                deselect(tag: 1114)
+                moodInt = 4
+
+            }
+            else if (sender.tag == 1115) {
+                let img = UIImage(named: "ic_mood5")
+                sender.setBackgroundImage(img, for: .normal)
+                deselect(tag: 1115)
+                moodInt = 5
+            }
+            
+        }
+            
+        else {
+            
+            if (sender.tag == 1111){
+                let img = UIImage(named: "ic_mood1_outline")
+                sender.setBackgroundImage(img, for: .normal)
+            }
+            else if (sender.tag == 1112) {
+                let img = UIImage(named: "ic_mood2_outline")
+                sender.setBackgroundImage(img, for: .normal)
+            }
+            else if (sender.tag == 1113) {
+                let img = UIImage(named: "ic_mood3_outline")
+                sender.setBackgroundImage(img, for: .normal)
+            }
+            else if (sender.tag == 1114) {
+                let img = UIImage(named: "ic_mood4_outline")
+                sender.setBackgroundImage(img, for: .normal)
+            }
+            else if (sender.tag == 1115) {
+                let img = UIImage(named: "ic_mood5_outline")
+                sender.setBackgroundImage(img, for: .normal)
+            }
+        }
+    }
+    
+    func deselect(tag:Int) {
+        
+        for index in 1111...1115 where index != tag {
+            
+            if let buttons = view.viewWithTag(index) as? UIButton {
+                
+                let imgInt = index - 1110
+                let img = UIImage(named: "ic_mood\(imgInt)_outline")
+                buttons.isSelected = false
+                buttons.setBackgroundImage(img, for: .normal)
+                
+            }
+            
+        }
         
     }
+    
     
     @objc func sliderValueDidChange(_ sender:UISlider!)
     {
@@ -241,11 +325,8 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
                 if let theLabel = view.viewWithTag(i) as? UILabel {
                     theLabel.text = String(value)
                 }
-                
             }
-            
         }
-   
     }
     
     
@@ -286,13 +367,81 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     // MARK: data functions
     func saveData() {
         
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+        
+        let title = form.txtName.text
+        let entry = form.txtAbout.text
+        
+        //1 : Zoeken van keyword id's => in array
+        
+         let keywords : [Keywords] = dataHelper.getAll()
+        
+       // let i = keywords.index(where: { $0.title == element }) as! Int
+       // let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
+
+        //2 : MANY TO MANY: EntryKeyword => loop: voor elke keyword een entry
+        
+         let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
+        
+        print("NEW many to many RELATIONS: ")
+        print("\(String(describing: newSeverity))")
+        
+        //3 : new Entry
+        
+        let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
+        
+ 
+        
+        newEntry.title = title!
+        newEntry.entry = entry!
+        newEntry.mood = moodInt
+        newEntry.keywords = newSeverity
+        
+        dataHelper.saveChanges()
+        
+        print("NEW Entry: ")
+        print("\(String(describing: newEntry))")
+        
+        
+
+        
+        
+        
+        /*for (index, element ) in arraySelection.enumerated() {
+            
+            let i = keywords.index(where: { $0.title == element }) as! Int
+            let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
+            
+            toBeUpdated?.ranking = Int16(index+1)
+            toBeUpdated?.profile = updateProfile!
+            toBeUpdated?.entries = EntryKeyword()
+            
+            dataHelper.update(updatedKeyword: toBeUpdated!)
+            
+        }*/
+        
+        
+        do {
+            
+            //printKeywords()
+            try context.save()
+            print("Saved successfully")
+            lblSub.removeFromSuperview()
+            createHeaderMain()
+            //let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
+            //self.navigationController?.pushViewController(profilevc, animated: true)
+            
+            
+            
+        } catch {
+            print("Failed saving")
+        }
+        
         
     }
     
     func getData() {
-        
-        let dataHelper = DataHelper(context: appDelegate.managedObjectContext)
-        
         
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext

@@ -103,6 +103,7 @@ public class DataHelper {
         if let keyword = getById(id: updatedKeyword.objectID){
             keyword.ranking = updatedKeyword.ranking
            keyword.profile = updatedKeyword.profile
+            keyword.entries = updatedKeyword.entries
         }
     }
     
@@ -213,6 +214,110 @@ public class DataHelper {
     func deleteEvent(id: NSManagedObjectID){
         if let EventToDelete = getEventById(id:id){
             context.delete(EventToDelete)
+        }
+    }
+    
+    
+    // ENTRIES
+    
+    func createEntry(title: String, entry: String, mood: Int16, date: Date, keywords: EntryKeyword) -> Entries {
+        
+        let newEntry = NSEntityDescription.insertNewObject(forEntityName: Entries.entityName, into: context) as! Entries
+        
+        newEntry.title = title
+        newEntry.entry = entry
+        newEntry.mood = mood
+        newEntry.date = date
+        newEntry.keywords = keywords
+        
+        return newEntry
+    }
+    
+    // Returns all keywords
+    func getAllEntries() -> [Entries]{
+        return getEntry(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getEntry(withPredicate queryPredicate: NSPredicate) -> [Entries]{
+        let fetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
+        fetchRequest.predicate = queryPredicate
+        
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [Entries]
+        
+        
+    }
+    
+    func getEntryById(id: NSManagedObjectID) -> Entries? {
+        return context.object(with: id) as? Entries
+    }
+    
+    func updateEntry(updatedEntry: Entries){
+        if let entry = getEntryById(id: updatedEntry.objectID){
+            
+            entry.title = updatedEntry.title
+            entry.entry = updatedEntry.entry
+            entry.mood = updatedEntry.mood
+            entry.date = updatedEntry.date
+            entry.keywords = updatedEntry.keywords
+
+        }
+    }
+    
+    func deleteEntry(id: NSManagedObjectID){
+        if let EntryToDelete = getEntryById(id:id){
+            context.delete(EntryToDelete)
+        }
+    }
+    
+    // ENTRY_KEYWORD
+    
+    func createSeverity(entries: NSSet, keywords: NSSet, severity: Decimal) -> EntryKeyword {
+        
+        let newSeverity = NSEntityDescription.insertNewObject(forEntityName: EntryKeyword.entityName, into: context) as! EntryKeyword
+        
+        newSeverity.entries = entries
+        newSeverity.keywords = keywords
+        newSeverity.severity = severity
+ 
+        
+        return newSeverity
+    }
+    
+    // Returns all keywords
+    func getAllSeverities() -> [EntryKeyword]{
+        return getSeverity(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getSeverity(withPredicate queryPredicate: NSPredicate) -> [EntryKeyword]{
+        let fetchRequest = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        fetchRequest.predicate = queryPredicate
+        
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [EntryKeyword]
+        
+        
+    }
+    
+    func getSeverityById(id: NSManagedObjectID) -> EntryKeyword? {
+        return context.object(with: id) as? EntryKeyword
+    }
+    
+    func updateSeverity(updatedSeverity: EntryKeyword){
+        if let severity = getSeverityById(id: updatedSeverity.objectID){
+            severity.entries = updatedSeverity.entries
+            severity.keywords = updatedSeverity.keywords
+            severity.severity = updatedSeverity.severity
+
+            
+        }
+    }
+    
+    func deleteSeverity(id: NSManagedObjectID){
+        if let SeverityToDelete = getSeverityById(id:id){
+            context.delete(SeverityToDelete)
         }
     }
     

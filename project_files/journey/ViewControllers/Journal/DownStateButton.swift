@@ -12,7 +12,7 @@ class DownStateButton : UIButton {
     
     var myAlternateButton:Array<DownStateButton>?
     
-    var downStateImage:String? = "ic_mood4_outline.pdf"{
+    var downStateImage:String? = "ic_mood1_outline"{
         
         didSet{
             

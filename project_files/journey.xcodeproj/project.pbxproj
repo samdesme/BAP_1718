@@ -13,6 +13,8 @@
 		85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */; };
 		85265D66207E9E6E001B0B32 /* CreateStep2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85265D65207E9E6E001B0B32 /* CreateStep2.xib */; };
 		85265D68207E9E88001B0B32 /* CreateStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D67207E9E88001B0B32 /* CreateStep2.swift */; };
+		852B540120A1091600B45B26 /* EntryKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B540020A1091600B45B26 /* EntryKeyword.swift */; };
+		852B540320A10A2200B45B26 /* Entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B540220A10A2200B45B26 /* Entries.swift */; };
 		852D862D208FAB25001E60CF /* ProfileEditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D862C208FAB25001E60CF /* ProfileEditInfoViewController.swift */; };
 		852D862F208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D862E208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift */; };
 		852D8631208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D8630208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift */; };
@@ -101,6 +103,8 @@
 		85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate2ViewController.swift; sourceTree = "<group>"; };
 		85265D65207E9E6E001B0B32 /* CreateStep2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep2.xib; sourceTree = "<group>"; };
 		85265D67207E9E88001B0B32 /* CreateStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep2.swift; sourceTree = "<group>"; };
+		852B540020A1091600B45B26 /* EntryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryKeyword.swift; sourceTree = "<group>"; };
+		852B540220A10A2200B45B26 /* Entries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entries.swift; sourceTree = "<group>"; };
 		852D862C208FAB25001E60CF /* ProfileEditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditInfoViewController.swift; sourceTree = "<group>"; };
 		852D862E208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditKeywords1ViewController.swift; sourceTree = "<group>"; };
 		852D8630208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditKeywords2ViewController.swift; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 				85E4392E208A6A4200E139FA /* Profile.swift */,
 				85E43932208A822700E139FA /* ProfileKeywords.swift */,
 				85C88EEB2096631A00B745C3 /* Events.swift */,
+				852B540020A1091600B45B26 /* EntryKeyword.swift */,
+				852B540220A10A2200B45B26 /* Entries.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -657,6 +663,7 @@
 				8567DE08209533370044BE87 /* FSCalendarCollectionView.m in Sources */,
 				85BE5D2C206FF71700A4C7EA /* ProfileInfo.swift in Sources */,
 				852D862F208FAB5B001E60CF /* ProfileEditKeywords1ViewController.swift in Sources */,
+				852B540320A10A2200B45B26 /* Entries.swift in Sources */,
 				851606A1207147D1009ACC9C /* ProfileTopKeywords.swift in Sources */,
 				8567DE00209533370044BE87 /* FSCalendarHeaderView.m in Sources */,
 				8567DE09209533370044BE87 /* FSCalendarCollectionViewLayout.m in Sources */,
@@ -672,6 +679,7 @@
 				85E43933208A822700E139FA /* ProfileKeywords.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				8567DDFB209533370044BE87 /* FSCalendarDelegationProxy.m in Sources */,
+				852B540120A1091600B45B26 /* EntryKeyword.swift in Sources */,
 				856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */,
 				8567DE04209533370044BE87 /* FSCalendarTransitionCoordinator.m in Sources */,
 				853D110A209D0F45000C2944 /* CreateEntryViewController.swift in Sources */,
