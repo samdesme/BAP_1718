@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 extension EntryKeyword {
-    @NSManaged var entries: NSSet
-    @NSManaged var keywords: NSSet
-    @NSManaged var severity: Decimal
+    @NSManaged var entries: Entries
+    @NSManaged var keywords: Keywords
+    @NSManaged var severity: Int
     
     
 }

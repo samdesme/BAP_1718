@@ -5,12 +5,12 @@
         <attribute name="entry" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mood" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="keywords" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EntryKeyword" inverseName="entry" inverseEntity="EntryKeyword" syncable="YES"/>
+        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EntryKeyword" inverseName="entry" inverseEntity="EntryKeyword" syncable="YES"/>
     </entity>
     <entity name="EntryKeyword" representedClassName=".EntryKeyword" syncable="YES">
-        <attribute name="severity" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="entry" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entries" inverseName="keywords" inverseEntity="Entries" syncable="YES"/>
-        <relationship name="keyword" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keywords" inverseName="entries" inverseEntity="Keywords" syncable="YES"/>
+        <attribute name="severity" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="entry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entries" inverseName="keywords" inverseEntity="Entries" syncable="YES"/>
+        <relationship name="keyword" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Keywords" inverseName="entries" inverseEntity="Keywords" syncable="YES"/>
     </entity>
     <entity name="Events" representedClassName=".Events" syncable="YES">
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
@@ -22,7 +22,7 @@
         <attribute name="addedByUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ranking" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="entries" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EntryKeyword" inverseName="keyword" inverseEntity="EntryKeyword" syncable="YES"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EntryKeyword" inverseName="keyword" inverseEntity="EntryKeyword" syncable="YES"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="keywords" inverseEntity="Profile" syncable="YES"/>
     </entity>
     <entity name="Profile" representedClassName=".Profile" syncable="YES">
@@ -32,10 +32,10 @@
         <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keywords" inverseName="profile" inverseEntity="Keywords" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Events" positionX="-3816" positionY="-1053" width="128" height="105"/>
-        <element name="Keywords" positionX="-3602" positionY="-1309" width="128" height="118"/>
-        <element name="Profile" positionX="-3807" positionY="-1206" width="126" height="103"/>
         <element name="Entries" positionX="-3141" positionY="-1323" width="128" height="118"/>
-        <element name="EntryKeyword" positionX="-3384" positionY="-1386" width="128" height="88"/>
+        <element name="EntryKeyword" positionX="-3312" positionY="-1654" width="128" height="88"/>
+        <element name="Events" positionX="-3816" positionY="-1053" width="128" height="103"/>
+        <element name="Keywords" positionX="-3521" positionY="-1602" width="128" height="118"/>
+        <element name="Profile" positionX="-3798" positionY="-1305" width="126" height="103"/>
     </elements>
 </model>

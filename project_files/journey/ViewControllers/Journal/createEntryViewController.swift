@@ -31,6 +31,8 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var arrayUserKeywords = [String]()
+    var arraySliderValues = [Int16]()
+
     
     @IBOutlet var myRadioYesButton:DownStateButton?
     @IBOutlet var myRadioNoButton:DownStateButton?
@@ -140,7 +142,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         var yTitle = 0
         var ySlider = 20
-        var tag = 0
+        var tag = 1
         
         for keyword in arrayUserKeywords {
         
@@ -168,11 +170,10 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         keywordSlider.frame = CGRect(x: 60, y: 80 + ySlider, width: Int(viewSliders.frame.size.width - 60), height: 40)
         keywordSlider.minimumValue = 0
         keywordSlider.maximumValue = 100
-        keywordSlider.tag = tag
+        keywordSlider.tag = 100 + tag
         keywordSlider.isContinuous = true
         keywordSlider.tintColor = blueColor
         keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
-
             
         viewSliders.addSubview(lblTitle)
         viewSliders.addSubview(lblDisplay)
@@ -312,17 +313,37 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
     }
     
+    @objc func printSliderValues() {
+        getSliderValues()
+        print("\(String(describing: arraySliderValues))")
+
+        
+    }
+    
+    func getSliderValues() {
+        let tagCount = arrayUserKeywords.count + 100
+        for i in 101...tagCount {
+            
+                if let slider = viewSliders.viewWithTag(i) as? UISlider {
+                    let value = Int(round(slider.value))
+                    arraySliderValues.append(Int16(value))
+                    print("\(Decimal(value))")
+                }
+            
+        }
+    }
     
     @objc func sliderValueDidChange(_ sender:UISlider!)
     {
-        
-        for i in 1...arrayUserKeywords.count {
+        let tagCount = arrayUserKeywords.count + 100
+        for i in 101...tagCount {
             
             if (sender.tag == i){
                 
                 let value = Int(round(sender.value))
+                let tagLabels = i - 100
                 
-                if let theLabel = view.viewWithTag(i) as? UILabel {
+                if let theLabel = view.viewWithTag(tagLabels) as? UILabel {
                     theLabel.text = String(value)
                 }
             }
@@ -362,7 +383,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.addSubview(lblMain)
 
     }
-    
+    @objc func create() {
+        saveData()
+    }
     
     // MARK: data functions
     func saveData() {
@@ -373,38 +396,57 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let title = form.txtName.text
         let entry = form.txtAbout.text
         
-        //1 : Zoeken van keyword id's => in array
-        
-         let keywords : [Keywords] = dataHelper.getAll()
-        
-       // let i = keywords.index(where: { $0.title == element }) as! Int
-       // let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
-
-        //2 : MANY TO MANY: EntryKeyword => loop: voor elke keyword een entry
-        
-         let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
-        
-        print("NEW many to many RELATIONS: ")
-        print("\(String(describing: newSeverity))")
-        
-        //3 : new Entry
-        
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
         
- 
+        let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
+        
+        let keywords : [Keywords] = dataHelper.getAll()
+
         
         newEntry.title = title!
         newEntry.entry = entry!
         newEntry.mood = moodInt
-        newEntry.keywords = newSeverity
+        newEntry.date = Date()
+        
+
         
         dataHelper.saveChanges()
         
-        print("NEW Entry: ")
-        print("\(String(describing: newEntry))")
-        
-        
+        getSliderValues()
+        print("\(String(describing: arraySliderValues))")
 
+        let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
+        
+        print("saved ENTRY: ")
+        print("\(String(describing: savedEntry))")
+
+
+        for (index, element) in arrayUserKeywords.enumerated() {
+         
+            let i = keywords.index(where: { $0.title == element }) as! Int
+            
+            let keywordObject = dataHelper.getById(id: keywords[i].objectID)
+        
+        let sliderValue = arraySliderValues[index]
+            
+        print("\(String(describing: sliderValue))")
+        print("\(String(describing: keywordObject))")
+        print("\(String(describing: savedEntry!))")
+
+            
+        newSeverity.entries = savedEntry!
+        newSeverity.keywords = keywordObject!
+        newSeverity.severity = Int(sliderValue)
+
+            
+       //let newRelation = dataHelper.createSeverity(keywords: keywordObject!, entries: savedEntry!, severity: sliderValue)
+            
+        print("new MANY to MANY relation: ")
+        print("\(String(describing: newSeverity))")
+            
+            
+            
+         }
         
         
         
@@ -427,8 +469,8 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             //printKeywords()
             try context.save()
             print("Saved successfully")
-            lblSub.removeFromSuperview()
-            createHeaderMain()
+            //lblSub.removeFromSuperview()
+            //createHeaderMain()
             //let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
             //self.navigationController?.pushViewController(profilevc, animated: true)
             
@@ -446,9 +488,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-        let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+       // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
-        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+        //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
         for key in allKeywords {
@@ -520,7 +562,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let btnCreate = UIButton(type: .custom)
 
         btnCreate.setAttributedTitle(attributeString, for: .normal)
-        btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
+        btnCreate.addTarget(self, action: #selector(create), for: .touchUpInside)
         //add btn
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
     }

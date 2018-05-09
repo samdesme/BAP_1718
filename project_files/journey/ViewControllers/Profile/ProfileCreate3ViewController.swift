@@ -257,7 +257,6 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
             
             toBeUpdated?.ranking = Int16(index+1)
             toBeUpdated?.profile = updateProfile!
-            toBeUpdated?.entries = EntryKeyword()
             
             dataHelper.update(updatedKeyword: toBeUpdated!)
             

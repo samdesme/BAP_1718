@@ -14,8 +14,14 @@ extension Keywords {
     @NSManaged var title: String
     @NSManaged var addedByUser: Bool
     @NSManaged var ranking: Int16
-   @NSManaged var profile: Profile
-    @NSManaged var entries: EntryKeyword
+    @NSManaged var profile: Profile
+    @NSManaged var entries: NSSet
+    
+    @objc(addSeveritiesObject:)
+    @NSManaged public func addToEntryKeyword(_ value: EntryKeyword)
+    
+    @objc(addSeverities:)
+    @NSManaged public func addToEntryKeyword(_ values: NSSet)
 }
 
 

@@ -15,8 +15,13 @@ extension Entries {
     @NSManaged var entry: String
     @NSManaged var mood: Int16
     @NSManaged var date: Date
-    @NSManaged var keywords: EntryKeyword
-
+    @NSManaged var keywords: NSSet
+    
+    @objc(addSeveritiesObject:)
+    @NSManaged public func addToEntryKeyword(_ value: EntryKeyword)
+    
+    @objc(addSeverities:)
+    @NSManaged public func addToEntryKeyword(_ values: NSSet)
 }
 
 

@@ -53,7 +53,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     override func viewDidLoad() {
         super.viewDidLoad()
         //createData()
-        
         //Functions
         createProfileView()
         profileInfoView()
@@ -316,11 +315,20 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
         let keywords : [Keywords] = dataHelper.getAll()
+        let sev : [EntryKeyword] = dataHelper.getAllSeverities()
+
         
         let i = keywords.index(where: { $0.ranking == 1}) as! Int
+    
+
         let showRelation = dataHelper.getById(id: keywords[i].objectID)
+        //let showEntry = dataHelper.getSeverityById(id: sev[i2].objectID)
+
+
 
         print("\(String(describing: showRelation))")
+        print("\(String(describing: sev))")
+
         
     }
     

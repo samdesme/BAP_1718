@@ -103,7 +103,7 @@ public class DataHelper {
         if let keyword = getById(id: updatedKeyword.objectID){
             keyword.ranking = updatedKeyword.ranking
            keyword.profile = updatedKeyword.profile
-            keyword.entries = updatedKeyword.entries
+            
         }
     }
     
@@ -113,9 +113,6 @@ public class DataHelper {
             context.delete(keywordToDelete)
         }
     }
-    
-    
-    
     
     
     // PROFILE
@@ -136,9 +133,9 @@ public class DataHelper {
     }
     
     func getProfile(withPredicate queryPredicate: NSPredicate) -> [Profile] {
+        
         let fetchRequest = NSFetchRequest<Profile>(entityName: "Profile")
         fetchRequest.predicate = queryPredicate
-        
         
         let response = try! context.fetch(fetchRequest)
         return response as [Profile]
@@ -220,7 +217,7 @@ public class DataHelper {
     
     // ENTRIES
     
-    func createEntry(title: String, entry: String, mood: Int16, date: Date, keywords: EntryKeyword) -> Entries {
+    func createEntry(title: String, entry: String, mood: Int16, date: Date) -> Entries {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: Entries.entityName, into: context) as! Entries
         
@@ -228,7 +225,6 @@ public class DataHelper {
         newEntry.entry = entry
         newEntry.mood = mood
         newEntry.date = date
-        newEntry.keywords = keywords
         
         return newEntry
     }
@@ -239,9 +235,9 @@ public class DataHelper {
     }
     
     func getEntry(withPredicate queryPredicate: NSPredicate) -> [Entries]{
+        
         let fetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
         fetchRequest.predicate = queryPredicate
-        
         
         let response = try! context.fetch(fetchRequest)
         return response as [Entries]
@@ -260,7 +256,6 @@ public class DataHelper {
             entry.entry = updatedEntry.entry
             entry.mood = updatedEntry.mood
             entry.date = updatedEntry.date
-            entry.keywords = updatedEntry.keywords
 
         }
     }
@@ -273,13 +268,13 @@ public class DataHelper {
     
     // ENTRY_KEYWORD
     
-    func createSeverity(entries: NSSet, keywords: NSSet, severity: Decimal) -> EntryKeyword {
+    func createSeverity(keywords: Keywords, entries: Entries, severity: Int16) -> EntryKeyword {
         
         let newSeverity = NSEntityDescription.insertNewObject(forEntityName: EntryKeyword.entityName, into: context) as! EntryKeyword
         
         newSeverity.entries = entries
         newSeverity.keywords = keywords
-        newSeverity.severity = severity
+        newSeverity.severity = Int(severity)
  
         
         return newSeverity
@@ -293,7 +288,6 @@ public class DataHelper {
     func getSeverity(withPredicate queryPredicate: NSPredicate) -> [EntryKeyword]{
         let fetchRequest = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
         fetchRequest.predicate = queryPredicate
-        
         
         let response = try! context.fetch(fetchRequest)
         return response as [EntryKeyword]
