@@ -10,10 +10,15 @@ import Foundation
 import CoreData
 
 extension EntryKeyword {
-    @NSManaged var entries: Entries
-    @NSManaged var keywords: Keywords
-    @NSManaged var severity: Int
+    @NSManaged var entry: Entries
+    @NSManaged var keyword: Keywords
+    @NSManaged var severity: Int16
     
+    @objc(addEntryObject:)
+    @NSManaged public func addToEntries(_ value: Entries)
+    
+    @objc(addEntry:)
+    @NSManaged public func addToEntries(_ values: NSSet)
     
 }
 

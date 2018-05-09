@@ -74,9 +74,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         scrollView.backgroundColor = lightGreyColor
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.isScrollEnabled = true
-        
 
-        
         let currentDate = Date()  //5 -  get the current date
         datePicker.minimumDate = currentDate  //6- set the current date/time as a minimum
         datePicker.date = currentDate //7 - defaults to current time but shows how to use it.
@@ -846,7 +844,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         //dateFormatter.dateStyle = theDateFormat
         dateFormatter.timeStyle = theTimeFormat//9
         
-        let value: String =  dateFormatter.string(from: date)
+        let value: String = dateFormatter.string(from: date)
 
         dateToSave = date.addingTimeInterval(120.0 * 60.0)
         selectedDate = value

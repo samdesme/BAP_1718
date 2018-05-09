@@ -17,11 +17,7 @@ extension Entries {
     @NSManaged var date: Date
     @NSManaged var keywords: NSSet
     
-    @objc(addSeveritiesObject:)
-    @NSManaged public func addToEntryKeyword(_ value: EntryKeyword)
-    
-    @objc(addSeverities:)
-    @NSManaged public func addToEntryKeyword(_ values: NSSet)
+
 }
 
 

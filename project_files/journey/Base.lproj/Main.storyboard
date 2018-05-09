@@ -402,7 +402,7 @@
         <!--Journal Tab Bar Controller-->
         <scene sceneID="WQb-9a-AVb">
             <objects>
-                <tabBarController id="gtS-m6-ZA6" userLabel="Journal Tab Bar Controller" customClass="JournalTabBarController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController restorationIdentifier="tabbar" storyboardIdentifier="tabbar" id="gtS-m6-ZA6" userLabel="Journal Tab Bar Controller" customClass="JournalTabBarController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="tl0-ca-k0m"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Yax-6t-UA8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -526,11 +526,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EY2-wJ-ZU6" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="64" width="414" height="574"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="9qL-ZX-Irx"/>
@@ -538,7 +533,7 @@
                     <navigationItem key="navigationItem" id="u0w-A7-GEJ"/>
                     <connections>
                         <outlet property="backButtonItem" destination="u0w-A7-GEJ" id="1pW-59-w0L"/>
-                        <outlet property="viewMain" destination="r7z-eM-Xdl" id="SzZ-Z1-Tib"/>
+                        <outlet property="viewMain" destination="r7z-eM-Xdl" id="EuM-Ti-nPV"/>
                         <segue destination="OnF-sr-oRP" kind="show" id="qat-al-tZs"/>
                     </connections>
                 </viewController>

@@ -268,13 +268,13 @@ public class DataHelper {
     
     // ENTRY_KEYWORD
     
-    func createSeverity(keywords: Keywords, entries: Entries, severity: Int16) -> EntryKeyword {
+    func createSeverity(keyword: Keywords, entry: Entries, severity: Int16) -> EntryKeyword {
         
         let newSeverity = NSEntityDescription.insertNewObject(forEntityName: EntryKeyword.entityName, into: context) as! EntryKeyword
         
-        newSeverity.entries = entries
-        newSeverity.keywords = keywords
-        newSeverity.severity = Int(severity)
+        newSeverity.entry = entry
+        newSeverity.keyword = keyword
+        newSeverity.severity = severity
  
         
         return newSeverity
@@ -301,8 +301,8 @@ public class DataHelper {
     
     func updateSeverity(updatedSeverity: EntryKeyword){
         if let severity = getSeverityById(id: updatedSeverity.objectID){
-            severity.entries = updatedSeverity.entries
-            severity.keywords = updatedSeverity.keywords
+            severity.entry = updatedSeverity.entry
+            severity.keyword = updatedSeverity.keyword
             severity.severity = updatedSeverity.severity
 
             

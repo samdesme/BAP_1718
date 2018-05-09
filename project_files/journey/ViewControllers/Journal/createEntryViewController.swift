@@ -15,8 +15,6 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
     
-
-    
     //VARIABLES
     
     //strings
@@ -26,8 +24,10 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     var value = String()
 
     let strLblDescr = "Describe your entry"
-    let strSeverity = "Rate the severity of your mental issues in this situation (opinional)"
+    let strSeverity = "Rate the severity of your mental issues in this situation (optional)"
     let strMood = "Rate your overall mood"
+    let strDateMsg = "how are you?"
+
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var arrayUserKeywords = [String]()
@@ -38,16 +38,21 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     @IBOutlet var myRadioNoButton:DownStateButton?
     
     //view
+    let viewDateMsg = UIView()
     let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
     let viewSliders = UIView()
     let viewOptions = UIView()
     var scrollView = UIScrollView()
+    
+    var currentDateTime = Date()
 
     //database
-    var moodInt = Int16()
+    var moodInt : Int16 = 0
 
     
     //labels
+    let lblMsg = UILabel()
+    let lblDate = UILabel()
     let lblSub = UILabel()
     let lblMain = UILabel()
     var lblDisplay = UILabel()
@@ -62,27 +67,54 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         self.view.addSubview(scrollView)
 
         createView()
+        setUpDateMsg()
         createForm()
         setUpSliders()
         setUpMoods()
+        
     }
     
     func createView() {
         self.view.backgroundColor = whiteColor
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        scrollView.isScrollEnabled = true
         
     }
     
     // MARK: layout functions
+    func setUpDateMsg() {
+    
+        
+        viewDateMsg.frame = CGRect(x: 15, y: 0, width: self.view.frame.size.width - 30, height: 120)
+        viewDateMsg.backgroundColor = whiteColor
+        
+        lblMsg.frame = CGRect(x: 0, y: 40, width: viewDateMsg.frame.size.width, height: 30)
+        lblMsg.text = strDateMsg.uppercased()
+        lblMsg.font = fontTitleBig
+        lblMsg.textAlignment = .center
+        viewDateMsg.addSubview(lblMsg)
+        
+        let date = Date()
+        currentDateTime = date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E, MMMM d, HH:mm"
+        formatter.locale = Locale(identifier: "en_GB")
+        let strNow = formatter.string(from: currentDateTime)
+        
+        lblDate.frame = CGRect(x: 0, y: 40 + 30 + 5, width: viewDateMsg.frame.size.width, height: 25)
+        lblDate.text = strNow
+        lblDate.textColor = blackColor.withAlphaComponent(0.5)
+        lblDate.font = fontMainLight
+        lblDate.textAlignment = .center
+        viewDateMsg.addSubview(lblDate)
+        
+        scrollView.addSubview(viewDateMsg)
+    }
     
     func createForm() {
         
-        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        scrollView.isScrollEnabled = true
-        //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
-
-        
         //create form view
-        form.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (self.view.frame.height/3))
+        form.frame = CGRect(x: 0, y: 120, width: self.view.frame.width, height: (self.view.frame.height/3))
         form.backgroundColor = whiteColor
 
         // UILabels
@@ -128,7 +160,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let count = Int(arrayUserKeywords.count)
         let viewHeight = 80 + (60 * count)
         
-        viewSliders.frame = CGRect(x: 15, y: self.view.frame.height/3, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
+        viewSliders.frame = CGRect(x: 15, y: 120 + self.view.frame.height/3, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
         //viewSliders.backgroundColor = blueColor.withAlphaComponent(0.2)
         
         lblSliders.frame = CGRect(x: 0, y: 0, width: viewSliders.frame.width, height: 80)
@@ -193,7 +225,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let lblMoodRate = UILabel()
         var x = 0
 
-        let y = self.view.frame.height/3 + viewSliders.frame.size.height + 30
+        let y = 120 + self.view.frame.height/3 + viewSliders.frame.size.height + 30
         
         viewOptions.frame =  CGRect(x: 15, y: y, width: self.view.frame.width - 30, height: 80)
         let columnWidth = (viewOptions.frame.width - 60*5)/4
@@ -225,7 +257,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         }
 
         scrollView.addSubview(viewOptions)
-        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: form.frame.size.height + viewSliders.frame.size.height + viewOptions.frame.size.height + 50)
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 120 + form.frame.size.height + viewSliders.frame.size.height + viewOptions.frame.size.height + 50)
 
     }
     
@@ -271,29 +303,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             
         }
             
-        else {
-            
-            if (sender.tag == 1111){
-                let img = UIImage(named: "ic_mood1_outline")
-                sender.setBackgroundImage(img, for: .normal)
-            }
-            else if (sender.tag == 1112) {
-                let img = UIImage(named: "ic_mood2_outline")
-                sender.setBackgroundImage(img, for: .normal)
-            }
-            else if (sender.tag == 1113) {
-                let img = UIImage(named: "ic_mood3_outline")
-                sender.setBackgroundImage(img, for: .normal)
-            }
-            else if (sender.tag == 1114) {
-                let img = UIImage(named: "ic_mood4_outline")
-                sender.setBackgroundImage(img, for: .normal)
-            }
-            else if (sender.tag == 1115) {
-                let img = UIImage(named: "ic_mood5_outline")
-                sender.setBackgroundImage(img, for: .normal)
-            }
-        }
+       
     }
     
     func deselect(tag:Int) {
@@ -383,9 +393,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.addSubview(lblMain)
 
     }
-    @objc func create() {
-        saveData()
-    }
+
     
     // MARK: data functions
     func saveData() {
@@ -401,14 +409,11 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
         
         let keywords : [Keywords] = dataHelper.getAll()
-
         
         newEntry.title = title!
         newEntry.entry = entry!
         newEntry.mood = moodInt
-        newEntry.date = Date()
-        
-
+        newEntry.date = currentDateTime
         
         dataHelper.saveChanges()
         
@@ -428,52 +433,29 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             let keywordObject = dataHelper.getById(id: keywords[i].objectID)
         
         let sliderValue = arraySliderValues[index]
-            
+        
+       /*
+             
         print("\(String(describing: sliderValue))")
         print("\(String(describing: keywordObject))")
         print("\(String(describing: savedEntry!))")
+             
+       */
 
-            
-        newSeverity.entries = savedEntry!
-        newSeverity.keywords = keywordObject!
-        newSeverity.severity = Int(sliderValue)
-
-            
-       //let newRelation = dataHelper.createSeverity(keywords: keywordObject!, entries: savedEntry!, severity: sliderValue)
-            
+        newSeverity.entry = savedEntry!
+        newSeverity.keyword = keywordObject!
+        newSeverity.severity = sliderValue
+        
         print("new MANY to MANY relation: ")
         print("\(String(describing: newSeverity))")
             
-            
-            
          }
-        
-        
-        
-        /*for (index, element ) in arraySelection.enumerated() {
-            
-            let i = keywords.index(where: { $0.title == element }) as! Int
-            let toBeUpdated = dataHelper.getById(id: keywords[i].objectID)
-            
-            toBeUpdated?.ranking = Int16(index+1)
-            toBeUpdated?.profile = updateProfile!
-            toBeUpdated?.entries = EntryKeyword()
-            
-            dataHelper.update(updatedKeyword: toBeUpdated!)
-            
-        }*/
-        
         
         do {
             
-            //printKeywords()
             try context.save()
             print("Saved successfully")
-            //lblSub.removeFromSuperview()
-            //createHeaderMain()
-            //let profilevc = storyboard?.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
-            //self.navigationController?.pushViewController(profilevc, animated: true)
-            
+           
             
             
         } catch {
@@ -562,16 +544,17 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let btnCreate = UIButton(type: .custom)
 
         btnCreate.setAttributedTitle(attributeString, for: .normal)
-        btnCreate.addTarget(self, action: #selector(create), for: .touchUpInside)
+        btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
         //add btn
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
     }
 
     @objc func toMainPage() {
+        
         let name = form.txtName.text
         let about = form.txtAbout.text
         
-        if((name?.isEmpty)! || (about?.isEmpty)!){
+        if((name?.isEmpty)! || (about?.isEmpty)! || moodInt == 0){
             
             showAlertFormCheck()
             
@@ -582,9 +565,15 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             saveData()
             lblSub.removeFromSuperview()
             createHeaderMain()
-            let entriesvc = storyboard?.instantiateViewController(withIdentifier: "entries") as! EntriesViewController
-            self.navigationController?.pushViewController(entriesvc, animated: false)
+            self.tabBarController?.tabBar.alpha = 1
+
+            //let entriesvc = storyboard?.instantiateViewController(withIdentifier: "tabbar") as! JournalTabBarController
+            //entriesvc.tabBarController?.selectedIndex = 1
+            //self.navigationController?.pushViewController(entriesvc, animated: true)
             
+            var viewControllers = navigationController?.viewControllers
+            viewControllers?.removeLast(1)
+            navigationController?.setViewControllers(viewControllers!, animated: true)
         }
     }
     
