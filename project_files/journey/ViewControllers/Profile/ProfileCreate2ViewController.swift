@@ -263,8 +263,8 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         create2.scrollView.backgroundColor = UIColor.clear
         create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*1.8)
         
-        let bottomOffset = CGPoint(x: 0, y: create2.scrollView.contentSize.height - create2.scrollView.bounds.size.height)
-        create2.scrollView.setContentOffset(bottomOffset, animated: true)
+        //let bottomOffset = CGPoint(x: 0, y: create2.scrollView.contentSize.height - create2.scrollView.bounds.size.height)
+       // create2.scrollView.setContentOffset(bottomOffset, animated: true)
         
         
     }

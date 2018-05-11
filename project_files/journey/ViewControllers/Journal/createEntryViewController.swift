@@ -406,7 +406,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
         
-        let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
+       // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
         
         let keywords : [Keywords] = dataHelper.getAll()
         
@@ -429,25 +429,17 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         for (index, element) in arrayUserKeywords.enumerated() {
          
             let i = keywords.index(where: { $0.title == element }) as! Int
-            
             let keywordObject = dataHelper.getById(id: keywords[i].objectID)
-        
-        let sliderValue = arraySliderValues[index]
-        
-       /*
-             
-        print("\(String(describing: sliderValue))")
-        print("\(String(describing: keywordObject))")
-        print("\(String(describing: savedEntry!))")
-             
-       */
-
-        newSeverity.entry = savedEntry!
-        newSeverity.keyword = keywordObject!
-        newSeverity.severity = sliderValue
-        
+            let sliderValue = arraySliderValues[index]
+ 
+            let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
+            dataHelper.saveChanges()
+            
         print("new MANY to MANY relation: ")
-        print("\(String(describing: newSeverity))")
+        print("\(String(describing: newRelation))")
+            
+            
+
             
          }
         

@@ -29,6 +29,7 @@ let blackColor = UIColor.black
 
 //FONTS
 
+let fontReg16 = UIFont(name:"BrandonGrotesque-Regular", size:16)
 
 let font18Med = UIFont(name: "BrandonGrotesque-Medium", size: 18)
 let font17Med = UIFont(name: "BrandonGrotesque-Medium", size: 17)
@@ -66,6 +67,8 @@ let fontMainMedium = UIFont(name:"BrandonGrotesque-Medium", size:20)
 let fontLabelSub = UIFont(name:"BrandonGrotesque-Light", size:20)
 
 let fontInput = UIFont(name:"BrandonGrotesque-Light", size:18)
+let fontTime = UIFont(name:"BrandonGrotesque-Regular", size:17)
+
 
 let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 let fontTitleBig = UIFont(name:"BrandonGrotesque-Regular", size:24)

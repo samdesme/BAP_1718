@@ -107,10 +107,11 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
             
             let firstProfile = dataHelper.getProfileById(id: profiles[0].objectID)!
             
-            print("\(String(describing: firstProfile))")
+           // print("\(String(describing: firstProfile))")
             
             name = firstProfile.name
             about = firstProfile.about
+            //printKeywords()
             
         }
         else {
@@ -326,8 +327,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
 
 
 
-        print("\(String(describing: showRelation))")
-        print("\(String(describing: sev))")
+        print("\(String(describing: keywords))")
 
         
     }

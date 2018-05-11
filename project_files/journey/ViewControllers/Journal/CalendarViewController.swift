@@ -18,6 +18,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     var tableView: UITableView = UITableView()
     var selectedDate : String = ""
     var dateToSave = Date()
+    var calDate = Date()
+
     
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var viewHeader: UIView!
@@ -34,7 +36,10 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     let  gradientLayer = CAGradientLayer()
     
      var scrollView = UIScrollView()
-    
+    var imgMood = UIImage()
+    var lblCount = UILabel()
+    var imgMoodView = UIImageView()
+
     var viewTopGradient = UIView()
     var viewCalendar = UIView()
     var viewTableContainer = UIView()
@@ -65,6 +70,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         self.view.backgroundColor = whiteColor
         self.view.isUserInteractionEnabled = true
           fetchData()
+        fetchDataEntryCount()
+        calDate = calendar.selectedDate!
+
         
     }
     
@@ -271,8 +279,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         lblIcon.font = fontMainLight
         lblIcon.text = "Overall Mood"
         
-        let imgMood = UIImage(named: "ic_mood4")
-        let imgMoodView = UIImageView(image: imgMood)
+        fetchDataEntryCount()
+        
         imgMoodView.frame = CGRect(x: (entryIcon.frame.size.width - 60)/2, y: (aspect - 45)/2, width: 60, height: 60)
 
         entryIcon.addSubview(imgMoodView)
@@ -286,8 +294,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         lblCounter.font = fontMainLight
         lblCounter.text = "Entries"
         
-        let lblCount = UILabel()
-        lblCount.text = "4"
         lblCount.textAlignment = .center
         lblCount.font = fontCounter
         lblCount.textColor = purpleColor
@@ -300,6 +306,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         viewEntryCount.addSubview(btnViewEntries)
         
     }
+    
+
     
     func setUpTaskCount() {
         
@@ -445,8 +453,10 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         //let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
         //print("selected dates is \(selectedDates)")
         fetchData()
+        fetchDataEntryCount()
         let range = NSMakeRange(0, tableView.numberOfSections)
         let sections = NSIndexSet(indexesIn: range)
+        calDate = calendar.selectedDate!
         tableView.reloadSections(sections as IndexSet, with: .automatic)
         if monthPosition == .next || monthPosition == .previous {
             calendar.setCurrentPage(date, animated: true)
@@ -479,7 +489,90 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             print("Failed deleting")
         }
     }
+    func fetchDataEntryCount() {
+        
+        let averageInt = fetchEntryData().averageMood
+        let entryCount = fetchEntryData().count
+        print("AVERAGE: \(String(describing: averageInt))")
+        print("COUNT: \(String(describing: entryCount))")
+
+
+        
+        if(entryCount != 0){
+            
+            imgMood = UIImage(named: "ic_mood\(averageInt)")!
+            imgMoodView.image = imgMood
+
+            self.lblCount.text = "\(entryCount)"
+
+        }
+        else {
+            imgMood = UIImage(named: "ic_mood_no_entries")!
+            imgMoodView.image = imgMood
+            self.lblCount.text = "0"
+        }
+        
+    }
     
+    func fetchEntryData() -> (count:Int, averageMood:Int) {
+
+        var count = Int()
+        var averageMood = Int()
+        var intArray = [Int16]()
+    
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
+        let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequestEntries.sortDescriptors = [primarySortDescriptor]
+        
+        //let stringFetch = formatter.string(from: calendar.selectedDate!)
+
+        //print("\(String(describing: calendar.selectedDate! as NSDate))")
+
+        var cal = Calendar.current
+        cal.timeZone = NSTimeZone.local
+
+        // Get today's beginning & end
+        let dateFrom = cal.startOfDay(for: calendar.selectedDate!) // eg. 2016-10-10 00:00:00
+        var components = cal.dateComponents([.year, .month, .day, .hour, .minute],from: dateFrom)
+        components.day! += 1
+        let dateTo = cal.date(from: components)! // eg. 2016-10-11 00:00:00
+      
+        // Add Predicate
+        let predicate = NSPredicate(format: "(%@ <= date) AND (date < %@)", argumentArray: [dateFrom, dateTo])
+        fetchRequestEntries.predicate = predicate
+        
+        //first check if the database is empty
+        let results:NSArray? = try! context.fetch(fetchRequestEntries) as NSArray
+        count = (results?.count)!
+        
+        do {
+            let allEntries = try! context.fetch(fetchRequestEntries)
+            for entry in allEntries {
+                
+                
+                //get average mood of entries
+                intArray.append(entry.mood)
+                let sumArray = intArray.reduce(0, +)
+                let avgArrayValue = sumArray / Int16(intArray.count)
+                averageMood = Int(avgArrayValue)
+                
+                
+            }
+            
+        } catch {
+            print("Error catching")
+        }
+        
+       
+        
+        return (count, averageMood)
+
+        
+    }
     
     func fetchData(){
         listTask.removeAll()
