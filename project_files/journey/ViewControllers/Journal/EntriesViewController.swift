@@ -19,24 +19,26 @@ class EntriesViewController: UIViewController {
     var selectedDate : String = ""
     var scrollView = UIScrollView()
     var viewTopGradient = UIView()
+    let averageMood = UIImageView()
     let  topGradientLayer = CAGradientLayer()
     
     var selectedCalendarDate = Date()
-
+    var entryToEdit = String()
+    
+    let viewDay = UIView()
     var btnAdd = UIButton()
-    var btnToAll = UIButton()
+    var btnToday = UIButton()
 
     var intArray = [Int16]()
     var ySize = 15
     var averageMoodInt : Int = 0
 
+    
     var arrTest = [String]()
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
-    //let viewEntry = Bundle.main.loadNibNamed("entryView", owner: nil, options: nil)?.first as! entryView
-    let viewEntry = UIView()
-    let viewHeader = UIView()
+
     let lblDate = UILabel()
     
     override func viewDidLoad() {
@@ -45,111 +47,99 @@ class EntriesViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
  
         self.view.addSubview(scrollView)
-        self.view.addSubview(btnToAll)
-
+        
         self.title = "ENTRIES"
         tabBarController?.selectedIndex = 1
         self.view.backgroundColor = lightGreyColor
         
         createEntriesViewToday()
         setUpBtnAdd()
-        
-        let barViewControllers = self.tabBarController?.viewControllers
-        let svc = barViewControllers![1] as! CalendarViewController
-        svc.calDate = self.selectedCalendarDate
-
-
     }
+
     
     func createEntriesViewToday() {
         
         let navBar = navigationController?.navigationBar
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
         
-        
-        let keywordAttr : [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font : fontLabel!,
-            NSAttributedStringKey.foregroundColor : blackColor,
-            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
-        
-        
-        let attributeString = NSMutableAttributedString(string: "View all",
-                                                        attributes: keywordAttr)
-        
-        let top = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)!
+        let top = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 15
         
         // CONTENT
         //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
-        scrollView.frame = CGRect(x: 0, y: top + 60, width: self.view.frame.size.width, height: self.view.frame.size.height - top - (tabBarController?.tabBar.frame.size.height)!)
+        scrollView.frame = CGRect(x: 0, y: top + 45 + 15, width: self.view.frame.size.width, height: self.view.frame.size.height - top - (tabBarController?.tabBar.frame.size.height)!)
         scrollView.isScrollEnabled = true
 
-        btnToAll.setAttributedTitle(attributeString, for: .normal)
-        btnToAll.backgroundColor = UIColor.clear
-        btnToAll.titleLabel?.textColor = blackColor
-        btnToAll.titleLabel?.textAlignment = .center
-        btnToAll.frame = CGRect(x: 15, y: top + 20, width: self.view.frame.size.width - 30, height: 20)
-        
-
-
+       
         
         
     }
     
+    
     func setUpEntries() {
-        ySize = 15
-        averageMoodInt = 0
-        scrollView.removeSubviews()
 
-        let now = Date()
+        averageMoodInt = 0
+        let navBar = navigationController?.navigationBar
+        ySize = 0
+        let top = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 15
+
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d"
         formatter.locale = Locale(identifier: "en_GB")
+        
+        let selected = selectedCalendarDate
+        let strDate = formatter.string(from: selected)
+       
+        
+        let keywordAttr : [NSAttributedStringKey: Any] = [
+            NSAttributedStringKey.font : fontMainRegular20!,
+            NSAttributedStringKey.foregroundColor : whiteColor,
+            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+        let attributeString = NSMutableAttributedString(string: "Today", attributes: keywordAttr)
         
         let formatterTime = DateFormatter()
         formatterTime.dateFormat = "HH:mm"
         formatterTime.locale = Locale(identifier: "en_GB")
         
         //get today's date
-        let nowDate = formatter.string(from: now)
-        let gradientLayer = CAGradientLayer()
-        var averageMood = UIImageView()
+        let gradientLayerDay = CAGradientLayer()
         
-        viewEntry.frame = CGRect(x: 15, y: 0, width: self.view.frame.size.width - 30, height: scrollView.frame.size.height)
+    
+       
+        viewDay.frame = CGRect(x: 15, y: top, width: self.view.frame.size.width - 30, height: 45)
 
-        //viewEntry.frame = CGRect(x: 15, y: 15, width: self.view.frame.size.width - 30, height: scrollView.contentSize.height)
-        //viewEntry.frame.size.width = scrollView.frame.size.width
-        viewEntry.clipsToBounds = false
-        viewEntry.backgroundColor = whiteColor
-        viewEntry.layer.cornerRadius = 25
-        viewEntry.layer.shadowColor = blackColor.cgColor
-        viewEntry.layer.shadowOffset = CGSize(width: 6, height: 6)
-        viewEntry.layer.shadowOpacity = 0.05
-        viewEntry.layer.shadowRadius = 10.0
         
-        viewEntry.backgroundColor = whiteColor
-        viewHeader.frame = CGRect(x: 0, y: 0, width: viewEntry.frame.size.width, height: 45)
-        viewHeader.backgroundColor = UIColor.clear
-        
-        averageMood.frame = CGRect(x: 35/2, y: 5, width: 35, height: 35)
-        viewHeader.addSubview(averageMood)
-        
-        lblDate.frame = CGRect(x: 15, y: 0, width: viewHeader.frame.size.width - 30, height: viewHeader.frame.size.height)
-        lblDate.text = nowDate.uppercased()
+        lblDate.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
+        lblDate.text = strDate.uppercased()
         lblDate.font = fontMainMedium
         lblDate.textColor = whiteColor
-        lblDate.textAlignment = .right
+        lblDate.textAlignment = .center
         
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: viewEntry.frame.size.width, height: viewHeader.frame.size.height)
-        gradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
-        gradientLayer.locations = [ 0.0, 1.0]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        gradientLayer.cornerRadius = 25
-        gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        //averageMood.frame = CGRect(x: viewDay.frame.size.width - 35 - 15, y: 5, width: 35, height: 35)
+        averageMood.frame = CGRect(x: 15, y: 5, width: 35, height: 35)
+
         
-        viewHeader.layer.insertSublayer(gradientLayer, at: 0)
-        viewHeader.addSubview(lblDate)
-        viewEntry.addSubview(viewHeader)
+        gradientLayerDay.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
+        gradientLayerDay.colors = [purpleColor.cgColor, purpleColor.cgColor]
+        gradientLayerDay.locations = [ 0.0, 1.0]
+        gradientLayerDay.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayerDay.endPoint = CGPoint(x: 1, y: 0.5)
+        gradientLayerDay.cornerRadius = 22.5
+        //gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        btnToday.setAttributedTitle(attributeString, for: .normal)
+        btnToday.backgroundColor = UIColor.clear
+        btnToday.titleLabel?.textColor = whiteColor
+        btnToday.titleLabel?.textAlignment = .center
+        btnToday.frame = CGRect(x: viewDay.frame.size.width - 50 - 15*2, y: 5, width: 90, height: 35)
+        btnToday.addTarget(self,action:#selector(showTodaysEntries), for:.touchUpInside)
+        
+       
+        
+        viewDay.layer.insertSublayer(gradientLayerDay, at: 0)
+        viewDay.addSubview(lblDate)
+        viewDay.addSubview(averageMood)
+         viewDay.addSubview(btnToday)
+        self.view.addSubview(viewDay)
         
         var arrRelatedKeywords = [String]()
         
@@ -186,7 +176,7 @@ class EntriesViewController: UIViewController {
             
             
             //only fetch rows where the date = today
-            if(entryDate == nowDate){
+            if(entryDate == strDate){
                 
                 formatter.dateFormat = "EEEE, MMM d"
                 formatter.locale = Locale(identifier: "en_GB")
@@ -197,7 +187,7 @@ class EntriesViewController: UIViewController {
                 let manyRelations = try! context.fetch(fetchRequestRelation)
                 
                 for manyRelation in manyRelations {
-                    print("\(String(describing: manyRelations))")
+                   // print("\(String(describing: manyRelations))")
 
                     
                     if(manyRelation.severity != 0){
@@ -227,14 +217,14 @@ class EntriesViewController: UIViewController {
                     
                 }
                 
-                createEntry(title: entry.title, entry: entry.entry, mood: entry.mood, date: entryTime, y: CGFloat(ySize), severity: arrRelatedValue, arrKeywords: arrRelatedKeywords)
+                createEntry(title: entry.title, entry: entry.entry, mood: entry.mood, date: entryTime, y: CGFloat(ySize), severity: arrRelatedValue, arrKeywords: arrRelatedKeywords, objID: entry.objectID)
                 
                 //calculate the average mood
                 intArray.append(entry.mood)
                 let sumArray = intArray.reduce(0, +)
                 let avgArrayValue = sumArray / Int16(intArray.count)
                 averageMoodInt = Int(avgArrayValue)
-                print("\(String(describing: avgArrayValue))")
+               // print("\(String(describing: avgArrayValue))")
 
                 
             }
@@ -246,10 +236,10 @@ class EntriesViewController: UIViewController {
         
 
         scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(ySize + 15 + 45))
-        viewEntry.frame.size.height = scrollView.contentSize.height - 15
-        scrollView.addSubview(viewEntry)
         
-        let navBar = navigationController?.navigationBar
+        //viewEntry.frame.size.height = scrollView.contentSize.height - 15
+        //scrollView.addSubview(viewEntry)
+        
         //let yGrad = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 60 + self.view.frame.size.height/1.7 - 45
 
         //set up a gradient at the bottom of scrollview if the contentsize expands out of view
@@ -266,9 +256,38 @@ class EntriesViewController: UIViewController {
 
     }
     
-    func createEntry(title:String, entry:String, mood:Int16, date:String, y:CGFloat, severity:Array<Any>, arrKeywords:Array<Any>) {
+    func dateCheck() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        formatter.locale = Locale(identifier: "en_GB")
+        
+        let now = Date()
+        let todayDateStr = formatter.string(from: now)
+        let selectedDateStr = formatter.string(from: selectedCalendarDate)
+       
+       
+        
+        //if selected date is not today's date, add a button to today's entries
+        if(selectedDateStr != todayDateStr){
+            
+          btnToday.isHidden = false
+            
+            btnAdd.isHidden = true
+            
+        }
+        else {
+           btnToday.isHidden = true
+            btnAdd.isHidden = false
+
+        }
+        
+    }
     
-  
+    func createEntry(title:String, entry:String, mood:Int16, date:String, y:CGFloat, severity:Array<Any>, arrKeywords:Array<Any>, objID:NSManagedObjectID) {
+    
+        let viewEntry = UIView()
+        let viewHeader = UIView()
+        
         let viewContent = UIView()
         let viewKeywords = UIView()
 
@@ -277,26 +296,61 @@ class EntriesViewController: UIViewController {
         let lblTime = UILabel()
         let txtEntry = UITextView()
         let btnEdit = UIButton()
-        
-        //let btnExpand = UIButton()
-        
+        let navBar = navigationController?.navigationBar
 
-        viewContent.frame = CGRect(x: 0, y: viewHeader.frame.size.height + y, width: viewEntry.frame.size.width, height: 0)
+        //get today's date
+        let gradientLayer = CAGradientLayer()
+
+        viewEntry.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: 100)
+        viewEntry.clipsToBounds = false
+        viewEntry.backgroundColor = whiteColor
+        viewEntry.layer.cornerRadius = 25
+        viewEntry.layer.shadowColor = blackColor.cgColor
+        viewEntry.layer.shadowOffset = CGSize(width: 6, height: 6)
+        viewEntry.layer.shadowOpacity = 0.05
+        viewEntry.layer.shadowRadius = 10.0
+        
+        viewEntry.backgroundColor = whiteColor
+        
+        viewHeader.frame = CGRect(x: 0, y: 0, width: viewEntry.frame.size.width, height: 45)
+        viewHeader.backgroundColor = UIColor.clear
+
+        
+        lblTime.frame = CGRect(x: 15, y: 0, width: viewHeader.frame.size.width - 30, height: viewHeader.frame.size.height)
+        lblTime.text = date
+        lblTime.font = fontMainMedium
+        lblTime.textColor = whiteColor
+        lblTime.textAlignment = .right
+        
+        
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: viewEntry.frame.size.width, height: viewHeader.frame.size.height)
+        gradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
+        gradientLayer.locations = [ 0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        gradientLayer.cornerRadius = 25
+        gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        viewHeader.layer.insertSublayer(gradientLayer, at: 0)
+        viewHeader.addSubview(lblTime)
+        viewEntry.addSubview(viewHeader)
+        
+        viewContent.frame = CGRect(x: 0, y: viewHeader.frame.size.height + 15, width: viewEntry.frame.size.width, height: 40)
         //viewContent.backgroundColor = blueColor.withAlphaComponent(0.2)
     
-        imgView.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
-        imgView.image = UIImage(named: "ic_mood\(mood)_outline")
+        imgView.frame = CGRect(x: 15, y: 5, width: 35, height: 35)
+        imgView.image = UIImage(named: "ic_mood\(mood)_white")
         
-        let entryWidth = viewEntry.frame.size.width - imgView.frame.size.width - 15*2 - 15
+        let entryWidth = viewEntry.frame.size.width - 30 - 15
         
-        txtEntry.frame = CGRect(x: imgView.frame.size.width + 14*2, y: 30, width: entryWidth, height: 40)
+        txtEntry.frame = CGRect(x: 15, y: 30, width: viewEntry.frame.size.width - 30, height: 40)
         txtEntry.text = entry
         txtEntry.font = fontInput
         txtEntry.isEditable = false
         txtEntry.isScrollEnabled = false
         txtEntry.sizeToFit()
         txtEntry.translatesAutoresizingMaskIntoConstraints = false
-        txtEntry.backgroundColor = blueColor.withAlphaComponent(0.2)
+        //txtEntry.backgroundColor = blueColor.withAlphaComponent(0.2)
         
        /* if(txtEntry.frame.size.height < viewEntry.frame.size.width - imgView.frame.size.width - 15*2 - 15){
             txtEntry.frame.size.height = viewEntry.frame.size.width - imgView.frame.size.width - 15*2 - 15
@@ -315,61 +369,72 @@ class EntriesViewController: UIViewController {
             strKeywords = "\u{25CF} \(e2)%  \(e1)"
             let size: CGSize = strKeywords.size(withAttributes: [NSAttributedStringKey.font: font17Med!])
             let lblHeight = size.height
-            lblKeywords.frame =  CGRect(x: imgView.frame.size.width + 14*2, y: lblY, width: entryWidth, height: lblHeight)
+            lblKeywords.frame =  CGRect(x: 15, y: lblY, width: entryWidth, height: lblHeight)
             //lblKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
             lblKeywords.text = strKeywords
             lblKeywords.font = font17Med
             lblKeywords.textColor = blueColor
             lblKeywords.numberOfLines = 0
             
-            viewKeywords.addSubview(lblKeywords)
-            
-            lblY = lblY + lblHeight
-            viewKeywords.frame.size.height = lblY
 
+            
+            viewKeywords.addSubview(lblKeywords)
+
+            lblY = lblY + lblHeight
+            viewKeywords.frame.size.height = lblY 
 
         }
 
-
-        
-        lblTitle.frame =  CGRect(x: imgView.frame.size.width + 15*2, y: 0, width: entryWidth, height: 30)
+        lblTitle.frame =  CGRect(x: 60, y: 0, width: viewEntry.frame.size.width - 60*2, height: 30)
         lblTitle.text = title.uppercased()
         lblTitle.font = fontKeywordRegular
+        lblTitle.textAlignment = .center
         lblTitle.numberOfLines = 0
         
-        lblTime.frame =  CGRect(x: 15, y: imgView.frame.size.height, width: imgView.frame.size.width, height: 30)
+       /* lblTime.frame =  CGRect(x: 15, y: imgView.frame.size.height, width: imgView.frame.size.width, height: 30)
         lblTime.textAlignment = .center
         lblTime.text = date
         lblTime.textColor = purpleColor
-        lblTime.font = fontTime
+        lblTime.font = fontTime*/
+        
+        let idString = String(describing: objID)
         
         btnEdit.frame =  CGRect(x: viewEntry.frame.width - 45, y: 0, width: 30, height: 30)
         let image = UIImage(named: "arrow_down")
 
-        btnEdit.titleLabel?.textColor = blueColor
+        btnEdit.addTarget(self,action:#selector(editEntry),for:.touchUpInside)
+       // btnEdit.titleLabel?.textColor = blueColor
+        //btnEdit.titleLabel?.font = font17Bld
+       //btnEdit.titleLabel?.textAlignment = .center
         btnEdit.tintColor = blueColor
-        btnEdit.titleLabel?.font = font17Bld
-        btnEdit.titleLabel?.textAlignment = .center
+        btnEdit.setTitle(idString, for: .normal)
+        btnEdit.titleLabel?.isHidden = true
         btnEdit.backgroundColor = UIColor.clear
         btnEdit.layer.cornerRadius = 15
         btnEdit.layer.borderWidth = 1.5
         btnEdit.setImage(image, for: .normal)
+        
+        btnEdit.addTarget(self,action:#selector(editEntry), for:.touchUpInside)
+
 
         btnEdit.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         btnEdit.layer.borderColor = blueColor.cgColor
         
-        
-        viewContent.frame.size.height = lblTitle.frame.size.height + txtEntry.frame.size.height
-        
-        viewContent.addSubview(imgView)
+        viewHeader.addSubview(imgView)
         viewContent.addSubview(lblTitle)
-        viewContent.addSubview(lblTime)
+        //viewContent.addSubview(lblID)
         viewContent.addSubview(txtEntry)
         viewContent.addSubview(viewKeywords)
         viewContent.addSubview(btnEdit)
-
+        
+        
+        viewContent.frame.size.height = lblTitle.frame.size.height + txtEntry.frame.size.height + viewKeywords.frame.size.height + 45
+        viewEntry.frame.size.height = viewContent.frame.size.height + 30
+        
         viewEntry.addSubview(viewContent)
-        ySize = ySize + Int(lblTitle.frame.size.height + txtEntry.frame.size.height + viewKeywords.frame.size.height + 20)
+        scrollView.addSubview(viewEntry)
+
+        ySize = ySize + Int(viewEntry.frame.size.height) + 15
         
     }
     
@@ -406,8 +471,71 @@ class EntriesViewController: UIViewController {
 
     }
     
-    @objc func showAll() {
+
+    
+    func btnActionSheet(objectID: String) {
         
+    
+        let alertController = UIAlertController(title: nil, message: "Entry: \(objectID)", preferredStyle: .actionSheet)
+
+        
+        let editButton = UIAlertAction(title: "Edit", style: .default, handler: { (action) -> Void in
+            self.toEdit()
+        })
+        
+        let  deleteButton = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
+            //self.deleteEntry(objectID: objectID)
+            
+            print(objectID)
+            //self.refresh()
+            
+        })
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            print("Cancel button tapped")
+        })
+        
+        
+        alertController.addAction(editButton)
+        alertController.addAction(deleteButton)
+        alertController.addAction(cancelButton)
+        
+        self.navigationController!.present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func deleteEntry(objectID: String) {
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
+        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        
+        let predicateEntry = NSPredicate(format: "SELF = %@", objectID)
+        fetchRequestEntries.predicate = predicateEntry
+        
+        let entries = try! context.fetch(fetchRequestEntries)
+        
+        for entry in entries {
+            context.delete(entry)
+            
+            let predicateRelation = NSPredicate(format: "entry == %@", entry)
+            fetchRequestRelation.predicate = predicateRelation
+            let manyRelations = try! context.fetch(fetchRequestRelation)
+
+            for manyRelation in manyRelations {
+                context.delete(manyRelation)
+            }
+        }
+        
+    }
+    
+    
+    @objc func showTodaysEntries() {
+        selectedCalendarDate = Date()
+        scrollView.removeSubviews()
+        setUpEntries()
+        dateCheck()
     }
     
     @objc func toCreate() {
@@ -417,19 +545,48 @@ class EntriesViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func getData() {
-   
+
+
+    @objc func editEntry(sender: UIButton) {
+        
+        let strID = (sender.titleLabel?.text)!
+        if(strID.isEmpty) {
+            print("error")
+        }
+        
+        else {
+            btnActionSheet(objectID: strID)
+        }
     }
     
-
+    
+    
+   func toEdit() {
+    
+    let editEntry = storyboard?.instantiateViewController(withIdentifier: "editEntry") as! EditEntryViewController
+    editEntry.entryToEdit = self.entryToEdit
+    self.navigationController?.pushViewController(editEntry, animated: true)
+    
+    }
+    
+    func refresh() {
+        
+        scrollView.removeSubviews()
+        setUpEntries()
+        dateCheck()
+        
+    }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        setUpEntries()
+    
+        refresh()
+   
         self.tabBarController?.tabBar.isHidden = false
         self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        
 
     }
 

@@ -72,6 +72,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
           fetchData()
         fetchDataEntryCount()
         calDate = calendar.selectedDate!
+        
+
+
 
         
     }
@@ -457,6 +460,12 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         let range = NSMakeRange(0, tableView.numberOfSections)
         let sections = NSIndexSet(indexesIn: range)
         calDate = calendar.selectedDate!
+        
+        //pass along selected date to tab 2
+        let barViewControllers = self.tabBarController?.viewControllers
+        let svc = barViewControllers![1] as! EntriesViewController
+        svc.selectedCalendarDate = calendar.selectedDate!
+
         tableView.reloadSections(sections as IndexSet, with: .automatic)
         if monthPosition == .next || monthPosition == .previous {
             calendar.setCurrentPage(date, animated: true)
@@ -921,9 +930,21 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         alert.textFields![2].text = selectedDate
     }
     
+    /*
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "toEntries" {
+        let tabBarC : UITabBarController = segue.destination as! UITabBarController
+        let desView: EntriesViewController = tabBarC.viewControllers?.first as! EntriesViewController
+        
+            
+            desView.selectedCalendarDate = self.calDate
+        }
+    }*/
+    
     // TO ENTRIES (second tab)
     @objc func toEntries() {
          self.tabBarController?.selectedIndex = 1
+        
     }
     
     //MARK: - Instance Methods

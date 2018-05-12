@@ -511,7 +511,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hlw-sf-oCn" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1462.0000000000002" y="535"/>
+            <point key="canvasLocation" x="1370" y="810"/>
         </scene>
         <!--Entries-->
         <scene sceneID="eFV-mE-B9g">
@@ -535,6 +535,7 @@
                         <outlet property="backButtonItem" destination="u0w-A7-GEJ" id="1pW-59-w0L"/>
                         <outlet property="viewMain" destination="r7z-eM-Xdl" id="EuM-Ti-nPV"/>
                         <segue destination="OnF-sr-oRP" kind="show" id="qat-al-tZs"/>
+                        <segue destination="e7h-Qv-GDk" kind="show" id="1Ae-xp-gXS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coX-J3-pJw" sceneMemberID="firstResponder"/>
@@ -559,7 +560,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MC1-XZ-Iry" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2242.0289855072465" y="1540.7608695652175"/>
+            <point key="canvasLocation" x="2158" y="1348"/>
         </scene>
         <!--Entries Nav Controller-->
         <scene sceneID="40E-rM-P2y">
@@ -579,6 +580,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oe7-B5-hna" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="609" y="1541"/>
+        </scene>
+        <!--editEntry-->
+        <scene sceneID="eb6-KW-vbR">
+            <objects>
+                <viewController restorationIdentifier="editEntry" storyboardIdentifier="editEntry" id="e7h-Qv-GDk" userLabel="editEntry" customClass="EditEntryViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L33-SA-tGD" userLabel="View Main">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="ViI-4G-ypz"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="VBX-Nb-6tK" userLabel="Back Button Item"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="VBX-Nb-6tK" id="w2l-MD-C5l"/>
+                        <outlet property="viewMain" destination="L33-SA-tGD" id="rAk-2m-y5O"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fzn-sw-6r5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2158" y="2115"/>
         </scene>
     </scenes>
     <resources>

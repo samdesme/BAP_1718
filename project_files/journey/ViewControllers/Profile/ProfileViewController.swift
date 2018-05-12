@@ -396,14 +396,14 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         lbl.alpha = 0
     }
     
-    // CREATE EDIT INFO
+    // EDIT INFO
     @objc func editInfo() {
         let vcInfo = storyboard?.instantiateViewController(withIdentifier: "editInfo") as! ProfileEditInfoViewController
         self.navigationController?.pushViewController(vcInfo, animated: true)
         lbl.alpha = 0
     }
     
-    // CREATE EDIT KEYWORDS
+    // EDIT KEYWORDS
     @objc func editKeywords() {
         let vcKeywords = storyboard?.instantiateViewController(withIdentifier: "editKeywordRange") as! ProfileEditKeywords1ViewController
         self.navigationController?.pushViewController(vcKeywords, animated: true)

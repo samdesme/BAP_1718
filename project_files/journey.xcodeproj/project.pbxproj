@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C7591C49C13712D0865A058 /* Pods_journey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 548B5AA52AD34D1525A97551 /* Pods_journey.framework */; };
+		850FB66320A78A73003DDD0D /* EditEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850FB66220A78A73003DDD0D /* EditEntryViewController.swift */; };
 		8516069F20714708009ACC9C /* ProfileTopKeywords.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8516069E20714708009ACC9C /* ProfileTopKeywords.xib */; };
 		851606A1207147D1009ACC9C /* ProfileTopKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851606A0207147D1009ACC9C /* ProfileTopKeywords.swift */; };
 		85265D64207E9A6B001B0B32 /* ProfileCreate2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */; };
@@ -98,6 +99,7 @@
 /* Begin PBXFileReference section */
 		1FFEAC2FAB6F146536F58B4B /* Pods-journey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-journey.release.xcconfig"; path = "Pods/Target Support Files/Pods-journey/Pods-journey.release.xcconfig"; sourceTree = "<group>"; };
 		548B5AA52AD34D1525A97551 /* Pods_journey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_journey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		850FB66220A78A73003DDD0D /* EditEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEntryViewController.swift; sourceTree = "<group>"; };
 		8516069E20714708009ACC9C /* ProfileTopKeywords.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTopKeywords.xib; sourceTree = "<group>"; };
 		851606A0207147D1009ACC9C /* ProfileTopKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTopKeywords.swift; sourceTree = "<group>"; };
 		85265D63207E9A6B001B0B32 /* ProfileCreate2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate2ViewController.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				853D1109209D0F45000C2944 /* CreateEntryViewController.swift */,
 				85318190209FD7F200836827 /* RadioButton.swift */,
 				85318192209FD9F500836827 /* DownStateButton.swift */,
+				850FB66220A78A73003DDD0D /* EditEntryViewController.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -658,6 +661,7 @@
 				85C88EEC2096631A00B745C3 /* Events.swift in Sources */,
 				8567DDFD209533370044BE87 /* FSCalendarAppearance.m in Sources */,
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
+				850FB66320A78A73003DDD0D /* EditEntryViewController.swift in Sources */,
 				8567DE01209533370044BE87 /* FSCalendarScopeHandle.m in Sources */,
 				8567DE03209533370044BE87 /* FSCalendarCalculator.m in Sources */,
 				8567DE08209533370044BE87 /* FSCalendarCollectionView.m in Sources */,
