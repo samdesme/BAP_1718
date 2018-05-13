@@ -217,7 +217,7 @@ public class DataHelper {
     
     // ENTRIES
     
-    func createEntry(title: String, entry: String, mood: Int16, date: Date) -> Entries {
+    func createEntry(title: String, entry: String, mood: Int16, date: Date, edited: Bool) -> Entries {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: Entries.entityName, into: context) as! Entries
         
@@ -225,6 +225,7 @@ public class DataHelper {
         newEntry.entry = entry
         newEntry.mood = mood
         newEntry.date = date
+        newEntry.edited = false
         
         return newEntry
     }
@@ -256,6 +257,7 @@ public class DataHelper {
             entry.entry = updatedEntry.entry
             entry.mood = updatedEntry.mood
             entry.date = updatedEntry.date
+            entry.edited = true
 
         }
     }

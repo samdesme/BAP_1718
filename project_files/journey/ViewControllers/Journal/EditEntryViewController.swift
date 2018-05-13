@@ -27,13 +27,11 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
     let strLblDescr = "Describe your entry"
     let strSeverity = "Rate the severity of your mental issues in this situation (optional)"
     let strMood = "Rate your overall mood"
-    let strDateMsg = "how are you?"
-    
+    let strDateMsg = "edit an entry"
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var arrayUserKeywords = [String]()
-    var arraySliderValues = [Int16]()
-    
+
+
     
     @IBOutlet var myRadioYesButton:DownStateButton?
     @IBOutlet var myRadioNoButton:DownStateButton?
@@ -45,12 +43,24 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
     let viewOptions = UIView()
     var scrollView = UIScrollView()
     
-    var currentDateTime = Date()
-    var entryToEdit = String()
+   
 
-    //database
+    //DATA
     var moodInt : Int16 = 0
     
+    
+    //edit
+    var currentDateTime = Date()
+    var entryToEdit = String()
+    var getMoodInt = Int16()
+    var arrayGetSliderValues = [Int16]()
+    var arrayUserKeywords = [String]()
+    var titleEdit = String()
+    var entryEdit = String()
+
+    //update
+    var arrayUpdateSliderValues = [Int16]()
+
     
     //labels
     let lblMsg = UILabel()
@@ -96,15 +106,20 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         lblMsg.textAlignment = .center
         viewDateMsg.addSubview(lblMsg)
         
-        let date = Date()
-        currentDateTime = date
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "E, MMMM d, HH:mm"
         formatter.locale = Locale(identifier: "en_GB")
-        let strNow = formatter.string(from: currentDateTime)
+        
+        let dateCreated = formatterFull.date(from: entryToEdit)
+        let strCreated = formatter.string(from: dateCreated!)
+
         
         lblDate.frame = CGRect(x: 0, y: 40 + 30 + 5, width: viewDateMsg.frame.size.width, height: 25)
-        lblDate.text =  "Entry created: " + strNow
+        lblDate.text =  "Entry created: " + strCreated
         lblDate.textColor = blackColor.withAlphaComponent(0.5)
         lblDate.font = fontMainLight
         lblDate.textAlignment = .center
@@ -146,6 +161,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         form.txtAbout.font = fontInput
         form.txtAbout.clipsToBounds = true
         
+        
         // UIButton
         form.btnNextShadow.isHidden = true
         form.btnToStep2.isHidden = true
@@ -178,7 +194,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         var ySlider = 20
         var tag = 1
         
-        for keyword in arrayUserKeywords {
+         for (keyword, value) in zip(arrayUserKeywords, arrayGetSliderValues) {
             
             let lblTitle = UILabel()
             let lbltag = UILabel()
@@ -195,7 +211,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
             
             lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
-            lblDisplay.text = "0"
+            lblDisplay.text = String(value)
             lblDisplay.textAlignment = .center
             lblDisplay.font = fontMainRegular20
             lblDisplay.tag = tag
@@ -205,6 +221,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             keywordSlider.minimumValue = 0
             keywordSlider.maximumValue = 100
             keywordSlider.tag = 100 + tag
+            keywordSlider.value = Float(value)
             keywordSlider.isContinuous = true
             keywordSlider.tintColor = blueColor
             keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
@@ -248,7 +265,17 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             
             btnMood.setBackgroundImage(image, for: .normal)
             btnMood.tag = 1110 + i
-            btnMood.isSelected = false
+            
+            if(getMoodInt == i){
+                btnMood.isSelected = true
+                let img = UIImage(named: "ic_mood\(i)")
+                btnMood.setBackgroundImage(img, for: .normal)
+                moodInt = Int16(i)
+            }
+            else {
+                btnMood.isSelected = false
+
+            }
             btnMood.frame =  CGRect(x: x, y: 30, width: 60, height: 60)
             btnMood.addTarget(self,action:#selector(selectMood), for:.touchUpInside)
             
@@ -327,7 +354,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
     
     @objc func printSliderValues() {
         getSliderValues()
-        print("\(String(describing: arraySliderValues))")
+        print("\(String(describing: arrayUpdateSliderValues))")
         
         
     }
@@ -338,7 +365,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             
             if let slider = viewSliders.viewWithTag(i) as? UISlider {
                 let value = Int(round(slider.value))
-                arraySliderValues.append(Int16(value))
+                arrayUpdateSliderValues.append(Int16(value))
                 print("\(Decimal(value))")
             }
             
@@ -408,7 +435,6 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
         
-        // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
         
         let keywords : [Keywords] = dataHelper.getAll()
         
@@ -420,7 +446,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         dataHelper.saveChanges()
         
         getSliderValues()
-        print("\(String(describing: arraySliderValues))")
+        print("\(String(describing: arrayUpdateSliderValues))")
         
         let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
         
@@ -432,7 +458,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             
             let i = keywords.index(where: { $0.title == element }) as! Int
             let keywordObject = dataHelper.getById(id: keywords[i].objectID)
-            let sliderValue = arraySliderValues[index]
+            let sliderValue = arrayUpdateSliderValues[index]
             
             let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
             dataHelper.saveChanges()
@@ -459,27 +485,137 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         
     }
     
-    func getData() {
+    func updateData() {
+        
+        let title = form.txtName.text
+        let txtEntry = form.txtAbout.text
+        
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
         
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
-        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-        // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
+        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
         
-        //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
-        let allKeywords = try! context.fetch(keywordFetchRequest)
+        getSliderValues()
         
-        for key in allKeywords {
+        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
+        //entryFetchRequest.predicate = predicateRelation
+        
+        let allEntries = try! context.fetch(entryFetchRequest)
+        
+        for entry in allEntries {
             
-            let rank = key.ranking
-            if(rank != 0){
+            
+            let entryDate = formatterFull.string(from: entry.date)
+            
+            if(entryDate == entryToEdit){
                 
-                arrayUserKeywords.append(key.title as String)
+                entry.title = title!
+                entry.entry = txtEntry!
+                entry.mood = moodInt
+                entry.edited = true
+
+                
+                let predicateRelation = NSPredicate(format: "entry == %@", entry)
+                fetchRequestRelation.predicate = predicateRelation
+                
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                
+                for (index, element ) in manyRelations.enumerated() {
+                    let sliderValue = arrayUpdateSliderValues[index]
+
+                  element.severity = sliderValue
+                    
+                }
+                
+                do {
+                    
+                    try context.save()
+                    print("updated successfully")
+                    
+                } catch {
+                    print("Failed saving")
+                }
+                
                 
             }
             
             
         }
+        
+        
+        
+    }
+    
+    func getData() {
+        
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
+        
+        //fetch data from custom added keywords and return them as an array
+        let context = appDelegate.persistentContainer.viewContext
+        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+        let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
+        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        
+        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
+        //entryFetchRequest.predicate = predicateRelation
+
+        let allEntries = try! context.fetch(entryFetchRequest)
+        
+        for entry in allEntries {
+            
+            
+            let entryDate = formatterFull.string(from: entry.date)
+
+            if(entryDate == entryToEdit){
+                
+                let predicateRelation = NSPredicate(format: "entry == %@", entry)
+                fetchRequestRelation.predicate = predicateRelation
+                
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                
+                 for manyRelation in manyRelations {
+                    
+                    
+                    let strKeywordID = manyRelation.keyword.objectID
+                    let predicateKeywords = NSPredicate(format: "SELF = %@", strKeywordID)
+                    keywordFetchRequest.predicate = predicateKeywords
+                    
+                    let relatedKeywords = try! context.fetch(keywordFetchRequest)
+                    
+                    for keyword in relatedKeywords {
+                        
+                        
+                        arrayGetSliderValues.append(manyRelation.severity)
+                        arrayUserKeywords.append(keyword.title as String)
+                        getMoodInt = entry.mood
+                        form.txtName.text = entry.title
+                        form.txtAbout.text = entry.entry
+                        
+                        //titleEdit = entry.title
+                        //entryEdit = entry.entry
+                        
+                        
+                        
+                        
+                    }
+                    
+                    
+               }
+               
+                
+            }
+            
+            
+        }
+        
+        
+     
     }
     
     
@@ -550,22 +686,19 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         let name = form.txtName.text
         let about = form.txtAbout.text
         
-        if((name?.isEmpty)! || (about?.isEmpty)! || moodInt == 0){
+        if((name?.isEmpty)! || (about?.isEmpty)!){
             
             showAlertFormCheck()
+            
             
         }
             
         else {
             
-            saveData()
+            updateData()
             lblSub.removeFromSuperview()
             createHeaderMain()
             self.tabBarController?.tabBar.alpha = 1
-            
-            //let entriesvc = storyboard?.instantiateViewController(withIdentifier: "tabbar") as! JournalTabBarController
-            //entriesvc.tabBarController?.selectedIndex = 1
-            //self.navigationController?.pushViewController(entriesvc, animated: true)
             
             var viewControllers = navigationController?.viewControllers
             viewControllers?.removeLast(1)

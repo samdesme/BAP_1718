@@ -23,7 +23,6 @@ class EntriesViewController: UIViewController {
     let  topGradientLayer = CAGradientLayer()
     
     var selectedCalendarDate = Date()
-    var entryToEdit = String()
     
     let viewDay = UIView()
     var btnAdd = UIButton()
@@ -100,6 +99,10 @@ class EntriesViewController: UIViewController {
         formatterTime.dateFormat = "HH:mm"
         formatterTime.locale = Locale(identifier: "en_GB")
         
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
+        
         //get today's date
         let gradientLayerDay = CAGradientLayer()
         
@@ -173,7 +176,10 @@ class EntriesViewController: UIViewController {
             //get dates of the entry
             let entryDate = formatter.string(from: entry.date)
             let entryTime = formatterTime.string(from: entry.date)
-            
+            let txtButtonDate = entry.date
+
+            let entryFullDate = formatterFull.string(from: txtButtonDate)
+
             
             //only fetch rows where the date = today
             if(entryDate == strDate){
@@ -217,7 +223,7 @@ class EntriesViewController: UIViewController {
                     
                 }
                 
-                createEntry(title: entry.title, entry: entry.entry, mood: entry.mood, date: entryTime, y: CGFloat(ySize), severity: arrRelatedValue, arrKeywords: arrRelatedKeywords, objID: entry.objectID)
+                createEntry(title: entry.title, entry: entry.entry, mood: entry.mood, time: entryTime, date: entryFullDate, y: CGFloat(ySize), severity: arrRelatedValue, arrKeywords: arrRelatedKeywords, edited: entry.edited)
                 
                 //calculate the average mood
                 intArray.append(entry.mood)
@@ -283,7 +289,7 @@ class EntriesViewController: UIViewController {
         
     }
     
-    func createEntry(title:String, entry:String, mood:Int16, date:String, y:CGFloat, severity:Array<Any>, arrKeywords:Array<Any>, objID:NSManagedObjectID) {
+    func createEntry(title:String, entry:String, mood:Int16, time:String, date:String, y:CGFloat, severity:Array<Any>, arrKeywords:Array<Any>, edited: Bool) {
     
         let viewEntry = UIView()
         let viewHeader = UIView()
@@ -317,12 +323,26 @@ class EntriesViewController: UIViewController {
 
         
         lblTime.frame = CGRect(x: 15, y: 0, width: viewHeader.frame.size.width - 30, height: viewHeader.frame.size.height)
-        lblTime.text = date
-        lblTime.font = fontMainMedium
-        lblTime.textColor = whiteColor
         lblTime.textAlignment = .right
+
+        let attrs1 = [NSAttributedStringKey.font : fontMainRegular!, NSAttributedStringKey.foregroundColor : whiteColor]
+        let attrs2 = [NSAttributedStringKey.font : fontMainMedium!, NSAttributedStringKey.foregroundColor : whiteColor]
+        
+        let attributedString1 = NSMutableAttributedString(string:"(Edited) ", attributes:attrs1)
+        let attributedString2 = NSMutableAttributedString(string: time, attributes:attrs2)
         
         
+        if(edited == true){
+            attributedString1.append(attributedString2)
+            lblTime.attributedText = attributedString1
+
+        }
+        else {
+            lblTime.attributedText = attributedString2
+
+        }
+        
+    
         gradientLayer.frame = CGRect(x: 0, y: 0, width: viewEntry.frame.size.width, height: viewHeader.frame.size.height)
         gradientLayer.colors = [blueColor.cgColor, lightBlueColor.cgColor]
         gradientLayer.locations = [ 0.0, 1.0]
@@ -397,7 +417,8 @@ class EntriesViewController: UIViewController {
         lblTime.textColor = purpleColor
         lblTime.font = fontTime*/
         
-        let idString = String(describing: objID)
+        let idString = String(describing: date)
+       
         
         btnEdit.frame =  CGRect(x: viewEntry.frame.width - 45, y: 0, width: 30, height: 30)
         let image = UIImage(named: "arrow_down")
@@ -422,7 +443,6 @@ class EntriesViewController: UIViewController {
         
         viewHeader.addSubview(imgView)
         viewContent.addSubview(lblTitle)
-        //viewContent.addSubview(lblID)
         viewContent.addSubview(txtEntry)
         viewContent.addSubview(viewKeywords)
         viewContent.addSubview(btnEdit)
@@ -473,21 +493,19 @@ class EntriesViewController: UIViewController {
     
 
     
-    func btnActionSheet(objectID: String) {
+    func btnActionSheet(date: String) {
         
     
-        let alertController = UIAlertController(title: nil, message: "Entry: \(objectID)", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: "Entry: \(date)", preferredStyle: .actionSheet)
 
         
         let editButton = UIAlertAction(title: "Edit", style: .default, handler: { (action) -> Void in
-            self.toEdit()
+            self.toEdit(date: date)
         })
         
         let  deleteButton = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
-            //self.deleteEntry(objectID: objectID)
-            
-            print(objectID)
-            //self.refresh()
+            self.deleteEntry(date: date)
+            self.refresh()
             
         })
         
@@ -504,28 +522,47 @@ class EntriesViewController: UIViewController {
     }
     
     
-    func deleteEntry(objectID: String) {
+    func deleteEntry(date: String) {
+        
+        print("string passed : \(String(describing: date))")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+
+        dateFormatter.locale = Locale(identifier: "en_GB")
+
         
         let context = appDelegate.persistentContainer.viewContext
-        
         let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
         let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
         
-        let predicateEntry = NSPredicate(format: "SELF = %@", objectID)
-        fetchRequestEntries.predicate = predicateEntry
+        //let predicateEntry = NSPredicate(format: "date = %@", date)
+        //fetchRequestEntries.predicate = predicateEntry
         
         let entries = try! context.fetch(fetchRequestEntries)
         
         for entry in entries {
-            context.delete(entry)
             
-            let predicateRelation = NSPredicate(format: "entry == %@", entry)
-            fetchRequestRelation.predicate = predicateRelation
-            let manyRelations = try! context.fetch(fetchRequestRelation)
+            let entrDate = dateFormatter.string(from: entry.date)
 
-            for manyRelation in manyRelations {
-                context.delete(manyRelation)
+            if(entrDate == date){
+
+                print("\(String(describing: entry))")
+                context.delete(entry)
+                
+                let predicateRelation = NSPredicate(format: "entry == %@", entry)
+                fetchRequestRelation.predicate = predicateRelation
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                
+                for manyRelation in manyRelations {
+                    
+                    print("\(String(describing: manyRelation))")
+                    context.delete(manyRelation)
+                }
+                
             }
+          
+            
+            
         }
         
     }
@@ -549,23 +586,24 @@ class EntriesViewController: UIViewController {
 
     @objc func editEntry(sender: UIButton) {
         
-        let strID = (sender.titleLabel?.text)!
-        if(strID.isEmpty) {
+        let btnLabel = (sender.titleLabel?.text)!
+        if(btnLabel.isEmpty) {
             print("error")
         }
         
         else {
-            btnActionSheet(objectID: strID)
+            btnActionSheet(date: btnLabel)
         }
     }
     
     
     
-   func toEdit() {
-    
-    let editEntry = storyboard?.instantiateViewController(withIdentifier: "editEntry") as! EditEntryViewController
-    editEntry.entryToEdit = self.entryToEdit
-    self.navigationController?.pushViewController(editEntry, animated: true)
+    func toEdit(date: String) {
+        self.tabBarController?.tabBar.isHidden = true
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let editEntry = storyboard.instantiateViewController(withIdentifier: "editEntry") as! EditEntryViewController
+        editEntry.entryToEdit = date
+        self.navigationController?.pushViewController(editEntry, animated: true)
     
     }
     

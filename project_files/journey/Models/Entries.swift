@@ -16,7 +16,8 @@ extension Entries {
     @NSManaged var mood: Int16
     @NSManaged var date: Date
     @NSManaged var keywords: NSSet
-    
+    @NSManaged var edited: Bool
+
 
 }
 

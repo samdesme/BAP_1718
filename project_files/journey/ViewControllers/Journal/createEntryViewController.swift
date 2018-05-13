@@ -413,6 +413,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         newEntry.title = title!
         newEntry.entry = entry!
         newEntry.mood = moodInt
+        newEntry.edited = false
         newEntry.date = currentDateTime
         
         dataHelper.saveChanges()

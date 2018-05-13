@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Entries" representedClassName=".Entries" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="edited" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="entry" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mood" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,7 +33,7 @@
         <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keywords" inverseName="profile" inverseEntity="Keywords" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Entries" positionX="-3141" positionY="-1323" width="128" height="118"/>
+        <element name="Entries" positionX="-3141" positionY="-1323" width="128" height="135"/>
         <element name="EntryKeyword" positionX="-3312" positionY="-1654" width="128" height="88"/>
         <element name="Events" positionX="-3816" positionY="-1053" width="128" height="103"/>
         <element name="Keywords" positionX="-3521" positionY="-1602" width="128" height="118"/>
