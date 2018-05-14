@@ -270,9 +270,9 @@ public class DataHelper {
     
     // ENTRY_KEYWORD
     
-    func createSeverity(keyword: Keywords, entry: Entries, severity: Int16) -> EntryKeyword {
+    func createSeverity(keyword: Keywords, entry: Entries, severity: Int16) -> EntryKeywords {
         
-        let newSeverity = NSEntityDescription.insertNewObject(forEntityName: EntryKeyword.entityName, into: context) as! EntryKeyword
+        let newSeverity = NSEntityDescription.insertNewObject(forEntityName: EntryKeywords.entityName, into: context) as! EntryKeywords
         
         newSeverity.entry = entry
         newSeverity.keyword = keyword
@@ -283,25 +283,25 @@ public class DataHelper {
     }
     
     // Returns all keywords
-    func getAllSeverities() -> [EntryKeyword]{
+    func getAllSeverities() -> [EntryKeywords]{
         return getSeverity(withPredicate: NSPredicate(value:true))
     }
     
-    func getSeverity(withPredicate queryPredicate: NSPredicate) -> [EntryKeyword]{
-        let fetchRequest = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+    func getSeverity(withPredicate queryPredicate: NSPredicate) -> [EntryKeywords]{
+        let fetchRequest = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
         fetchRequest.predicate = queryPredicate
         
         let response = try! context.fetch(fetchRequest)
-        return response as [EntryKeyword]
+        return response as [EntryKeywords]
         
         
     }
     
-    func getSeverityById(id: NSManagedObjectID) -> EntryKeyword? {
-        return context.object(with: id) as? EntryKeyword
+    func getSeverityById(id: NSManagedObjectID) -> EntryKeywords? {
+        return context.object(with: id) as? EntryKeywords
     }
     
-    func updateSeverity(updatedSeverity: EntryKeyword){
+    func updateSeverity(updatedSeverity: EntryKeywords){
         if let severity = getSeverityById(id: updatedSeverity.objectID){
             severity.entry = updatedSeverity.entry
             severity.keyword = updatedSeverity.keyword

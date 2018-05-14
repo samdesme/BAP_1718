@@ -1,51 +1,52 @@
 //
-//  createEntryViewController.swift
+//  CreateGoalViewController.swift
 //  journey
 //
-//  Created by sam de smedt on 04/05/2018.
+//  Created by sam de smedt on 14/05/2018.
 //  Copyright © 2018 sam de smedt. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class CreateEntryViewController: UIViewController, CreateStep1Delegate {
+class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
     //OUTLET REFERENTIONS
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
     
+    
     //VARIABLES
     
     //strings
-    let strHeader = "create a new entry"
+    let strHeader = "create a new goal"
     let strLblTitle = "Title"
     
     var value = String()
-
-    let strLblDescr = "Your entry"
-    let strSeverity = "Rate the severity of your mental issues in this situation (optional)"
+    
+    let strLblDescr = "Add a note (opinional)"
     let strMood = "Rate your overall mood"
     let strDateMsg = "how are you?"
-
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var arrayUserKeywords = [String]()
     var arraySliderValues = [Int16]()
+    var datePicker = UIDatePicker()
+    var txtFieldDate = UITextField()
+    var arraySelection = [String]()
 
     
     //view
-    let viewDateMsg = UIView()
     let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
-    let viewSliders = UIView()
-    let viewOptions = UIView()
     var scrollView = UIScrollView()
-    
+
+    let viewSwitch = UIView()
+    var viewKeywords = UIView()
+
+
+    let viewOptions = UIView()
     var currentDateTime = Date()
-
-    //database
-    var moodInt : Int16 = 0
-
+    var switchAction = UISwitch()
     
     //labels
     let lblMsg = UILabel()
@@ -53,7 +54,8 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     let lblSub = UILabel()
     let lblMain = UILabel()
     var lblDisplay = UILabel()
-    
+    var lblDeadline = UILabel()
+
     //gradient layers
     let  btnGradientLayer = CAGradientLayer()
     
@@ -62,58 +64,42 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         super.viewDidLoad()
         
         self.view.addSubview(scrollView)
-
-        createView()
-        setUpDateMsg()
-        createForm()
-        setUpSliders()
-        setUpMoods()
+        
+        self.datePicker.datePickerMode = UIDatePickerMode.date
+        self.datePicker.locale = Locale(identifier: "en_GB")
+        
+        let currentDate = Date()
+        self.datePicker.minimumDate = currentDate
+        self.datePicker.date = currentDate
+        
+      createView()
         
     }
     
     func createView() {
+        let navBar = navigationController?.navigationBar
         self.view.backgroundColor = whiteColor
+        
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.isScrollEnabled = true
+        //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
         
+        createForm()
+        setUpSwitch()
+        setUpButtons()
+        
+        let bottom = (navBar?.frame.size.height)! + form.frame.size.height + viewSwitch.frame.size.height + viewSwitch.frame.size.height + viewKeywords.frame.size.height + 15
+        scrollView.contentSize.height = bottom
     }
     
     // MARK: layout functions
-    func setUpDateMsg() {
-    
-        
-        viewDateMsg.frame = CGRect(x: 15, y: 0, width: self.view.frame.size.width - 30, height: 120)
-        viewDateMsg.backgroundColor = whiteColor
-        
-        lblMsg.frame = CGRect(x: 0, y: 40, width: viewDateMsg.frame.size.width, height: 30)
-        lblMsg.text = strDateMsg.uppercased()
-        lblMsg.font = fontTitleBig
-        lblMsg.textAlignment = .center
-        viewDateMsg.addSubview(lblMsg)
-        
-        let date = Date()
-        currentDateTime = date
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, MMMM d, HH:mm"
-        formatter.locale = Locale(identifier: "en_GB")
-        let strNow = formatter.string(from: currentDateTime)
-        
-        lblDate.frame = CGRect(x: 0, y: 40 + 30 + 5, width: viewDateMsg.frame.size.width, height: 25)
-        lblDate.text = strNow
-        lblDate.textColor = blackColor.withAlphaComponent(0.5)
-        lblDate.font = fontMainLight
-        lblDate.textAlignment = .center
-        viewDateMsg.addSubview(lblDate)
-        
-        scrollView.addSubview(viewDateMsg)
-    }
     
     func createForm() {
         
         //create form view
-        form.frame = CGRect(x: 0, y: 120, width: self.view.frame.width, height: (self.view.frame.height/3))
+        form.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (self.view.frame.height/3))
         form.backgroundColor = whiteColor
-
+        
         // UILabels
         form.lblName.frame.size.height = 100
         form.lblName.font = fontLabel
@@ -149,214 +135,234 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         scrollView.addSubview(form)
     }
     
-    func setUpSliders() {
-        let lblSliders = UILabel()
+    func setUpSwitch() {
+    
+        let lblSwitch = UILabel()
+
+        viewSwitch.frame = CGRect(x: 15, y: self.view.frame.height/3, width: self.view.frame.width - 30, height: 50)
+
+        lblSwitch.frame = CGRect(x: 0, y: 0, width: viewSwitch.frame.size.width/2, height: 20)
+        lblSwitch.text = "Add deadline?"
+        lblSwitch.textAlignment = .left
+        lblSwitch.font = fontLabel
+        lblSwitch.textColor = blackColor
+        
+        switchAction.frame = CGRect(x: viewSwitch.frame.size.width - 50, y: 0, width: 50, height: 20)
+        switchAction.setOn(false, animated:true)
+        switchAction.addTarget(self, action: #selector(buttonClicked), for: .valueChanged)
+        
+        txtFieldDate.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: viewSwitch.frame.size.width, height: 50)
+        txtFieldDate.inputView = self.datePicker
+        txtFieldDate.textAlignment = .right
+        txtFieldDate.isUserInteractionEnabled = true
+        txtFieldDate.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .touchUpInside);
+        txtFieldDate.isHidden = true
+        txtFieldDate.font = fontMainRegular19
+        txtFieldDate.textColor = blackColor
+        
+        txtFieldDate.layer.cornerRadius = 5
+        txtFieldDate.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+        txtFieldDate.layer.borderWidth = 1
+        
+        lblDeadline.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: viewSwitch.frame.size.width/2, height: 50)
+        lblDeadline.backgroundColor = UIColor.clear
+        lblDeadline.text = "Deadline: "
+        lblDeadline.textAlignment = .left
+        lblDeadline.font = fontMainRegular19
+        lblDeadline.textColor = blackColor
+ 
+        
+        self.datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(datePicker:)), for: .valueChanged)
+        self.datePicker.backgroundColor = whiteColor
+        
+        // ToolBar
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = blueColor
+        toolBar.sizeToFit()
+        
+        // Adding Button ToolBar
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneClick))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        doneButton.setTitleTextAttributes([NSAttributedStringKey.font: fontHeaderSub!], for: .normal)
+        doneButton.tintColor = blackColor
+        toolBar.setItems([spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        txtFieldDate.inputAccessoryView = toolBar
+        
+        viewSwitch.addSubview(lblSwitch)
+        viewSwitch.addSubview(txtFieldDate)
+        viewSwitch.addSubview(switchAction)
+        viewSwitch.addSubview(lblDeadline)
+        scrollView.addSubview(viewSwitch)
+    }
+    
+    @objc func doneClick(sender: UITextField){
+        txtFieldDate.resignFirstResponder()
+
+    }
+    
+    @objc func textFieldDidBeginEditing(textField: UITextField) {
+        textField.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+    }
+    
+    @objc func buttonClicked(sender: UIButton) {
+        if switchAction.isOn {
+            
+            print("Switch is on")
+            switchAction.setOn(false, animated:true)
+            txtFieldDate.isHidden = true
+
+            
+
+            
+        } else {
+            switchAction.setOn(true, animated:true)
+            txtFieldDate.isHidden = false
+
+
+        }
+    }
+    
+ 
+    
+    @objc func datePickerValueChanged(datePicker: UIDatePicker) {
+        
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy-MM-dd"
+        dateformatter.locale = Locale(identifier: "en_GB")
+        
+        let dateGoals = dateformatter.string(from: datePicker.date)
+
+        txtFieldDate.text = dateGoals
+        
+    }
+    
+    func setUpButtons() {
+        let lblKeywords = UILabel()
         
         getData()
         
-        let count = Int(arrayUserKeywords.count)
-        let viewHeight = 80 + (60 * count)
         
-        viewSliders.frame = CGRect(x: 15, y: 120 + self.view.frame.height/3, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
-        //viewSliders.backgroundColor = blueColor.withAlphaComponent(0.2)
+        viewKeywords.frame = CGRect(x: 15, y: 100 + self.view.frame.height/3, width: self.view.frame.width - 30, height: 0)
         
-        lblSliders.frame = CGRect(x: 0, y: 0, width: viewSliders.frame.width, height: 80)
-        lblSliders.font = fontLabel
-        lblSliders.textColor = blackColor
-        lblSliders.textAlignment = .left
-        lblSliders.text = strSeverity
-        lblSliders.numberOfLines = 0
+        lblKeywords.frame = CGRect(x: 0, y: 0, width: viewSwitch.frame.width, height: 80)
+        lblKeywords.font = fontLabel
+        lblKeywords.textColor = blackColor
+        lblKeywords.textAlignment = .left
+        lblKeywords.numberOfLines = 0
         
-        viewSliders.addSubview(lblSliders)
+        viewKeywords.addSubview(lblKeywords)
         
-        var yTitle = 0
-        var ySlider = 20
-        var tag = 1
+        var buttonX: CGFloat = 0
+        var buttonY: CGFloat = 10
         
         for keyword in arrayUserKeywords {
-        
-         let lblTitle = UILabel()
-         let lbltag = UILabel()
+            let ySpace: Int = 10
+            let btnKeyword = UIButton()
 
-         lblDisplay = lbltag
+            let myString: String = "\(keyword)"
+            let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
+            let btnWidth = size.width + 20
+            let totalWidth = buttonX + btnWidth
+            
+            if(totalWidth > self.view.frame.size.width - 30){
+                buttonY = buttonY + 40 + CGFloat(ySpace)
+                buttonX = 0
+            }
+            
+            btnKeyword.frame = CGRect(x: buttonX, y: buttonY, width: btnWidth, height: 40)
+            buttonX = buttonX + btnWidth + 10
+            
+            btnKeyword.setTitle("\(keyword)",for: .normal)
+            btnKeyword.titleLabel?.font = fontBtnKeyword
+            btnKeyword.setTitleColor(blackColor, for: .normal)
+            btnKeyword.titleLabel?.textAlignment = .center
+            btnKeyword.backgroundColor = whiteColor
+            
+            btnKeyword.isSelected = false
+            
+            btnKeyword.addTarget(self,action:#selector(selectKeyword),
+                                 for:.touchUpInside)
+            
+            btnKeyword.isEnabled = true
+            btnKeyword.layer.cornerRadius = 20
+            btnKeyword.layer.borderWidth = 1.5
+            btnKeyword.layer.borderColor = blackColor.cgColor
+            
+            viewKeywords.addSubview(btnKeyword)
 
-         let keywordSlider = UISlider()
-            
-        lblTitle.frame = CGRect(x: 0, y: 80 + yTitle, width: Int(viewSliders.frame.size.width), height: 20)
-        lblTitle.text = "\(keyword)"
-        lblTitle.textAlignment = .right
-        lblTitle.font = fontInput
-        lblTitle.textColor = blackColor
-        //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
-            
-        lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
-        lblDisplay.text = "0"
-        lblDisplay.textAlignment = .center
-        lblDisplay.font = fontMainRegular20
-        lblDisplay.tag = tag
-        lblDisplay.textColor = blueColor
-        
-        keywordSlider.frame = CGRect(x: 60, y: 80 + ySlider, width: Int(viewSliders.frame.size.width - 60), height: 40)
-        keywordSlider.minimumValue = 0
-        keywordSlider.maximumValue = 100
-        keywordSlider.tag = 100 + tag
-        keywordSlider.isContinuous = true
-        keywordSlider.tintColor = blueColor
-        keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
-            
-        viewSliders.addSubview(lblTitle)
-        viewSliders.addSubview(lblDisplay)
-        viewSliders.addSubview(keywordSlider)
-          
-        tag = tag + 1
-        yTitle = yTitle + 60
-        ySlider = ySlider + 60
-        
-        }
-        
-        scrollView.addSubview(viewSliders)
-    }
-    
-    func setUpMoods() {
-        
-        let lblMoodRate = UILabel()
-        var x = 0
 
-        let y = 120 + self.view.frame.height/3 + viewSliders.frame.size.height + 30
-        
-        viewOptions.frame =  CGRect(x: 15, y: y, width: self.view.frame.width - 30, height: 80)
-        let columnWidth = (viewOptions.frame.width - 60*5)/4
-
-        lblMoodRate.frame = CGRect(x: 0, y: 0, width: viewOptions.frame.width, height: 20)
-        lblMoodRate.font = fontLabel
-        lblMoodRate.textColor = blackColor
-        lblMoodRate.textAlignment = .left
-        lblMoodRate.text = strMood
-        lblMoodRate.numberOfLines = 0
-        
-        viewOptions.addSubview(lblMoodRate)
-
-        for i in 1...5 {
-            
-            let btnMood = UIButton()
-            let image = UIImage(named: "ic_mood\(i)_outline")
-            
-            btnMood.setBackgroundImage(image, for: .normal)
-            btnMood.tag = 1110 + i
-            btnMood.isSelected = false
-            btnMood.frame =  CGRect(x: x, y: 30, width: 60, height: 60)
-            btnMood.addTarget(self,action:#selector(selectMood), for:.touchUpInside)
-            
-            viewOptions.addSubview(btnMood)
-            
-            x = x + 60 + Int(columnWidth)
             
         }
+        viewKeywords.frame.size.height = buttonY + 80
+        scrollView.addSubview(viewKeywords)
 
-        scrollView.addSubview(viewOptions)
-        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 120 + form.frame.size.height + viewSliders.frame.size.height + viewOptions.frame.size.height + 50)
 
     }
     
-    @objc func selectMood(sender: UIButton) {
+    
+    @objc func selectKeyword(sender: UIButton) {
         
         sender.isSelected = !sender.isSelected
         
         if sender.isSelected {
             
-            if (sender.tag == 1111){
-                let img = UIImage(named: "ic_mood1")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1111)
-                moodInt = 1
-            }
-            else if (sender.tag == 1112) {
-                let img = UIImage(named: "ic_mood2")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1112)
-                moodInt = 2
-
-            }
-            else if (sender.tag == 1113) {
-                let img = UIImage(named: "ic_mood3")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1113)
-                moodInt = 3
-
-            }
-            else if (sender.tag == 1114) {
-                let img = UIImage(named: "ic_mood4")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1114)
-                moodInt = 4
-
-            }
-            else if (sender.tag == 1115) {
-                let img = UIImage(named: "ic_mood5")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1115)
-                moodInt = 5
-            }
+            print(sender.isSelected)
+            
+            //styling when selected
+            sender.setTitleColor(whiteColor, for: .normal)
+            sender.titleLabel?.font = fontMainMedium
+            sender.backgroundColor = blueColor
+            sender.layer.borderWidth = 0
+            
+            
+            //add label to array
+            arraySelection.append((sender.titleLabel?.text)!)
+            
             
         }
             
-       
-    }
-    
-    func deselect(tag:Int) {
-        
-        for index in 1111...1115 where index != tag {
+        else {
             
-            if let buttons = view.viewWithTag(index) as? UIButton {
-                
-                let imgInt = index - 1110
-                let img = UIImage(named: "ic_mood\(imgInt)_outline")
-                buttons.isSelected = false
-                buttons.setBackgroundImage(img, for: .normal)
-                
+            print(sender.isSelected)
+            
+            //styling when deselected
+            sender.setTitleColor(blackColor, for: .normal)
+            sender.titleLabel?.font = fontBtnKeyword
+            sender.backgroundColor = whiteColor
+            sender.layer.borderWidth = 1.5
+            
+            
+            //remove label from array
+            if let indexValue = arraySelection.index(of: (sender.titleLabel?.text)!) {
+                arraySelection.remove(at: indexValue)
             }
-            
         }
         
-    }
-    
-    @objc func printSliderValues() {
-        getSliderValues()
-        print("\(String(describing: arraySliderValues))")
-
         
     }
+   
+ 
     
     func getSliderValues() {
         let tagCount = arrayUserKeywords.count + 100
         for i in 101...tagCount {
             
-                if let slider = viewSliders.viewWithTag(i) as? UISlider {
-                    let value = Int(round(slider.value))
-                    arraySliderValues.append(Int16(value))
-                    print("\(Decimal(value))")
-                }
+            /*
             
-        }
-    }
-    
-    @objc func sliderValueDidChange(_ sender:UISlider!)
-    {
-        let tagCount = arrayUserKeywords.count + 100
-        for i in 101...tagCount {
-            
-            if (sender.tag == i){
-                
-                let value = Int(round(sender.value))
-                let tagLabels = i - 100
-                
-                if let theLabel = view.viewWithTag(tagLabels) as? UILabel {
-                    theLabel.text = String(value)
-                }
+            if let slider = viewSliders.viewWithTag(i) as? UISlider {
+                let value = Int(round(slider.value))
+                arraySliderValues.append(Int16(value))
+                print("\(Decimal(value))")
             }
+             */
+            
         }
     }
     
+
     
     func createHeaderSub() {
         
@@ -376,9 +382,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.addSubview(lblSub)
         addBackButton()
         addSaveButton()
-
+        
     }
-
+    
     func createHeaderMain() {
         
         //variables
@@ -388,9 +394,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.barStyle = .default
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
         navBar?.addSubview(lblMain)
-
+        
     }
-
+    
     
     // MARK: data functions
     func saveData() {
@@ -403,13 +409,12 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
         
-       // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeywords", into: appDelegate.persistentContainer.viewContext) as! EntryKeywords
+        // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
         
         let keywords : [Keywords] = dataHelper.getAll()
         
         newEntry.title = title!
         newEntry.entry = entry!
-        newEntry.mood = moodInt
         newEntry.edited = false
         newEntry.date = currentDateTime
         
@@ -417,35 +422,35 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         getSliderValues()
         print("\(String(describing: arraySliderValues))")
-
+        
         let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
         
         print("saved ENTRY: ")
         print("\(String(describing: savedEntry))")
-
-
+        
+        
         for (index, element) in arrayUserKeywords.enumerated() {
-         
+            
             let i = keywords.index(where: { $0.title == element }) as! Int
             let keywordObject = dataHelper.getById(id: keywords[i].objectID)
             let sliderValue = arraySliderValues[index]
- 
+            
             let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
             dataHelper.saveChanges()
             
-        print("new MANY to MANY relation: ")
-        print("\(String(describing: newRelation))")
+            print("new MANY to MANY relation: ")
+            print("\(String(describing: newRelation))")
             
             
-
             
-         }
+            
+        }
         
         do {
             
             try context.save()
             print("Saved successfully")
-           
+            
             
             
         } catch {
@@ -460,7 +465,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-       // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
         //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
         let allKeywords = try! context.fetch(keywordFetchRequest)
@@ -473,7 +478,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
                 arrayUserKeywords.append(key.title as String)
                 
             }
-
+            
             
         }
     }
@@ -482,7 +487,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     
     // MARK: alerts
-
+    
     func showAlertQuit() {
         
         let refreshAlert = UIAlertController(title: "Go back to your entries", message: "Are you sure you want to quit adding your entries? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
@@ -522,7 +527,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         self.tabBarController?.tabBar.alpha = 1
         let _ = self.navigationController?.popViewController(animated: true)
     }
-
+    
     func addSaveButton() {
         let NavLinkAttr : [NSAttributedStringKey: Any] = [
             NSAttributedStringKey.font : fontBtnNavLink!,
@@ -532,19 +537,19 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
                                                         attributes: NavLinkAttr)
         
         let btnCreate = UIButton(type: .custom)
-
+        
         btnCreate.setAttributedTitle(attributeString, for: .normal)
         btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
         //add btn
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
     }
-
+    
     @objc func toMainPage() {
         
         let name = form.txtName.text
         let about = form.txtAbout.text
         
-        if((name?.isEmpty)! || (about?.isEmpty)! || moodInt == 0){
+        if((name?.isEmpty)! || (about?.isEmpty)!){
             
             showAlertFormCheck()
             
@@ -556,7 +561,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             lblSub.removeFromSuperview()
             createHeaderMain()
             self.tabBarController?.tabBar.alpha = 1
-
+            
             //let entriesvc = storyboard?.instantiateViewController(withIdentifier: "tabbar") as! JournalTabBarController
             //entriesvc.tabBarController?.selectedIndex = 1
             //self.navigationController?.pushViewController(entriesvc, animated: true)
@@ -597,7 +602,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         super.viewWillAppear(animated)
         createHeaderSub()
         self.tabBarController?.tabBar.alpha = 0
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -608,4 +613,5 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     
 }
+
 

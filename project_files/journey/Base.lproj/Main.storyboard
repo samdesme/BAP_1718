@@ -207,18 +207,24 @@
         <!--Goals-->
         <scene sceneID="ct5-nV-zeW">
             <objects>
-                <viewController restorationIdentifier="goals" id="DQ4-DI-f0x" userLabel="Goals" customClass="GoalsViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZHI-sa-e1T">
+                <viewController restorationIdentifier="goals" storyboardIdentifier="goals" id="DQ4-DI-f0x" userLabel="Goals" customClass="GoalsViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZHI-sa-e1T" userLabel="View Main">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="T6t-37-PRH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Goals" image="ic_goals_25px_grey" id="JcS-So-Ma0"/>
+                    <navigationItem key="navigationItem" id="M3i-ZX-EiW"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="M3i-ZX-EiW" id="WGC-24-Eb6"/>
+                        <outlet property="viewMain" destination="ZHI-sa-e1T" id="JbQ-yo-I3B"/>
+                        <segue destination="JM7-b9-fZq" kind="show" id="9VC-2o-2Hr"/>
+                        <segue destination="TbV-GK-e1I" kind="show" id="OYc-B3-poY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iQf-3I-GOP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-226.00000000000003" y="1883"/>
+            <point key="canvasLocation" x="609" y="2500"/>
         </scene>
         <!--Stats-->
         <scene sceneID="NJL-g4-Ecf">
@@ -234,7 +240,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zmr-42-UY1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-226.00000000000003" y="2813"/>
+            <point key="canvasLocation" x="-1046" y="3310"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -249,7 +255,7 @@
                     <connections>
                         <segue destination="l2f-8t-m2O" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="6Bv-TP-LMM" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
-                        <segue destination="DQ4-DI-f0x" kind="relationship" relationship="viewControllers" id="4Nd-sl-oBQ"/>
+                        <segue destination="Gbf-SD-OpV" kind="relationship" relationship="viewControllers" id="4Nd-sl-oBQ"/>
                         <segue destination="mTf-dh-PqQ" kind="relationship" relationship="viewControllers" id="FcI-3u-SId"/>
                     </connections>
                 </tabBarController>
@@ -560,7 +566,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MC1-XZ-Iry" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2158" y="1348"/>
+            <point key="canvasLocation" x="2465" y="1328"/>
         </scene>
         <!--Entries Nav Controller-->
         <scene sceneID="40E-rM-P2y">
@@ -599,7 +605,66 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fzn-sw-6r5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2158" y="2115"/>
+            <point key="canvasLocation" x="2464" y="2009"/>
+        </scene>
+        <!--Goals Nav Controller-->
+        <scene sceneID="so7-jQ-lo3">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Gbf-SD-OpV" userLabel="Goals Nav Controller" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Goals" image="ic_goals_25px_grey" id="JcS-So-Ma0"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rIg-vX-GXF">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="DQ4-DI-f0x" kind="relationship" relationship="rootViewController" id="4ce-Z1-R9W"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yYw-rU-RlX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-226.08695652173915" y="2500.271739130435"/>
+        </scene>
+        <!--createGoal-->
+        <scene sceneID="qm9-If-Wi7">
+            <objects>
+                <viewController restorationIdentifier="createGoal" storyboardIdentifier="createGoal" id="JM7-b9-fZq" userLabel="createGoal" customClass="CreateGoalViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oa2-Go-Wvu" userLabel="View Main">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="Zb5-e8-r1y"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="LDP-sm-79l" userLabel="Back Button Item"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="LDP-sm-79l" id="FRc-Ma-cqp"/>
+                        <outlet property="viewMain" destination="oa2-Go-Wvu" id="fkw-LA-bQD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CGa-cL-pc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1410" y="2500"/>
+        </scene>
+        <!--editGoal-->
+        <scene sceneID="8FK-sG-G16">
+            <objects>
+                <viewController restorationIdentifier="editGoal" storyboardIdentifier="editGoal" id="TbV-GK-e1I" userLabel="editGoal" customClass="EditGoalViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="S24-KL-ajW" userLabel="View Main">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="ZDR-OA-LRu"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="vLR-rm-0Iz" userLabel="Back Button Item"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="vLR-rm-0Iz" id="4du-Ep-cFY"/>
+                        <outlet property="viewMain" destination="S24-KL-ajW" id="fAZ-fk-N5L"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Ik-fZ-hnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1410" y="3310"/>
         </scene>
     </scenes>
     <resources>

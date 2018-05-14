@@ -497,7 +497,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
         
         getSliderValues()
         
@@ -560,7 +560,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
         let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
         
         //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
         //entryFetchRequest.predicate = predicateRelation

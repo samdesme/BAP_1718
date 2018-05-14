@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension EntryKeyword {
+extension EntryKeywords {
     @NSManaged var entry: Entries
     @NSManaged var keyword: Keywords
     @NSManaged var severity: Int16
@@ -23,7 +23,7 @@ extension EntryKeyword {
 }
 
 
-class EntryKeyword: NSManagedObject {
+class EntryKeywords: NSManagedObject {
     // Add this line, the string must be equal to your class name
-    static let entityName = "EntryKeyword"
+    static let entityName = "EntryKeywords"
 }

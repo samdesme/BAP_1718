@@ -18,7 +18,7 @@ extension Keywords {
     @NSManaged var entries: NSSet
     
     @objc(addSeveritiesObject:)
-    @NSManaged public func addToEntryKeyword(_ value: EntryKeyword)
+    @NSManaged public func addToEntryKeyword(_ value: EntryKeywords)
     
     @objc(addSeverities:)
     @NSManaged public func addToEntryKeyword(_ values: NSSet)

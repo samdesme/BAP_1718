@@ -86,9 +86,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.isScrollEnabled = true
 
-        let currentDate = Date()  //5 -  get the current date
-        datePicker.minimumDate = currentDate  //6- set the current date/time as a minimum
-        datePicker.date = currentDate //7 - defaults to current time but shows how to use it.
+        let currentDate = Date()
+        datePicker.minimumDate = currentDate
+        datePicker.date = currentDate
 
         //set up a gradient at the top of the page to create a 3D effect
         viewTopGradient.clipsToBounds = false
@@ -396,7 +396,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         scrollView.addSubview(viewGoalCount)
         
         // UIButton: Add Event
-        btnViewGoals.addTarget(self,action:#selector(addEvent), for:.touchUpInside)
+        btnViewGoals.addTarget(self,action:#selector(toGoals), for:.touchUpInside)
         btnViewGoals.frame = CGRect(x: 15, y: viewGoalCount.bounds.height - 45 - 15, width: viewGoalCount.frame.size.width - 30, height: 45)
         
         // add gradient to button
@@ -945,6 +945,18 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     @objc func toEntries() {
          self.tabBarController?.selectedIndex = 1
         
+    }
+    
+    @objc func toGoals() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "en_GB")
+        
+        let dateGoals = dateFormatter.string(from: self.calDate)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vcGoals = storyboard.instantiateViewController(withIdentifier: "goals") as! GoalsViewController
+        vcGoals.selectedCalendarDate = dateGoals
+        self.navigationController?.pushViewController(vcGoals, animated: true)
     }
     
     //MARK: - Instance Methods

@@ -51,12 +51,12 @@ class EntriesViewController: UIViewController {
         tabBarController?.selectedIndex = 1
         self.view.backgroundColor = lightGreyColor
         
-        createEntriesViewToday()
+        createEntriesView()
         setUpBtnAdd()
     }
 
     
-    func createEntriesViewToday() {
+    func createEntriesView() {
         
         let navBar = navigationController?.navigationBar
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
@@ -152,14 +152,14 @@ class EntriesViewController: UIViewController {
         
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
 
         let fetchRequestKeywords = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
         
        /* let dataHelper = DataHelper(context: context)
         let keywords : [Keywords] = dataHelper.getAll()
-        let manyToMany : [EntryKeyword] = dataHelper.getAllSeverities()*/
+        let manyToMany : [EntryKeywords] = dataHelper.getAllSeverities()*/
         
         fetchRequestEntries.sortDescriptors = [primarySortDescriptor]
         
@@ -333,6 +333,7 @@ class EntriesViewController: UIViewController {
         
         
         if(edited == true){
+            
             attributedString1.append(attributedString2)
             lblTime.attributedText = attributedString1
 
@@ -496,7 +497,7 @@ class EntriesViewController: UIViewController {
     func btnActionSheet(date: String) {
         
     
-        let alertController = UIAlertController(title: nil, message: "Entry: \(date)", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         
         let editButton = UIAlertAction(title: "Edit", style: .default, handler: { (action) -> Void in
@@ -533,7 +534,7 @@ class EntriesViewController: UIViewController {
         
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<EntryKeyword>(entityName: "EntryKeyword")
+        let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
         
         //let predicateEntry = NSPredicate(format: "date = %@", date)
         //fetchRequestEntries.predicate = predicateEntry
@@ -601,7 +602,7 @@ class EntriesViewController: UIViewController {
     func toEdit(date: String) {
         self.tabBarController?.tabBar.isHidden = true
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let editEntry = storyboard.instantiateViewController(withIdentifier: "editEntry") as! EditEntryViewController
+        let editEntry = storyboard.instantiateViewController(withIdentifier: "editEntry") as! EditEntryViewController
         editEntry.entryToEdit = date
         self.navigationController?.pushViewController(editEntry, animated: true)
     

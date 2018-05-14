@@ -316,7 +316,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
         let keywords : [Keywords] = dataHelper.getAll()
-        let sev : [EntryKeyword] = dataHelper.getAllSeverities()
+        let sev : [EntryKeywords] = dataHelper.getAllSeverities()
 
         
         let i = keywords.index(where: { $0.ranking == 1}) as! Int

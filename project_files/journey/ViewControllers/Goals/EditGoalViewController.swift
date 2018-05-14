@@ -1,38 +1,40 @@
 //
-//  createEntryViewController.swift
+//  EditGoalViewController.swift
 //  journey
 //
-//  Created by sam de smedt on 04/05/2018.
+//  Created by sam de smedt on 14/05/2018.
 //  Copyright © 2018 sam de smedt. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class CreateEntryViewController: UIViewController, CreateStep1Delegate {
+class EditGoalViewController: UIViewController, CreateStep1Delegate {
     
     //OUTLET REFERENTIONS
+    
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
     
     //VARIABLES
     
     //strings
-    let strHeader = "create a new entry"
+    let strHeader = "edit your entry"
     let strLblTitle = "Title"
     
     var value = String()
-
-    let strLblDescr = "Your entry"
+    
+    let strLblDescr = "Describe your entry"
     let strSeverity = "Rate the severity of your mental issues in this situation (optional)"
     let strMood = "Rate your overall mood"
-    let strDateMsg = "how are you?"
-
+    let strDateMsg = "edit an entry"
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var arrayUserKeywords = [String]()
-    var arraySliderValues = [Int16]()
-
+    
+    
+    
+    @IBOutlet var myRadioYesButton:DownStateButton?
+    @IBOutlet var myRadioNoButton:DownStateButton?
     
     //view
     let viewDateMsg = UIView()
@@ -41,11 +43,24 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     let viewOptions = UIView()
     var scrollView = UIScrollView()
     
-    var currentDateTime = Date()
-
-    //database
+    
+    
+    //DATA
     var moodInt : Int16 = 0
-
+    
+    
+    //edit
+    var currentDateTime = Date()
+    var entryToEdit = String()
+    var getMoodInt = Int16()
+    var arrayGetSliderValues = [Int16]()
+    var arrayUserKeywords = [String]()
+    var titleEdit = String()
+    var entryEdit = String()
+    
+    //update
+    var arrayUpdateSliderValues = [Int16]()
+    
     
     //labels
     let lblMsg = UILabel()
@@ -62,7 +77,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         super.viewDidLoad()
         
         self.view.addSubview(scrollView)
-
+        
         createView()
         setUpDateMsg()
         createForm()
@@ -80,7 +95,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     // MARK: layout functions
     func setUpDateMsg() {
-    
+        
         
         viewDateMsg.frame = CGRect(x: 15, y: 0, width: self.view.frame.size.width - 30, height: 120)
         viewDateMsg.backgroundColor = whiteColor
@@ -91,15 +106,20 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         lblMsg.textAlignment = .center
         viewDateMsg.addSubview(lblMsg)
         
-        let date = Date()
-        currentDateTime = date
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "E, MMMM d, HH:mm"
         formatter.locale = Locale(identifier: "en_GB")
-        let strNow = formatter.string(from: currentDateTime)
+        
+        let dateCreated = formatterFull.date(from: entryToEdit)
+        let strCreated = formatter.string(from: dateCreated!)
+        
         
         lblDate.frame = CGRect(x: 0, y: 40 + 30 + 5, width: viewDateMsg.frame.size.width, height: 25)
-        lblDate.text = strNow
+        lblDate.text =  "Entry created: " + strCreated
         lblDate.textColor = blackColor.withAlphaComponent(0.5)
         lblDate.font = fontMainLight
         lblDate.textAlignment = .center
@@ -113,7 +133,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         //create form view
         form.frame = CGRect(x: 0, y: 120, width: self.view.frame.width, height: (self.view.frame.height/3))
         form.backgroundColor = whiteColor
-
+        
         // UILabels
         form.lblName.frame.size.height = 100
         form.lblName.font = fontLabel
@@ -140,6 +160,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         form.txtAbout.layer.borderWidth = 1
         form.txtAbout.font = fontInput
         form.txtAbout.clipsToBounds = true
+        
         
         // UIButton
         form.btnNextShadow.isHidden = true
@@ -173,45 +194,46 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         var ySlider = 20
         var tag = 1
         
-        for keyword in arrayUserKeywords {
-        
-         let lblTitle = UILabel()
-         let lbltag = UILabel()
-
-         lblDisplay = lbltag
-
-         let keywordSlider = UISlider()
+        for (keyword, value) in zip(arrayUserKeywords, arrayGetSliderValues) {
             
-        lblTitle.frame = CGRect(x: 0, y: 80 + yTitle, width: Int(viewSliders.frame.size.width), height: 20)
-        lblTitle.text = "\(keyword)"
-        lblTitle.textAlignment = .right
-        lblTitle.font = fontInput
-        lblTitle.textColor = blackColor
-        //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+            let lblTitle = UILabel()
+            let lbltag = UILabel()
             
-        lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
-        lblDisplay.text = "0"
-        lblDisplay.textAlignment = .center
-        lblDisplay.font = fontMainRegular20
-        lblDisplay.tag = tag
-        lblDisplay.textColor = blueColor
-        
-        keywordSlider.frame = CGRect(x: 60, y: 80 + ySlider, width: Int(viewSliders.frame.size.width - 60), height: 40)
-        keywordSlider.minimumValue = 0
-        keywordSlider.maximumValue = 100
-        keywordSlider.tag = 100 + tag
-        keywordSlider.isContinuous = true
-        keywordSlider.tintColor = blueColor
-        keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
+            lblDisplay = lbltag
             
-        viewSliders.addSubview(lblTitle)
-        viewSliders.addSubview(lblDisplay)
-        viewSliders.addSubview(keywordSlider)
-          
-        tag = tag + 1
-        yTitle = yTitle + 60
-        ySlider = ySlider + 60
-        
+            let keywordSlider = UISlider()
+            
+            lblTitle.frame = CGRect(x: 0, y: 80 + yTitle, width: Int(viewSliders.frame.size.width), height: 20)
+            lblTitle.text = "\(keyword)"
+            lblTitle.textAlignment = .right
+            lblTitle.font = fontInput
+            lblTitle.textColor = blackColor
+            //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+            
+            lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
+            lblDisplay.text = String(value)
+            lblDisplay.textAlignment = .center
+            lblDisplay.font = fontMainRegular20
+            lblDisplay.tag = tag
+            lblDisplay.textColor = blueColor
+            
+            keywordSlider.frame = CGRect(x: 60, y: 80 + ySlider, width: Int(viewSliders.frame.size.width - 60), height: 40)
+            keywordSlider.minimumValue = 0
+            keywordSlider.maximumValue = 100
+            keywordSlider.tag = 100 + tag
+            keywordSlider.value = Float(value)
+            keywordSlider.isContinuous = true
+            keywordSlider.tintColor = blueColor
+            keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
+            
+            viewSliders.addSubview(lblTitle)
+            viewSliders.addSubview(lblDisplay)
+            viewSliders.addSubview(keywordSlider)
+            
+            tag = tag + 1
+            yTitle = yTitle + 60
+            ySlider = ySlider + 60
+            
         }
         
         scrollView.addSubview(viewSliders)
@@ -221,12 +243,12 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         let lblMoodRate = UILabel()
         var x = 0
-
+        
         let y = 120 + self.view.frame.height/3 + viewSliders.frame.size.height + 30
         
         viewOptions.frame =  CGRect(x: 15, y: y, width: self.view.frame.width - 30, height: 80)
         let columnWidth = (viewOptions.frame.width - 60*5)/4
-
+        
         lblMoodRate.frame = CGRect(x: 0, y: 0, width: viewOptions.frame.width, height: 20)
         lblMoodRate.font = fontLabel
         lblMoodRate.textColor = blackColor
@@ -235,7 +257,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         lblMoodRate.numberOfLines = 0
         
         viewOptions.addSubview(lblMoodRate)
-
+        
         for i in 1...5 {
             
             let btnMood = UIButton()
@@ -243,7 +265,17 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             
             btnMood.setBackgroundImage(image, for: .normal)
             btnMood.tag = 1110 + i
-            btnMood.isSelected = false
+            
+            if(getMoodInt == i){
+                btnMood.isSelected = true
+                let img = UIImage(named: "ic_mood\(i)")
+                btnMood.setBackgroundImage(img, for: .normal)
+                moodInt = Int16(i)
+            }
+            else {
+                btnMood.isSelected = false
+                
+            }
             btnMood.frame =  CGRect(x: x, y: 30, width: 60, height: 60)
             btnMood.addTarget(self,action:#selector(selectMood), for:.touchUpInside)
             
@@ -252,10 +284,10 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             x = x + 60 + Int(columnWidth)
             
         }
-
+        
         scrollView.addSubview(viewOptions)
         scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 120 + form.frame.size.height + viewSliders.frame.size.height + viewOptions.frame.size.height + 50)
-
+        
     }
     
     @objc func selectMood(sender: UIButton) {
@@ -275,21 +307,21 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
                 sender.setBackgroundImage(img, for: .normal)
                 deselect(tag: 1112)
                 moodInt = 2
-
+                
             }
             else if (sender.tag == 1113) {
                 let img = UIImage(named: "ic_mood3")
                 sender.setBackgroundImage(img, for: .normal)
                 deselect(tag: 1113)
                 moodInt = 3
-
+                
             }
             else if (sender.tag == 1114) {
                 let img = UIImage(named: "ic_mood4")
                 sender.setBackgroundImage(img, for: .normal)
                 deselect(tag: 1114)
                 moodInt = 4
-
+                
             }
             else if (sender.tag == 1115) {
                 let img = UIImage(named: "ic_mood5")
@@ -299,8 +331,8 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             }
             
         }
-            
-       
+        
+        
     }
     
     func deselect(tag:Int) {
@@ -322,8 +354,8 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     @objc func printSliderValues() {
         getSliderValues()
-        print("\(String(describing: arraySliderValues))")
-
+        print("\(String(describing: arrayUpdateSliderValues))")
+        
         
     }
     
@@ -331,11 +363,11 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         let tagCount = arrayUserKeywords.count + 100
         for i in 101...tagCount {
             
-                if let slider = viewSliders.viewWithTag(i) as? UISlider {
-                    let value = Int(round(slider.value))
-                    arraySliderValues.append(Int16(value))
-                    print("\(Decimal(value))")
-                }
+            if let slider = viewSliders.viewWithTag(i) as? UISlider {
+                let value = Int(round(slider.value))
+                arrayUpdateSliderValues.append(Int16(value))
+                print("\(Decimal(value))")
+            }
             
         }
     }
@@ -376,9 +408,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.addSubview(lblSub)
         addBackButton()
         addSaveButton()
-
+        
     }
-
+    
     func createHeaderMain() {
         
         //variables
@@ -388,9 +420,9 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         navBar?.barStyle = .default
         navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
         navBar?.addSubview(lblMain)
-
+        
     }
-
+    
     
     // MARK: data functions
     func saveData() {
@@ -403,49 +435,47 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
         
-       // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeywords", into: appDelegate.persistentContainer.viewContext) as! EntryKeywords
         
         let keywords : [Keywords] = dataHelper.getAll()
         
         newEntry.title = title!
         newEntry.entry = entry!
         newEntry.mood = moodInt
-        newEntry.edited = false
         newEntry.date = currentDateTime
         
         dataHelper.saveChanges()
         
         getSliderValues()
-        print("\(String(describing: arraySliderValues))")
-
+        print("\(String(describing: arrayUpdateSliderValues))")
+        
         let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
         
         print("saved ENTRY: ")
         print("\(String(describing: savedEntry))")
-
-
+        
+        
         for (index, element) in arrayUserKeywords.enumerated() {
-         
+            
             let i = keywords.index(where: { $0.title == element }) as! Int
             let keywordObject = dataHelper.getById(id: keywords[i].objectID)
-            let sliderValue = arraySliderValues[index]
- 
+            let sliderValue = arrayUpdateSliderValues[index]
+            
             let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
             dataHelper.saveChanges()
             
-        print("new MANY to MANY relation: ")
-        print("\(String(describing: newRelation))")
+            print("new MANY to MANY relation: ")
+            print("\(String(describing: newRelation))")
             
             
-
             
-         }
+            
+        }
         
         do {
             
             try context.save()
             print("Saved successfully")
-           
+            
             
             
         } catch {
@@ -455,34 +485,146 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
     }
     
+    func updateData() {
+        
+        let title = form.txtName.text
+        let txtEntry = form.txtAbout.text
+        
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
+        
+        //fetch data from custom added keywords and return them as an array
+        let context = appDelegate.persistentContainer.viewContext
+        let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
+        let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
+        
+        getSliderValues()
+        
+        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
+        //entryFetchRequest.predicate = predicateRelation
+        
+        let allEntries = try! context.fetch(entryFetchRequest)
+        
+        for entry in allEntries {
+            
+            
+            let entryDate = formatterFull.string(from: entry.date)
+            
+            if(entryDate == entryToEdit){
+                
+                entry.title = title!
+                entry.entry = txtEntry!
+                entry.mood = moodInt
+                entry.edited = true
+                
+                
+                let predicateRelation = NSPredicate(format: "entry == %@", entry)
+                fetchRequestRelation.predicate = predicateRelation
+                
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                
+                for (index, element ) in manyRelations.enumerated() {
+                    let sliderValue = arrayUpdateSliderValues[index]
+                    
+                 //   element.severity = sliderValue
+                    
+                }
+                
+                do {
+                    
+                    try context.save()
+                    print("updated successfully")
+                    
+                } catch {
+                    print("Failed saving")
+                }
+                
+                
+            }
+            
+            
+        }
+        
+        
+        
+    }
+    
     func getData() {
+        
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
         
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-       // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
+        let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
         
-        //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
-        let allKeywords = try! context.fetch(keywordFetchRequest)
+        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
+        //entryFetchRequest.predicate = predicateRelation
         
-        for key in allKeywords {
+        let allEntries = try! context.fetch(entryFetchRequest)
+        
+        for entry in allEntries {
             
-            let rank = key.ranking
-            if(rank != 0){
+            
+            let entryDate = formatterFull.string(from: entry.date)
+            
+            if(entryDate == entryToEdit){
                 
-                arrayUserKeywords.append(key.title as String)
+                let predicateRelation = NSPredicate(format: "entry == %@", entry)
+                fetchRequestRelation.predicate = predicateRelation
+                
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                
+                for manyRelation in manyRelations {
+                    
+                    
+                    let strKeywordID = manyRelation.keyword.objectID
+                    let predicateKeywords = NSPredicate(format: "SELF = %@", strKeywordID)
+                    keywordFetchRequest.predicate = predicateKeywords
+                    
+                    let relatedKeywords = try! context.fetch(keywordFetchRequest)
+                    
+                    for keyword in relatedKeywords {
+                        
+                        
+                        arrayGetSliderValues.append(manyRelation.rate)
+                        arrayUserKeywords.append(keyword.title as String)
+                        getMoodInt = entry.mood
+                        form.txtName.text = entry.title
+                        form.txtAbout.text = entry.entry
+                        
+                        //titleEdit = entry.title
+                        //entryEdit = entry.entry
+                        
+                        
+                        
+                        
+                    }
+                    
+                    
+                }
+                
                 
             }
-
+            
             
         }
+        
+        
+        
     }
     
     
     
     
+    
+    
     // MARK: alerts
-
+    
     func showAlertQuit() {
         
         let refreshAlert = UIAlertController(title: "Go back to your entries", message: "Are you sure you want to quit adding your entries? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
@@ -522,7 +664,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         self.tabBarController?.tabBar.alpha = 1
         let _ = self.navigationController?.popViewController(animated: true)
     }
-
+    
     func addSaveButton() {
         let NavLinkAttr : [NSAttributedStringKey: Any] = [
             NSAttributedStringKey.font : fontBtnNavLink!,
@@ -532,34 +674,31 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
                                                         attributes: NavLinkAttr)
         
         let btnCreate = UIButton(type: .custom)
-
+        
         btnCreate.setAttributedTitle(attributeString, for: .normal)
         btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
         //add btn
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
     }
-
+    
     @objc func toMainPage() {
         
         let name = form.txtName.text
         let about = form.txtAbout.text
         
-        if((name?.isEmpty)! || (about?.isEmpty)! || moodInt == 0){
+        if((name?.isEmpty)! || (about?.isEmpty)!){
             
             showAlertFormCheck()
+            
             
         }
             
         else {
             
-            saveData()
+            updateData()
             lblSub.removeFromSuperview()
             createHeaderMain()
             self.tabBarController?.tabBar.alpha = 1
-
-            //let entriesvc = storyboard?.instantiateViewController(withIdentifier: "tabbar") as! JournalTabBarController
-            //entriesvc.tabBarController?.selectedIndex = 1
-            //self.navigationController?.pushViewController(entriesvc, animated: true)
             
             var viewControllers = navigationController?.viewControllers
             viewControllers?.removeLast(1)
@@ -597,7 +736,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         super.viewWillAppear(animated)
         createHeaderSub()
         self.tabBarController?.tabBar.alpha = 0
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -608,4 +747,6 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
     
     
 }
+
+
 
