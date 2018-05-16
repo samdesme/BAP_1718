@@ -15,738 +15,630 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
     
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var backButtonItem: UINavigationItem!
-    
-    //VARIABLES
-    
-    //strings
-    let strHeader = "edit your entry"
-    let strLblTitle = "Title"
-    
-    var value = String()
-    
-    let strLblDescr = "Describe your entry"
-    let strSeverity = "Rate the severity of your mental issues in this situation (optional)"
-    let strMood = "Rate your overall mood"
-    let strDateMsg = "edit an entry"
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
-    
-    
-    @IBOutlet var myRadioYesButton:DownStateButton?
-    @IBOutlet var myRadioNoButton:DownStateButton?
-    
-    //view
-    let viewDateMsg = UIView()
-    let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
-    let viewSliders = UIView()
-    let viewOptions = UIView()
-    var scrollView = UIScrollView()
-    
-    
-    
-    //DATA
-    var moodInt : Int16 = 0
-    
-    
-    //edit
-    var currentDateTime = Date()
-    var entryToEdit = String()
-    var getMoodInt = Int16()
-    var arrayGetSliderValues = [Int16]()
-    var arrayUserKeywords = [String]()
-    var titleEdit = String()
-    var entryEdit = String()
-    
-    //update
-    var arrayUpdateSliderValues = [Int16]()
-    
-    
-    //labels
-    let lblMsg = UILabel()
-    let lblDate = UILabel()
-    let lblSub = UILabel()
-    let lblMain = UILabel()
-    var lblDisplay = UILabel()
-    
-    //gradient layers
-    let  btnGradientLayer = CAGradientLayer()
-    
-    //Load view controller
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
-        self.view.addSubview(scrollView)
+        //VARIABLES
         
-        createView()
-        setUpDateMsg()
-        createForm()
-        setUpSliders()
-        setUpMoods()
+        //strings
+        let strHeader = "create a new goal"
+        let strLblTitle = "Title"
+        let strLblDescr = "Add a note (opinional)"
+        var entryToEdit = String()
+        var value = String()
+        var heightOptions = CGFloat()
         
-    }
-    
-    func createView() {
-        self.view.backgroundColor = whiteColor
-        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        scrollView.isScrollEnabled = true
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        var arrayUserKeywords = [String]()
         
-    }
-    
-    // MARK: layout functions
-    func setUpDateMsg() {
+        var datePicker = UIDatePicker()
+        var txtFieldDate = UITextField()
+        var arraySelection = [String]()
         
+        //view
+        let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
+        var scrollView = UIScrollView()
+        let viewToggle = UIView()
+        let viewSwitch = UIView()
+        var viewKeywords = UIView()
+        var switchAction = UISwitch()
         
-        viewDateMsg.frame = CGRect(x: 15, y: 0, width: self.view.frame.size.width - 30, height: 120)
-        viewDateMsg.backgroundColor = whiteColor
+        //labels
+        let lblSub = UILabel()
+        let lblMain = UILabel()
+        var lblDeadline = UILabel()
         
-        lblMsg.frame = CGRect(x: 0, y: 40, width: viewDateMsg.frame.size.width, height: 30)
-        lblMsg.text = strDateMsg.uppercased()
-        lblMsg.font = fontTitleBig
-        lblMsg.textAlignment = .center
-        viewDateMsg.addSubview(lblMsg)
+        //gradient layers
+        let  btnGradientLayer = CAGradientLayer()
         
-        let formatterFull = DateFormatter()
-        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
-        
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, MMMM d, HH:mm"
-        formatter.locale = Locale(identifier: "en_GB")
-        
-        let dateCreated = formatterFull.date(from: entryToEdit)
-        let strCreated = formatter.string(from: dateCreated!)
-        
-        
-        lblDate.frame = CGRect(x: 0, y: 40 + 30 + 5, width: viewDateMsg.frame.size.width, height: 25)
-        lblDate.text =  "Entry created: " + strCreated
-        lblDate.textColor = blackColor.withAlphaComponent(0.5)
-        lblDate.font = fontMainLight
-        lblDate.textAlignment = .center
-        viewDateMsg.addSubview(lblDate)
-        
-        scrollView.addSubview(viewDateMsg)
-    }
-    
-    func createForm() {
-        
-        //create form view
-        form.frame = CGRect(x: 0, y: 120, width: self.view.frame.width, height: (self.view.frame.height/3))
-        form.backgroundColor = whiteColor
-        
-        // UILabels
-        form.lblName.frame.size.height = 100
-        form.lblName.font = fontLabel
-        form.lblName.text = strLblTitle
-        form.lblName.textColor = blackColor
-        form.lblName.textAlignment = .left
-        
-        form.lblAbout.font = fontLabel
-        form.lblAbout.text = strLblDescr
-        form.lblAbout.textColor = blackColor
-        form.lblAbout.textAlignment = .left
-        
-        //UITextView
-        form.txtName.layer.cornerRadius = 5
-        form.txtName.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
-        form.txtName.layer.borderWidth = 1
-        form.txtName.font = fontInput
-        form.txtName.clipsToBounds = true
-        
-        //UITextfield
-        form.txtAbout.layer.cornerRadius = 5
-        form.txtAbout.frame.size.height = 200
-        form.txtAbout.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
-        form.txtAbout.layer.borderWidth = 1
-        form.txtAbout.font = fontInput
-        form.txtAbout.clipsToBounds = true
-        
-        
-        // UIButton
-        form.btnNextShadow.isHidden = true
-        form.btnToStep2.isHidden = true
-        
-        //add view to content view
-        scrollView.addSubview(form)
-    }
-    
-    func setUpSliders() {
-        let lblSliders = UILabel()
-        
-        getData()
-        
-        let count = Int(arrayUserKeywords.count)
-        let viewHeight = 80 + (60 * count)
-        
-        viewSliders.frame = CGRect(x: 15, y: 120 + self.view.frame.height/3, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
-        //viewSliders.backgroundColor = blueColor.withAlphaComponent(0.2)
-        
-        lblSliders.frame = CGRect(x: 0, y: 0, width: viewSliders.frame.width, height: 80)
-        lblSliders.font = fontLabel
-        lblSliders.textColor = blackColor
-        lblSliders.textAlignment = .left
-        lblSliders.text = strSeverity
-        lblSliders.numberOfLines = 0
-        
-        viewSliders.addSubview(lblSliders)
-        
-        var yTitle = 0
-        var ySlider = 20
-        var tag = 1
-        
-        for (keyword, value) in zip(arrayUserKeywords, arrayGetSliderValues) {
+        //Load view controller
+        override func viewDidLoad() {
+            super.viewDidLoad()
             
-            let lblTitle = UILabel()
-            let lbltag = UILabel()
+            self.view.addSubview(scrollView)
+            self.datePicker.datePickerMode = UIDatePickerMode.date
+            self.datePicker.locale = Locale(identifier: "en_GB")
             
-            lblDisplay = lbltag
+            let currentDate = Date()
+            self.datePicker.minimumDate = currentDate
+            self.datePicker.date = currentDate
             
-            let keywordSlider = UISlider()
-            
-            lblTitle.frame = CGRect(x: 0, y: 80 + yTitle, width: Int(viewSliders.frame.size.width), height: 20)
-            lblTitle.text = "\(keyword)"
-            lblTitle.textAlignment = .right
-            lblTitle.font = fontInput
-            lblTitle.textColor = blackColor
-            //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
-            
-            lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
-            lblDisplay.text = String(value)
-            lblDisplay.textAlignment = .center
-            lblDisplay.font = fontMainRegular20
-            lblDisplay.tag = tag
-            lblDisplay.textColor = blueColor
-            
-            keywordSlider.frame = CGRect(x: 60, y: 80 + ySlider, width: Int(viewSliders.frame.size.width - 60), height: 40)
-            keywordSlider.minimumValue = 0
-            keywordSlider.maximumValue = 100
-            keywordSlider.tag = 100 + tag
-            keywordSlider.value = Float(value)
-            keywordSlider.isContinuous = true
-            keywordSlider.tintColor = blueColor
-            keywordSlider.addTarget(self, action: #selector(self.sliderValueDidChange(_:)), for: .valueChanged)
-            
-            viewSliders.addSubview(lblTitle)
-            viewSliders.addSubview(lblDisplay)
-            viewSliders.addSubview(keywordSlider)
-            
-            tag = tag + 1
-            yTitle = yTitle + 60
-            ySlider = ySlider + 60
+            createView()
             
         }
         
-        scrollView.addSubview(viewSliders)
-    }
-    
-    func setUpMoods() {
-        
-        let lblMoodRate = UILabel()
-        var x = 0
-        
-        let y = 120 + self.view.frame.height/3 + viewSliders.frame.size.height + 30
-        
-        viewOptions.frame =  CGRect(x: 15, y: y, width: self.view.frame.width - 30, height: 80)
-        let columnWidth = (viewOptions.frame.width - 60*5)/4
-        
-        lblMoodRate.frame = CGRect(x: 0, y: 0, width: viewOptions.frame.width, height: 20)
-        lblMoodRate.font = fontLabel
-        lblMoodRate.textColor = blackColor
-        lblMoodRate.textAlignment = .left
-        lblMoodRate.text = strMood
-        lblMoodRate.numberOfLines = 0
-        
-        viewOptions.addSubview(lblMoodRate)
-        
-        for i in 1...5 {
+        func createView() {
+            let navBar = navigationController?.navigationBar
+            self.view.backgroundColor = whiteColor
             
-            let btnMood = UIButton()
-            let image = UIImage(named: "ic_mood\(i)_outline")
+            scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            scrollView.isScrollEnabled = true
+            //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
             
-            btnMood.setBackgroundImage(image, for: .normal)
-            btnMood.tag = 1110 + i
+            createForm()
+            setUpSwitch()
+            setUpButtons()
             
-            if(getMoodInt == i){
-                btnMood.isSelected = true
-                let img = UIImage(named: "ic_mood\(i)")
-                btnMood.setBackgroundImage(img, for: .normal)
-                moodInt = Int16(i)
+            let bottom = (navBar?.frame.size.height)! + form.frame.size.height + viewSwitch.frame.size.height + viewKeywords.frame.size.height + 15
+            
+            //form.backgroundColor = blueColor.withAlphaComponent(0.2)
+            //viewSwitch.backgroundColor = purpleColor.withAlphaComponent(0.2)
+            //viewKeywords.backgroundColor = lightGreyColor.withAlphaComponent(1)
+            
+            scrollView.contentSize.height = bottom
+        }
+        
+        // MARK: layout functions
+        
+        func createForm() {
+            
+            //create form view
+            form.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (self.view.frame.height/3))
+            form.backgroundColor = whiteColor
+            
+            // UILabels
+            form.lblName.frame.size.height = 100
+            form.lblName.font = fontLabel
+            form.lblName.text = strLblTitle
+            form.lblName.textColor = blackColor
+            form.lblName.textAlignment = .left
+            
+            form.lblAbout.font = fontLabel
+            form.lblAbout.text = strLblDescr
+            form.lblAbout.textColor = blackColor
+            form.lblAbout.textAlignment = .left
+            
+            //UITextView
+            form.txtName.layer.cornerRadius = 5
+            form.txtName.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+            form.txtName.layer.borderWidth = 1
+            form.txtName.font = fontInput
+            form.txtName.clipsToBounds = true
+            
+            //UITextfield
+            form.txtAbout.layer.cornerRadius = 5
+            form.txtAbout.frame.size.height = 200
+            form.txtAbout.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+            form.txtAbout.layer.borderWidth = 1
+            form.txtAbout.font = fontInput
+            form.txtAbout.clipsToBounds = true
+            
+            // UIButton
+            form.btnNextShadow.isHidden = true
+            form.btnToStep2.isHidden = true
+            
+            //add view to content view
+            scrollView.addSubview(form)
+        }
+        
+        func setUpSwitch() {
+            
+            let lblSwitch = UILabel()
+            
+            viewSwitch.frame = CGRect(x: 0, y: self.view.frame.height/3, width: self.view.frame.width, height: 100)
+            
+            lblSwitch.frame = CGRect(x: 15, y: 0, width: (self.view.frame.width - 30)/2, height: 20)
+            lblSwitch.text = "Add a deadline?"
+            lblSwitch.textAlignment = .left
+            lblSwitch.font = fontLabel
+            lblSwitch.textColor = blackColor
+            
+            switchAction.frame = CGRect(x: viewSwitch.frame.size.width - 50 - 15, y: 0, width: 50, height: 20)
+            switchAction.setOn(false, animated:true)
+            switchAction.addTarget(self, action: #selector(buttonClicked), for: .valueChanged)
+            
+            viewToggle.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: self.view.frame.width, height: 50)
+            viewToggle.isHidden = true
+            viewToggle.backgroundColor = whiteColor
+            viewToggle.layer.borderWidth = 1
+            viewToggle.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+            
+            txtFieldDate.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.size.width - 30, height: viewToggle.frame.size.height)
+            txtFieldDate.inputView = self.datePicker
+            txtFieldDate.clipsToBounds = true
+            txtFieldDate.textAlignment = .right
+            txtFieldDate.isUserInteractionEnabled = true
+            txtFieldDate.addTarget(self, action: #selector(textFieldDidBeginEditing), for: UIControlEvents.editingDidBegin)
+            txtFieldDate.addTarget(self, action: #selector(textFieldDidEndEditing), for: UIControlEvents.editingDidEnd)
+            txtFieldDate.font = fontMainRegular19
+            txtFieldDate.textColor = blackColor
+            txtFieldDate.placeholder = "Add a date"
+            
+            /*   let btnInput = UIButton()
+             btnInput.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.size.width - 30, height: viewToggle.frame.size.height)
+             btnInput.setTitle("click", for: .normal)
+             btnInput.backgroundColor = blueColor
+             btnInput.addTarget(self,action:#selector(textfieldActive(sender:)),
+             for:.touchUpInside)
+             viewToggle.addSubview(btnInput)
+             */
+            
+            //txtFieldDate.addConstraint(txtFieldDate.heightAnchor.constraint(equalToConstant: 20))
+            
+            lblDeadline.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.width/2, height: viewToggle.frame.size.height)
+            //lblDeadline.backgroundColor = blueColor.withAlphaComponent(0.2)
+            lblDeadline.text = "Deadline: "
+            lblDeadline.textAlignment = .left
+            lblDeadline.font = fontMainRegular19
+            lblDeadline.textColor = purpleColor
+            lblDeadline.backgroundColor = UIColor.clear
+            
+            self.datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(datePicker:)), for: .valueChanged)
+            self.datePicker.backgroundColor = whiteColor
+            
+            // ToolBar
+            let toolBar = UIToolbar()
+            toolBar.barStyle = UIBarStyle.default
+            toolBar.isTranslucent = true
+            toolBar.tintColor = blueColor
+            toolBar.sizeToFit()
+            
+            // Adding Button ToolBar
+            let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneClick))
+            let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            doneButton.setTitleTextAttributes([NSAttributedStringKey.font: fontHeaderSub!], for: .normal)
+            doneButton.tintColor = blackColor
+            toolBar.setItems([spaceButton, doneButton], animated: false)
+            toolBar.isUserInteractionEnabled = true
+            txtFieldDate.inputAccessoryView = toolBar
+            
+            
+            viewToggle.addSubview(lblDeadline)
+            viewToggle.addSubview(txtFieldDate)
+            
+            viewSwitch.addSubview(lblSwitch)
+            viewSwitch.addSubview(switchAction)
+            viewSwitch.addSubview(viewToggle)
+            
+            scrollView.addSubview(viewSwitch)
+        }
+        
+        @objc func doneClick(sender: UITextField){
+            txtFieldDate.resignFirstResponder()
+            
+        }
+        
+        @objc func textFieldDidBeginEditing(textField: UITextField) {
+            viewToggle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+            
+        }
+        
+        @objc func textFieldDidEndEditing(textField: UITextField) {
+            viewToggle.backgroundColor = whiteColor
+            txtFieldDate.resignFirstResponder()
+            
+        }
+        
+        @objc func buttonClicked(sender: UIButton) {
+            if switchAction.isOn {
+                
+                switchAction.setOn(false, animated:true)
+                viewToggle.isHidden = true
+                viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
+                
+                
+            } else {
+                
+                switchAction.setOn(true, animated:true)
+                viewToggle.isHidden = false
+                txtFieldDate.resignFirstResponder()
+                viewKeywords.frame = CGRect(x: 15, y: 100 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
+                
             }
+        }
+        
+        
+        
+        @objc func datePickerValueChanged(datePicker: UIDatePicker) {
+            
+            let dateformatter = DateFormatter()
+            dateformatter.dateFormat = "dd-MM-yyyy"
+            dateformatter.locale = Locale(identifier: "en_GB")
+            let dateGoals = dateformatter.string(from: datePicker.date)
+            txtFieldDate.text = dateGoals
+            
+        }
+        
+        func setUpButtons() {
+            let lblKeywords = UILabel()
+            
+            getData()
+            
+            
+            viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: 200)
+            
+            lblKeywords.frame = CGRect(x: 0, y: 0, width: viewSwitch.frame.width, height: 80)
+            lblKeywords.font = fontLabel
+            lblKeywords.textColor = blackColor
+            lblKeywords.textAlignment = .left
+            lblKeywords.numberOfLines = 0
+            
+            viewKeywords.addSubview(lblKeywords)
+            
+            var buttonX: CGFloat = 0
+            var buttonY: CGFloat = 10
+            
+            for keyword in arrayUserKeywords {
+                let ySpace: Int = 10
+                let btnKeyword = UIButton()
+                
+                let myString: String = "\(keyword)"
+                let size: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: fontBtnKeyword!])
+                let btnWidth = size.width + 20
+                let totalWidth = buttonX + btnWidth
+                
+                if(totalWidth > self.view.frame.size.width - 30){
+                    buttonY = buttonY + 40 + CGFloat(ySpace)
+                    buttonX = 0
+                }
+                
+                btnKeyword.frame = CGRect(x: buttonX, y: buttonY, width: btnWidth, height: 40)
+                buttonX = buttonX + btnWidth + 10
+                
+                btnKeyword.setTitle("\(keyword)",for: .normal)
+                btnKeyword.titleLabel?.font = fontBtnKeyword
+                btnKeyword.setTitleColor(blackColor, for: .normal)
+                btnKeyword.titleLabel?.textAlignment = .center
+                btnKeyword.backgroundColor = whiteColor
+                
+                btnKeyword.isSelected = false
+                
+                btnKeyword.addTarget(self,action:#selector(selectKeyword),
+                                     for:.touchUpInside)
+                
+                btnKeyword.isEnabled = true
+                btnKeyword.layer.cornerRadius = 20
+                btnKeyword.layer.borderWidth = 1.5
+                btnKeyword.layer.borderColor = blackColor.cgColor
+                
+                viewKeywords.addSubview(btnKeyword)
+                
+                
+                
+            }
+            
+            heightOptions = buttonY + 80
+            viewKeywords.frame.size.height = heightOptions
+            scrollView.addSubview(viewKeywords)
+            
+            
+        }
+        
+        
+        @objc func selectKeyword(sender: UIButton) {
+            
+            sender.isSelected = !sender.isSelected
+            
+            if sender.isSelected {
+                
+                print(sender.isSelected)
+                
+                //styling when selected
+                sender.setTitleColor(whiteColor, for: .normal)
+                sender.titleLabel?.font = fontMainMedium
+                sender.backgroundColor = blueColor
+                sender.layer.borderWidth = 0
+                
+                //add label to array
+                txtFieldDate.resignFirstResponder()
+                arraySelection.append((sender.titleLabel?.text)!)
+                
+                
+            }
+                
             else {
-                btnMood.isSelected = false
                 
-            }
-            btnMood.frame =  CGRect(x: x, y: 30, width: 60, height: 60)
-            btnMood.addTarget(self,action:#selector(selectMood), for:.touchUpInside)
-            
-            viewOptions.addSubview(btnMood)
-            
-            x = x + 60 + Int(columnWidth)
-            
-        }
-        
-        scrollView.addSubview(viewOptions)
-        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 120 + form.frame.size.height + viewSliders.frame.size.height + viewOptions.frame.size.height + 50)
-        
-    }
-    
-    @objc func selectMood(sender: UIButton) {
-        
-        sender.isSelected = !sender.isSelected
-        
-        if sender.isSelected {
-            
-            if (sender.tag == 1111){
-                let img = UIImage(named: "ic_mood1")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1111)
-                moodInt = 1
-            }
-            else if (sender.tag == 1112) {
-                let img = UIImage(named: "ic_mood2")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1112)
-                moodInt = 2
+                print(sender.isSelected)
                 
-            }
-            else if (sender.tag == 1113) {
-                let img = UIImage(named: "ic_mood3")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1113)
-                moodInt = 3
+                //styling when deselected
+                sender.setTitleColor(blackColor, for: .normal)
+                sender.titleLabel?.font = fontBtnKeyword
+                sender.backgroundColor = whiteColor
+                sender.layer.borderWidth = 1.5
                 
-            }
-            else if (sender.tag == 1114) {
-                let img = UIImage(named: "ic_mood4")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1114)
-                moodInt = 4
                 
-            }
-            else if (sender.tag == 1115) {
-                let img = UIImage(named: "ic_mood5")
-                sender.setBackgroundImage(img, for: .normal)
-                deselect(tag: 1115)
-                moodInt = 5
-            }
-            
-        }
-        
-        
-    }
-    
-    func deselect(tag:Int) {
-        
-        for index in 1111...1115 where index != tag {
-            
-            if let buttons = view.viewWithTag(index) as? UIButton {
-                
-                let imgInt = index - 1110
-                let img = UIImage(named: "ic_mood\(imgInt)_outline")
-                buttons.isSelected = false
-                buttons.setBackgroundImage(img, for: .normal)
-                
-            }
-            
-        }
-        
-    }
-    
-    @objc func printSliderValues() {
-        getSliderValues()
-        print("\(String(describing: arrayUpdateSliderValues))")
-        
-        
-    }
-    
-    func getSliderValues() {
-        let tagCount = arrayUserKeywords.count + 100
-        for i in 101...tagCount {
-            
-            if let slider = viewSliders.viewWithTag(i) as? UISlider {
-                let value = Int(round(slider.value))
-                arrayUpdateSliderValues.append(Int16(value))
-                print("\(Decimal(value))")
-            }
-            
-        }
-    }
-    
-    @objc func sliderValueDidChange(_ sender:UISlider!)
-    {
-        let tagCount = arrayUserKeywords.count + 100
-        for i in 101...tagCount {
-            
-            if (sender.tag == i){
-                
-                let value = Int(round(sender.value))
-                let tagLabels = i - 100
-                
-                if let theLabel = view.viewWithTag(tagLabels) as? UILabel {
-                    theLabel.text = String(value)
+                //remove label from array
+                if let indexValue = arraySelection.index(of: (sender.titleLabel?.text)!) {
+                    arraySelection.remove(at: indexValue)
                 }
             }
-        }
-    }
-    
-    
-    func createHeaderSub() {
-        
-        //variables
-        let navBar = navigationController?.navigationBar
-        let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.size.width)!, height: (navBar?.frame.size.height)!)
-        lblSub.frame = frameTitle
-        
-        //Create navigation bar for sub views
-        navBar?.barStyle = .blackTranslucent
-        navBar?.applyNavigationGradient(colors: [blueColor , lightBlueColorHeader])
-        lblSub.text = strHeader.uppercased()
-        lblSub.font = fontHeaderSub
-        lblSub.textColor = whiteColor
-        lblSub.textAlignment = .center
-        
-        navBar?.addSubview(lblSub)
-        addBackButton()
-        addSaveButton()
-        
-    }
-    
-    func createHeaderMain() {
-        
-        //variables
-        let navBar = navigationController?.navigationBar
-        
-        //Edit navigation bar back to main settings
-        navBar?.barStyle = .default
-        navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
-        navBar?.addSubview(lblMain)
-        
-    }
-    
-    
-    // MARK: data functions
-    func saveData() {
-        
-        let context = appDelegate.persistentContainer.viewContext
-        let dataHelper = DataHelper(context: context)
-        
-        let title = form.txtName.text
-        let entry = form.txtAbout.text
-        
-        let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
-        
-        
-        let keywords : [Keywords] = dataHelper.getAll()
-        
-        newEntry.title = title!
-        newEntry.entry = entry!
-        newEntry.mood = moodInt
-        newEntry.date = currentDateTime
-        
-        dataHelper.saveChanges()
-        
-        getSliderValues()
-        print("\(String(describing: arrayUpdateSliderValues))")
-        
-        let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
-        
-        print("saved ENTRY: ")
-        print("\(String(describing: savedEntry))")
-        
-        
-        for (index, element) in arrayUserKeywords.enumerated() {
-            
-            let i = keywords.index(where: { $0.title == element }) as! Int
-            let keywordObject = dataHelper.getById(id: keywords[i].objectID)
-            let sliderValue = arrayUpdateSliderValues[index]
-            
-            let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
-            dataHelper.saveChanges()
-            
-            print("new MANY to MANY relation: ")
-            print("\(String(describing: newRelation))")
-            
-            
             
             
         }
         
-        do {
+        
+        
+        
+        func createHeaderSub() {
             
-            try context.save()
-            print("Saved successfully")
+            //variables
+            let navBar = navigationController?.navigationBar
+            let frameTitle = CGRect(x: 0, y: 0, width: (navBar?.frame.size.width)!, height: (navBar?.frame.size.height)!)
+            lblSub.frame = frameTitle
             
+            //Create navigation bar for sub views
+            navBar?.barStyle = .blackTranslucent
+            navBar?.applyNavigationGradient(colors: [blueColor , lightBlueColorHeader])
+            lblSub.text = strHeader.uppercased()
+            lblSub.font = fontHeaderSub
+            lblSub.textColor = whiteColor
+            lblSub.textAlignment = .center
             
+            navBar?.addSubview(lblSub)
+            addBackButton()
+            addSaveButton()
             
-        } catch {
-            print("Failed saving")
+        }
+        
+        func createHeaderMain() {
+            
+            //variables
+            let navBar = navigationController?.navigationBar
+            
+            //Edit navigation bar back to main settings
+            navBar?.barStyle = .default
+            navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
+            navBar?.addSubview(lblMain)
+            
         }
         
         
-    }
-    
-    func updateData() {
-        
-        let title = form.txtName.text
-        let txtEntry = form.txtAbout.text
-        
-        let formatterFull = DateFormatter()
-        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
-        formatterFull.locale = Locale(identifier: "en_GB")
-        
-        //fetch data from custom added keywords and return them as an array
-        let context = appDelegate.persistentContainer.viewContext
-        let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
-        
-        getSliderValues()
-        
-        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
-        //entryFetchRequest.predicate = predicateRelation
-        
-        let allEntries = try! context.fetch(entryFetchRequest)
-        
-        for entry in allEntries {
+        // MARK: data functions
+        func saveData() {
+            let now = Date()
+            var strGoal = String()
+            
+            let context = appDelegate.persistentContainer.viewContext
+            let dataHelper = DataHelper(context: context)
+            
+            let title = form.txtName.text
+            let entry = form.txtAbout.text
+            
+            let newGoal = NSEntityDescription.insertNewObject(forEntityName: "Goals", into: appDelegate.persistentContainer.viewContext) as! Goals
+            let newRelation = NSEntityDescription.insertNewObject(forEntityName: "GoalKeywords", into: appDelegate.persistentContainer.viewContext) as! GoalKeywords
+            
+            let keywords : [Keywords] = dataHelper.getAll()
+            
+            // created formatter
+            
+            let formatterFull = DateFormatter()
+            formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+            formatterFull.locale = Locale(identifier: "en_GB")
+            let strNow = formatterFull.string(from: now)
             
             
-            let entryDate = formatterFull.string(from: entry.date)
-            
-            if(entryDate == entryToEdit){
-                
-                entry.title = title!
-                entry.entry = txtEntry!
-                entry.mood = moodInt
-                entry.edited = true
-                
-                
-                let predicateRelation = NSPredicate(format: "entry == %@", entry)
-                fetchRequestRelation.predicate = predicateRelation
-                
-                let manyRelations = try! context.fetch(fetchRequestRelation)
-                
-                for (index, element ) in manyRelations.enumerated() {
-                    let sliderValue = arrayUpdateSliderValues[index]
-                    
-                 //   element.severity = sliderValue
-                    
-                }
-                
-                do {
-                    
-                    try context.save()
-                    print("updated successfully")
-                    
-                } catch {
-                    print("Failed saving")
-                }
-                
-                
+            if(txtFieldDate.text!.isEmpty){
+                strGoal = ""
+            }
+            else{
+                strGoal = txtFieldDate.text!
             }
             
             
-        }
-        
-        
-        
-    }
-    
-    func getData() {
-        
-        let formatterFull = DateFormatter()
-        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
-        formatterFull.locale = Locale(identifier: "en_GB")
-        
-        //fetch data from custom added keywords and return them as an array
-        let context = appDelegate.persistentContainer.viewContext
-        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-        let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
-        
-        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
-        //entryFetchRequest.predicate = predicateRelation
-        
-        let allEntries = try! context.fetch(entryFetchRequest)
-        
-        for entry in allEntries {
+            newGoal.title = title!
+            newGoal.note = entry!
+            newGoal.created = strNow
+            newGoal.deadline = strGoal
+            newGoal.accomplished = false
+            //newGoal.evaluation = Evaluation()
+            
+            // dataHelper.saveChanges()
+            
+            print("\(String(describing: arraySelection))")
+            
+            //let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
             
             
-            let entryDate = formatterFull.string(from: entry.date)
             
-            if(entryDate == entryToEdit){
+            do {
                 
-                let predicateRelation = NSPredicate(format: "entry == %@", entry)
-                fetchRequestRelation.predicate = predicateRelation
+                try context.save()
+                print("Saved relation: \(String(describing: newGoal)) successfully!")
                 
-                let manyRelations = try! context.fetch(fetchRequestRelation)
-                
-                for manyRelation in manyRelations {
+                for (_, element) in arraySelection.enumerated() {
+                    
+                    let i = keywords.index(where: { $0.title == element }) as! Int
+                    
+                    let keywordObject = dataHelper.getById(id: keywords[i].objectID)
+                    
+                    //let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
+                    
+                    newRelation.keyword = keywordObject!
+                    newRelation.goal = newGoal
+                    newRelation.rate = 0
+                    
+                    //dataHelper.saveChanges()
                     
                     
-                    let strKeywordID = manyRelation.keyword.objectID
-                    let predicateKeywords = NSPredicate(format: "SELF = %@", strKeywordID)
-                    keywordFetchRequest.predicate = predicateKeywords
-                    
-                    let relatedKeywords = try! context.fetch(keywordFetchRequest)
-                    
-                    for keyword in relatedKeywords {
+                    do {
+                        
+                        try context.save()
+                        print("Saved relation: \(String(describing: newRelation)) successfully!")
                         
                         
-                        arrayGetSliderValues.append(manyRelation.rate)
-                        arrayUserKeywords.append(keyword.title as String)
-                        getMoodInt = entry.mood
-                        form.txtName.text = entry.title
-                        form.txtAbout.text = entry.entry
-                        
-                        //titleEdit = entry.title
-                        //entryEdit = entry.entry
-                        
-                        
-                        
-                        
+                    } catch {
+                        print("Failed saving")
                     }
                     
                     
                 }
                 
                 
+                
+                
+                
+                
+                
+            } catch {
+                print("Failed saving")
             }
             
             
         }
         
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-    // MARK: alerts
-    
-    func showAlertQuit() {
-        
-        let refreshAlert = UIAlertController(title: "Go back to your entries", message: "Are you sure you want to quit adding your entries? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
-        
-        refreshAlert.addAction(UIAlertAction(title: "Quit", style: .default, handler: { (action: UIAlertAction!) in
-            self.popBack()
-        }))
-        
-        refreshAlert.addAction(UIAlertAction(title: "Nevermind", style: .cancel, handler: { (action: UIAlertAction!) in
+        func getData() {
             
-        }))
-        
-        present(refreshAlert, animated: true, completion: nil)
-    }
-    
-    func showAlertFormCheck() {
-        
-        let refreshAlert = UIAlertController(title: "Empty fields", message: "To add an entry, you must fill in all fields.", preferredStyle: UIAlertControllerStyle.alert)
-        
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            //fetch data from custom added keywords and return them as an array
+            let context = appDelegate.persistentContainer.viewContext
+            let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+            // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
             
-        }))
-        
-        present(refreshAlert, animated: true, completion: nil)
-    }
-    
-    
-    // MARK: actions
-    
-    @IBAction func backAction(_ sender: UIButton) {
-        showAlertQuit()
-    }
-    
-    func popBack() {
-        lblSub.removeFromSuperview()
-        createHeaderMain()
-        self.tabBarController?.tabBar.alpha = 1
-        let _ = self.navigationController?.popViewController(animated: true)
-    }
-    
-    func addSaveButton() {
-        let NavLinkAttr : [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font : fontBtnNavLink!,
-            NSAttributedStringKey.foregroundColor : whiteColor,
-            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
-        let attributeString = NSMutableAttributedString(string: "Save",
-                                                        attributes: NavLinkAttr)
-        
-        let btnCreate = UIButton(type: .custom)
-        
-        btnCreate.setAttributedTitle(attributeString, for: .normal)
-        btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
-        //add btn
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
-    }
-    
-    @objc func toMainPage() {
-        
-        let name = form.txtName.text
-        let about = form.txtAbout.text
-        
-        if((name?.isEmpty)! || (about?.isEmpty)!){
+            //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
+            let allKeywords = try! context.fetch(keywordFetchRequest)
             
-            showAlertFormCheck()
-            
-            
+            for key in allKeywords {
+                
+                let rank = key.ranking
+                if(rank != 0){
+                    
+                    arrayUserKeywords.append(key.title as String)
+                    
+                }
+                
+                
+            }
         }
+        
+        
+        
+        
+        // MARK: alerts
+        
+        func showAlertQuit() {
             
-        else {
+            let refreshAlert = UIAlertController(title: "Go back to your entries", message: "Are you sure you want to quit adding your entries? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
             
-            updateData()
+            refreshAlert.addAction(UIAlertAction(title: "Quit", style: .default, handler: { (action: UIAlertAction!) in
+                self.popBack()
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "Nevermind", style: .cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            present(refreshAlert, animated: true, completion: nil)
+        }
+        
+        func showAlertFormCheck() {
+            
+            let refreshAlert = UIAlertController(title: "Empty fields", message: "To add a goal, you must fill in a title.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            present(refreshAlert, animated: true, completion: nil)
+        }
+        
+        
+        // MARK: actions
+        
+        @IBAction func backAction(_ sender: UIButton) {
+            showAlertQuit()
+        }
+        
+        func popBack() {
             lblSub.removeFromSuperview()
             createHeaderMain()
             self.tabBarController?.tabBar.alpha = 1
-            
-            var viewControllers = navigationController?.viewControllers
-            viewControllers?.removeLast(1)
-            navigationController?.setViewControllers(viewControllers!, animated: true)
+            let _ = self.navigationController?.popViewController(animated: true)
         }
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
-    {
-        // text hasn't changed yet, you have to compute the text AFTER the edit yourself
-        let updatedStringTitle = (self.form.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
-        self.form.txtName.text = updatedStringTitle
         
-        let updatedStringDescr = (self.form.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
-        self.form.txtAbout.text = updatedStringDescr
-        // do whatever you need with this updated string (your code)
+        func addSaveButton() {
+            let NavLinkAttr : [NSAttributedStringKey: Any] = [
+                NSAttributedStringKey.font : fontBtnNavLink!,
+                NSAttributedStringKey.foregroundColor : whiteColor,
+                NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+            let attributeString = NSMutableAttributedString(string: "Save",
+                                                            attributes: NavLinkAttr)
+            
+            let btnCreate = UIButton(type: .custom)
+            
+            btnCreate.setAttributedTitle(attributeString, for: .normal)
+            btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
+            //add btn
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btnCreate)
+        }
         
-        // always return true so that changes propagate
-        return true
-    }
-    
-    func addBackButton() {
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(named: "btnBackWhite.png"), for: .normal)
-        backButton.setTitle("", for: .normal)
-        backButton.setTitleColor(whiteColor, for: .normal)
-        backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
-        //add btn
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
+        @objc func toMainPage() {
+            
+            let title = form.txtName.text
+            
+            if(title?.isEmpty)!{
+                
+                showAlertFormCheck()
+                
+            }
+                
+            else {
+                
+                saveData()
+                lblSub.removeFromSuperview()
+                createHeaderMain()
+                self.tabBarController?.tabBar.alpha = 1
+                
+                var viewControllers = navigationController?.viewControllers
+                viewControllers?.removeLast(1)
+                navigationController?.setViewControllers(viewControllers!, animated: true)
+            }
+        }
         
-        super.viewWillAppear(animated)
-        createHeaderSub()
-        self.tabBarController?.tabBar.alpha = 0
+        func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+        {
+            // text hasn't changed yet, you have to compute the text AFTER the edit yourself
+            let updatedStringTitle = (self.form.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
+            self.form.txtName.text = updatedStringTitle
+            
+            let updatedStringDescr = (self.form.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
+            self.form.txtAbout.text = updatedStringDescr
+            // do whatever you need with this updated string (your code)
+            
+            // always return true so that changes propagate
+            return true
+        }
         
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
+        func addBackButton() {
+            let backButton = UIButton(type: .custom)
+            backButton.setImage(UIImage(named: "btnBackWhite.png"), for: .normal)
+            backButton.setTitle("", for: .normal)
+            backButton.setTitleColor(whiteColor, for: .normal)
+            backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
+            //add btn
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        }
+        
+        
+        override func viewWillAppear(_ animated: Bool) {
+            
+            super.viewWillAppear(animated)
+            createHeaderSub()
+            self.tabBarController?.tabBar.alpha = 0
+            
+        }
+        
+        override func didReceiveMemoryWarning() {
+            super.didReceiveMemoryWarning()
+            // Dispose of any resources that can be recreated.
+        }
+        
+        
+        
 }
-
-
-

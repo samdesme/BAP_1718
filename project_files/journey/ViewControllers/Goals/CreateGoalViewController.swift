@@ -21,39 +21,29 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     //strings
     let strHeader = "create a new goal"
     let strLblTitle = "Title"
-    
-    var value = String()
-    
     let strLblDescr = "Add a note (opinional)"
-    let strMood = "Rate your overall mood"
-    let strDateMsg = "how are you?"
-    
+
+    var value = String()
+    var heightOptions = CGFloat()
+
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var arrayUserKeywords = [String]()
-    var arraySliderValues = [Int16]()
+
     var datePicker = UIDatePicker()
     var txtFieldDate = UITextField()
     var arraySelection = [String]()
-
     
     //view
     let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
     var scrollView = UIScrollView()
-
+    let viewToggle = UIView()
     let viewSwitch = UIView()
     var viewKeywords = UIView()
-
-
-    let viewOptions = UIView()
-    var currentDateTime = Date()
     var switchAction = UISwitch()
     
     //labels
-    let lblMsg = UILabel()
-    let lblDate = UILabel()
     let lblSub = UILabel()
     let lblMain = UILabel()
-    var lblDisplay = UILabel()
     var lblDeadline = UILabel()
 
     //gradient layers
@@ -88,7 +78,12 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         setUpSwitch()
         setUpButtons()
         
-        let bottom = (navBar?.frame.size.height)! + form.frame.size.height + viewSwitch.frame.size.height + viewSwitch.frame.size.height + viewKeywords.frame.size.height + 15
+        let bottom = (navBar?.frame.size.height)! + form.frame.size.height + viewSwitch.frame.size.height + viewKeywords.frame.size.height + 15
+        
+        //form.backgroundColor = blueColor.withAlphaComponent(0.2)
+        //viewSwitch.backgroundColor = purpleColor.withAlphaComponent(0.2)
+        //viewKeywords.backgroundColor = lightGreyColor.withAlphaComponent(1)
+
         scrollView.contentSize.height = bottom
     }
     
@@ -139,38 +134,53 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
         let lblSwitch = UILabel()
 
-        viewSwitch.frame = CGRect(x: 15, y: self.view.frame.height/3, width: self.view.frame.width - 30, height: 50)
+        viewSwitch.frame = CGRect(x: 0, y: self.view.frame.height/3, width: self.view.frame.width, height: 100)
 
-        lblSwitch.frame = CGRect(x: 0, y: 0, width: viewSwitch.frame.size.width/2, height: 20)
-        lblSwitch.text = "Add deadline?"
+        lblSwitch.frame = CGRect(x: 15, y: 0, width: (self.view.frame.width - 30)/2, height: 20)
+        lblSwitch.text = "Add a deadline?"
         lblSwitch.textAlignment = .left
         lblSwitch.font = fontLabel
         lblSwitch.textColor = blackColor
         
-        switchAction.frame = CGRect(x: viewSwitch.frame.size.width - 50, y: 0, width: 50, height: 20)
+        switchAction.frame = CGRect(x: viewSwitch.frame.size.width - 50 - 15, y: 0, width: 50, height: 20)
         switchAction.setOn(false, animated:true)
         switchAction.addTarget(self, action: #selector(buttonClicked), for: .valueChanged)
         
-        txtFieldDate.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: viewSwitch.frame.size.width, height: 50)
+        viewToggle.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: self.view.frame.width, height: 50)
+        viewToggle.isHidden = true
+        viewToggle.backgroundColor = whiteColor
+        viewToggle.layer.borderWidth = 1
+        viewToggle.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
+  
+        txtFieldDate.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.size.width - 30, height: viewToggle.frame.size.height)
         txtFieldDate.inputView = self.datePicker
+        txtFieldDate.clipsToBounds = true
         txtFieldDate.textAlignment = .right
         txtFieldDate.isUserInteractionEnabled = true
-        txtFieldDate.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .touchUpInside);
-        txtFieldDate.isHidden = true
+        txtFieldDate.addTarget(self, action: #selector(textFieldDidBeginEditing), for: UIControlEvents.editingDidBegin)
+        txtFieldDate.addTarget(self, action: #selector(textFieldDidEndEditing), for: UIControlEvents.editingDidEnd)
         txtFieldDate.font = fontMainRegular19
         txtFieldDate.textColor = blackColor
+        txtFieldDate.placeholder = "Add a date"
         
-        txtFieldDate.layer.cornerRadius = 5
-        txtFieldDate.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
-        txtFieldDate.layer.borderWidth = 1
+     /*   let btnInput = UIButton()
+        btnInput.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.size.width - 30, height: viewToggle.frame.size.height)
+        btnInput.setTitle("click", for: .normal)
+        btnInput.backgroundColor = blueColor
+        btnInput.addTarget(self,action:#selector(textfieldActive(sender:)),
+                             for:.touchUpInside)
+        viewToggle.addSubview(btnInput)
+        */
         
-        lblDeadline.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: viewSwitch.frame.size.width/2, height: 50)
-        lblDeadline.backgroundColor = UIColor.clear
+        //txtFieldDate.addConstraint(txtFieldDate.heightAnchor.constraint(equalToConstant: 20))
+        
+        lblDeadline.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.width/2, height: viewToggle.frame.size.height)
+        //lblDeadline.backgroundColor = blueColor.withAlphaComponent(0.2)
         lblDeadline.text = "Deadline: "
         lblDeadline.textAlignment = .left
         lblDeadline.font = fontMainRegular19
-        lblDeadline.textColor = blackColor
- 
+        lblDeadline.textColor = purpleColor
+        lblDeadline.backgroundColor = UIColor.clear
         
         self.datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(datePicker:)), for: .valueChanged)
         self.datePicker.backgroundColor = whiteColor
@@ -191,10 +201,14 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         toolBar.isUserInteractionEnabled = true
         txtFieldDate.inputAccessoryView = toolBar
         
+        
+        viewToggle.addSubview(lblDeadline)
+        viewToggle.addSubview(txtFieldDate)
+        
         viewSwitch.addSubview(lblSwitch)
-        viewSwitch.addSubview(txtFieldDate)
         viewSwitch.addSubview(switchAction)
-        viewSwitch.addSubview(lblDeadline)
+        viewSwitch.addSubview(viewToggle)
+        
         scrollView.addSubview(viewSwitch)
     }
     
@@ -204,23 +218,30 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     }
     
     @objc func textFieldDidBeginEditing(textField: UITextField) {
-        textField.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+        viewToggle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
+
+    }
+    
+    @objc func textFieldDidEndEditing(textField: UITextField) {
+        viewToggle.backgroundColor = whiteColor
+        txtFieldDate.resignFirstResponder()
+
     }
     
     @objc func buttonClicked(sender: UIButton) {
         if switchAction.isOn {
             
-            print("Switch is on")
             switchAction.setOn(false, animated:true)
-            txtFieldDate.isHidden = true
-
-            
+            viewToggle.isHidden = true
+            viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
 
             
         } else {
+            
             switchAction.setOn(true, animated:true)
-            txtFieldDate.isHidden = false
-
+            viewToggle.isHidden = false
+            txtFieldDate.resignFirstResponder()
+            viewKeywords.frame = CGRect(x: 15, y: 100 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
 
         }
     }
@@ -230,11 +251,9 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     @objc func datePickerValueChanged(datePicker: UIDatePicker) {
         
         let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy-MM-dd"
+        dateformatter.dateFormat = "dd-MM-yyyy"
         dateformatter.locale = Locale(identifier: "en_GB")
-        
         let dateGoals = dateformatter.string(from: datePicker.date)
-
         txtFieldDate.text = dateGoals
         
     }
@@ -245,7 +264,7 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         getData()
         
         
-        viewKeywords.frame = CGRect(x: 15, y: 100 + self.view.frame.height/3, width: self.view.frame.width - 30, height: 0)
+        viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: 200)
         
         lblKeywords.frame = CGRect(x: 0, y: 0, width: viewSwitch.frame.width, height: 80)
         lblKeywords.font = fontLabel
@@ -296,7 +315,9 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
 
             
         }
-        viewKeywords.frame.size.height = buttonY + 80
+        
+        heightOptions = buttonY + 80
+        viewKeywords.frame.size.height = heightOptions
         scrollView.addSubview(viewKeywords)
 
 
@@ -317,8 +338,8 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
             sender.backgroundColor = blueColor
             sender.layer.borderWidth = 0
             
-            
             //add label to array
+            txtFieldDate.resignFirstResponder()
             arraySelection.append((sender.titleLabel?.text)!)
             
             
@@ -344,23 +365,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         
     }
    
- 
-    
-    func getSliderValues() {
-        let tagCount = arrayUserKeywords.count + 100
-        for i in 101...tagCount {
-            
-            /*
-            
-            if let slider = viewSliders.viewWithTag(i) as? UISlider {
-                let value = Int(round(slider.value))
-                arraySliderValues.append(Int16(value))
-                print("\(Decimal(value))")
-            }
-             */
-            
-        }
-    }
     
 
     
@@ -400,6 +404,8 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
     // MARK: data functions
     func saveData() {
+        let now = Date()
+        var strGoal = String()
         
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
@@ -407,49 +413,78 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         let title = form.txtName.text
         let entry = form.txtAbout.text
         
-        let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
-        
-        // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeyword", into: appDelegate.persistentContainer.viewContext) as! EntryKeyword
+        let newGoal = NSEntityDescription.insertNewObject(forEntityName: "Goals", into: appDelegate.persistentContainer.viewContext) as! Goals
+        let newRelation = NSEntityDescription.insertNewObject(forEntityName: "GoalKeywords", into: appDelegate.persistentContainer.viewContext) as! GoalKeywords
         
         let keywords : [Keywords] = dataHelper.getAll()
         
-        newEntry.title = title!
-        newEntry.entry = entry!
-        newEntry.edited = false
-        newEntry.date = currentDateTime
-        
-        dataHelper.saveChanges()
-        
-        getSliderValues()
-        print("\(String(describing: arraySliderValues))")
-        
-        let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
-        
-        print("saved ENTRY: ")
-        print("\(String(describing: savedEntry))")
+        // created formatter
+       
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
+        let strNow = formatterFull.string(from: now)
         
         
-        for (index, element) in arrayUserKeywords.enumerated() {
-            
-            let i = keywords.index(where: { $0.title == element }) as! Int
-            let keywordObject = dataHelper.getById(id: keywords[i].objectID)
-            let sliderValue = arraySliderValues[index]
-            
-            let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
-            dataHelper.saveChanges()
-            
-            print("new MANY to MANY relation: ")
-            print("\(String(describing: newRelation))")
-            
-            
-            
-            
+        if(txtFieldDate.text!.isEmpty){
+            strGoal = ""
         }
+        else{
+            strGoal = txtFieldDate.text!
+        }
+
+        
+        newGoal.title = title!
+        newGoal.note = entry!
+        newGoal.created = strNow
+        newGoal.deadline = strGoal
+        newGoal.accomplished = false
+        //newGoal.evaluation = Evaluation()
+
+       // dataHelper.saveChanges()
+        
+        print("\(String(describing: arraySelection))")
+        
+        //let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
+        
+        
         
         do {
             
             try context.save()
-            print("Saved successfully")
+            print("Saved relation: \(String(describing: newGoal)) successfully!")
+
+            for (_, element) in arraySelection.enumerated() {
+                
+                let i = keywords.index(where: { $0.title == element }) as! Int
+                
+                let keywordObject = dataHelper.getById(id: keywords[i].objectID)
+                
+                //let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
+                
+                newRelation.keyword = keywordObject!
+                newRelation.goal = newGoal
+                newRelation.rate = 0
+                
+                //dataHelper.saveChanges()
+                
+                
+                do {
+                    
+                    try context.save()
+                    print("Saved relation: \(String(describing: newRelation)) successfully!")
+                    
+                    
+                } catch {
+                    print("Failed saving")
+                }
+                
+                
+            }
+            
+            
+            
+           
             
             
             
@@ -505,7 +540,7 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
     func showAlertFormCheck() {
         
-        let refreshAlert = UIAlertController(title: "Empty fields", message: "To add an entry, you must fill in all fields.", preferredStyle: UIAlertControllerStyle.alert)
+        let refreshAlert = UIAlertController(title: "Empty fields", message: "To add a goal, you must fill in a title.", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             
@@ -546,10 +581,9 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
     @objc func toMainPage() {
         
-        let name = form.txtName.text
-        let about = form.txtAbout.text
+        let title = form.txtName.text
         
-        if((name?.isEmpty)! || (about?.isEmpty)!){
+        if(title?.isEmpty)!{
             
             showAlertFormCheck()
             
@@ -561,10 +595,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
             lblSub.removeFromSuperview()
             createHeaderMain()
             self.tabBarController?.tabBar.alpha = 1
-            
-            //let entriesvc = storyboard?.instantiateViewController(withIdentifier: "tabbar") as! JournalTabBarController
-            //entriesvc.tabBarController?.selectedIndex = 1
-            //self.navigationController?.pushViewController(entriesvc, animated: true)
             
             var viewControllers = navigationController?.viewControllers
             viewControllers?.removeLast(1)
@@ -602,7 +632,8 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         super.viewWillAppear(animated)
         createHeaderSub()
         self.tabBarController?.tabBar.alpha = 0
-        
+        tabBarController?.selectedIndex = 2
+
     }
     
     override func didReceiveMemoryWarning() {

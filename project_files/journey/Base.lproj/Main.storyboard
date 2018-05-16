@@ -162,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0oP-bV-jQu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2731.8840579710145" y="439.4021739130435"/>
+            <point key="canvasLocation" x="3216" y="-1214"/>
         </scene>
         <!--step3-->
         <scene sceneID="qlw-yx-4QR">
@@ -224,7 +224,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iQf-3I-GOP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="609" y="2500"/>
+            <point key="canvasLocation" x="1370" y="2536"/>
         </scene>
         <!--Stats-->
         <scene sceneID="NJL-g4-Ecf">
@@ -546,7 +546,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coX-J3-pJw" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1410.144927536232" y="1541.5760869565217"/>
+            <point key="canvasLocation" x="2170" y="1541"/>
         </scene>
         <!--createEntry-->
         <scene sceneID="gWV-Uk-3rh">
@@ -566,7 +566,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MC1-XZ-Iry" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2465" y="1328"/>
+            <point key="canvasLocation" x="3216" y="798"/>
         </scene>
         <!--Entries Nav Controller-->
         <scene sceneID="40E-rM-P2y">
@@ -605,12 +605,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fzn-sw-6r5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2464" y="2009"/>
+            <point key="canvasLocation" x="3216" y="1541"/>
         </scene>
         <!--Goals Nav Controller-->
         <scene sceneID="so7-jQ-lo3">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Gbf-SD-OpV" userLabel="Goals Nav Controller" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="goalsnav" storyboardIdentifier="goalsnav" automaticallyAdjustsScrollViewInsets="NO" id="Gbf-SD-OpV" userLabel="Goals Nav Controller" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Goals" image="ic_goals_25px_grey" id="JcS-So-Ma0"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rIg-vX-GXF">
@@ -644,7 +644,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CGa-cL-pc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1410" y="2500"/>
+            <point key="canvasLocation" x="2170" y="2536"/>
         </scene>
         <!--editGoal-->
         <scene sceneID="8FK-sG-G16">
@@ -664,7 +664,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ik-fZ-hnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1410" y="3310"/>
+            <point key="canvasLocation" x="2170" y="3346"/>
         </scene>
     </scenes>
     <resources>

@@ -27,6 +27,7 @@ class GoalsViewController: UIViewController {
     
     let strHeader = "goals"
     let lblHeader = UILabel()
+    var strDate = String()
 
     
     var intArray = [Int16]()
@@ -38,12 +39,12 @@ class GoalsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.tabBarController?.tabBar.isHidden = false
         self.view.addSubview(scrollView)
         
         //self.title = "Goals"
-        
+        self.tabBarController?.selectedIndex = 2
         self.view.backgroundColor = lightGreyColor
         
         createGoalsView()
@@ -63,37 +64,31 @@ class GoalsViewController: UIViewController {
         lblHeader.text = strHeader.uppercased()
         lblHeader.font = fontHeaderMain
         lblHeader.textAlignment = .center
+        //lblHeader.backgroundColor = UIColor.clear
         navBar?.addSubview(lblHeader)
         
     }
     
     func createGoalsView() {
         
-        let navBar = navigationController?.navigationBar
-        navBar?.applyNavigationGradient(colors: [whiteColor , whiteColor])
-        
-       // let top = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 15
+        let top = (self.tabBarController?.tabBar.frame.size.height)! + 5
         
         // CONTENT
-        //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
-        
-        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        scrollView.backgroundColor = lightGreyColor
+        scrollView.frame = CGRect(x: 0, y: top + 45 + 15*2, width: self.view.frame.size.width, height: self.view.frame.size.height - top - (tabBarController?.tabBar.frame.size.height)!)
         scrollView.isScrollEnabled = true
         
     }
     
     
     func setUpGoals() {
-        var strDate = String()
-        let navBar = navigationController?.navigationBar
         ySize = 0
-        let top = lblHeader.frame.size.height + (navBar?.frame.size.height)! + 15
+        let top = (self.tabBarController?.tabBar.frame.size.height)! + 5
 
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d"
         formatter.locale = Locale(identifier: "en_GB")
-        
-        
+
         
         if(selectedCalendarDate.isEmpty){
              strDate = "All goals"
@@ -104,13 +99,11 @@ class GoalsViewController: UIViewController {
              strDate = selectedCalendarDate
         }
 
-        
-        
         let keywordAttr : [NSAttributedStringKey: Any] = [
             NSAttributedStringKey.font : fontMainRegular20!,
             NSAttributedStringKey.foregroundColor : whiteColor,
             NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
-        let attributeString = NSMutableAttributedString(string: "Today", attributes: keywordAttr)
+        let attributeString = NSMutableAttributedString(string: "All", attributes: keywordAttr)
         
         let formatterTime = DateFormatter()
         formatterTime.dateFormat = "HH:mm"
@@ -123,7 +116,7 @@ class GoalsViewController: UIViewController {
         //get today's date
         let gradientLayerDay = CAGradientLayer()
         
-        viewDay.frame = CGRect(x: 15, y: top, width: self.view.frame.size.width - 30, height: 45)
+        viewDay.frame = CGRect(x: 15, y: Int(top + 15), width: Int(self.view.frame.size.width - 30), height: 45)
         
         lblDate.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
         lblDate.text = strDate.uppercased()
@@ -151,7 +144,6 @@ class GoalsViewController: UIViewController {
         self.view.addSubview(viewDay)
         
         var arrRelatedKeywords = [String]()
-        
         var arrRelatedValue = [Int16]()
         
         // Set up list of entries from data created by the user
@@ -168,8 +160,6 @@ class GoalsViewController: UIViewController {
          let manyToMany : [EntryKeyword] = dataHelper.getAllSeverities()*/
         
         fetchRequestGoals.sortDescriptors = [primarySortDescriptor]
-        
-        
         let allGoals = try! context.fetch(fetchRequestGoals)
         
         
@@ -182,13 +172,7 @@ class GoalsViewController: UIViewController {
             formatterShort.dateFormat = "yyyy-MM-dd"
             formatterShort.locale = Locale(identifier: "en_GB")
             
-            
-            //get dates of the entry
-            let deadline = formatterShort.string(from: goal.deadline)
-            
-            
-            //only fetch rows where the date = today
-            if(deadline == strDate){
+            if(goal.deadline == strDate){
                 
        
                 
@@ -216,7 +200,7 @@ class GoalsViewController: UIViewController {
                     
                 }
                 
-                createGoal(title: goal.title, note: goal.note, deadline:"deadline todo" , created: goal.created, y: CGFloat(ySize), arrKeywords: arrRelatedKeywords, accomplished: goal.accomplished)
+                createGoal(title: goal.title, note: goal.note, deadline: goal.deadline , created: goal.created, y: CGFloat(ySize), arrKeywords: arrRelatedKeywords, accomplished: goal.accomplished)
                 
 
                 
@@ -344,10 +328,6 @@ class GoalsViewController: UIViewController {
         txtEntry.translatesAutoresizingMaskIntoConstraints = false
         //txtEntry.backgroundColor = blueColor.withAlphaComponent(0.2)
         
-        /* if(txtEntry.frame.size.height < viewGoal.frame.size.width - imgView.frame.size.width - 15*2 - 15){
-         txtEntry.frame.size.height = viewGoal.frame.size.width - imgView.frame.size.width - 15*2 - 15
-         }*/
-        
         
         viewKeywords.frame = CGRect(x: 0, y: txtEntry.frame.size.height + 30, width: viewContent.frame.size.width, height: 0)
         //viewKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
@@ -433,7 +413,9 @@ class GoalsViewController: UIViewController {
         let btnGradientLayer = CAGradientLayer()
         let navBar = navigationController?.navigationBar
         
-        let top = (self.tabBarController?.tabBar.frame.size.height)! + lblHeader.frame.size.height
+        //let top = (self.tabBarController?.tabBar.frame.size.height)! + lblHeader.frame.size.height
+        let top = (self.tabBarController?.tabBar.frame.size.height)! + 5
+
         
         btnAdd.frame =  CGRect(x: self.view.frame.size.width - 15*2 - 60, y: top + 60 + self.view.frame.size.height/1.7 + 20, width: 60, height: 60)
         
@@ -594,7 +576,8 @@ class GoalsViewController: UIViewController {
         
         createHeaderMain()
         refresh()
-        
+        print("selectedCalendarDate load: \(String(describing: selectedCalendarDate))")
+
         self.tabBarController?.tabBar.isHidden = false
         self.navigationItem.setHidesBackButton(true, animated: false)
         

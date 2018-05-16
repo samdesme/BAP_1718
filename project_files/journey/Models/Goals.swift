@@ -15,7 +15,7 @@ extension Goals {
     @NSManaged var title: String
     @NSManaged var note: String
     @NSManaged var accomplished: Bool
-    @NSManaged var deadline: Date
+    @NSManaged var deadline: String
     @NSManaged var created: String
     @NSManaged var keywords: NSSet
     @NSManaged var evaluation: Evaluation

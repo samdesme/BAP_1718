@@ -32,7 +32,7 @@
     <entity name="Goals" representedClassName=".Goals" syncable="YES">
         <attribute name="accomplished" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="deadline" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="deadline" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="evaluation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Evaluation" inverseName="goal" inverseEntity="Evaluation" syncable="YES"/>
@@ -55,11 +55,11 @@
     <elements>
         <element name="Entries" positionX="-3105" positionY="-1629" width="128" height="135"/>
         <element name="EntryKeywords" positionX="-3312" positionY="-1654" width="128" height="88"/>
+        <element name="Evaluation" positionX="-3321" positionY="-1483" width="128" height="28"/>
         <element name="Events" positionX="-3710" positionY="-1602" width="128" height="103"/>
+        <element name="GoalKeywords" positionX="-3323" positionY="-1350" width="128" height="28"/>
+        <element name="Goals" positionX="-3105" positionY="-1413" width="128" height="150"/>
         <element name="Keywords" positionX="-3521" positionY="-1602" width="128" height="133"/>
         <element name="Profile" positionX="-3528" positionY="-1377" width="126" height="103"/>
-        <element name="Goals" positionX="-3105" positionY="-1413" width="128" height="148"/>
-        <element name="GoalKeywords" positionX="-3323" positionY="-1350" width="128" height="28"/>
-        <element name="Evaluation" positionX="-3321" positionY="-1483" width="128" height="28"/>
     </elements>
 </model>
