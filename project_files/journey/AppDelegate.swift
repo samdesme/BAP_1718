@@ -24,9 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //dataHelper.printAllKeywords()
         
-        
+       // let appearance = UITabBarItem.appearance()
+       // appearance.setTitleTextAttributes([NSAttributedStringKey.font: fontHeaderMain!], for: .normal)
         UITabBar.appearance().tintColor = purpleColor
-        //UITabBar.appearance().backgroundColor = whiteColor
         UITabBar.appearance().backgroundImage = UIImage.colorForNavBar(color: .white)
         UITabBar.appearance().shadowImage = UIImage.colorForNavBar(color: blackColor.withAlphaComponent(0.2))
         

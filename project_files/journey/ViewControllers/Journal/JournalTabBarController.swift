@@ -26,9 +26,12 @@ class JournalTabBarController: UITabBarController {
         vcCalendar.tabBarItem = UITabBarItem(title: "CALENDAR", image: nil, selectedImage: nil)
         vcEnties.tabBarItem = UITabBarItem(title: "ENTRIES", image: nil, selectedImage: nil)
         
+        vcCalendar.tabBarItem.setTitleTextAttributes(attributes, for: .normal)
+        vcEnties.tabBarItem.setTitleTextAttributes(attributes, for: .normal)
+        
         tabBar.selectionIndicatorImage = UIImage().createSelectionIndicator(color: blackColor, size: CGSize(width: tabBar.frame.width/CGFloat(tabBar.items!.count), height: tabBar.frame.height - 2), lineWidth: 2.0)
         
-        UITabBarItem.appearance().setTitleTextAttributes(attributes, for: .normal)
+        //UITabBarItem.appearance().setTitleTextAttributes(attributes, for: .normal)
         
         viewControllers = viewControllerList
         

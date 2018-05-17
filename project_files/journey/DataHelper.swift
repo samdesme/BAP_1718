@@ -318,6 +318,156 @@ public class DataHelper {
     }
     
     
+    // GOALS
+    func createGoal(title: String, note: String, deadline: String, created: String, accomplished: Bool) -> Goals {
+        
+        let newGoal = NSEntityDescription.insertNewObject(forEntityName: Goals.entityName, into: context) as! Goals
+        
+        newGoal.title = title
+        newGoal.note = note
+        newGoal.deadline = deadline
+        newGoal.created = created
+        newGoal.accomplished = accomplished
+        
+        return newGoal
+    }
+    
+    // Returns all keywords
+    func getAllGoals() -> [Goals]{
+        return getGoal(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getGoal(withPredicate queryPredicate: NSPredicate) -> [Goals]{
+        
+        let fetchRequest = NSFetchRequest<Goals>(entityName: "Goals")
+        fetchRequest.predicate = queryPredicate
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [Goals]
+        
+        
+    }
+    
+    func getGoalById(id: NSManagedObjectID) -> Goals? {
+        return context.object(with: id) as? Goals
+    }
+    
+    func updateGoal(updatedGoal: Goals){
+        if let goal = getGoalById(id: updatedGoal.objectID){
+            
+            goal.title = updatedGoal.title
+            goal.note = updatedGoal.note
+            goal.deadline = updatedGoal.deadline
+            goal.created = updatedGoal.created
+            goal.accomplished = updatedGoal.accomplished
+            
+        }
+    }
+    
+    func deleteGoal(id: NSManagedObjectID){
+        if let GoalToDelete = getGoalById(id:id){
+            context.delete(GoalToDelete)
+        }
+    }
+    
+    // EVALUATION
+    func createEvaluation(mood: Int16, review: String, goal:Goals) -> Evaluation {
+        
+        let newEvaluation = NSEntityDescription.insertNewObject(forEntityName: Evaluation.entityName, into: context) as! Evaluation
+        
+        newEvaluation.mood = mood
+        newEvaluation.review = review
+        newEvaluation.goal = goal
+        
+        return newEvaluation
+    }
+    
+    // Returns all keywords
+    func getAllEvaluations() -> [Evaluation]{
+        return getEvaluation(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getEvaluation(withPredicate queryPredicate: NSPredicate) -> [Evaluation]{
+        
+        let fetchRequest = NSFetchRequest<Evaluation>(entityName: "Evaluation")
+        fetchRequest.predicate = queryPredicate
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [Evaluation]
+        
+        
+    }
+    
+    func getEvaluationById(id: NSManagedObjectID) -> Evaluation? {
+        return context.object(with: id) as? Evaluation
+    }
+    
+    func updateEvaluation(updatedEvaluation: Evaluation){
+        if let evaluation = getEvaluationById(id: updatedEvaluation.objectID){
+            
+            evaluation.mood = updatedEvaluation.mood
+            evaluation.review = updatedEvaluation.review
+            evaluation.goal = updatedEvaluation.goal
+
+            
+            
+        }
+    }
+    
+    func deleteEvaluation(id: NSManagedObjectID){
+        if let EvaluationToDelete = getEvaluationById(id:id){
+            context.delete(EvaluationToDelete)
+        }
+    }
+    
+    // GOAL_KEYWORD
+    
+    func createGoalKeyword(rate: Int16, goal: Goals, keyword: Keywords) -> GoalKeywords {
+        
+        let newGoalKeyword = NSEntityDescription.insertNewObject(forEntityName: GoalKeywords.entityName, into: context) as! GoalKeywords
+        
+        newGoalKeyword.rate = rate
+        newGoalKeyword.goal = goal
+        newGoalKeyword.keyword = keyword
+        
+        
+        return newGoalKeyword
+    }
+    
+    // Returns all keywords
+    func getAllGoalKeywords() -> [GoalKeywords]{
+        return getGoalKeyword(withPredicate: NSPredicate(value:true))
+    }
+    
+    func getGoalKeyword(withPredicate queryPredicate: NSPredicate) -> [GoalKeywords]{
+        let fetchRequest = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
+        fetchRequest.predicate = queryPredicate
+        
+        let response = try! context.fetch(fetchRequest)
+        return response as [GoalKeywords]
+        
+        
+    }
+    
+    func getGoalKeywordById(id: NSManagedObjectID) -> GoalKeywords? {
+        return context.object(with: id) as? GoalKeywords
+    }
+    
+    func updateGoalKeyword(updatedGoalKeyword: GoalKeywords){
+        if let many = getGoalKeywordById(id: updatedGoalKeyword.objectID){
+            many.rate = updatedGoalKeyword.rate
+            many.goal = updatedGoalKeyword.goal
+            many.keyword = updatedGoalKeyword.keyword
+            
+            
+        }
+    }
+    
+    func deleteGoalKeyword(id: NSManagedObjectID){
+        if let GoalKeywordToDelete = getGoalKeywordById(id:id){
+            context.delete(GoalKeywordToDelete)
+        }
+    }
     
     // Saves all changes
     func saveChanges(){

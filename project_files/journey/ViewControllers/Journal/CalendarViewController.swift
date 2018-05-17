@@ -978,6 +978,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     /*
+    
 override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "toEntries" {
         let tabBarC : UITabBarController = segue.destination as! UITabBarController
@@ -986,7 +987,8 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             
             desView.selectedCalendarDate = self.calDate
         }
-    }*/
+    }
+ */
     
     // TO ENTRIES (second tab)
     @objc func toEntries() {
@@ -1000,16 +1002,22 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         dateFormatter.locale = Locale(identifier: "en_GB")
+        
+        let storyboard: UIStoryboard = UIStoryboard(name:"Main", bundle: Bundle.main)
+        let tabBarController: UITabBarController = storyboard.instantiateViewController(withIdentifier: "tabbarRoot") as! UITabBarController
 
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window!.rootViewController = tabBarController
+        tabBarController.selectedIndex = 2
+        
+        let barViewControllers = tabBarController.viewControllers
+        let svc = barViewControllers![2] as! UINavigationController
         let dateGoals = dateFormatter.string(from: self.calDate)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vcGoals = storyboard.instantiateViewController(withIdentifier: "goals") as! GoalsViewController
-        vcGoals.selectedCalendarDate = dateGoals
-        self.navigationController?.pushViewController(vcGoals, animated: true)
-
-        var viewControllers = navigationController?.viewControllers
-        viewControllers?.removeLast(1)
-        navigationController?.setViewControllers(viewControllers!, animated: false)
+        let goalVC = svc.viewControllers.first as! GoalsViewController
+        goalVC.selectedCalendarDate = dateGoals
+        
+       
+        
     }
     
     //MARK: - Instance Methods

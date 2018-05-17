@@ -613,8 +613,6 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             
             
         }
-        
-        
      
     }
     

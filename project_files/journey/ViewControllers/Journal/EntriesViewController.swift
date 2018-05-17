@@ -362,9 +362,24 @@ class EntriesViewController: UIViewController {
         imgView.frame = CGRect(x: 15, y: 5, width: 35, height: 35)
         imgView.image = UIImage(named: "ic_mood\(mood)_white")
         
+        let strTitle = "\(title.uppercased())"
+        let size: CGSize = strTitle.size(withAttributes: [NSAttributedStringKey.font: fontKeywordRegular!])
+        var lblHeight = size.height
+        let char = strTitle.count
+        
+        if(char > 16){
+            lblHeight = size.height*2
+        }
+        
+        lblTitle.frame =  CGRect(x: 60, y: 0, width: viewEntry.frame.size.width - 60*2, height: lblHeight)
+        lblTitle.text = strTitle
+        lblTitle.font = fontKeywordRegular
+        lblTitle.textAlignment = .center
+        lblTitle.numberOfLines = 0
+        
         let entryWidth = viewEntry.frame.size.width - 30 - 15
         
-        txtEntry.frame = CGRect(x: 15, y: 30, width: viewEntry.frame.size.width - 30, height: 40)
+        txtEntry.frame = CGRect(x: 15, y: lblTitle.frame.size.height, width: viewEntry.frame.size.width - 30, height: 40)
         txtEntry.text = entry
         txtEntry.font = fontInput
         txtEntry.isEditable = false
@@ -378,7 +393,7 @@ class EntriesViewController: UIViewController {
         }*/
 
         
-        viewKeywords.frame = CGRect(x: 0, y: txtEntry.frame.size.height + 30, width: viewContent.frame.size.width, height: 0)
+        viewKeywords.frame = CGRect(x: 0, y: txtEntry.frame.size.height + lblTitle.frame.size.height, width: viewContent.frame.size.width, height: 0)
         //viewKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
         var lblY = CGFloat(0)
         
@@ -405,12 +420,9 @@ class EntriesViewController: UIViewController {
             viewKeywords.frame.size.height = lblY 
 
         }
-
-        lblTitle.frame =  CGRect(x: 60, y: 0, width: viewEntry.frame.size.width - 60*2, height: 30)
-        lblTitle.text = title.uppercased()
-        lblTitle.font = fontKeywordRegular
-        lblTitle.textAlignment = .center
-        lblTitle.numberOfLines = 0
+        
+       
+        
         
        /* lblTime.frame =  CGRect(x: 15, y: imgView.frame.size.height, width: imgView.frame.size.width, height: 30)
         lblTime.textAlignment = .center
@@ -522,15 +534,13 @@ class EntriesViewController: UIViewController {
         self.navigationController!.present(alertController, animated: true, completion: nil)
     }
     
-    
     func deleteEntry(date: String) {
         
         print("string passed : \(String(describing: date))")
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
-
         dateFormatter.locale = Locale(identifier: "en_GB")
-
         
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
@@ -544,30 +554,120 @@ class EntriesViewController: UIViewController {
         for entry in entries {
             
             let entrDate = dateFormatter.string(from: entry.date)
-
+            
             if(entrDate == date){
-
+                
                 print("\(String(describing: entry))")
                 context.delete(entry)
                 
-                let predicateRelation = NSPredicate(format: "entry == %@", entry)
-                fetchRequestRelation.predicate = predicateRelation
-                let manyRelations = try! context.fetch(fetchRequestRelation)
-                
-                for manyRelation in manyRelations {
+                do {
                     
-                    print("\(String(describing: manyRelation))")
-                    context.delete(manyRelation)
+                    try context.save()
+                 
+                    let predicateRelation = NSPredicate(format: "entry == %@", entry)
+                    fetchRequestRelation.predicate = predicateRelation
+                    let manyRelations = try! context.fetch(fetchRequestRelation)
+                    
+                    for manyRelation in manyRelations {
+                        
+                        print("\(String(describing: manyRelation))")
+                        context.delete(manyRelation)
+                        
+                        do {
+                            try context.save()
+                        } catch {
+                           print("Failed saving \(manyRelation)")
+                        }
+                    }
+                    
+                    
+                } catch {
+                    
+                    print("Failed saving \(entry)")
+                    
                 }
                 
+    
+                
             }
-          
+            
             
             
         }
         
     }
     
+    
+    /*
+    func deleteEntry(date: String) {
+        
+        print("string passed : \(String(describing: date))")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+
+        dateFormatter.locale = Locale(identifier: "en_GB")
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let dataHelper = DataHelper(context: context)
+       // let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
+        let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
+        
+        //let predicateEntry = NSPredicate(format: "date = %@", date)
+        //fetchRequestEntries.predicate = predicateEntry
+        
+        let entries : [Entries] = dataHelper.getAllEntries()
+        let many : [EntryKeywords] = dataHelper.getAllSeverities()
+
+         let entrDate = dateFormatter.date(from: date)?.addingTimeInterval(-1440.0 * 60.0)
+        
+        //let allEntries = try! context.fetch(fetchRequestEntries)
+        //for entry in allEntries {
+            
+           // let entrDate = dateFormatter.string(from: entry.date)
+
+           // if(entrDate == date){
+
+        print("entrDate: \(String(describing: entrDate))")
+                //context.delete(entry)
+                
+        
+                
+         let i = entries.index(where: { $0.date == entrDate }) as! Int
+         let toBeDeleted = dataHelper.getEntryById(id: entries[i].objectID)
+        
+        let predicateRelation = NSPredicate(format: "entry == %@", toBeDeleted!)
+        fetchRequestRelation.predicate = predicateRelation
+        
+        let manyRelations = try! context.fetch(fetchRequestRelation)
+        for manyRelation in manyRelations {
+            
+            //print("\(String(describing: manyRelation))")
+            
+            dataHelper.deleteSeverity(id: manyRelation.objectID)
+            dataHelper.saveChanges()
+        }
+    
+        
+        do {
+            
+            dataHelper.deleteEntry(id: toBeDeleted!.objectID)
+            dataHelper.saveChanges()
+ 
+            
+        } catch {
+            print("Failed deleting")
+        }
+        
+        
+                
+           // }
+          
+            
+            
+       // }
+        
+    }
+    */
     
     @objc func showTodaysEntries() {
         selectedCalendarDate = Date()

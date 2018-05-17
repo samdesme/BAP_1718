@@ -19,10 +19,10 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         //VARIABLES
         
         //strings
-        let strHeader = "create a new goal"
+        let strHeader = "edit your goal"
         let strLblTitle = "Title"
-        let strLblDescr = "Add a note (opinional)"
-        var entryToEdit = String()
+        let strLblDescr = "Your note (opinional)"
+        var goalToEdit = String()
         var value = String()
         var heightOptions = CGFloat()
         
@@ -40,7 +40,14 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         let viewSwitch = UIView()
         var viewKeywords = UIView()
         var switchAction = UISwitch()
-        
+    
+        //data
+        var arrayGetRateValues = [Int16]()
+        var arraySavedSelection = [String]()
+        var boolDeadline = Bool()
+        var dateDeadline = Date()
+
+    
         //labels
         let lblSub = UILabel()
         let lblMain = UILabel()
@@ -53,21 +60,25 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         override func viewDidLoad() {
             super.viewDidLoad()
             
+            
+            
             self.view.addSubview(scrollView)
             self.datePicker.datePickerMode = UIDatePickerMode.date
             self.datePicker.locale = Locale(identifier: "en_GB")
             
-            let currentDate = Date()
-            self.datePicker.minimumDate = currentDate
-            self.datePicker.date = currentDate
-            
+            getData()
             createView()
             
         }
         
         func createView() {
+    
             let navBar = navigationController?.navigationBar
             self.view.backgroundColor = whiteColor
+            
+            let dateformatter = DateFormatter()
+            dateformatter.dateFormat = "dd-MM-yyyy"
+            dateformatter.locale = Locale(identifier: "en_GB")
             
             scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
             scrollView.isScrollEnabled = true
@@ -77,11 +88,32 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             setUpSwitch()
             setUpButtons()
             
+            if(boolDeadline == true){
+                self.datePicker.minimumDate = dateDeadline
+                self.datePicker.date = dateDeadline
+                switchAction.setOn(true, animated:true)
+                viewToggle.isHidden = false
+                let strFromDate = dateformatter.string(from: dateDeadline)
+                txtFieldDate.text = strFromDate
+                
+                viewKeywords.frame = CGRect(x: 15, y: 100 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
+                
+                
+            }
+                
+            else {
+                let currentDate = Date()
+                self.datePicker.minimumDate = currentDate
+                self.datePicker.date = currentDate
+                switchAction.setOn(false, animated:true)
+                viewToggle.isHidden = true
+                txtFieldDate.text = ""
+
+                viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
+            }
+            
             let bottom = (navBar?.frame.size.height)! + form.frame.size.height + viewSwitch.frame.size.height + viewKeywords.frame.size.height + 15
             
-            //form.backgroundColor = blueColor.withAlphaComponent(0.2)
-            //viewSwitch.backgroundColor = purpleColor.withAlphaComponent(0.2)
-            //viewKeywords.backgroundColor = lightGreyColor.withAlphaComponent(1)
             
             scrollView.contentSize.height = bottom
         }
@@ -142,11 +174,9 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             lblSwitch.textColor = blackColor
             
             switchAction.frame = CGRect(x: viewSwitch.frame.size.width - 50 - 15, y: 0, width: 50, height: 20)
-            switchAction.setOn(false, animated:true)
             switchAction.addTarget(self, action: #selector(buttonClicked), for: .valueChanged)
             
             viewToggle.frame = CGRect(x: 0, y: lblSwitch.frame.height + 20, width: self.view.frame.width, height: 50)
-            viewToggle.isHidden = true
             viewToggle.backgroundColor = whiteColor
             viewToggle.layer.borderWidth = 1
             viewToggle.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
@@ -240,6 +270,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 switchAction.setOn(true, animated:true)
                 viewToggle.isHidden = false
                 txtFieldDate.resignFirstResponder()
+                txtFieldDate.text = ""
                 viewKeywords.frame = CGRect(x: 15, y: 100 + self.view.frame.height/3, width: self.view.frame.width - 30, height: heightOptions)
                 
             }
@@ -260,8 +291,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         func setUpButtons() {
             let lblKeywords = UILabel()
             
-            getData()
-            
+            getDataKeywords()
             
             viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: 200)
             
@@ -298,7 +328,6 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 btnKeyword.setTitleColor(blackColor, for: .normal)
                 btnKeyword.titleLabel?.textAlignment = .center
                 btnKeyword.backgroundColor = whiteColor
-                
                 btnKeyword.isSelected = false
                 
                 btnKeyword.addTarget(self,action:#selector(selectKeyword),
@@ -308,6 +337,19 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 btnKeyword.layer.cornerRadius = 20
                 btnKeyword.layer.borderWidth = 1.5
                 btnKeyword.layer.borderColor = blackColor.cgColor
+                
+                
+                if(arraySavedSelection.contains("\(keyword)")){
+                    
+                    btnKeyword.isSelected = true
+                    
+                    //styling when selected
+                    btnKeyword.setTitleColor(whiteColor, for: .normal)
+                    btnKeyword.titleLabel?.font = fontMainMedium
+                    btnKeyword.backgroundColor = blueColor
+                    btnKeyword.layer.borderWidth = 0
+                    
+                }
                 
                 viewKeywords.addSubview(btnKeyword)
                 
@@ -339,7 +381,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 
                 //add label to array
                 txtFieldDate.resignFirstResponder()
-                arraySelection.append((sender.titleLabel?.text)!)
+                arraySavedSelection.append((sender.titleLabel?.text)!)
                 
                 
             }
@@ -356,8 +398,8 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 
                 
                 //remove label from array
-                if let indexValue = arraySelection.index(of: (sender.titleLabel?.text)!) {
-                    arraySelection.remove(at: indexValue)
+                if let indexValue = arraySavedSelection.index(of: (sender.titleLabel?.text)!) {
+                    arraySavedSelection.remove(at: indexValue)
                 }
             }
             
@@ -442,7 +484,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             
             // dataHelper.saveChanges()
             
-            print("\(String(describing: arraySelection))")
+            print("\(String(describing: arraySavedSelection))")
             
             //let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
             
@@ -453,7 +495,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 try context.save()
                 print("Saved relation: \(String(describing: newGoal)) successfully!")
                 
-                for (_, element) in arraySelection.enumerated() {
+                for (_, element) in arraySavedSelection.enumerated() {
                     
                     let i = keywords.index(where: { $0.title == element }) as! Int
                     
@@ -483,18 +525,195 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 
                 
                 
-                
-                
-                
-                
             } catch {
                 print("Failed saving")
             }
             
             
         }
+    
+    func updateData() {
         
-        func getData() {
+        let title = form.txtName.text
+        let txtGoal = form.txtAbout.text
+        var strSaveGoal = String()
+        
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let dataHelper = DataHelper(context: context)
+        let keywords : [Keywords] = dataHelper.getAll()
+
+        let goalFetchRequest = NSFetchRequest<Goals>(entityName: "Goals")
+        let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
+        
+        
+        let allGoals = try! context.fetch(goalFetchRequest)
+        
+        for goal in allGoals {
+            
+            
+            let goalCr = goal.created
+            
+            if(goalCr == goalToEdit){
+                
+                
+                if(txtFieldDate.text!.isEmpty){
+                    strSaveGoal = ""
+                }
+                else{
+                    strSaveGoal = txtFieldDate.text!
+                }
+                
+                goal.title = title!
+                goal.note = txtGoal!
+                goal.deadline = strSaveGoal
+                
+                let predicateRelation = NSPredicate(format: "goal == %@", goal)
+                fetchRequestRelation.predicate = predicateRelation
+                
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                for manyRelation in manyRelations {
+                    
+                    print("deleted : \(String(describing: manyRelation))")
+                    context.delete(manyRelation)
+                    
+                    do {
+                        try context.save()
+                    } catch {
+                        print("Failed saving \(manyRelation)")
+                    }
+                }
+                
+                do {
+                    
+                    try context.save()
+                    print("array selection: \(arraySavedSelection)")
+                    for (_, element) in arraySavedSelection.enumerated() {
+                        
+                        let newRelation = NSEntityDescription.insertNewObject(forEntityName: "GoalKeywords", into: appDelegate.persistentContainer.viewContext) as! GoalKeywords
+                        
+                        let i = keywords.index(where: { $0.title == element }) as! Int
+                        let keywordObject = dataHelper.getById(id: keywords[i].objectID)
+                        
+                        newRelation.keyword = keywordObject!
+                        newRelation.goal = goal
+                        newRelation.rate = 0
+                        
+                        
+                        do {
+                            
+                            try context.save()
+                            print("Saved relation: \(String(describing: newRelation)) successfully!")
+                            
+                            
+                        } catch {
+                            print("Failed saving")
+                        }
+                        
+                        
+                    }
+                    
+                    print("updated \(String(describing: goal)) successfully")
+                    
+                } catch {
+                    print("Failed saving")
+                }
+                
+                
+            }
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
+    func getData() {
+        
+        let formatterFull = DateFormatter()
+        formatterFull.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
+        formatterFull.locale = Locale(identifier: "en_GB")
+        
+        let formatterDate = DateFormatter()
+        formatterDate.dateFormat = "dd-MM-yyyy"
+        formatterDate.locale = Locale(identifier: "en_GB")
+        
+        //fetch data from custom added keywords and return them as an array
+        let context = appDelegate.persistentContainer.viewContext
+        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
+        let goalFetchRequest = NSFetchRequest<Goals>(entityName: "Goals")
+        let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
+        
+        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
+        //entryFetchRequest.predicate = predicateRelation
+        
+        let allGoals = try! context.fetch(goalFetchRequest)
+        
+        for goal in allGoals {
+            
+            
+            let goalDate = goal.created
+            
+            if(goalDate == goalToEdit){
+                
+                let predicateRelation = NSPredicate(format: "goal == %@", goal)
+                fetchRequestRelation.predicate = predicateRelation
+                
+                let manyRelations = try! context.fetch(fetchRequestRelation)
+                
+                for manyRelation in manyRelations {
+                    
+                    
+                    let strKeywordID = manyRelation.keyword.objectID
+                    let predicateKeywords = NSPredicate(format: "SELF = %@", strKeywordID)
+                    keywordFetchRequest.predicate = predicateKeywords
+                    
+                    let relatedKeywords = try! context.fetch(keywordFetchRequest)
+                    
+                    for keyword in relatedKeywords {
+                        
+                        
+                        arrayGetRateValues.append(manyRelation.rate)
+                        arraySavedSelection.append(keyword.title as String)
+
+                        form.txtName.text = goal.title
+                        form.txtAbout.text = goal.note
+                        
+                        if(goal.deadline.isEmpty){
+                            boolDeadline = false
+
+                        }
+                        else {
+                            boolDeadline = true
+                            let dateFormat = formatterDate.date(from: goal.deadline)
+                            dateDeadline = dateFormat!
+                       
+                        }
+                        
+                        
+                        
+                    }
+                    
+                    
+                }
+                
+                
+            }
+            
+            
+        }
+        
+    }
+    
+        
+        func getDataKeywords() {
             
             //fetch data from custom added keywords and return them as an array
             let context = appDelegate.persistentContainer.viewContext
@@ -524,7 +743,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         
         func showAlertQuit() {
             
-            let refreshAlert = UIAlertController(title: "Go back to your entries", message: "Are you sure you want to quit adding your entries? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: "Go back to your goals", message: "Are you sure you want to quit editing your goals? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
             
             refreshAlert.addAction(UIAlertAction(title: "Quit", style: .default, handler: { (action: UIAlertAction!) in
                 self.popBack()
@@ -590,7 +809,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                 
             else {
                 
-                saveData()
+                updateData()
                 lblSub.removeFromSuperview()
                 createHeaderMain()
                 self.tabBarController?.tabBar.alpha = 1

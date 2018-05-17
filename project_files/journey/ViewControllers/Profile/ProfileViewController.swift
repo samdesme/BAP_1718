@@ -83,7 +83,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
         // CONTENT
         self.view.backgroundColor = lightGreyColor
-        
+      
     }
     
     

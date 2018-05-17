@@ -414,7 +414,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         let entry = form.txtAbout.text
         
         let newGoal = NSEntityDescription.insertNewObject(forEntityName: "Goals", into: appDelegate.persistentContainer.viewContext) as! Goals
-        let newRelation = NSEntityDescription.insertNewObject(forEntityName: "GoalKeywords", into: appDelegate.persistentContainer.viewContext) as! GoalKeywords
         
         let keywords : [Keywords] = dataHelper.getAll()
         
@@ -432,7 +431,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         else{
             strGoal = txtFieldDate.text!
         }
-
         
         newGoal.title = title!
         newGoal.note = entry!
@@ -441,13 +439,9 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         newGoal.accomplished = false
         //newGoal.evaluation = Evaluation()
 
-       // dataHelper.saveChanges()
-        
         print("\(String(describing: arraySelection))")
         
         //let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
-        
-        
         
         do {
             
@@ -456,17 +450,14 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
 
             for (_, element) in arraySelection.enumerated() {
                 
+                 let newRelation = NSEntityDescription.insertNewObject(forEntityName: "GoalKeywords", into: appDelegate.persistentContainer.viewContext) as! GoalKeywords
+                
                 let i = keywords.index(where: { $0.title == element }) as! Int
-                
                 let keywordObject = dataHelper.getById(id: keywords[i].objectID)
-                
-                //let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
                 
                 newRelation.keyword = keywordObject!
                 newRelation.goal = newGoal
                 newRelation.rate = 0
-                
-                //dataHelper.saveChanges()
                 
                 
                 do {
@@ -481,11 +472,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
                 
                 
             }
-            
-            
-            
-           
-            
             
             
         } catch {
@@ -632,7 +618,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         super.viewWillAppear(animated)
         createHeaderSub()
         self.tabBarController?.tabBar.alpha = 0
-        tabBarController?.selectedIndex = 2
 
     }
     
