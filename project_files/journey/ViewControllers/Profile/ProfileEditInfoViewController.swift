@@ -63,9 +63,10 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     }
     
     func createForm() {
-        
+        let navBar = navigationController?.navigationBar
+
         //create form view
-        editInfo.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: (self.view.frame.height/2))
+        editInfo.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: (self.view.frame.height/2))
         editInfo.backgroundColor = whiteColor
         
         // UILabels

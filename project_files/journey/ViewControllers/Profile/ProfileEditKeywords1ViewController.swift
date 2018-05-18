@@ -65,6 +65,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
     
     
     func viewCreate3() {
+        let navBar = navigationController?.navigationBar
 
         self.tabBarController?.tabBar.isHidden = true
         editKeyword1.btnToStep3.isHidden = true
@@ -73,7 +74,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         editKeyword1.scrollView.isHidden = true
         
         //create form view
-        editKeyword1.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
+        editKeyword1.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: self.view.frame.height)
         editKeyword1.backgroundColor = whiteColor
         
         // UILabels
@@ -88,7 +89,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         editKeyword1.lblSub.textAlignment = .left
         
         //add view to content view
-        viewContent.addSubview(editKeyword1)
+        self.view.addSubview(editKeyword1)
         
         setUpTableView()
         
@@ -104,7 +105,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
         let attributeString = NSMutableAttributedString(string: strKeyword2,
                                                         attributes: keywordAttr)
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: viewContent.frame.width - 30, height: viewContent.frame.height/2))
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: self.view.frame.width - 30, height: self.view.frame.height/2))
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor.clear
@@ -195,7 +196,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         
         let btn = CALayer()
         btn.backgroundColor = blueColor.cgColor
-        btn.frame = CGRect(x: (viewContent.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
+        btn.frame = CGRect(x: (self.view.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
         btn.cornerRadius = 20
         cell.backgroundView = UIView()
         cell.backgroundView?.layer.insertSublayer(btn, at: 0)

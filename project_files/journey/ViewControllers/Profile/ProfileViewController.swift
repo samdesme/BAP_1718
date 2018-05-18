@@ -281,6 +281,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         } else {
             userKeywords.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3.7) )
             userKeywords.btnEditKeywords.isHidden = true
+            
         }
         
         // UIButton
@@ -414,7 +415,14 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         super.viewWillAppear(animated)
         createHeaderMain()
         profileInfo()
-        self.tabBarController?.tabBar.isHidden = false
+        if checkProfileExists() {
+            
+            self.tabBarController?.tabBar.isHidden = false
+        } else {
+          
+            self.tabBarController?.tabBar.isHidden = true
+            
+        }
         self.navigationItem.setHidesBackButton(true, animated: false)
     }
 

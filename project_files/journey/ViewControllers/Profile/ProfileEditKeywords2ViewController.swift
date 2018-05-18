@@ -64,6 +64,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
     }
     
     func viewCreate2() {
+         let navBar = navigationController?.navigationBar
         
         let keywordAttr : [NSAttributedStringKey: Any] = [
             NSAttributedStringKey.font : fontLabel!,
@@ -75,7 +76,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         self.tabBarController?.tabBar.isHidden = true
         
         //create form view
-        editKeyword2.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: viewContent.frame.height)
+        editKeyword2.frame = CGRect(x: 0, y: (navBar?.frame.size.height)! + 50, width: self.view.frame.width, height: self.view.frame.height)
         editKeyword2.backgroundColor = whiteColor
         
         // UILabels
@@ -90,7 +91,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         editKeyword2.lblSub.textAlignment = .left
         
         // UIButton
-        let bottomScrollView = editKeyword2.lblMain.frame.size.height + editKeyword2.lblSub.frame.size.height + (viewContent.frame.height/4)*3
+        let bottomScrollView = editKeyword2.lblMain.frame.size.height + editKeyword2.lblSub.frame.size.height + (self.view.frame.height/4)*3
         
         editKeyword2.btnAddKeyword.setAttributedTitle(attributeString, for: .normal)
         editKeyword2.btnAddKeyword.titleLabel?.textColor = blackColor
@@ -100,7 +101,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         editKeyword2.btnToStep3.isHidden = true
         
         //add view to content view
-        viewContent.addSubview(editKeyword2)
+        self.view.addSubview(editKeyword2)
         
         //add keywords
         setUpKeywords()
@@ -252,7 +253,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         editKeyword2.scrollView.isScrollEnabled = true
         editKeyword2.scrollView.contentSize = CGSize(width: editKeyword2.scrollView.frame.size.width , height: buttonY + 80)
         editKeyword2.scrollView.backgroundColor = UIColor.clear
-        editKeyword2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*1.8)
+        editKeyword2.scrollView.frame = CGRect(x: 15, y: 80, width: self.view.frame.width - 30, height: (self.view.frame.height/3)*1.8)
         
         
     }

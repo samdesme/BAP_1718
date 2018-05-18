@@ -665,8 +665,8 @@ class GoalsViewController: UIViewController {
         viewGoal.frame.size.height = viewContent.frame.size.height + headerHeight + 25
          lblAffected.frame = CGRect(x: 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: viewContent.frame.size.width - 30, height: 25)
         
-         lblEvalMood.frame = CGRect(x: viewGoal.frame.size.width - 100, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: 100, height: 25)
-        imgView.frame = CGRect(x: viewGoal.frame.size.width - 35 - 15, y: viewGoal.frame.size.height - 45 - 15 - 35, width: 35, height: 35)
+         lblEvalMood.frame = CGRect(x: viewGoal.frame.size.width - 100 - 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: 100, height: 25)
+        imgView.frame = CGRect(x: viewGoal.frame.size.width - 50 - 15, y: viewGoal.frame.size.height - 45 - 15 - 50 - 15, width: 50, height: 50)
 
         viewBorder.frame = CGRect(x: 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 15, width: viewContent.frame.size.width - 30, height: 1.5)
         
