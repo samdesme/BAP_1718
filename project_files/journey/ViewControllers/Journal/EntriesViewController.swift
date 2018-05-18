@@ -253,12 +253,14 @@ class EntriesViewController: UIViewController {
         viewTopGradient.backgroundColor = UIColor.clear
         topGradientLayer.frame = CGRect(x: 0, y: self.view.frame.size.height - (self.tabBarController?.tabBar.frame.size.height)! - 45, width: self.view.frame.size.width, height: 45)
         topGradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor, lightGreyColor.cgColor]
+        
         //gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         //gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         
         //viewTopGradient.layer.addSublayer(topGradientLayer)
+        //scrollView.insertSubview(viewTopGradient, at: 1)
         //topGradientLayer.addBorder(toSide: .Bottom, withColor: blackColor.withAlphaComponent(0.5).cgColor, andThickness: 0.5)
-        //self.view.insertSubview(viewTopGradient, at: 1)
+        
 
     }
     
@@ -440,6 +442,7 @@ class EntriesViewController: UIViewController {
        // btnEdit.titleLabel?.textColor = blueColor
         //btnEdit.titleLabel?.font = font17Bld
        //btnEdit.titleLabel?.textAlignment = .center
+        
         btnEdit.tintColor = blueColor
         btnEdit.setTitle(idString, for: .normal)
         btnEdit.titleLabel?.isHidden = true

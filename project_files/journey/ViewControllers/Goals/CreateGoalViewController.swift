@@ -266,8 +266,9 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         
         viewKeywords.frame = CGRect(x: 15, y: 50 + self.view.frame.height/3, width: self.view.frame.width - 30, height: 200)
         
-        lblKeywords.frame = CGRect(x: 0, y: 0, width: viewSwitch.frame.width, height: 80)
+        lblKeywords.frame = CGRect(x: 0, y: 0, width: viewKeywords.frame.size.width, height: 100)
         lblKeywords.font = fontLabel
+        lblKeywords.text = "Which of your mental struggles can play a part in the process of completing this goal?"
         lblKeywords.textColor = blackColor
         lblKeywords.textAlignment = .left
         lblKeywords.numberOfLines = 0
@@ -275,7 +276,7 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         viewKeywords.addSubview(lblKeywords)
         
         var buttonX: CGFloat = 0
-        var buttonY: CGFloat = 10
+        var buttonY: CGFloat = 100 + 15
         
         for keyword in arrayUserKeywords {
             let ySpace: Int = 10
@@ -511,7 +512,7 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
     func showAlertQuit() {
         
-        let refreshAlert = UIAlertController(title: "Go back to your entries", message: "Are you sure you want to quit adding your entries? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
+        let refreshAlert = UIAlertController(title: "Go back to your goals", message: "Are you sure you want to quit adding your goals? Your data will be lost", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Quit", style: .default, handler: { (action: UIAlertAction!) in
             self.popBack()

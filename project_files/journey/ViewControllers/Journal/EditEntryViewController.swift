@@ -211,7 +211,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
             
             lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
-            lblDisplay.text = String(value)
+            lblDisplay.text = String(value) + "%"
             lblDisplay.textAlignment = .center
             lblDisplay.font = fontMainRegular20
             lblDisplay.tag = tag
@@ -383,7 +383,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
                 let tagLabels = i - 100
                 
                 if let theLabel = view.viewWithTag(tagLabels) as? UILabel {
-                    theLabel.text = String(value)
+                    theLabel.text = String(value) + "%"
                 }
             }
         }

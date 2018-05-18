@@ -220,11 +220,12 @@
                         <outlet property="viewMain" destination="ZHI-sa-e1T" id="JbQ-yo-I3B"/>
                         <segue destination="JM7-b9-fZq" kind="show" id="9VC-2o-2Hr"/>
                         <segue destination="TbV-GK-e1I" kind="show" id="OYc-B3-poY"/>
+                        <segue destination="1W2-hb-eQy" kind="show" id="gaL-95-DcS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iQf-3I-GOP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1370" y="2536"/>
+            <point key="canvasLocation" x="1187" y="2535"/>
         </scene>
         <!--Stats-->
         <scene sceneID="NJL-g4-Ecf">
@@ -644,7 +645,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CGa-cL-pc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2170" y="2536"/>
+            <point key="canvasLocation" x="2170" y="2292"/>
         </scene>
         <!--editGoal-->
         <scene sceneID="8FK-sG-G16">
@@ -664,7 +665,27 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ik-fZ-hnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2170" y="3346"/>
+            <point key="canvasLocation" x="2170" y="3089"/>
+        </scene>
+        <!--evaluateGoal-->
+        <scene sceneID="9gm-lV-V4U">
+            <objects>
+                <viewController restorationIdentifier="evaluateGoal" storyboardIdentifier="evaluateGoal" id="1W2-hb-eQy" userLabel="evaluateGoal" customClass="EvaluateGoalViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LHD-ft-q2Y" userLabel="View Main">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="rN8-VJ-tsx"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ukV-nQ-QhH" userLabel="Back Button Item"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="ukV-nQ-QhH" id="G3Y-zB-5sU"/>
+                        <outlet property="viewMain" destination="LHD-ft-q2Y" id="JVG-a4-BGF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qeP-kb-XqK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1187" y="3428"/>
         </scene>
     </scenes>
     <resources>

@@ -24,6 +24,8 @@ class GoalsViewController: UIViewController {
     let viewDay = UIView()
     var btnAdd = UIButton()
     var btnAll = UIButton()
+    var btnFilter = UIButton()
+
     
     let strHeader = "goals"
     let lblHeader = UILabel()
@@ -82,34 +84,67 @@ class GoalsViewController: UIViewController {
     }
     
     
-    func setUpGoals() {
-        
+    func setUpGoals(evaluation:String) {
+        print("selectedCalendarDate: \(String(describing: selectedCalendarDate))")
+
         ySize = 0
+        var strDateShort = String()
         let top = (self.tabBarController?.tabBar.frame.size.height)! + 5
 
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d"
+        formatter.dateFormat = "E, MMM d"
         formatter.locale = Locale(identifier: "en_GB")
         
+        let formatterShort = DateFormatter()
+        formatterShort.dateFormat = "dd-MM-yyyy"
+        formatterShort.locale = Locale(identifier: "en_GB")
         
-        
+     
         
         if(selectedCalendarDate.isEmpty){
             bool = false
             let strTitle = "All goals"
             strDate = strTitle.uppercased()
             btnAll.isHidden = true
+            lblDate.text = strDate
+
 
         }
-        
+        else if(selectedCalendarDate == "no date") {
+            bool = false
+            strDate = selectedCalendarDate.uppercased()
+            lblDate.text = strDate
+            
+        }
+            
+        else if(selectedCalendarDate == "accomplished") {
+            bool = false
+            strDate = selectedCalendarDate.uppercased()
+            btnAll.isHidden = true
+            lblDate.text = strDate
+
+        }
+            
+        else if(selectedCalendarDate == "hide accomplished") {
+            bool = false
+            let strTitle = "TO DO"
+            strDate = strTitle.uppercased()
+            btnAll.isHidden = true
+            lblDate.text = strDate
+
+        }
+            
         else {
             bool = true
             btnAll.isHidden = false
             
-            let toDateFormat = formatter.date(from: selectedCalendarDate)
+            let toDateFormat = formatterShort.date(from: selectedCalendarDate)
             let toStr = formatter.string(from: toDateFormat!)
             
-            strDate = toStr
+            strDate = selectedCalendarDate
+            strDateShort = toStr
+            lblDate.text = strDateShort.uppercased()
+
         }
 
 
@@ -136,7 +171,6 @@ class GoalsViewController: UIViewController {
         lblDate.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
         lblDate.font = fontMainMedium
         lblDate.textColor = whiteColor
-        lblDate.text = strDate
         lblDate.textAlignment = .center
         
         gradientLayerDay.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
@@ -145,6 +179,7 @@ class GoalsViewController: UIViewController {
         gradientLayerDay.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayerDay.endPoint = CGPoint(x: 1, y: 0.5)
         gradientLayerDay.cornerRadius = 22.5
+        
         
         btnAll.setAttributedTitle(attributeString, for: .normal)
         btnAll.backgroundColor = UIColor.clear
@@ -161,6 +196,9 @@ class GoalsViewController: UIViewController {
         var arrRelatedKeywords = [String]()
         var arrRelatedValue = [Int16]()
         
+        var evalReview = String()
+        var evalMood = Int16()
+        
         // Set up list of entries from data created by the user
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequestGoals = NSFetchRequest<Goals>(entityName: "Goals")
@@ -169,35 +207,67 @@ class GoalsViewController: UIViewController {
         let fetchRequestKeywords = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "created", ascending: true)
         
-        let predicateDeadline = NSPredicate(format: "deadline == %@", strDate)
+        
         
         if(bool == true){
             
+            let predicateDeadline = NSPredicate(format: "deadline == %@", strDate)
             fetchRequestGoals.predicate = predicateDeadline
 
         }
+        else if(strDate == "NO DATE") {
+           
+            let predicateDeadline = NSPredicate(format: "deadline == %@", "")
+            fetchRequestGoals.predicate = predicateDeadline
+            
+        }
+            
+        else if(strDate == "ACCOMPLISHED") {
+            let predicateDeadline = NSPredicate(format: "accomplished == %@", NSNumber(value: true))
+            fetchRequestGoals.predicate = predicateDeadline
+        }
+            
+        else if(strDate == "TO DO") {
+            let predicateDeadline = NSPredicate(format: "accomplished == %@", NSNumber(value: false))
+            fetchRequestGoals.predicate = predicateDeadline
+        }
+        
         
         fetchRequestGoals.sortDescriptors = [primarySortDescriptor]
         let allGoals = try! context.fetch(fetchRequestGoals)
         
         for goal in allGoals {
             
+            evalMood = 0
+            
             arrRelatedKeywords.removeAll()
             arrRelatedValue.removeAll()
             
-            let formatterShort = DateFormatter()
-            formatterShort.dateFormat = "dd-MM-yyyy"
-            formatterShort.locale = Locale(identifier: "en_GB")
             
-            //if(goal.deadline == strDate){
+            if(goal.created == evaluation){
+                
+                let fetchRequestEval = NSFetchRequest<Evaluation>(entityName: "Evaluation")
+                
+                let predicateEval = NSPredicate(format: "goal == %@", goal)
+                fetchRequestEval.predicate = predicateEval
+                
+                let evalObjects = try! context.fetch(fetchRequestEval)
+                
+                for eval in evalObjects {
+                    
+                    evalReview = eval.review
+                    evalMood = eval.mood
+                    
+                }
+            }
                 
        
                 
-                let predicateRelation = NSPredicate(format: "goal == %@", goal)
-                fetchRequestRelation.predicate = predicateRelation
+            let predicateRelation = NSPredicate(format: "goal == %@", goal)
+            fetchRequestRelation.predicate = predicateRelation
             
                 
-                let manyRelations = try! context.fetch(fetchRequestRelation)
+            let manyRelations = try! context.fetch(fetchRequestRelation)
             print("relations : \(String(describing: manyRelations))")
 
                 for manyRelation in manyRelations {
@@ -213,13 +283,13 @@ class GoalsViewController: UIViewController {
                             
                             let keywordTitle = keyword.title
                             arrRelatedKeywords.append(keywordTitle)
-  
+                            arrRelatedValue.append(manyRelation.rate)
                             
                         }
                     
                 }
                 
-                createGoal(title: goal.title, note: goal.note, deadline: goal.deadline , created: goal.created, y: CGFloat(ySize), arrKeywords: arrRelatedKeywords, accomplished: goal.accomplished)
+            createGoal(title: goal.title, note: goal.note, deadline: goal.deadline , created: goal.created, y: CGFloat(ySize), arrKeywords: arrRelatedKeywords, accomplished: goal.accomplished, evalMood:  evalMood, evalReview: evalReview, evalRateArr: arrRelatedValue)
            
 
                 
@@ -251,49 +321,26 @@ class GoalsViewController: UIViewController {
         
     }
     
-    func createGoal(title:String, note:String, deadline:String, created:String, y:CGFloat, arrKeywords:Array<Any>, accomplished: Bool) {
+    func createGoal(title:String, note:String, deadline:String, created:String, y:CGFloat, arrKeywords:Array<Any>, accomplished: Bool, evalMood:Int16, evalReview:String, evalRateArr:Array<Int16>) {
         
         let viewGoal = UIView()
         let viewHeader = UIView()
-        
+
         let viewContent = UIView()
         let viewKeywords = UIView()
         
         let imgView = UIImageView()
         let lblTitle = UILabel()
+        let lblAffected = UILabel()
+
+        let lblEvalMood = UILabel()
         let lblTime = UILabel()
         let txtEntry = UITextView()
         let btnEdit = UIButton()
-        
-        //get today's date
-        let gradientLayer = CAGradientLayer()
-        
-        viewGoal.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: 100)
-        viewGoal.clipsToBounds = false
-        viewGoal.backgroundColor = whiteColor
-        viewGoal.layer.cornerRadius = 25
-        viewGoal.layer.shadowColor = blackColor.cgColor
-        viewGoal.layer.shadowOffset = CGSize(width: 6, height: 6)
-        viewGoal.layer.shadowOpacity = 0.05
-        viewGoal.layer.shadowRadius = 10.0
-        
-        viewGoal.backgroundColor = whiteColor
-        
-        viewHeader.frame.size.width = viewGoal.frame.size.width
-        viewHeader.backgroundColor = UIColor.clear
-        
-        
-        lblTime.frame = CGRect(x: 15, y: 0, width: viewHeader.frame.size.width - 30, height: 45)
-        lblTime.textAlignment = .center
-        
-        
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: viewGoal.frame.size.width, height: 45)
-        gradientLayer.cornerRadius = 25
-        gradientLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        
-        
+        let viewBorder = UIView()
         
         var headerHeight = CGFloat()
+        
         
         let formatterShort = DateFormatter()
         formatterShort.dateFormat = "MMM d"
@@ -302,29 +349,111 @@ class GoalsViewController: UIViewController {
         let formatterDate = DateFormatter()
         formatterDate.dateFormat = "dd-MM-yyyy"
         formatterDate.locale = Locale(identifier: "en_GB")
+        
+
+        
+        //get today's date
+        
+        let gradientLayer = CAGradientLayer()
+        
+        viewGoal.frame = CGRect(x: 15, y: y, width: self.view.frame.size.width - 30, height: 100)
+        viewGoal.clipsToBounds = false
+        viewGoal.layer.cornerRadius = 25
+        viewGoal.layer.shadowColor = blackColor.cgColor
+        viewGoal.layer.shadowOffset = CGSize(width: 6, height: 6)
+        viewGoal.layer.shadowOpacity = 0.05
+        viewGoal.layer.shadowRadius = 10.0
+        
+        viewHeader.frame.size.width = viewGoal.frame.size.width
+        lblTime.frame = CGRect(x: 15, y: 0, width: viewHeader.frame.size.width - 30, height: 45)
+        lblTime.textAlignment = .center
+        
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: viewGoal.frame.size.width, height: 45)
+        gradientLayer.cornerRadius = 25
+        gradientLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+ 
+        lblAffected.textAlignment = .left
+        lblAffected.font = fontInput
 
         if(accomplished == true){
-          
-            lblTime.text = "Accomplished!"
+            
+            let btnViewEval = UIButton()
+            let strBtnEval = created
+            let imgEval = UIImage(named: "ic_more_white")
+            
+            btnViewEval.frame = CGRect(x: viewDay.frame.size.width - 30 - 15, y: 7.5, width: 30, height: 30)
+            btnViewEval.backgroundColor = UIColor.clear
+            viewHeader.backgroundColor = UIColor.clear
             
             gradientLayer.startPoint = CGPoint(x: 0, y: 0)
             gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-            gradientLayer.colors = [purpleColor.cgColor, blueColor.cgColor]
             viewHeader.layer.insertSublayer(gradientLayer, at: 0)
+            
+            lblAffected.text = "Evaluation of related issues:"
+            
+            if (evalMood == 0){
+                
+                lblTime.text = "Accomplished!"
+                lblTime.font = fontMainMedium
+                lblTime.textColor = whiteColor
+            
+                lblEvalMood.isHidden = true
+                gradientLayer.colors = [purpleColor.cgColor, blueColor.cgColor]
+                
+                lblAffected.textColor = blackColor.withAlphaComponent(0.4)
+
+                btnViewEval.imageEdgeInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+                btnViewEval.setTitle(strBtnEval, for: .normal)
+                btnViewEval.titleLabel?.isHidden = true
+                btnViewEval.addTarget(self,action:#selector(showEvaluation), for:.touchUpInside)
+                btnViewEval.setImage(imgEval, for: .normal)
+
+                
+            }
+          
+            else {
+                lblEvalMood.isHidden = false
+                lblEvalMood.text = "Overall:"
+                lblEvalMood.textColor = whiteColor
+                lblEvalMood.textAlignment = .right
+                lblEvalMood.font = fontInput
+                
+                lblTime.text = "Evaluation"
+                lblTime.font = fontMainMedium
+                lblTime.textColor = purpleColor
+                
+                gradientLayer.colors = [whiteColor.cgColor, whiteColor.cgColor]
+
+                lblAffected.textColor = whiteColor
+
+                btnViewEval.titleLabel?.font = fontMainMedium
+                btnViewEval.setTitle("X", for: .normal)
+                btnViewEval.titleLabel?.textColor = purpleColor
+                btnViewEval.titleLabel?.isHidden = false
+
+                btnViewEval.addTarget(self,action:#selector(hideEvaluation), for:.touchUpInside)
+                btnViewEval.backgroundColor = UIColor.clear
+                //btnViewEval.setImage(imgEval, for: .normal)
+                
+                
+            }
+            
+
             headerHeight = 45
             viewHeader.addSubview(lblTime)
+            viewHeader.addSubview(btnViewEval)
 
             
             
         }
+            
         else if (deadline.isEmpty) {
-            
-            
+            lblAffected.text = "Issues related to this goal:"
+            lblAffected.textColor = blackColor.withAlphaComponent(0.4)
             gradientLayer.locations = [ 0.0, 1.0]
             gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
             gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
             headerHeight = 0
-
 
             
         }
@@ -333,23 +462,21 @@ class GoalsViewController: UIViewController {
             
             let attrs1 = [NSAttributedStringKey.font : fontMainRegular!, NSAttributedStringKey.foregroundColor : whiteColor]
             let attrs2 = [NSAttributedStringKey.font : fontMainMedium!, NSAttributedStringKey.foregroundColor : whiteColor]
-            
             let toDateFormat = formatterDate.date(from: deadline)
             let toStr = formatterShort.string(from: toDateFormat!)
-            
-            
             let attributedString1 = NSMutableAttributedString(string:"Deadline: ", attributes:attrs1)
             let attributedString2 = NSMutableAttributedString(string: toStr, attributes:attrs2)
             
             attributedString1.append(attributedString2)
-            
             lblTime.attributedText = attributedString1
             
             viewHeader.layer.cornerRadius = 25
             viewHeader.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
             viewHeader.layer.backgroundColor = blueColor.withAlphaComponent(0.5).cgColor
            
-            
+            lblAffected.text = "Issues related to this goal:"
+            lblAffected.textColor = blackColor.withAlphaComponent(0.4)
+
             viewHeader.addSubview(lblTime)
             
             headerHeight = 45
@@ -357,12 +484,8 @@ class GoalsViewController: UIViewController {
         }
         
         
-        
         viewContent.frame = CGRect(x: 0, y: 15, width: viewGoal.frame.size.width, height: 40)
-        
-        imgView.frame = CGRect(x: 15, y: 5, width: 35, height: 35)
-        imgView.image = UIImage(named: "ic_mood1")
-        
+        viewContent.backgroundColor = UIColor.clear
         
         let strTitle = "\(title.uppercased())"
         let size: CGSize = strTitle.size(withAttributes: [NSAttributedStringKey.font: fontKeywordRegular!])
@@ -384,12 +507,37 @@ class GoalsViewController: UIViewController {
         let goalWidth = viewGoal.frame.size.width - 30 - 15
 
         txtEntry.frame = CGRect(x: 15, y: lblTitle.frame.size.height, width: viewGoal.frame.size.width - 30, height: 140)
-        txtEntry.text = note
-        txtEntry.font = fontInput
+        
+        if(evalMood == 0){
+            viewGoal.backgroundColor = whiteColor
+            lblTitle.textColor = blackColor
+            txtEntry.text = note
+            btnEdit.isHidden = false
+            imgView.isHidden = true
+            viewBorder.backgroundColor = blackColor.withAlphaComponent(0.1)
+
+            txtEntry.font = fontInput
+            
+        }
+        else {
+            viewGoal.backgroundColor = purpleColor
+            txtEntry.backgroundColor = UIColor.clear
+            lblTitle.textColor = whiteColor
+            lblTitle.font = fontInput
+            txtEntry.textColor = whiteColor
+            btnEdit.isHidden = true
+            imgView.isHidden = false
+            viewBorder.backgroundColor = whiteColor.withAlphaComponent(0.4)
+            txtEntry.font = font18Med
+            txtEntry.text = evalReview
+
+        }
+
+        
         txtEntry.isEditable = false
         txtEntry.isScrollEnabled = false
         
-        if(note.isEmpty){
+        if(txtEntry.text.isEmpty){
             txtEntry.frame.size.height = 140
         }
         else {
@@ -397,26 +545,92 @@ class GoalsViewController: UIViewController {
             //txtEntry.translatesAutoresizingMaskIntoConstraints = false
 
         }
+
+       viewKeywords.frame = CGRect(x: 0, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 35, width: viewContent.frame.size.width, height: 0)
         
-          viewKeywords.frame = CGRect(x: 0, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 15, width: viewContent.frame.size.width, height: 0)
-        //viewKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
+        
+        
         var lblY = CGFloat(0)
         
-        for keyword in arrKeywords {
+          for (keyword, value) in zip(arrKeywords, evalRateArr) {
+
+            var lblHeight = CGFloat()
             var strKeywords = String()
             let lblKeywords = UILabel()
             
-            //print("\(e1) - \(e2)")
-            strKeywords = "\u{25CF} \(keyword)"
-            let size: CGSize = strKeywords.size(withAttributes: [NSAttributedStringKey.font: font17Med!])
-            let lblHeight = size.height
-            lblKeywords.frame =  CGRect(x: 15, y: lblY, width: goalWidth, height: lblHeight)
-            //lblKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
-            lblKeywords.text = strKeywords
-            lblKeywords.font = font17Med
-            lblKeywords.textColor = blueColor
+            if(accomplished == true){
+
+            if(value == 0){
+               
+                 lblKeywords.isHidden = true
+                 lblHeight = 0
+                lblKeywords.text = ""
+
+            }
+            else {
+                if (evalMood == 0){
+                    strKeywords = "\(value)%  \(keyword)"
+                    lblKeywords.textColor = blueColor
+                    lblKeywords.font = fontReg18
+
+                    lblKeywords.text = strKeywords
+                 
+                }
+                else{
+                    let strVal = "\(value)% "
+
+                    
+                    let attrs1 = [NSAttributedStringKey.font : font19Med!, NSAttributedStringKey.foregroundColor : whiteColor]
+                    let attrs2 = [NSAttributedStringKey.font : fontInput!, NSAttributedStringKey.foregroundColor : whiteColor]
+                    
+                    let attributedString1 = NSMutableAttributedString(string:strVal, attributes:attrs1)
+                    let attributedString2 = NSMutableAttributedString(string: "\(keyword)", attributes:attrs2)
+                    
+                    attributedString1.append(attributedString2)
+
+                   // strKeywords = "\(value)%  \(keyword)"
+                    lblKeywords.attributedText = attributedString1
+                    
+                }
+                
+                let size: CGSize = strKeywords.size(withAttributes: [NSAttributedStringKey.font: font17Med!])
+                lblHeight = size.height
+               
+            }
+                
+          }
+            
+            else {
+                if(value == 0){
+                    
+                    lblKeywords.isHidden = false
+                    strKeywords = "\(keyword)"
+                    lblKeywords.textColor = blueColor
+                    lblKeywords.font = fontReg18
+
+                    lblKeywords.text = strKeywords
+
+                    
+                    let size: CGSize = strKeywords.size(withAttributes: [NSAttributedStringKey.font: font17Med!])
+                    lblHeight = size.height
+                    
+                }
+                else {
+                    
+                    lblKeywords.isHidden = true
+                    lblHeight = 0
+                    
+                }
+               
+                
+            }
+            
+            lblKeywords.frame =  CGRect(x: 15, y: lblY + 15, width: goalWidth, height: lblHeight)
             lblKeywords.numberOfLines = 0
-        print("keyword : \(String(describing: strKeywords))")
+            
+            print("arrKeywords : \(String(describing: arrKeywords))")
+            print("evalRateArr : \(String(describing: evalRateArr))")
+
             viewKeywords.addSubview(lblKeywords)
             
             lblY = lblY + lblHeight
@@ -431,6 +645,9 @@ class GoalsViewController: UIViewController {
         btnEdit.frame =  CGRect(x: viewGoal.frame.width - 45, y: 0, width: 30, height: 30)
         let image = UIImage(named: "arrow_down")
         
+        imgView.image = UIImage(named: "ic_mood\(evalMood)_white")
+        print("ic_mood\(evalMood)_white")
+        
         btnEdit.addTarget(self,action:#selector(editGoal),for:.touchUpInside)
         btnEdit.tintColor = blueColor
         btnEdit.setTitle(strCreated, for: .normal)
@@ -439,22 +656,30 @@ class GoalsViewController: UIViewController {
         btnEdit.layer.cornerRadius = 15
         btnEdit.layer.borderWidth = 1.5
         btnEdit.setImage(image, for: .normal)
-        
         btnEdit.addTarget(self,action:#selector(editGoal), for:.touchUpInside)
-        
-        
         btnEdit.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         btnEdit.layer.borderColor = blueColor.cgColor
         
+
+        viewContent.frame.size.height = lblTitle.frame.size.height + txtEntry.frame.size.height + viewKeywords.frame.size.height + 30 + 25
+        viewGoal.frame.size.height = viewContent.frame.size.height + headerHeight + 25
+         lblAffected.frame = CGRect(x: 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: viewContent.frame.size.width - 30, height: 25)
+        
+         lblEvalMood.frame = CGRect(x: viewGoal.frame.size.width - 100, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: 100, height: 25)
+        imgView.frame = CGRect(x: viewGoal.frame.size.width - 35 - 15, y: viewGoal.frame.size.height - 45 - 15 - 35, width: 35, height: 35)
+
+        viewBorder.frame = CGRect(x: 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 15, width: viewContent.frame.size.width - 30, height: 1.5)
+        
+
+        viewContent.addSubview(imgView)
         viewContent.addSubview(lblTitle)
+        viewContent.addSubview(lblAffected)
+        viewContent.addSubview(lblEvalMood)
+
         viewContent.addSubview(txtEntry)
         viewContent.addSubview(viewKeywords)
         viewContent.addSubview(btnEdit)
-        
-        //viewContent.backgroundColor = blueColor.withAlphaComponent(0.2)
-
-        viewContent.frame.size.height = lblTitle.frame.size.height + txtEntry.frame.size.height + viewKeywords.frame.size.height + 30
-        viewGoal.frame.size.height = viewContent.frame.size.height + headerHeight + 15
+        viewContent.addSubview(viewBorder)
         
         viewHeader.frame = CGRect(x: 0, y: viewGoal.frame.size.height - 45, width: viewGoal.frame.size.width, height: headerHeight)
         viewGoal.addSubview(viewHeader)
@@ -473,6 +698,7 @@ class GoalsViewController: UIViewController {
         let top = (self.tabBarController?.tabBar.frame.size.height)! + 5
 
         btnAdd.frame =  CGRect(x: self.view.frame.size.width - 15*2 - 60, y: top + 60 + self.view.frame.size.height/1.7 + 20, width: 60, height: 60)
+        btnFilter.frame =  CGRect(x: 15*2, y: top + 60 + self.view.frame.size.height/1.7 + 20 + 15, width: 100, height: 45)
         
         btnGradientLayer.frame =  btnAdd.bounds
         btnGradientLayer.colors = [purpleColor.cgColor, lightPurpleColor.cgColor]
@@ -487,17 +713,79 @@ class GoalsViewController: UIViewController {
         btnGradientLayer.shadowRadius = 5.0
         
         btnAdd.layer.addSublayer(btnGradientLayer)
-        
         btnAdd.setTitle("+",for: .normal)
         btnAdd.tintColor = whiteColor
         btnAdd.titleLabel?.font = fontIconBig
         btnAdd.addTarget(self,action:#selector(toCreate), for:.touchUpInside)
         
+        btnFilter.setTitle("Filter",for: .normal)
+        btnFilter.setTitleColor(whiteColor, for: .normal)
+        btnFilter.isEnabled = true
+        //btnFilter.titleLabel?.textColor = blackColor
+        btnFilter.titleLabel?.textAlignment = .center
+        //btnFilter.tintColor = blackColor
+        btnFilter.backgroundColor = lightPurpleColor
+        btnFilter.titleLabel?.font = fontMainRegular
+        btnFilter.addTarget(self,action:#selector(btnFilterActionSheet), for:.touchUpInside)
         
+        btnFilter.layer.cornerRadius = 22.5
+        /*
+        btnFilter.layer.borderWidth = 0
+        btnFilter.layer.borderColor = blackColor.withAlphaComponent(0.1).cgColor
+        btnFilter.layer.shadowColor = blackColor.cgColor
+        btnFilter.layer.shadowOffset = CGSize(width: -6, height: 6)
+        btnFilter.layer.shadowOpacity = 0.05
+        btnFilter.layer.shadowRadius = 5.0
+        */
+        self.view.addSubview(btnFilter)
         self.view.addSubview(btnAdd)
         
     }
+  
     
+    @objc func btnFilterActionSheet() {
+        
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        
+        let allButton = UIAlertAction(title: "Show all", style: .default, handler: { (action) -> Void in
+             self.selectedCalendarDate = ""
+            self.refresh(strEval: "")
+
+        })
+        
+        let  noDateButton = UIAlertAction(title: "Show without date", style: .default, handler: { (action) -> Void in
+            self.selectedCalendarDate = "no date"
+            self.refresh(strEval: "")
+            
+        })
+        
+        let  accomplishButton = UIAlertAction(title: "Show accomplished", style: .default, handler: { (action) -> Void in
+            self.selectedCalendarDate = "accomplished"
+            self.refresh(strEval: "")
+            
+        })
+        
+        let  hideAccomplishButton = UIAlertAction(title: "Hide accomplished", style: .default, handler: { (action) -> Void in
+            self.selectedCalendarDate = "hide accomplished"
+            self.refresh(strEval: "")
+            
+        })
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            print("Cancel button tapped")
+        })
+        
+        
+        alertController.addAction(allButton)
+        alertController.addAction(noDateButton)
+        alertController.addAction(accomplishButton)
+        alertController.addAction(hideAccomplishButton)
+        alertController.addAction(cancelButton)
+
+        self.navigationController!.present(alertController, animated: true, completion: nil)
+    }
     
     
     func btnActionSheet(created: String) {
@@ -512,13 +800,14 @@ class GoalsViewController: UIViewController {
         
         let  deleteButton = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
             self.deleteGoal(created: created)
-            self.refresh()
+            self.refresh(strEval: "")
             
         })
         
         let  accomplishButton = UIAlertAction(title: "Accomplish", style: .default, handler: { (action) -> Void in
             
-            
+            self.toEvaluation(created: created)
+           
         })
         
         let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
@@ -591,12 +880,36 @@ class GoalsViewController: UIViewController {
         
     }
     
+    func getEvaluation(created:String) {
+        
+       refresh(strEval: created)
+        
+    }
+    
+    @objc func hideEvaluation(sender: UIButton) {
+        
+       refresh(strEval: "")
+        
+    }
+    
+    @objc func showEvaluation(sender: UIButton) {
+        
+        let btnLabel = (sender.titleLabel?.text)!
+        if(btnLabel.isEmpty) {
+            print("error")
+        }
+            
+        else {
+            getEvaluation(created: btnLabel)
+        }
+        
+    }
     
     @objc func showAllGoals() {
         selectedCalendarDate = ""
         bool = false
         scrollView.removeSubviews()
-        setUpGoals()
+        setUpGoals(evaluation: "")
     }
     
     @objc func toCreate() {
@@ -621,7 +934,15 @@ class GoalsViewController: UIViewController {
         }
     }
     
-    
+    func toEvaluation(created: String) {
+        self.tabBarController?.tabBar.isHidden = true
+        lblHeader.alpha = 0
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let evalGoal = storyboard.instantiateViewController(withIdentifier: "evaluateGoal") as! EvaluateGoalViewController
+        evalGoal.goalToEvaluate = created
+        self.navigationController?.pushViewController(evalGoal, animated: true)
+        
+    }
     
     func toEdit(created: String) {
         self.tabBarController?.tabBar.isHidden = true
@@ -633,9 +954,9 @@ class GoalsViewController: UIViewController {
         
     }
     
-    func refresh() {
+    func refresh(strEval:String) {
         scrollView.removeSubviews()
-        setUpGoals()
+        setUpGoals(evaluation: strEval)
     }
     
     
@@ -643,7 +964,7 @@ class GoalsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         createHeaderMain()
-        refresh()
+        refresh(strEval: "")
 
         self.tabBarController?.tabBar.isHidden = false
         self.navigationItem.setHidesBackButton(true, animated: false)

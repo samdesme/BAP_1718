@@ -71,6 +71,7 @@
 		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
 		859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */; };
 		859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */; };
+		85B90F9720ADCBA300878276 /* EvaluateGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B90F9620ADCBA300878276 /* EvaluateGoalViewController.swift */; };
 		85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */; };
 		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
 		85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */; };
@@ -190,6 +191,7 @@
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
 		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
 		859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAddKeywordViewController.swift; sourceTree = "<group>"; };
+		85B90F9620ADCBA300878276 /* EvaluateGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateGoalViewController.swift; sourceTree = "<group>"; };
 		85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		85BE5D29206FF06B00A4C7EA /* ProfileInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfo.xib; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 				853503D52067E76100A08DD9 /* GoalsViewController.swift */,
 				8576E8FE20A9D54E00B8C823 /* CreateGoalViewController.swift */,
 				8576E90020A9D55C00B8C823 /* EditGoalViewController.swift */,
+				85B90F9620ADCBA300878276 /* EvaluateGoalViewController.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -674,6 +677,7 @@
 				8567DDFE209533370044BE87 /* FSCalendar+Deprecated.m in Sources */,
 				8576E8FF20A9D54E00B8C823 /* CreateGoalViewController.swift in Sources */,
 				852D8631208FAB73001E60CF /* ProfileEditKeywords2ViewController.swift in Sources */,
+				85B90F9720ADCBA300878276 /* EvaluateGoalViewController.swift in Sources */,
 				85C88EEC2096631A00B745C3 /* Events.swift in Sources */,
 				8567DDFD209533370044BE87 /* FSCalendarAppearance.m in Sources */,
 				853503A92067E4CD00A08DD9 /* JournalViewController.swift in Sources */,
