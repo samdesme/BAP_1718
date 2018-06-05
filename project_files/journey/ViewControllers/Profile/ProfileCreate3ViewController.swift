@@ -76,6 +76,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         create3.lblMain.text = strLblMain
         create3.lblMain.textColor = blackColor
         create3.lblMain.textAlignment = .left
+        create3.lblMain.numberOfLines = 0
         
         create3.lblSub.font = fontLabelSub
         create3.lblSub.text = strLblSub
@@ -97,7 +98,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         let btnFinish = UIButton()
         let btnNextShadow = UIView()
         
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: self.view.frame.width - 30, height: viewContent.frame.height/2))
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 120, width: self.view.frame.width - 30, height: viewContent.frame.height/2))
         tableView.tableFooterView = UIView()
         create3.scrollView.isHidden = true
         tableView.backgroundColor = UIColor.clear

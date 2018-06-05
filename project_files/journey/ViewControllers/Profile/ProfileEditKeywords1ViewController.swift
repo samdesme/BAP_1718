@@ -82,6 +82,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
         editKeyword1.lblMain.text = strLblMain
         editKeyword1.lblMain.textColor = blackColor
         editKeyword1.lblMain.textAlignment = .left
+        editKeyword1.lblMain.numberOfLines = 0
         
         editKeyword1.lblSub.font = fontLabelSub
         editKeyword1.lblSub.text = strLblSub
@@ -105,7 +106,7 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
         let attributeString = NSMutableAttributedString(string: strKeyword2,
                                                         attributes: keywordAttr)
-        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 100, width: self.view.frame.width - 30, height: self.view.frame.height/2))
+        let tableView: UITableView = UITableView(frame: CGRect(x: 15, y: 120, width: self.view.frame.width - 30, height: self.view.frame.height/2))
         
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor.clear

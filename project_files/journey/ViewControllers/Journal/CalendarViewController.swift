@@ -35,7 +35,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     let btnGradientLayer = CAGradientLayer()
     let  gradientLayer = CAGradientLayer()
     
-     var scrollView = UIScrollView()
+    var scrollView = UIScrollView()
     var imgMood = UIImage()
     var lblCount = UILabel()
     var lblGoalCount = UILabel()

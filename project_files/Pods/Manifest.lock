@@ -1,16 +1,20 @@
 PODS:
   - FSCalendar (2.7.9)
+  - Highcharts (6.1.0)
 
 DEPENDENCIES:
   - FSCalendar
+  - Highcharts (~> 6.1.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - FSCalendar
+    - Highcharts
 
 SPEC CHECKSUMS:
   FSCalendar: a04b09f16f811bc92e82f3cf852a15225233b9d5
+  Highcharts: 09e1f5a3904aef9ef29ec3aa5807d968b8903ec2
 
-PODFILE CHECKSUM: e40791536f974a7e025e97fb2d73bf8c95b2dbb8
+PODFILE CHECKSUM: 39e51da4492ca18bc0dd8aeb87ea5533ee9ef336
 
 COCOAPODS: 1.5.0

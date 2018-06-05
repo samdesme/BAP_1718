@@ -34,7 +34,7 @@
 		853503B12067E4CD00A08DD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 853503AF2067E4CD00A08DD9 /* LaunchScreen.storyboard */; };
 		853503BC2067E4CD00A08DD9 /* journeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503BB2067E4CD00A08DD9 /* journeyTests.swift */; };
 		853503C72067E4CD00A08DD9 /* journeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503C62067E4CD00A08DD9 /* journeyUITests.swift */; };
-		853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* StatsViewController.swift */; };
+		853503D62067E76100A08DD9 /* MoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D42067E76100A08DD9 /* MoodViewController.swift */; };
 		853503D72067E76100A08DD9 /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D52067E76100A08DD9 /* GoalsViewController.swift */; };
 		853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853503D82067EB6800A08DD9 /* ConfigFile.swift */; };
 		853D110A209D0F45000C2944 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D1109209D0F45000C2944 /* CreateEntryViewController.swift */; };
@@ -68,6 +68,12 @@
 		8576E90720A9E22000B8C823 /* GoalKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8576E90620A9E22000B8C823 /* GoalKeywords.swift */; };
 		8582976720768FB800BC0F6A /* CreateStep1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8582976620768FB800BC0F6A /* CreateStep1.xib */; };
 		85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85829768207692EC00BC0F6A /* CreateStep1.swift */; };
+		8594A2E920C6EF2B004CAFD7 /* StatsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2E820C6EF2B004CAFD7 /* StatsTabBarController.swift */; };
+		8594A2EB20C6EF5D004CAFD7 /* MentalHealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2EA20C6EF5D004CAFD7 /* MentalHealthViewController.swift */; };
+		8594A2ED20C6FFE0004CAFD7 /* Highcharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */; };
+		8594A2EF20C70695004CAFD7 /* OptionsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */; };
+		8594A2F220C70AEC004CAFD7 /* Graph1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */; };
+		8594A2F620C70E3E004CAFD7 /* Graph1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */; };
 		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
 		859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */; };
 		859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */; };
@@ -137,7 +143,7 @@
 		853503C22067E4CD00A08DD9 /* journeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = journeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		853503C62067E4CD00A08DD9 /* journeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = journeyUITests.swift; sourceTree = "<group>"; };
 		853503C82067E4CD00A08DD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		853503D42067E76100A08DD9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		853503D42067E76100A08DD9 /* MoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodViewController.swift; sourceTree = "<group>"; };
 		853503D52067E76100A08DD9 /* GoalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		853503D82067EB6800A08DD9 /* ConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFile.swift; sourceTree = "<group>"; };
 		853D1109209D0F45000C2944 /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +194,13 @@
 		8576E90620A9E22000B8C823 /* GoalKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalKeywords.swift; sourceTree = "<group>"; };
 		8582976620768FB800BC0F6A /* CreateStep1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateStep1.xib; sourceTree = "<group>"; };
 		85829768207692EC00BC0F6A /* CreateStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStep1.swift; sourceTree = "<group>"; };
+		8594A2E820C6EF2B004CAFD7 /* StatsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTabBarController.swift; sourceTree = "<group>"; };
+		8594A2EA20C6EF5D004CAFD7 /* MentalHealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentalHealthViewController.swift; sourceTree = "<group>"; };
+		8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Highcharts.framework; path = "../highcharts-ios-master/Example/HighFit/HighFit Swift/Highcharts.framework"; sourceTree = "<group>"; };
+		8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProvider.swift; sourceTree = "<group>"; };
+		8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph1ViewController.swift; sourceTree = "<group>"; };
+		8594A2F420C70D77004CAFD7 /* DataSourcesGraphs.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = DataSourcesGraphs.geojson; sourceTree = "<group>"; };
+		8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Graph1ViewController.xib; sourceTree = "<group>"; };
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
 		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
 		859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAddKeywordViewController.swift; sourceTree = "<group>"; };
@@ -212,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C7591C49C13712D0865A058 /* Pods_journey.framework in Frameworks */,
+				8594A2ED20C6FFE0004CAFD7 /* Highcharts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +258,7 @@
 		557103CAB5E5BECDCACC6FA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */,
 				548B5AA52AD34D1525A97551 /* Pods_journey.framework */,
 			);
 			name = Frameworks;
@@ -287,6 +302,7 @@
 		853503A32067E4CD00A08DD9 /* journey */ = {
 			isa = PBXGroup;
 			children = (
+				8594A2F320C70D39004CAFD7 /* Resources */,
 				8567DDD72095330F0044BE87 /* FSCalendar */,
 				85452B82208290250027A594 /* Models */,
 				85BE5D1A206FCD3100A4C7EA /* Views */,
@@ -333,6 +349,7 @@
 				8576E90220A9E1F500B8C823 /* Goals.swift */,
 				8576E90420A9E20B00B8C823 /* Evaluation.swift */,
 				8576E90620A9E22000B8C823 /* GoalKeywords.swift */,
+				8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -389,9 +406,27 @@
 			path = create;
 			sourceTree = "<group>";
 		};
+		8594A2F020C70A27004CAFD7 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */,
+				8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		8594A2F320C70D39004CAFD7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8594A2F420C70D77004CAFD7 /* DataSourcesGraphs.geojson */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		85BE5D1A206FCD3100A4C7EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8594A2F020C70A27004CAFD7 /* Stats */,
 				85C88EED2096651400B745C3 /* Journal */,
 				85BE5D1F206FCEC900A4C7EA /* Profile */,
 			);
@@ -452,7 +487,9 @@
 		85BE5D23206FCF5D00A4C7EA /* Stats */ = {
 			isa = PBXGroup;
 			children = (
-				853503D42067E76100A08DD9 /* StatsViewController.swift */,
+				853503D42067E76100A08DD9 /* MoodViewController.swift */,
+				8594A2E820C6EF2B004CAFD7 /* StatsTabBarController.swift */,
+				8594A2EA20C6EF5D004CAFD7 /* MentalHealthViewController.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -596,6 +633,7 @@
 				852F1FDA206940F400BBF740 /* Brandon_reg.otf in Resources */,
 				8516069F20714708009ACC9C /* ProfileTopKeywords.xib in Resources */,
 				85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */,
+				8594A2F620C70E3E004CAFD7 /* Graph1ViewController.xib in Resources */,
 				853503B12067E4CD00A08DD9 /* LaunchScreen.storyboard in Resources */,
 				85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */,
 				852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */,
@@ -637,10 +675,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-journey/Pods-journey-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${PODS_ROOT}/Highcharts/development/Highcharts.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highcharts.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -696,21 +736,24 @@
 				8567DE07209533370044BE87 /* FSCalendarExtensions.m in Sources */,
 				859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */,
 				8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */,
+				8594A2EB20C6EF5D004CAFD7 /* MentalHealthViewController.swift in Sources */,
 				8567DE06209533370044BE87 /* FSCalendarStickyHeader.m in Sources */,
 				85452B8120828EC90027A594 /* DataHelper.swift in Sources */,
 				85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */,
 				852D862D208FAB25001E60CF /* ProfileEditInfoViewController.swift in Sources */,
-				853503D62067E76100A08DD9 /* StatsViewController.swift in Sources */,
+				853503D62067E76100A08DD9 /* MoodViewController.swift in Sources */,
 				85E43933208A822700E139FA /* ProfileKeywords.swift in Sources */,
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				8567DDFB209533370044BE87 /* FSCalendarDelegationProxy.m in Sources */,
 				852B540120A1091600B45B26 /* EntryKeywords.swift in Sources */,
+				8594A2E920C6EF2B004CAFD7 /* StatsTabBarController.swift in Sources */,
 				8576E90720A9E22000B8C823 /* GoalKeywords.swift in Sources */,
 				8576E90120A9D55C00B8C823 /* EditGoalViewController.swift in Sources */,
 				856B58CD20813F7800509EA8 /* ProfileCreate3ViewController.swift in Sources */,
 				8567DE04209533370044BE87 /* FSCalendarTransitionCoordinator.m in Sources */,
 				853D110A209D0F45000C2944 /* CreateEntryViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
+				8594A2F220C70AEC004CAFD7 /* Graph1ViewController.swift in Sources */,
 				8567DE02209533370044BE87 /* FSCalendarWeekdayView.m in Sources */,
 				85318191209FD7F200836827 /* RadioButton.swift in Sources */,
 				8567DDD42093D9D40044BE87 /* JournalTabBarController.swift in Sources */,
@@ -721,6 +764,7 @@
 				8567DDFF209533370044BE87 /* FSCalendarConstants.m in Sources */,
 				85E0C1FF209BA8B5004BFC4C /* entryView.swift in Sources */,
 				85C88EF12096656100B745C3 /* eventCell.swift in Sources */,
+				8594A2EF20C70695004CAFD7 /* OptionsProvider.swift in Sources */,
 				8567DE05209533370044BE87 /* FSCalendarCell.m in Sources */,
 				8567DDFC209533370044BE87 /* FSCalendar.m in Sources */,
 				85829769207692EC00BC0F6A /* CreateStep1.swift in Sources */,

@@ -225,23 +225,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iQf-3I-GOP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1187" y="2535"/>
-        </scene>
-        <!--Stats-->
-        <scene sceneID="NJL-g4-Ecf">
-            <objects>
-                <viewController id="mTf-dh-PqQ" userLabel="Stats" customClass="StatsViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ezf-ii-Eek">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="RyJ-tN-ohL"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Stats" image="ic_stats_25px_grey" id="zJP-9T-iJD"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Zmr-42-UY1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1046" y="3310"/>
+            <point key="canvasLocation" x="1161" y="2292"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -257,7 +241,7 @@
                         <segue destination="l2f-8t-m2O" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="6Bv-TP-LMM" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="Gbf-SD-OpV" kind="relationship" relationship="viewControllers" id="4Nd-sl-oBQ"/>
-                        <segue destination="mTf-dh-PqQ" kind="relationship" relationship="viewControllers" id="FcI-3u-SId"/>
+                        <segue destination="JZI-xW-gzh" kind="relationship" relationship="viewControllers" id="G6M-KZ-hbl"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -608,6 +592,23 @@
             </objects>
             <point key="canvasLocation" x="3216" y="1541"/>
         </scene>
+        <!--Stats Nav Controller-->
+        <scene sceneID="ROF-1L-940">
+            <objects>
+                <navigationController id="JZI-xW-gzh" userLabel="Stats Nav Controller" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Stats" image="ic_stats_25px_grey" id="9SH-S7-Vze"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Yns-Zp-7rZ">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Sxv-ZQ-Kpg" kind="relationship" relationship="rootViewController" id="0L8-tH-c9c"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zhD-mO-vIs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-226" y="4024"/>
+        </scene>
         <!--Goals Nav Controller-->
         <scene sceneID="so7-jQ-lo3">
             <objects>
@@ -625,7 +626,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYw-rU-RlX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-226.08695652173915" y="2500.271739130435"/>
+            <point key="canvasLocation" x="-226" y="2292"/>
         </scene>
         <!--createGoal-->
         <scene sceneID="qm9-If-Wi7">
@@ -665,7 +666,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ik-fZ-hnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2170" y="3089"/>
+            <point key="canvasLocation" x="1161" y="3115"/>
         </scene>
         <!--evaluateGoal-->
         <scene sceneID="9gm-lV-V4U">
@@ -685,7 +686,99 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qeP-kb-XqK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1187" y="3428"/>
+            <point key="canvasLocation" x="2170" y="3115"/>
+        </scene>
+        <!--Mental Health Nav Controller-->
+        <scene sceneID="SBK-Yo-irv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lSG-I3-5Oz" userLabel="Mental Health Nav Controller" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Stats" image="ic_stats_25px_grey" id="zJP-9T-iJD"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="RaT-zT-bas">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Cqw-RB-d2k" kind="relationship" relationship="rootViewController" id="dup-XI-bq0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2NW-gH-Oxu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="609" y="4767"/>
+        </scene>
+        <!--Stats Tab Bar Controller-->
+        <scene sceneID="0kL-fQ-v0d">
+            <objects>
+                <tabBarController restorationIdentifier="tabStats" storyboardIdentifier="tabStats" automaticallyAdjustsScrollViewInsets="NO" id="Sxv-ZQ-Kpg" userLabel="Stats Tab Bar Controller" customClass="StatsTabBarController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="Uae-vA-XrB"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="bVB-qO-3G1"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QDb-wX-zkT">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="lSG-I3-5Oz" kind="relationship" relationship="viewControllers" id="dGe-aU-7jg"/>
+                        <segue destination="FW7-kA-zmT" kind="relationship" relationship="viewControllers" id="Nco-lJ-Oje"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AyD-dM-jQe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="609" y="4024"/>
+        </scene>
+        <!--Mood-->
+        <scene sceneID="BfO-Hc-5ft">
+            <objects>
+                <viewController restorationIdentifier="mood" storyboardIdentifier="mood" id="FW7-kA-zmT" userLabel="Mood" customClass="MoodViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P4c-oh-oqw" userLabel="View Main">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mnx-e2-b12" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Zcf-ZI-aVq"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="BkK-tS-aYH"/>
+                    <navigationItem key="navigationItem" id="X7Z-FH-ebi"/>
+                    <connections>
+                        <outlet property="viewHeader" destination="Mnx-e2-b12" id="7j9-qc-19m"/>
+                        <outlet property="viewMain" destination="P4c-oh-oqw" id="jLi-Xx-9G2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2qX-TR-kTd" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1628" y="4024"/>
+        </scene>
+        <!--Mental Health-->
+        <scene sceneID="sVd-gt-3KX">
+            <objects>
+                <viewController restorationIdentifier="mentalhealth" storyboardIdentifier="mentalhealth" id="Cqw-RB-d2k" userLabel="Mental Health" customClass="MentalHealthViewController" customModule="journey" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JGI-td-N8K" userLabel="View Main">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yAD-C7-HGd" userLabel="Header View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ShK-WJ-MwL"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="Ngu-a7-JpY"/>
+                    <navigationItem key="navigationItem" id="7zc-Ts-Umk" userLabel="Back Button Item"/>
+                    <connections>
+                        <outlet property="backButtonItem" destination="7zc-Ts-Umk" id="LFF-Wt-m0l"/>
+                        <outlet property="viewMain" destination="JGI-td-N8K" id="R64-ch-8IO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6i8-OT-P8L" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1628" y="4751"/>
         </scene>
     </scenes>
     <resources>

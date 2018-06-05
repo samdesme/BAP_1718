@@ -1,0 +1,12 @@
+ [
+  {
+  "title": "Calories (Eaten)",
+  "subtitle": "",
+  "source": "DataCaloriesIn",
+  "unit": "kcal",
+  "chartType": "spline",
+  "icon": "ic_local_dining",
+  "exporting": false
+  }
+  ]
+

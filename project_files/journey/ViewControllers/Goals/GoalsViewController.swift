@@ -520,7 +520,9 @@ class GoalsViewController: UIViewController {
             
         }
         else {
-            viewGoal.backgroundColor = purpleColor
+            
+            
+            //viewGoal.backgroundColor = purpleColor
             txtEntry.backgroundColor = UIColor.clear
             lblTitle.textColor = whiteColor
             lblTitle.font = fontInput
@@ -666,9 +668,29 @@ class GoalsViewController: UIViewController {
          lblAffected.frame = CGRect(x: 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: viewContent.frame.size.width - 30, height: 25)
         
          lblEvalMood.frame = CGRect(x: viewGoal.frame.size.width - 100 - 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 18, width: 100, height: 25)
-        imgView.frame = CGRect(x: viewGoal.frame.size.width - 50 - 15, y: viewGoal.frame.size.height - 45 - 15 - 50 - 15, width: 50, height: 50)
+        imgView.frame = CGRect(x: viewGoal.frame.size.width - 50 - 15, y:  txtEntry.frame.size.height + lblTitle.frame.size.height + 35 + 10, width: 35, height: 35)
 
         viewBorder.frame = CGRect(x: 15, y: txtEntry.frame.size.height + lblTitle.frame.size.height + 15, width: viewContent.frame.size.width - 30, height: 1.5)
+        
+        
+        if(evalMood != 0 && accomplished == true){
+            let backgrLayer = CAGradientLayer()
+            
+            backgrLayer.frame = viewGoal.bounds
+            backgrLayer.colors = [purpleColor.cgColor, blueColor.cgColor]
+            
+            backgrLayer.startPoint = CGPoint(x: 0, y: 0)
+            backgrLayer.endPoint = CGPoint(x: 1, y: 1)
+
+            backgrLayer.cornerRadius = 25
+            
+            viewGoal.layer.addSublayer(backgrLayer)
+
+
+            
+        }
+       
+
         
 
         viewContent.addSubview(imgView)
@@ -683,7 +705,7 @@ class GoalsViewController: UIViewController {
         
         viewHeader.frame = CGRect(x: 0, y: viewGoal.frame.size.height - 45, width: viewGoal.frame.size.width, height: headerHeight)
         viewGoal.addSubview(viewHeader)
-        //viewHeader.alpha = 0.6
+        
         
         viewGoal.addSubview(viewContent)
         scrollView.addSubview(viewGoal)
