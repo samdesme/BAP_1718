@@ -22,10 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let dataHelper = DataHelper(context: self.managedObjectContext)
         //dataHelper.seedDataStore()
         
-        //dataHelper.printAllKeywords()
+
         
-       // let appearance = UITabBarItem.appearance()
-       // appearance.setTitleTextAttributes([NSAttributedStringKey.font: fontHeaderMain!], for: .normal)
+        HIChartView.preload()
+        
+
         UITabBar.appearance().tintColor = purpleColor
         UITabBar.appearance().backgroundImage = UIImage.colorForNavBar(color: .white)
         UITabBar.appearance().shadowImage = UIImage.colorForNavBar(color: blackColor.withAlphaComponent(0.2))

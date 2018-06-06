@@ -77,6 +77,8 @@
 		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
 		859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */; };
 		859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */; };
+		85A9377220C84C0C00449ED4 /* toolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9377120C84C0C00449ED4 /* toolbarView.swift */; };
+		85A9377420C84C2000449ED4 /* toolbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85A9377320C84C2000449ED4 /* toolbarView.xib */; };
 		85B90F9720ADCBA300878276 /* EvaluateGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B90F9620ADCBA300878276 /* EvaluateGoalViewController.swift */; };
 		85BE5D1C206FCD4E00A4C7EA /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */; };
 		85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */; };
@@ -199,11 +201,13 @@
 		8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Highcharts.framework; path = "../highcharts-ios-master/Example/HighFit/HighFit Swift/Highcharts.framework"; sourceTree = "<group>"; };
 		8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProvider.swift; sourceTree = "<group>"; };
 		8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph1ViewController.swift; sourceTree = "<group>"; };
-		8594A2F420C70D77004CAFD7 /* DataSourcesGraphs.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = DataSourcesGraphs.geojson; sourceTree = "<group>"; };
+		8594A2F420C70D77004CAFD7 /* DataSources.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DataSources.json; sourceTree = "<group>"; };
 		8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Graph1ViewController.xib; sourceTree = "<group>"; };
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
 		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
 		859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAddKeywordViewController.swift; sourceTree = "<group>"; };
+		85A9377120C84C0C00449ED4 /* toolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toolbarView.swift; sourceTree = "<group>"; };
+		85A9377320C84C2000449ED4 /* toolbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = toolbarView.xib; sourceTree = "<group>"; };
 		85B90F9620ADCBA300878276 /* EvaluateGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateGoalViewController.swift; sourceTree = "<group>"; };
 		85BE5D1B206FCD4E00A4C7EA /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		85BE5D27206FD0BE00A4C7EA /* ProfileHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
@@ -411,6 +415,8 @@
 			children = (
 				8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */,
 				8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */,
+				85A9377120C84C0C00449ED4 /* toolbarView.swift */,
+				85A9377320C84C2000449ED4 /* toolbarView.xib */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -418,7 +424,7 @@
 		8594A2F320C70D39004CAFD7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8594A2F420C70D77004CAFD7 /* DataSourcesGraphs.geojson */,
+				8594A2F420C70D77004CAFD7 /* DataSources.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -644,6 +650,7 @@
 				852F1FDB206940F400BBF740 /* Brandon_thin.otf in Resources */,
 				85E0C1FD209BA8A2004BFC4C /* entryView.xib in Resources */,
 				853503AC2067E4CD00A08DD9 /* Main.storyboard in Resources */,
+				85A9377420C84C2000449ED4 /* toolbarView.xib in Resources */,
 				852F1FD7206940F400BBF740 /* Brandon_med.otf in Resources */,
 				8582976720768FB800BC0F6A /* CreateStep1.xib in Resources */,
 				85C88EEF2096654500B745C3 /* eventCell.xib in Resources */,
@@ -746,6 +753,7 @@
 				853503D92067EB6800A08DD9 /* ConfigFile.swift in Sources */,
 				8567DDFB209533370044BE87 /* FSCalendarDelegationProxy.m in Sources */,
 				852B540120A1091600B45B26 /* EntryKeywords.swift in Sources */,
+				85A9377220C84C0C00449ED4 /* toolbarView.swift in Sources */,
 				8594A2E920C6EF2B004CAFD7 /* StatsTabBarController.swift in Sources */,
 				8576E90720A9E22000B8C823 /* GoalKeywords.swift in Sources */,
 				8576E90120A9D55C00B8C823 /* EditGoalViewController.swift in Sources */,

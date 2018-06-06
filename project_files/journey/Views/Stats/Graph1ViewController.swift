@@ -99,7 +99,7 @@ class Graph1ViewController: UITableViewController, HIChartViewDelegate {
             
             tmpOptions["subtitle"] = "\(sum) \(tmpOptions["unit"]!)"
             
-            self.chartView.options = OptionsProvider.provideOptions(forChartType: tmpOptions, series: series, type: "day")
+          
             self.chartView.viewController = self
             
             self.chartViewBase.addSubview(self.chartView!)
@@ -252,7 +252,7 @@ class Graph1ViewController: UITableViewController, HIChartViewDelegate {
         
         tmpOptions["subtitle"] = "\(sum) \(tmpOptions["unit"]!)"
         
-        self.chartView.options = OptionsProvider.provideOptions(forChartType: tmpOptions, series: series, type: dataName)
+       
     }
     
     private func isSwitchOn() -> Bool {

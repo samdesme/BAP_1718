@@ -11,8 +11,8 @@ import CoreData
 import Highcharts
 
 
-class MoodViewController: UIViewController {
-
+class MoodViewController: UIViewController, HIChartViewDelegate {
+   
     @IBOutlet var viewMain: UIView!
     @IBOutlet weak var viewHeader: UIView!
     
@@ -23,21 +23,44 @@ class MoodViewController: UIViewController {
     let  topGradientLayer = CAGradientLayer()
     let btnGradientLayer = CAGradientLayer()
     let  gradientLayer = CAGradientLayer()
+    
+    var configuration: [String: Any]!
+
+    var chartType: String!
+    var data: [String : Any]!
+    var chartView: HIChartView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.view.addSubview(scrollView)
-        createlineGraphView()
+        
+        
+        
+        /*
+        do {
+            if let sourceName = self.configuration["source"] as? String,
+                let sourcePath = Bundle.main.path(forResource: sourceName, ofType: "json"),
+                let sourceData = try? Data(contentsOf: URL(fileURLWithPath: sourcePath)),
+                let sourceJson = try JSONSerialization.jsonObject(with: sourceData) as? [String: Any] {
+                self.data = sourceJson
+            }
+        } catch {
+            print("Error deserializing JSON: \(error)")
+        }
+        
+        */
         
         tabBarController?.selectedIndex = 0
         self.title = "MOOD"
         self.view.backgroundColor = whiteColor
         
+        setUpView()
+        
     }
     
-    func createlineGraphView() {
+    func setUpView() {
         
         // CONTENT
         scrollView.backgroundColor = lightGreyColor
@@ -51,12 +74,12 @@ class MoodViewController: UIViewController {
         topGradientLayer.colors = [blackColor.withAlphaComponent(0.05).cgColor, UIColor.clear.cgColor]
         topGradientLayer.locations = [ 0.0, 1.0]
         
-        setUpGraph1()
+        setUpGraphView1()
    
         
     }
     
-    func setUpGraph1() {
+    func setUpGraphView1() {
         
         viewGraph1.frame = CGRect(x: 15, y: 15, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3))
         viewGraph1.backgroundColor = whiteColor
@@ -83,6 +106,77 @@ class MoodViewController: UIViewController {
         
         viewGraph1.layer.addSublayer(gradientLayer)
         scrollView.addSubview(viewGraph1)
+        
+        setUpGraph1()
+        
+    }
+    
+    func setUpGraph1() {
+        
+        let day = [
+        16,
+        14,
+        20,
+        15,
+        25,
+        12,
+        16,
+        13,
+        25,
+        25,
+        20,
+        23,
+        26,
+        25,
+        17,
+        20,
+        19
+        ]
+        
+        
+        self.chartView = HIChartView(frame: viewGraph1.bounds)
+        chartView.backgroundColor = UIColor.clear
+        
+        self.chartView = HIChartView(frame: CGRect(x: 5.0, y: 5.0, width: self.view.frame.size.width - 20, height: 240.0))
+        self.chartView.delegate = self
+        
+        
+        self.chartView.options = OptionsProvider.provideOptions(forChartType: "spline", series: day, type: "day")
+        self.chartView.viewController = self
+        
+        viewGraph1.addSubview(self.chartView!)
+    }
+    
+    func setUpGraphJson() {
+        
+        self.chartView = HIChartView(frame: viewGraph1.bounds)
+        chartView.backgroundColor = UIColor.clear
+        
+        var tmpOptions = self.configuration!
+        tmpOptions["exporting"] = true
+        
+        self.chartView = HIChartView(frame: CGRect(x: 5.0, y: 5.0, width: self.view.frame.size.width - 20, height: 240.0))
+        self.chartView.delegate = self
+        
+        let series = self.data["day"] as! [Int]
+        var sum: Int = 0
+        for number in series {
+            sum += number
+        }
+        
+        tmpOptions["subtitle"] = "\(sum) \(tmpOptions["unit"]!)"
+        
+        //self.chartView.options = OptionsProvider.provideOptions(forChartType: tmpOptions, series: series, type: "day")
+        self.chartView.viewController = self
+        
+        viewGraph1.addSubview(self.chartView!)
+    }
+    
+    
+    //MARK: - HIChartViewDelegate
+    
+    func chartViewDidLoad(_ chart: HIChartView!) {
+        print("Did load chart \(chart!)")
     }
 
     override func didReceiveMemoryWarning() {
