@@ -11,11 +11,11 @@ import UIKit
 protocol toolbarViewDelegate {
 }
 
-class toolbarView: UIToolbar {
+class toolbarView: UIView {
     
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var segment: UISegmentedControl!
     
-    @IBOutlet internal var toolbar: UIToolbar!
-    @IBOutlet weak internal var segment: UISegmentedControl!
 
     
     

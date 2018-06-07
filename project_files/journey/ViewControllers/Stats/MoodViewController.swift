@@ -27,9 +27,20 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
     var configuration: [String: Any]!
 
     var chartType: String!
+    var arrayData: [Int]!
+
     var data: [String : Any]!
     var chartView: HIChartView!
 
+    let toolbar = Bundle.main.loadNibNamed("toolbarView", owner: nil, options: nil)?.first as! toolbarView
+    
+    let day = [16,14,20,15,25,12,16,13,25,25,20,23,26,25,17,20,19]
+    let week = [13,9,20,5,25,12,6,13,25,11,20,2,26,5,7,20,19]
+    let month = [6,14,20,15,5,12,16,3,25,25,20,3,20,20,10,20,9]
+    let year = [3,9,11,5,11,12,6,11,25,1,20,2,26,21,7,13,10]
+
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -81,7 +92,7 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
     
     func setUpGraphView1() {
         
-        viewGraph1.frame = CGRect(x: 15, y: 15, width: self.view.frame.size.width - 30, height: (self.view.frame.size.height/3))
+        viewGraph1.frame = CGRect(x: 15, y: 15, width: self.view.frame.size.width - 30, height: (scrollView.frame.size.height/2))
         viewGraph1.backgroundColor = whiteColor
         
         // edit corner radius of the view
@@ -113,38 +124,45 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
     
     func setUpGraph1() {
         
-        let day = [
-        16,
-        14,
-        20,
-        15,
-        25,
-        12,
-        16,
-        13,
-        25,
-        25,
-        20,
-        23,
-        26,
-        25,
-        17,
-        20,
-        19
-        ]
+        let lblGraph1 = UILabel()
         
+        // Label
+        
+        lblGraph1.text = "Evolution of your mood on time"
+        lblGraph1.frame = CGRect(x: 0, y: 15, width: viewGraph1.frame.size.width, height: 25)
+        lblGraph1.textColor = whiteColor
+        lblGraph1.textAlignment = .center
+        lblGraph1.font = fontLabel
+        
+        // Toolbar
+        
+        toolbar.frame = CGRect(x: 0, y: lblGraph1.frame.size.height + 30, width: viewGraph1.frame.size.width, height: 44)
+        toolbar.backgroundColor = UIColor.clear
+
+        toolbar.segment.tintColor = whiteColor
+        toolbar.segment.frame = CGRect(x: 15, y: 0, width: viewGraph1.frame.size.width - 30, height: 30)
+        toolbar.segment.addTarget(self, action: #selector(self.actionSegment), for: .valueChanged)
+
+        toolbar.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.any,barMetrics: UIBarMetrics.default)
+
+        toolbar.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
+        
+        
+        // Chartview layout
         
         self.chartView = HIChartView(frame: viewGraph1.bounds)
         chartView.backgroundColor = UIColor.clear
         
-        self.chartView = HIChartView(frame: CGRect(x: 5.0, y: 5.0, width: self.view.frame.size.width - 20, height: 240.0))
+        self.chartView = HIChartView(frame: CGRect(x: 15, y: lblGraph1.frame.size.height + 15 + toolbar.frame.size.height + 30, width: viewGraph1.frame.size.width - 30, height: viewGraph1.frame.size.height - lblGraph1.frame.size.height - toolbar.frame.size.height - 30*2))
         self.chartView.delegate = self
-        
         
         self.chartView.options = OptionsProvider.provideOptions(forChartType: "spline", series: day, type: "day")
         self.chartView.viewController = self
         
+        
+        viewGraph1.addSubview(lblGraph1)
         viewGraph1.addSubview(self.chartView!)
+        viewGraph1.addSubview(toolbar)
     }
     
     func setUpGraphJson() {
@@ -172,7 +190,34 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         viewGraph1.addSubview(self.chartView!)
     }
     
-    
+    //MARK: - Actions
+
+    @IBAction func actionSegment(_ sender: UISegmentedControl) {
+        var dataName: String = "day"
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            dataName = "day"
+            arrayData = day
+        case 1:
+            dataName = "week"
+            arrayData = week
+
+        case 2:
+            dataName = "month"
+            arrayData = month
+
+        case 3:
+            dataName = "year"
+            arrayData = year
+        default:
+            break
+        }
+        
+        
+        self.chartView.options = OptionsProvider.provideOptions(forChartType: "spline", series: arrayData, type: dataName)
+        
+    }
     //MARK: - HIChartViewDelegate
     
     func chartViewDidLoad(_ chart: HIChartView!) {
