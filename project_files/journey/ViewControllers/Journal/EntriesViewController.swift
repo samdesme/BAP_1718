@@ -67,10 +67,7 @@ class EntriesViewController: UIViewController {
         //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
         scrollView.frame = CGRect(x: 0, y: top + 45 + 15, width: self.view.frame.size.width, height: self.view.frame.size.height - top - (tabBarController?.tabBar.frame.size.height)!)
         scrollView.isScrollEnabled = true
-
-       
-        
-        
+  
     }
     
     
@@ -136,8 +133,7 @@ class EntriesViewController: UIViewController {
         btnToday.frame = CGRect(x: viewDay.frame.size.width - 50 - 15*2, y: 5, width: 90, height: 35)
         btnToday.addTarget(self,action:#selector(showTodaysEntries), for:.touchUpInside)
         
-       
-        
+
         viewDay.layer.insertSublayer(gradientLayerDay, at: 0)
         viewDay.addSubview(lblDate)
         viewDay.addSubview(averageMood)
@@ -162,7 +158,6 @@ class EntriesViewController: UIViewController {
         let manyToMany : [EntryKeywords] = dataHelper.getAllSeverities()*/
         
         fetchRequestEntries.sortDescriptors = [primarySortDescriptor]
-        
         let allEntries = try! context.fetch(fetchRequestEntries)
         
         

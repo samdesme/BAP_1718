@@ -34,7 +34,10 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
 
     let toolbar = Bundle.main.loadNibNamed("toolbarView", owner: nil, options: nil)?.first as! toolbarView
     
-    let day = [16,14,20,15,25,12,16,13,25,25,20,23,26,25,17,20,19]
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+    
+    var day = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     let week = [13,9,20,5,25,12,6,13,25,11,20,2,26,5,7,20,19]
     let month = [6,14,20,15,5,12,16,3,25,25,20,3,20,20,10,20,9]
     let year = [3,9,11,5,11,12,6,11,25,1,20,2,26,21,7,13,10]
@@ -150,6 +153,8 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         
         // Chartview layout
         
+        getData()
+        
         self.chartView = HIChartView(frame: viewGraph1.bounds)
         chartView.backgroundColor = UIColor.clear
         
@@ -165,29 +170,160 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         viewGraph1.addSubview(toolbar)
     }
     
-    func setUpGraphJson() {
+    
+    //MARK: - Data functions
+    
+    func getData() {
         
-        self.chartView = HIChartView(frame: viewGraph1.bounds)
-        chartView.backgroundColor = UIColor.clear
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        formatter.locale = Locale(identifier: "en_GB")
         
-        var tmpOptions = self.configuration!
-        tmpOptions["exporting"] = true
+        let formatterTime = DateFormatter()
+        formatterTime.dateFormat = "HH"
+        formatterTime.locale = Locale(identifier: "en_GB")
         
-        self.chartView = HIChartView(frame: CGRect(x: 5.0, y: 5.0, width: self.view.frame.size.width - 20, height: 240.0))
-        self.chartView.delegate = self
+        let now = Date()
+        let todayDateStr = formatter.string(from: now)
         
-        let series = self.data["day"] as! [Int]
-        var sum: Int = 0
-        for number in series {
-            sum += number
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
+        
+        let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequestEntries.sortDescriptors = [primarySortDescriptor]
+        let allEntries = try! context.fetch(fetchRequestEntries)
+        
+        
+        var averagePerHour = [Int]()
+        var i = Int()
+        var position = Int()
+
+        
+        for entry in allEntries {
+            
+        
+            let entryDate = formatter.string(from: entry.date)
+            let entryHour = formatterTime.string(from: entry.date)
+            
+            
+            
+            if(entryDate == todayDateStr){
+                
+                
+                position = Int(entryHour)!
+                
+                if(position == i){
+                    averagePerHour.append(Int(entry.mood))
+                    
+                    let sumArray = averagePerHour.reduce(0, +)
+                    let avgArrayValue = sumArray / Int(averagePerHour.count)
+                    let averageMoodInt = Int(avgArrayValue)
+                    
+                    day[position] = Int(averageMoodInt)
+                    
+                    print("if: \(String(describing: Int(entry.mood) ))")
+
+
+                }
+                
+                else{
+                    averagePerHour.removeAll()
+                    averagePerHour.append(Int(entry.mood))
+
+                    day[position] = Int(entry.mood)
+                    print("else: \(String(describing: Int(entry.mood) ))")
+
+                }
+                
+                
+                
+                i = Int(entryHour)!
+
+                /*
+                if(day[position] != 0){
+                    
+                    averagePerHour.removeAll()
+                    averagePerHour.append(Int(entry.mood))
+                    
+                    let sumArray = averagePerHour.reduce(0, +)
+                    let avgArrayValue = sumArray / Int(averagePerHour.count)
+                    let averageMoodInt = Int(avgArrayValue)
+                    
+                    day[position] = Int(averageMoodInt)
+                    
+                }
+                
+                else {
+                    day[position] = Int(Int(entry.mood))
+                    averagePerHour.append(Int(entry.mood))
+                }
+                */
+                
+                //calculate the average mood
+                /*
+                let sumArray = averagePerHour.reduce(0, +)
+                let avgArrayValue = sumArray / Int(averagePerHour.count)
+                let averageMoodInt = Int(avgArrayValue)
+                */
+                
+                
+               
+                
+               
+                
+                
+
+          /*
+                
+                let position = Int(entryHour)
+
+                
+                if(i == position){
+                    averagePerHour.append(Int(entry.mood))
+
+                    
+                }
+                else if(i == 0){
+                    
+                    averagePerHour.append(Int(entry.mood))
+
+                    
+                }
+                else{
+
+                    //calculate the average mood
+                    let sumArray = averagePerHour.reduce(0, +)
+                    let avgArrayValue = sumArray / Int(averagePerHour.count)
+                    let averageMoodInt = Int(avgArrayValue)
+                    
+
+                    
+                    day[i] = Int(averageMoodInt)
+                    
+                
+                
+                    
+                    
+                    averagePerHour.removeAll()
+                    
+                    averagePerHour.append(Int(entry.mood))
+
+                    
+                }
+                
+
+                i = position!
+                */
+                
+                
+                
+            }
+            
+            
         }
         
-        tmpOptions["subtitle"] = "\(sum) \(tmpOptions["unit"]!)"
-        
-        //self.chartView.options = OptionsProvider.provideOptions(forChartType: tmpOptions, series: series, type: "day")
-        self.chartView.viewController = self
-        
-        viewGraph1.addSubview(self.chartView!)
+        print("\(String(describing: day ))")
+
     }
     
     //MARK: - Actions
@@ -218,6 +354,8 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         self.chartView.options = OptionsProvider.provideOptions(forChartType: "spline", series: arrayData, type: dataName)
         
     }
+    
+    
     //MARK: - HIChartViewDelegate
     
     func chartViewDidLoad(_ chart: HIChartView!) {
