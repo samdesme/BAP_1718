@@ -27,7 +27,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Day"/>
-                                    <segment title="Week"/>
                                     <segment title="Month"/>
                                     <segment title="Year"/>
                                 </segments>

@@ -11,26 +11,22 @@ import Highcharts
 
 class OptionsProvider {
     
-    class func provideOptions(forChartType options: String, series: [Any], type: String) -> HIOptions {
+    class func provideOptions(forChartType options: String, series: [Any], type: String, xValues: [String]) -> HIOptions {
         var categories = [String]()
         var step: NSNumber?
         
         if type == "day" {
-            categories = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+            categories = xValues
             step = 1
         }
         
-        if type == "week" {
-            categories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-            
-        }
-        
         if type == "month" {
-            categories = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"]
+            categories = xValues
+            step = 1
         }
         
         if type == "year" {
-            categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            categories = xValues
             step = 1
         }
         
@@ -112,6 +108,7 @@ class OptionsProvider {
             yaxis.labels.x = -5
             yaxis.title = HITitle()
             yaxis.title.text = ""
+            yaxis.visible = true
             hioptions.yAxis = [yaxis]
             
             let column = HIColumn()
@@ -198,13 +195,16 @@ class OptionsProvider {
             hioptions.xAxis = [xaxis]
             
             let yaxis = HIYAxis()
+            yaxis.min = 1
+            yaxis.max = 5
             yaxis.lineWidth = 1
+            yaxis.allowDecimals = false
             yaxis.gridLineWidth = 0
             yaxis.lineColor = HIColor(rgba: 255, green: 255, blue: 255, alpha: 1)
             yaxis.labels = HILabels()
             yaxis.labels = HILabels()
             yaxis.labels.style = HIStyle()
-            yaxis.labels.style.color = "rgb(255, 255, 255)"
+            yaxis.labels.style.color = "rgba(255, 255, 255, 0.5)"
             yaxis.labels.style.textOutline = "10px Arial"
             yaxis.labels.x = -5
             yaxis.title = HITitle()
@@ -219,6 +219,7 @@ class OptionsProvider {
             spline.data = series
             spline.name = "Mood"
             hioptions.series = [spline]
+            
             
             return hioptions
         }
