@@ -201,7 +201,6 @@
 		8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Highcharts.framework; path = "../highcharts-ios-master/Example/HighFit/HighFit Swift/Highcharts.framework"; sourceTree = "<group>"; };
 		8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProvider.swift; sourceTree = "<group>"; };
 		8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph1ViewController.swift; sourceTree = "<group>"; };
-		8594A2F420C70D77004CAFD7 /* DataSources.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DataSources.json; sourceTree = "<group>"; };
 		8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Graph1ViewController.xib; sourceTree = "<group>"; };
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
 		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
@@ -268,7 +267,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		852F1FC72069402E00BBF740 /* Resources */ = {
+		8527370E20CEE11B009A3A17 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				8598986C2072998E0079A746 /* journey.xcdatamodeld */,
+				853503AD2067E4CD00A08DD9 /* Assets.xcassets */,
+				853503AF2067E4CD00A08DD9 /* LaunchScreen.storyboard */,
+				8527370F20CEE14B009A3A17 /* fonts */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		8527370F20CEE14B009A3A17 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
 				852F1FD3206940F400BBF740 /* Brandon_bld.otf */,
@@ -277,13 +287,12 @@
 				852F1FD5206940F400BBF740 /* Brandon_reg.otf */,
 				852F1FD6206940F400BBF740 /* Brandon_thin.otf */,
 			);
-			path = Resources;
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		853503982067E4CD00A08DD9 = {
 			isa = PBXGroup;
 			children = (
-				852F1FC72069402E00BBF740 /* Resources */,
 				853503A32067E4CD00A08DD9 /* journey */,
 				853503BA2067E4CD00A08DD9 /* journeyTests */,
 				853503C52067E4CD00A08DD9 /* journeyUITests */,
@@ -306,19 +315,16 @@
 		853503A32067E4CD00A08DD9 /* journey */ = {
 			isa = PBXGroup;
 			children = (
-				8594A2F320C70D39004CAFD7 /* Resources */,
+				8527370E20CEE11B009A3A17 /* Assets */,
 				8567DDD72095330F0044BE87 /* FSCalendar */,
 				85452B82208290250027A594 /* Models */,
 				85BE5D1A206FCD3100A4C7EA /* Views */,
 				85BE5D20206FCF1C00A4C7EA /* ViewControllers */,
-				853503A42067E4CD00A08DD9 /* AppDelegate.swift */,
 				853503AA2067E4CD00A08DD9 /* Main.storyboard */,
-				853503AD2067E4CD00A08DD9 /* Assets.xcassets */,
-				853503AF2067E4CD00A08DD9 /* LaunchScreen.storyboard */,
-				853503B22067E4CD00A08DD9 /* Info.plist */,
 				853503D82067EB6800A08DD9 /* ConfigFile.swift */,
-				8598986C2072998E0079A746 /* journey.xcdatamodeld */,
+				853503A42067E4CD00A08DD9 /* AppDelegate.swift */,
 				85452B8020828EC90027A594 /* DataHelper.swift */,
+				853503B22067E4CD00A08DD9 /* Info.plist */,
 			);
 			path = journey;
 			sourceTree = "<group>";
@@ -419,14 +425,6 @@
 				85A9377320C84C2000449ED4 /* toolbarView.xib */,
 			);
 			path = Stats;
-			sourceTree = "<group>";
-		};
-		8594A2F320C70D39004CAFD7 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				8594A2F420C70D77004CAFD7 /* DataSources.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		85BE5D1A206FCD3100A4C7EA /* Views */ = {
