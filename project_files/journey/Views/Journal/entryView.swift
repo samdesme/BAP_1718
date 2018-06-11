@@ -19,9 +19,6 @@ class entryView: UIView {
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var viewContent: UIView!
-
-
-
-    
+ 
 }
 

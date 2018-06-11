@@ -71,8 +71,6 @@ class OptionsProvider {
             title.y = 16
             hioptions.title = title
             
-
-            
             let tooltip = HITooltip()
             tooltip.headerFormat = ""
             hioptions.tooltip = tooltip
@@ -124,19 +122,12 @@ class OptionsProvider {
             chart.type = options
             hioptions.chart = chart
             
-            /*
-            let exporting = HIExporting()
-            exporting.enabled = true
-            hioptions.exporting = exporting
-            */
-            
             let navigation = HINavigation()
             navigation.buttonOptions = HIButtonOptions()
             navigation.buttonOptions.symbolStroke = HIColor(rgba: 255, green: 255, blue: 255, alpha: 0.4)
             navigation.buttonOptions.theme = HITheme()
             navigation.buttonOptions.theme.fill = "rgba(0,0,0,0.0)"
             hioptions.navigation = navigation
-            
             
             let plotOptions = HIPlotOptions()
             plotOptions.spline = HISpline()
@@ -147,7 +138,6 @@ class OptionsProvider {
             let credits = HICredits()
             credits.enabled = false
             hioptions.credits = credits
-            
             
             let title = HITitle()
             title.text = ""

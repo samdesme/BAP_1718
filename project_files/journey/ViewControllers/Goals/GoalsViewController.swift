@@ -67,7 +67,6 @@ class GoalsViewController: UIViewController {
         lblHeader.text = strHeader.uppercased()
         lblHeader.font = fontHeaderMain
         lblHeader.textAlignment = .center
-        //lblHeader.backgroundColor = UIColor.clear
         navBar?.addSubview(lblHeader)
         
     }
@@ -301,23 +300,12 @@ class GoalsViewController: UIViewController {
         
         scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(ySize + 15 + 45))
         
-        //viewGoal.frame.size.height = scrollView.contentSize.height - 15
-        //scrollView.addSubview(viewGoal)
-        
-        //let yGrad = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 60 + self.view.frame.size.height/1.7 - 45
-        
-        //set up a gradient at the bottom of scrollview if the contentsize expands out of view
+    
         viewTopGradient.clipsToBounds = false
         viewTopGradient.backgroundColor = UIColor.clear
         topGradientLayer.frame = CGRect(x: 0, y: self.view.frame.size.height - (self.tabBarController?.tabBar.frame.size.height)! - 45, width: self.view.frame.size.width, height: 45)
         topGradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor, lightGreyColor.cgColor]
         
-        //gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        //gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        
-        //viewTopGradient.layer.addSublayer(topGradientLayer)
-        //topGradientLayer.addBorder(toSide: .Bottom, withColor: blackColor.withAlphaComponent(0.5).cgColor, andThickness: 0.5)
-        //self.view.insertSubview(viewTopGradient, at: 1)
         
     }
     
@@ -349,10 +337,6 @@ class GoalsViewController: UIViewController {
         let formatterDate = DateFormatter()
         formatterDate.dateFormat = "dd-MM-yyyy"
         formatterDate.locale = Locale(identifier: "en_GB")
-        
-
-        
-        //get today's date
         
         let gradientLayer = CAGradientLayer()
         
@@ -433,8 +417,6 @@ class GoalsViewController: UIViewController {
 
                 btnViewEval.addTarget(self,action:#selector(hideEvaluation), for:.touchUpInside)
                 btnViewEval.backgroundColor = UIColor.clear
-                //btnViewEval.setImage(imgEval, for: .normal)
-                
                 
             }
             
@@ -544,7 +526,6 @@ class GoalsViewController: UIViewController {
         }
         else {
             txtEntry.sizeToFit()
-            //txtEntry.translatesAutoresizingMaskIntoConstraints = false
 
         }
 
@@ -590,7 +571,6 @@ class GoalsViewController: UIViewController {
                     
                     attributedString1.append(attributedString2)
 
-                   // strKeywords = "\(value)%  \(keyword)"
                     lblKeywords.attributedText = attributedString1
                     
                 }
@@ -743,22 +723,13 @@ class GoalsViewController: UIViewController {
         btnFilter.setTitle("Filter",for: .normal)
         btnFilter.setTitleColor(whiteColor, for: .normal)
         btnFilter.isEnabled = true
-        //btnFilter.titleLabel?.textColor = blackColor
         btnFilter.titleLabel?.textAlignment = .center
-        //btnFilter.tintColor = blackColor
         btnFilter.backgroundColor = lightPurpleColor
         btnFilter.titleLabel?.font = fontMainRegular
         btnFilter.addTarget(self,action:#selector(btnFilterActionSheet), for:.touchUpInside)
         
         btnFilter.layer.cornerRadius = 22.5
-        /*
-        btnFilter.layer.borderWidth = 0
-        btnFilter.layer.borderColor = blackColor.withAlphaComponent(0.1).cgColor
-        btnFilter.layer.shadowColor = blackColor.cgColor
-        btnFilter.layer.shadowOffset = CGSize(width: -6, height: 6)
-        btnFilter.layer.shadowOpacity = 0.05
-        btnFilter.layer.shadowRadius = 5.0
-        */
+       
         self.view.addSubview(btnFilter)
         self.view.addSubview(btnAdd)
         
@@ -853,9 +824,6 @@ class GoalsViewController: UIViewController {
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequestGoals = NSFetchRequest<Goals>(entityName: "Goals")
         let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
-        
-        //let predicateEntry = NSPredicate(format: "date = %@", date)
-        //fetchRequestEntries.predicate = predicateEntry
         
         let goals = try! context.fetch(fetchRequestGoals)
         

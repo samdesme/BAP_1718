@@ -31,7 +31,6 @@ class JournalTabBarController: UITabBarController {
         
         tabBar.selectionIndicatorImage = UIImage().createSelectionIndicator(color: blackColor, size: CGSize(width: tabBar.frame.width/CGFloat(tabBar.items!.count), height: tabBar.frame.height - 2), lineWidth: 2.0)
         
-        //UITabBarItem.appearance().setTitleTextAttributes(attributes, for: .normal)
         
         viewControllers = viewControllerList
         

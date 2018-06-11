@@ -94,11 +94,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         var about = String()
         
         let context = appDelegate.persistentContainer.viewContext
-        //let request = NSFetchRequest<Profile>(entityName: "Profile")
-        //request.predicate = NSPredicate(format: "age = %@", "12")
-        //request.returnsObjectsAsFaults = false
-        //let profile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
-        
         let dataHelper = DataHelper(context: context)
         let profiles : [Profile] = dataHelper.getAllProfiles()
         
@@ -107,11 +102,8 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
             
             let firstProfile = dataHelper.getProfileById(id: profiles[0].objectID)!
             
-           // print("\(String(describing: firstProfile))")
-            
             name = firstProfile.name
             about = firstProfile.about
-            //printKeywords()
             
         }
         else {
@@ -125,8 +117,6 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
     }
     
    
-    
-    
     func checkProfileExists() -> Bool {
         if (getData().name == "" && getData().name == "") {
             return false
@@ -313,25 +303,7 @@ class ProfileViewController: UIViewController, ProfileHeaderDelegate, ProfileInf
         
     }
 
-    func printKeywords() {
-        let context = appDelegate.persistentContainer.viewContext
-        let dataHelper = DataHelper(context: context)
-        let keywords : [Keywords] = dataHelper.getAll()
-        let sev : [EntryKeywords] = dataHelper.getAllSeverities()
 
-        
-        let i = keywords.index(where: { $0.ranking == 1}) as! Int
-    
-
-        let showRelation = dataHelper.getById(id: keywords[i].objectID)
-        //let showEntry = dataHelper.getSeverityById(id: sev[i2].objectID)
-
-
-
-        print("\(String(describing: keywords))")
-
-        
-    }
     
     //display top 3 biggest struggles after profile setup
     func displayUserKeywords() {

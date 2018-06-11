@@ -72,8 +72,6 @@
 		8594A2EB20C6EF5D004CAFD7 /* MentalHealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2EA20C6EF5D004CAFD7 /* MentalHealthViewController.swift */; };
 		8594A2ED20C6FFE0004CAFD7 /* Highcharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */; };
 		8594A2EF20C70695004CAFD7 /* OptionsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */; };
-		8594A2F220C70AEC004CAFD7 /* Graph1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */; };
-		8594A2F620C70E3E004CAFD7 /* Graph1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */; };
 		8598986E2072998E0079A746 /* journey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8598986C2072998E0079A746 /* journey.xcdatamodeld */; };
 		859898702072A5BB0079A746 /* ProfileCreate1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */; };
 		859B18E620879F6B0078F550 /* ProfileAddKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */; };
@@ -200,8 +198,6 @@
 		8594A2EA20C6EF5D004CAFD7 /* MentalHealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentalHealthViewController.swift; sourceTree = "<group>"; };
 		8594A2EC20C6FFE0004CAFD7 /* Highcharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Highcharts.framework; path = "../highcharts-ios-master/Example/HighFit/HighFit Swift/Highcharts.framework"; sourceTree = "<group>"; };
 		8594A2EE20C70695004CAFD7 /* OptionsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProvider.swift; sourceTree = "<group>"; };
-		8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph1ViewController.swift; sourceTree = "<group>"; };
-		8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Graph1ViewController.xib; sourceTree = "<group>"; };
 		8598986D2072998E0079A746 /* journey.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = journey.xcdatamodel; sourceTree = "<group>"; };
 		8598986F2072A5BB0079A746 /* ProfileCreate1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreate1ViewController.swift; sourceTree = "<group>"; };
 		859B18E520879F6B0078F550 /* ProfileAddKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAddKeywordViewController.swift; sourceTree = "<group>"; };
@@ -419,8 +415,6 @@
 		8594A2F020C70A27004CAFD7 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
-				8594A2F120C70AEC004CAFD7 /* Graph1ViewController.swift */,
-				8594A2F520C70E3E004CAFD7 /* Graph1ViewController.xib */,
 				85A9377120C84C0C00449ED4 /* toolbarView.swift */,
 				85A9377320C84C2000449ED4 /* toolbarView.xib */,
 			);
@@ -637,7 +631,6 @@
 				852F1FDA206940F400BBF740 /* Brandon_reg.otf in Resources */,
 				8516069F20714708009ACC9C /* ProfileTopKeywords.xib in Resources */,
 				85BE5D2A206FF06B00A4C7EA /* ProfileInfo.xib in Resources */,
-				8594A2F620C70E3E004CAFD7 /* Graph1ViewController.xib in Resources */,
 				853503B12067E4CD00A08DD9 /* LaunchScreen.storyboard in Resources */,
 				85BE5D28206FD0BE00A4C7EA /* ProfileHeader.xib in Resources */,
 				852F1FD9206940F400BBF740 /* Brandon_light.otf in Resources */,
@@ -759,7 +752,6 @@
 				8567DE04209533370044BE87 /* FSCalendarTransitionCoordinator.m in Sources */,
 				853D110A209D0F45000C2944 /* CreateEntryViewController.swift in Sources */,
 				853503A72067E4CD00A08DD9 /* ProfileViewController.swift in Sources */,
-				8594A2F220C70AEC004CAFD7 /* Graph1ViewController.swift in Sources */,
 				8567DE02209533370044BE87 /* FSCalendarWeekdayView.m in Sources */,
 				85318191209FD7F200836827 /* RadioButton.swift in Sources */,
 				8567DDD42093D9D40044BE87 /* JournalTabBarController.swift in Sources */,

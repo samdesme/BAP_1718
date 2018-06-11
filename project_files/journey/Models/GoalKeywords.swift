@@ -18,6 +18,6 @@ extension GoalKeywords {
 
 
 class GoalKeywords: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+
     static let entityName = "GoalKeywords"
 }

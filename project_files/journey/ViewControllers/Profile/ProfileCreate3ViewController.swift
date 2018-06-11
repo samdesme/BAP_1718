@@ -92,9 +92,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
     
     // TO DO
     func setUpTableView() {
-        //let cellCount = arrayKeywords.count
-        //let ySize = (viewContent.frame.size.height - viewContent.frame.height/2)/2
-        //let ySize = (viewContent.frame.size.height - viewContent.frame.height/1.5)/2
+
         let btnFinish = UIButton()
         let btnNextShadow = UIView()
         
@@ -186,18 +184,12 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         let btn = CALayer()
         btn.backgroundColor = blueColor.cgColor
         btn.frame = CGRect(x: (self.view.frame.size.width - titleWidth - 30)/2 - 25 , y: 12, width: titleWidth + 30, height: 40)
-        //btn.setTitle(arraySelection[indexPath.row], for: .normal)
-        //btn.titleLabel?.font = fontBtnKeyword
-        //btn.titleLabel?.textColor = whiteColor
         btn.cornerRadius = 20
-        //btn.addTarget(self,action:#selector(buttonPressed), for:.touchUpInside)
-        //btn.tag = indexPath.row
         cell.backgroundView = UIView()
         cell.backgroundView?.layer.insertSublayer(btn, at: 0)
        
         let rank = UILabel()
         rank.frame = CGRect(x: 0, y: 12, width: 40, height: 40)
-        //rank.backgroundColor = blueColor
         rank.text = "\(indexPath.row + 1)"
         rank.textColor = purpleColor
         rank.font = fontBtnKeyword
@@ -223,16 +215,6 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
-        
-        /*let profile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: context) as! Profile
-        let profiles : [Profile] = dataHelper.getAllProfiles()
-        let updateProfile = dataHelper.getProfileById(id: profiles[0].objectID)
-        updateProfile?.name = strNamePassed
-        updateProfile?.about = strAboutPassed
-        updateProfile?.id = 1*/
-        //let newProfile = dataHelper.createProfile(name: strNamePassed, about: strAboutPassed, id: 1)
-
-
         let newProfile = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: appDelegate.persistentContainer.viewContext) as! Profile
         let keywords : [Keywords] = dataHelper.getAll()
         
@@ -289,8 +271,7 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         let context = appDelegate.persistentContainer.viewContext
         let dataHelper = DataHelper(context: context)
         let keywords : [Keywords] = dataHelper.getAll()
-        
-        
+    
         let i = keywords.index(where: { $0.ranking == 2}) as! Int
         let showRelation = dataHelper.getById(id: keywords[i].objectID)
         
@@ -388,8 +369,6 @@ class ProfileCreate3ViewController: UIViewController, UITableViewDelegate, UITab
         
         super.viewWillAppear(animated)
         createHeaderSub()
-        //addTarget()
-        
         
     }
     

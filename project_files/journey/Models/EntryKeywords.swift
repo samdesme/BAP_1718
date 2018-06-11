@@ -24,6 +24,6 @@ extension EntryKeywords {
 
 
 class EntryKeywords: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+   
     static let entityName = "EntryKeywords"
 }

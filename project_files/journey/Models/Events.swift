@@ -19,7 +19,7 @@ extension Events {
 
 
 class Events: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+   
     static let entityName = "Events"
 }
 

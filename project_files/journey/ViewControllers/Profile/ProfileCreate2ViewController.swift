@@ -226,8 +226,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
             btnRemove.setTitle("X", for: .normal)
             btnRemove.setTitleColor(blackColor, for: .normal)
             btnRemove.layer.cornerRadius = 15
-            //btnRemove.layer.borderWidth = 1
-            //btnRemove.layer.borderColor = whiteColor.cgColor
             btnRemove.backgroundColor = lightGreyColor
             btnRemove.addTarget(self,action:#selector(deleteData),
                                  for:.touchUpInside)
@@ -263,8 +261,7 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
         create2.scrollView.backgroundColor = UIColor.clear
         create2.scrollView.frame = CGRect(x: 15, y: 80, width: viewContent.frame.width - 30, height: (viewContent.frame.height/3)*1.8)
         
-        //let bottomOffset = CGPoint(x: 0, y: create2.scrollView.contentSize.height - create2.scrollView.bounds.size.height)
-       // create2.scrollView.setContentOffset(bottomOffset, animated: true)
+     
         
         
     }
@@ -298,7 +295,6 @@ class ProfileCreate2ViewController: UIViewController, CreateStep2Delegate {
 
         
         for key in allKeywords {
-            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
             let bool = key.addedByUser as Bool
         
             if(bool == true){

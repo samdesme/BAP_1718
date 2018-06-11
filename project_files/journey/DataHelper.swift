@@ -50,19 +50,8 @@ public class DataHelper {
         ]
         
         for keyword in keywords {
-            
-            //without model:
-            /*
-            let entity = NSEntityDescription.entity(forEntityName: "Keywords", in: context)
-            let newKeyords = NSManagedObject(entity: entity!, insertInto: context)
-            newKeyords.setValue(keyword.title, forKey: "title")
-            newKeyords.setValue(keyword.addedByUser, forKey: "addedByUser")
-            */
-            
-            //with model:
-            
+
             let newKeyword = NSEntityDescription.insertNewObject(forEntityName: "Keywords", into: appDelegate.persistentContainer.viewContext) as! Keywords
-            
             newKeyword.title = keyword.title
             newKeyword.addedByUser = keyword.addedByUser
             newKeyword.ranking = 0
@@ -479,32 +468,7 @@ public class DataHelper {
         }
     }
     
-    /*
-    public func fetchStandardKeywordsToArray(inputArray:Array<String>) -> Array<String> {
-        let keywordFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Keywords")
-        let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        
-        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
-        keywordFetchRequest.returnsObjectsAsFaults = false
-        
-        let allKeywords = try! context.fetch(keywordFetchRequest)
-        
-        for key in allKeywords as! [NSManagedObject] {
-            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
-          
-            let bool = key.value(forKey: "addedByUser") as! Bool
-            
-            if(bool == false){
-                
-                arrayKeywords.append(key.value(forKey: "title") as! String)
-                
-            }
-           
-        }
-        
-        return arrayKeywords
-    }
- */
+   
     
     public func fetchCustomKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Keywords")
@@ -516,7 +480,7 @@ public class DataHelper {
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
         for key in allKeywords as! [NSManagedObject] {
-            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
+            
             let bool = key.value(forKey: "addedByUser") as! Bool
             
             if(bool == true){
@@ -531,9 +495,6 @@ public class DataHelper {
         return arrayCustomKeywords
     }
     
-   
-    
-    
     
     public func fetchStandardKeywordsToArray(inputArray:Array<String>) -> Array<String> {
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
@@ -542,7 +503,6 @@ public class DataHelper {
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
         for key in allKeywords {
-            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
             if(key.addedByUser == false){
                 arrayKeywords.append(key.title)
             }
@@ -550,26 +510,6 @@ public class DataHelper {
         
         return arrayKeywords
     }
-    
-    /*
-    public func fetchCustomKeywordsToArray(inputArray:Array<String>) -> Array<String> {
-        let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-        let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        
-        keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
-        
-        let allKeywords = try! context.fetch(keywordFetchRequest)
-        
-        for key in allKeywords {
-            
-            if(key.addedByUser == true){
-                arrayCustomKeywords.append(key.title)
-            }
-        }
-        
-        return arrayCustomKeywords
-    }
-     */
     
    
 }

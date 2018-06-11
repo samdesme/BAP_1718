@@ -24,17 +24,12 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
         let strLblDescr = "Review your experience"
         let strMood = "How would you rate your overall experience with this goal?"
         var value = String()
-        
-        
-    
         let strDateMsg = "edit an entry"
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         
         //view
         let viewDateMsg = UIView()
-        //let form = Bundle.main.loadNibNamed("CreateStep1", owner: nil, options: nil)?.first as! CreateStep1
         let form = UIView()
         let lblReview = UILabel()
         let txtReview = UITextView()
@@ -79,8 +74,6 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
         //Load view controller
         override func viewDidLoad() {
             super.viewDidLoad()
-            
-            
             
             self.view.addSubview(scrollView)
             
@@ -155,7 +148,6 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
         let viewHeight = 130 + (60 * count)
         
         viewSliders.frame = CGRect(x: 15, y: 130, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
-        //viewSliders.backgroundColor = blueColor.withAlphaComponent(0.2)
         
         lblSliders.frame = CGRect(x: 0, y: 0, width: viewSliders.frame.width, height: 120)
         lblSliders.font = fontLabel
@@ -184,7 +176,6 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
             lblTitle.textAlignment = .right
             lblTitle.font = fontInput
             lblTitle.textColor = blackColor
-            //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
             
             lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
             lblDisplay.text = String(value) + "%"
@@ -219,7 +210,6 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
             
             //create form view
             form.frame = CGRect(x: 15, y: 120 + viewSliders.frame.size.height + 15*2, width: self.view.frame.width - 30, height: 200)
-            //form.backgroundColor = blueColor.withAlphaComponent(0.5)
             
             lblReview.frame = CGRect(x: 0, y: 15, width: form.frame.size.width, height: 30)
             txtReview.frame = CGRect(x: 0, y: 15 + 30 + 10, width: form.frame.size.width, height: 115)
@@ -236,14 +226,6 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
             txtReview.layer.borderWidth = 1
             txtReview.font = fontInput
             txtReview.clipsToBounds = false
-            
-            // UIButton
-            /*
-            form.lblName.isHidden = true
-            form.txtName.isHidden = true
-            form.btnNextShadow.isHidden = true
-            form.btnToStep2.isHidden = true
-            */
             
             //add view to content view
             form.addSubview(lblReview)
@@ -567,13 +549,6 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
                             strGoalTitle = goal.title
                             strGoalDeadline = goal.deadline
                             
-                            //getMoodInt = evaluation.mood
-                            //txtReview.text = evaluation.note
-                            
-                            //titleEdit = entry.title
-                            //entryEdit = entry.entry
-                            
-                            
                             
                             
                         }
@@ -679,9 +654,7 @@ class EvaluateGoalViewController: UIViewController, CreateStep1Delegate {
             
             let updatedStringDescr = (self.txtReview.text as NSString?)?.replacingCharacters(in: range, with: string)
             self.txtReview.text = updatedStringDescr
-            // do whatever you need with this updated string (your code)
-            
-            // always return true so that changes propagate
+          
             return true
         }
         

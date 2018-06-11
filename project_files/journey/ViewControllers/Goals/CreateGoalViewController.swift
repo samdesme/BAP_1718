@@ -72,17 +72,12 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.isScrollEnabled = true
-        //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
         
         createForm()
         setUpSwitch()
         setUpButtons()
         
         let bottom = (navBar?.frame.size.height)! + form.frame.size.height + viewSwitch.frame.size.height + viewKeywords.frame.size.height + 15
-        
-        //form.backgroundColor = blueColor.withAlphaComponent(0.2)
-        //viewSwitch.backgroundColor = purpleColor.withAlphaComponent(0.2)
-        //viewKeywords.backgroundColor = lightGreyColor.withAlphaComponent(1)
 
         scrollView.contentSize.height = bottom
     }
@@ -163,19 +158,7 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         txtFieldDate.textColor = blackColor
         txtFieldDate.placeholder = "Add a date"
         
-     /*   let btnInput = UIButton()
-        btnInput.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.size.width - 30, height: viewToggle.frame.size.height)
-        btnInput.setTitle("click", for: .normal)
-        btnInput.backgroundColor = blueColor
-        btnInput.addTarget(self,action:#selector(textfieldActive(sender:)),
-                             for:.touchUpInside)
-        viewToggle.addSubview(btnInput)
-        */
-        
-        //txtFieldDate.addConstraint(txtFieldDate.heightAnchor.constraint(equalToConstant: 20))
-        
         lblDeadline.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.width/2, height: viewToggle.frame.size.height)
-        //lblDeadline.backgroundColor = blueColor.withAlphaComponent(0.2)
         lblDeadline.text = "Deadline: "
         lblDeadline.textAlignment = .left
         lblDeadline.font = fontMainRegular19
@@ -356,7 +339,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
             sender.backgroundColor = whiteColor
             sender.layer.borderWidth = 1.5
             
-            
             //remove label from array
             if let indexValue = arraySelection.index(of: (sender.titleLabel?.text)!) {
                 arraySelection.remove(at: indexValue)
@@ -438,11 +420,7 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         newGoal.created = strNow
         newGoal.deadline = strGoal
         newGoal.accomplished = false
-        //newGoal.evaluation = Evaluation()
-
-        print("\(String(describing: arraySelection))")
         
-        //let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
         
         do {
             
@@ -487,9 +465,6 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
         //fetch data from custom added keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-        // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        
-        //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
         for key in allKeywords {
@@ -591,15 +566,12 @@ class CreateGoalViewController: UIViewController, CreateStep1Delegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        // text hasn't changed yet, you have to compute the text AFTER the edit yourself
         let updatedStringTitle = (self.form.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
         self.form.txtName.text = updatedStringTitle
         
         let updatedStringDescr = (self.form.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
         self.form.txtAbout.text = updatedStringDescr
-        // do whatever you need with this updated string (your code)
         
-        // always return true so that changes propagate
         return true
     }
     

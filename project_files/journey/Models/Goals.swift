@@ -25,7 +25,7 @@ extension Goals {
 
 
 class Goals: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+   
     static let entityName = "Goals"
 }
 

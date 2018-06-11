@@ -179,7 +179,6 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         let viewHeight = 80 + (60 * count)
         
         viewSliders.frame = CGRect(x: 15, y: 120 + self.view.frame.height/3, width: self.view.frame.width - 30, height: CGFloat(viewHeight))
-        //viewSliders.backgroundColor = blueColor.withAlphaComponent(0.2)
         
         lblSliders.frame = CGRect(x: 0, y: 0, width: viewSliders.frame.width, height: 80)
         lblSliders.font = fontLabel
@@ -208,7 +207,6 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
             lblTitle.textAlignment = .right
             lblTitle.font = fontInput
             lblTitle.textColor = blackColor
-            //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
             
             lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
             lblDisplay.text = String(value) + "%"
@@ -501,9 +499,6 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         
         getSliderValues()
         
-        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
-        //entryFetchRequest.predicate = predicateRelation
-        
         let allEntries = try! context.fetch(entryFetchRequest)
         
         for entry in allEntries {
@@ -561,9 +556,7 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
         let entryFetchRequest = NSFetchRequest<Entries>(entityName: "Entries")
         let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
-        
-        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
-        //entryFetchRequest.predicate = predicateRelation
+      
 
         let allEntries = try! context.fetch(entryFetchRequest)
         
@@ -596,10 +589,6 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
                         getMoodInt = entry.mood
                         form.txtName.text = entry.title
                         form.txtAbout.text = entry.entry
-                        
-                        //titleEdit = entry.title
-                        //entryEdit = entry.entry
-                        
                         
                         
                         
@@ -706,15 +695,12 @@ class EditEntryViewController: UIViewController, CreateStep1Delegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        // text hasn't changed yet, you have to compute the text AFTER the edit yourself
         let updatedStringTitle = (self.form.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
         self.form.txtName.text = updatedStringTitle
         
         let updatedStringDescr = (self.form.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
         self.form.txtAbout.text = updatedStringDescr
-        // do whatever you need with this updated string (your code)
         
-        // always return true so that changes propagate
         return true
     }
     

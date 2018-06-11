@@ -23,12 +23,4 @@ class ProfileInfo: UIView {
     @IBOutlet weak var viewShadow: UIView!
     @IBOutlet weak var viewTopGradient: UIView!
     
-  
-/*
-    @IBAction func pushStep1(_ sender: Any) {
-        delegate?.create1()
-    }*/
-    
-    
-    
 }

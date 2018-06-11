@@ -400,7 +400,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         // UIButton: Add Event
         btnViewGoals.addTarget(self,action:#selector(toGoals), for:.touchUpInside)
         btnViewGoals.frame = CGRect(x: 15, y: viewGoalCount.bounds.height - 45 - 15, width: viewGoalCount.frame.size.width - 30, height: 45)
-       // btnViewGoals.isEnabled = true
         
         // add gradient to button
         btnViewGradient3.frame = CGRect(x: 0, y: 0, width: btnViewGoals.frame.size.width, height: 45)
@@ -434,7 +433,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         fetchDataGoalCount()
         
         lblGoalCount.frame = CGRect(x: 0, y: (aspect - 45)/2, width: width, height: 60)
-      //  lblCounter.text = "1"
         lblGoalCount.textAlignment = .center
         lblGoalCount.font = fontCounter
         lblGoalCount.textColor = purpleColor
@@ -454,12 +452,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     // MARK: functions that get data per calendar date
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        //print("did select date \(self.dateFormatter.string(from: date))")
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
-        //print(formatter.string(from: date))
-        //let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
-        //print("selected dates is \(selectedDates)")
         fetchData()
         fetchDataEntryCount()
         fetchDataGoalCount()
@@ -546,7 +541,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         var cal = Calendar.current
         cal.timeZone = NSTimeZone.local
-        let dateFrom = cal.startOfDay(for: calendar.selectedDate!) // eg. 2016-10-10 00:00:00
+        let dateFrom = cal.startOfDay(for: calendar.selectedDate!)
         let components = cal.dateComponents([.year, .month, .day],from: dateFrom)
         let selectDate = cal.date(from: components)!
         let selectDateStr = formatter.string(from: selectDate)
@@ -591,11 +586,11 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         var cal = Calendar.current
         cal.timeZone = NSTimeZone.local
 
-        // Get today's beginning & end
-        let dateFrom = cal.startOfDay(for: calendar.selectedDate!) // eg. 2016-10-10 00:00:00
+        // Get today's beginning & end time
+        let dateFrom = cal.startOfDay(for: calendar.selectedDate!)
         var components = cal.dateComponents([.year, .month, .day, .hour, .minute],from: dateFrom)
         components.day! += 1
-        let dateTo = cal.date(from: components)! // eg. 2016-10-11 00:00:00
+        let dateTo = cal.date(from: components)!
       
         // Add Predicate
         let predicate = NSPredicate(format: "(%@ <= date) AND (date < %@)", argumentArray: [dateFrom, dateTo])
@@ -727,20 +722,17 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             textField.inputAccessoryView = toolBar
         }
         
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             
-            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let textField = alert?.textFields![0]
             let title = textField?.text
             let note = alert?.textFields![1].text
 
-            //let timePick = result
             let newEvent = dataHelper.createEvent(title: title!, note: note!, date: dateOnly, time: self.dateToSave)
             
             dataHelper.saveChanges()
             
             print("\(String(describing: newEvent))")
-            //self.printEvents()
         
                 self.listTask.append(newEvent)
                 
@@ -777,7 +769,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         alert = UIAlertController(title: "Update event: ", message: nil, preferredStyle: .alert)
         alert.view.tintColor = purpleColor
         
-        //2. Add the text field. You can configure it however you need.
         alert.addTextField { (textField) in
             textField.placeholder = "Title"
             textField.textAlignment = .center
@@ -818,10 +809,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             textField.inputAccessoryView = toolBar
         }
         
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             
-            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let textField = alert?.textFields![0]
             let title = textField?.text
             let note = alert?.textFields![1].text
             
@@ -890,7 +880,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         cell.lblTime.text = time
         cell.lblTime.textAlignment = .center
         cell.lblTime.font = fontMainLight
-        //cell.bounds = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 120)
         cell.textLabel?.font = fontMainRegular
 
         //title

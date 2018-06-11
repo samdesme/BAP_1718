@@ -19,9 +19,8 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
     @IBOutlet weak var viewHeader: UIView!
     @IBOutlet var viewMain: UIView!
     
-    
-    
     //VARIABLES
+    
     //strings
     let strHeader = "add a keyword"
     let strLblMain = "Add an issue you identify with"
@@ -136,9 +135,6 @@ class ProfileAddKeywordViewController: UIViewController, CreateStep1Delegate {
                                                         attributes: NavLinkAttr)
         
         let btnCreate = UIButton(type: .custom)
-        //btnCreate.setTitle("Add", for: .normal)
-        //btnCreate.setTitleColor(whiteColor, for: .normal)
-        //btnCreate.titleLabel?.font = fontBtnNavLink
         btnCreate.setAttributedTitle(attributeString, for: .normal)
         btnCreate.addTarget(self, action: #selector(createNewKeyword), for: .touchUpInside)
         //add btn

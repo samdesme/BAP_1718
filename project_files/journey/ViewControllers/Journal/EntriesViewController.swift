@@ -64,7 +64,6 @@ class EntriesViewController: UIViewController {
         let top = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 15
         
         // CONTENT
-        //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
         scrollView.frame = CGRect(x: 0, y: top + 45 + 15, width: self.view.frame.size.width, height: self.view.frame.size.height - top - (tabBarController?.tabBar.frame.size.height)!)
         scrollView.isScrollEnabled = true
   
@@ -103,20 +102,15 @@ class EntriesViewController: UIViewController {
         //get today's date
         let gradientLayerDay = CAGradientLayer()
         
-    
-       
         viewDay.frame = CGRect(x: 15, y: top, width: self.view.frame.size.width - 30, height: 45)
 
-        
         lblDate.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
         lblDate.text = strDate.uppercased()
         lblDate.font = fontMainMedium
         lblDate.textColor = whiteColor
         lblDate.textAlignment = .center
         
-        //averageMood.frame = CGRect(x: viewDay.frame.size.width - 35 - 15, y: 5, width: 35, height: 35)
         averageMood.frame = CGRect(x: 15, y: 5, width: 35, height: 35)
-
         
         gradientLayerDay.frame = CGRect(x: 0, y: 0, width: viewDay.frame.size.width, height: viewDay.frame.size.height)
         gradientLayerDay.colors = [purpleColor.cgColor, purpleColor.cgColor]
@@ -124,7 +118,6 @@ class EntriesViewController: UIViewController {
         gradientLayerDay.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayerDay.endPoint = CGPoint(x: 1, y: 0.5)
         gradientLayerDay.cornerRadius = 22.5
-        //gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         btnToday.setAttributedTitle(attributeString, for: .normal)
         btnToday.backgroundColor = UIColor.clear
@@ -141,7 +134,6 @@ class EntriesViewController: UIViewController {
         self.view.addSubview(viewDay)
         
         var arrRelatedKeywords = [String]()
-        
         var arrRelatedValue = [Int16]()
 
         // Set up list of entries from data created by the user
@@ -152,10 +144,6 @@ class EntriesViewController: UIViewController {
 
         let fetchRequestKeywords = NSFetchRequest<Keywords>(entityName: "Keywords")
         let primarySortDescriptor = NSSortDescriptor(key: "date", ascending: true)
-        
-       /* let dataHelper = DataHelper(context: context)
-        let keywords : [Keywords] = dataHelper.getAll()
-        let manyToMany : [EntryKeywords] = dataHelper.getAllSeverities()*/
         
         fetchRequestEntries.sortDescriptors = [primarySortDescriptor]
         let allEntries = try! context.fetch(fetchRequestEntries)
@@ -188,7 +176,6 @@ class EntriesViewController: UIViewController {
                 let manyRelations = try! context.fetch(fetchRequestRelation)
                 
                 for manyRelation in manyRelations {
-                   // print("\(String(describing: manyRelations))")
 
                     
                     if(manyRelation.severity != 0){
@@ -201,14 +188,10 @@ class EntriesViewController: UIViewController {
                         
                         for keyword in relatedKeywords {
                             
-                                //let keywordObject = keyword.objectID
                                 let keywordTitle = keyword.title
                                 
                                 arrRelatedValue.append(manyRelation.severity)
                                 arrRelatedKeywords.append(keywordTitle)
-                            
-                                //print("\(String(describing: keywordTitle))")
-                                //print("\(String(describing: manyRelation.severity))")
 
                             
                         }
@@ -225,7 +208,6 @@ class EntriesViewController: UIViewController {
                 let sumArray = intArray.reduce(0, +)
                 let avgArrayValue = sumArray / Int16(intArray.count)
                 averageMoodInt = Int(avgArrayValue)
-               // print("\(String(describing: avgArrayValue))")
 
                 
             }
@@ -237,11 +219,6 @@ class EntriesViewController: UIViewController {
         
 
         scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(ySize + 15 + 45))
-        
-        //viewEntry.frame.size.height = scrollView.contentSize.height - 15
-        //scrollView.addSubview(viewEntry)
-        
-        //let yGrad = (self.tabBarController?.tabBar.frame.size.height)! + (navBar?.frame.size.height)! + 60 + self.view.frame.size.height/1.7 - 45
 
         //set up a gradient at the bottom of scrollview if the contentsize expands out of view
         viewTopGradient.clipsToBounds = false
@@ -249,14 +226,6 @@ class EntriesViewController: UIViewController {
         topGradientLayer.frame = CGRect(x: 0, y: self.view.frame.size.height - (self.tabBarController?.tabBar.frame.size.height)! - 45, width: self.view.frame.size.width, height: 45)
         topGradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor, lightGreyColor.cgColor]
         
-        //gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        //gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        
-        //viewTopGradient.layer.addSublayer(topGradientLayer)
-        //scrollView.insertSubview(viewTopGradient, at: 1)
-        //topGradientLayer.addBorder(toSide: .Bottom, withColor: blackColor.withAlphaComponent(0.5).cgColor, andThickness: 0.5)
-        
-
     }
     
     func dateCheck() {
@@ -268,8 +237,6 @@ class EntriesViewController: UIViewController {
         let todayDateStr = formatter.string(from: now)
         let selectedDateStr = formatter.string(from: selectedCalendarDate)
        
-       
-        
         //if selected date is not today's date, add a button to today's entries
         if(selectedDateStr != todayDateStr){
             
@@ -299,7 +266,6 @@ class EntriesViewController: UIViewController {
         let lblTime = UILabel()
         let txtEntry = UITextView()
         let btnEdit = UIButton()
-        let navBar = navigationController?.navigationBar
 
         //get today's date
         let gradientLayer = CAGradientLayer()
@@ -354,7 +320,6 @@ class EntriesViewController: UIViewController {
         viewEntry.addSubview(viewHeader)
         
         viewContent.frame = CGRect(x: 0, y: viewHeader.frame.size.height + 15, width: viewEntry.frame.size.width, height: 40)
-        //viewContent.backgroundColor = blueColor.withAlphaComponent(0.2)
     
         imgView.frame = CGRect(x: 15, y: 5, width: 35, height: 35)
         imgView.image = UIImage(named: "ic_mood\(mood)_white")
@@ -383,27 +348,21 @@ class EntriesViewController: UIViewController {
         txtEntry.isScrollEnabled = false
         txtEntry.sizeToFit()
         txtEntry.translatesAutoresizingMaskIntoConstraints = false
-        //txtEntry.backgroundColor = blueColor.withAlphaComponent(0.2)
-        
-       /* if(txtEntry.frame.size.height < viewEntry.frame.size.width - imgView.frame.size.width - 15*2 - 15){
-            txtEntry.frame.size.height = viewEntry.frame.size.width - imgView.frame.size.width - 15*2 - 15
-        }*/
+       
 
         
         viewKeywords.frame = CGRect(x: 0, y: txtEntry.frame.size.height + lblTitle.frame.size.height, width: viewContent.frame.size.width, height: 0)
-        //viewKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
+
         var lblY = CGFloat(0)
         
         for (e1, e2) in zip(arrKeywords, severity) {
             var strKeywords = String()
             let lblKeywords = UILabel()
 
-            //print("\(e1) - \(e2)")
             strKeywords = "\u{25CF} \(e2)%  \(e1)"
             let size: CGSize = strKeywords.size(withAttributes: [NSAttributedStringKey.font: font17Med!])
             let lblHeight = size.height
             lblKeywords.frame =  CGRect(x: 15, y: lblY, width: entryWidth, height: lblHeight)
-            //lblKeywords.backgroundColor = blueColor.withAlphaComponent(0.2)
             lblKeywords.text = strKeywords
             lblKeywords.font = font17Med
             lblKeywords.textColor = blueColor
@@ -418,26 +377,13 @@ class EntriesViewController: UIViewController {
 
         }
         
-       
-        
-        
-       /* lblTime.frame =  CGRect(x: 15, y: imgView.frame.size.height, width: imgView.frame.size.width, height: 30)
-        lblTime.textAlignment = .center
-        lblTime.text = date
-        lblTime.textColor = purpleColor
-        lblTime.font = fontTime*/
         
         let idString = String(describing: date)
-       
-        
+
         btnEdit.frame =  CGRect(x: viewEntry.frame.width - 45, y: 0, width: 30, height: 30)
         let image = UIImage(named: "arrow_down")
 
         btnEdit.addTarget(self,action:#selector(editEntry),for:.touchUpInside)
-       // btnEdit.titleLabel?.textColor = blueColor
-        //btnEdit.titleLabel?.font = font17Bld
-       //btnEdit.titleLabel?.textAlignment = .center
-        
         btnEdit.tintColor = blueColor
         btnEdit.setTitle(idString, for: .normal)
         btnEdit.titleLabel?.isHidden = true
@@ -445,10 +391,7 @@ class EntriesViewController: UIViewController {
         btnEdit.layer.cornerRadius = 15
         btnEdit.layer.borderWidth = 1.5
         btnEdit.setImage(image, for: .normal)
-        
         btnEdit.addTarget(self,action:#selector(editEntry), for:.touchUpInside)
-
-
         btnEdit.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         btnEdit.layer.borderColor = blueColor.cgColor
         
@@ -544,9 +487,6 @@ class EntriesViewController: UIViewController {
         let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
         let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
         
-        //let predicateEntry = NSPredicate(format: "date = %@", date)
-        //fetchRequestEntries.predicate = predicateEntry
-        
         let entries = try! context.fetch(fetchRequestEntries)
         
         for entry in entries {
@@ -595,77 +535,6 @@ class EntriesViewController: UIViewController {
         
     }
     
-    
-    /*
-    func deleteEntry(date: String) {
-        
-        print("string passed : \(String(describing: date))")
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +0000"
-
-        dateFormatter.locale = Locale(identifier: "en_GB")
-        
-        let context = appDelegate.persistentContainer.viewContext
-        let dataHelper = DataHelper(context: context)
-       // let fetchRequestEntries = NSFetchRequest<Entries>(entityName: "Entries")
-        let fetchRequestRelation = NSFetchRequest<EntryKeywords>(entityName: "EntryKeywords")
-        
-        //let predicateEntry = NSPredicate(format: "date = %@", date)
-        //fetchRequestEntries.predicate = predicateEntry
-        
-        let entries : [Entries] = dataHelper.getAllEntries()
-        let many : [EntryKeywords] = dataHelper.getAllSeverities()
-
-         let entrDate = dateFormatter.date(from: date)?.addingTimeInterval(-1440.0 * 60.0)
-        
-        //let allEntries = try! context.fetch(fetchRequestEntries)
-        //for entry in allEntries {
-            
-           // let entrDate = dateFormatter.string(from: entry.date)
-
-           // if(entrDate == date){
-
-        print("entrDate: \(String(describing: entrDate))")
-                //context.delete(entry)
-                
-        
-                
-         let i = entries.index(where: { $0.date == entrDate }) as! Int
-         let toBeDeleted = dataHelper.getEntryById(id: entries[i].objectID)
-        
-        let predicateRelation = NSPredicate(format: "entry == %@", toBeDeleted!)
-        fetchRequestRelation.predicate = predicateRelation
-        
-        let manyRelations = try! context.fetch(fetchRequestRelation)
-        for manyRelation in manyRelations {
-            
-            //print("\(String(describing: manyRelation))")
-            
-            dataHelper.deleteSeverity(id: manyRelation.objectID)
-            dataHelper.saveChanges()
-        }
-    
-        
-        do {
-            
-            dataHelper.deleteEntry(id: toBeDeleted!.objectID)
-            dataHelper.saveChanges()
- 
-            
-        } catch {
-            print("Failed deleting")
-        }
-        
-        
-                
-           // }
-          
-            
-            
-       // }
-        
-    }
-    */
     
     @objc func showTodaysEntries() {
         selectedCalendarDate = Date()

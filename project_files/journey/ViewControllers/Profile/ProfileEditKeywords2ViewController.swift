@@ -283,12 +283,8 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         let allKeywords = try! context.fetch(keywordFetchRequest)
         
         keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
-        //keywordFetchRequest.returnsObjectsAsFaults = false
-        
-        
         
         for key in allKeywords {
-            //print("Keyword title: \(key.title)\nAdded by user? \(key.addedByUser) \n-------\n", terminator: "")
             let bool = key.addedByUser as Bool
             
             if(bool == true){
@@ -307,6 +303,7 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
     
     func getSelection() {
         arraySelection.removeAll()
+        
         //fetch the user's selected keywords and return them as an array
         let context = appDelegate.persistentContainer.viewContext
         let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
@@ -358,9 +355,6 @@ class ProfileEditKeywords2ViewController: UIViewController, CreateStep2Delegate 
         let toBeDeleted = dataHelper.getById(id: keywords[i].objectID)
         
         //delete that object
-        //print("\(String(describing: keywords))")
-        
-        
         do {
             
             dataHelper.delete(id: toBeDeleted!.objectID)

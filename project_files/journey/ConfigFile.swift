@@ -57,25 +57,19 @@ let fontLblFirstName = UIFont(name:"BrandonGrotesque-Light", size:50)
 let fontTextLight = UIFont(name:"BrandonGrotesque-Light", size:22)
 let fontMainLight = UIFont(name:"BrandonGrotesque-Light", size:20)
 let fontMainLight19 = UIFont(name:"BrandonGrotesque-Light", size:19)
+
 let fontMainRegular = UIFont(name:"BrandonGrotesque-Regular", size:21)
 let fontMainRegular20 = UIFont(name:"BrandonGrotesque-Regular", size:20)
 let fontMainRegular19 = UIFont(name:"BrandonGrotesque-Regular", size:19)
 
 let fontLabel = UIFont(name:"BrandonGrotesque-Regular", size:22)
 let fontTextLink = UIFont(name:"BrandonGrotesque-Light", size:22)
-
 let fontMainMedium = UIFont(name:"BrandonGrotesque-Medium", size:20)
-
-
 let fontLabelSub = UIFont(name:"BrandonGrotesque-Light", size:20)
-
 let fontInput = UIFont(name:"BrandonGrotesque-Light", size:18)
 let fontTime = UIFont(name:"BrandonGrotesque-Regular", size:17)
-
-
 let fontKeywordRegular = UIFont(name:"BrandonGrotesque-Regular", size:20)
 let fontTitleBig = UIFont(name:"BrandonGrotesque-Regular", size:24)
-
 
 //button fonts
 let fontBtnSmall = UIFont(name:"BrandonGrotesque-Regular", size:24)
@@ -84,8 +78,6 @@ let fontBtnKeyword = UIFont(name:"BrandonGrotesque-Regular", size:22)
 let fontBtnNavLink = UIFont(name:"BrandonGrotesque-Regular", size:19)
 let fontCounter = UIFont(name:"BrandonGrotesque-Bold", size:33)
 let fontIconBig = UIFont(name:"BrandonGrotesque-Light", size:67)
-
-
 
 
 //EXTENTIONS
@@ -157,25 +149,9 @@ extension UIView {
         gradient.colors = colours.map { $0.cgColor }
         gradient.startPoint = CGPoint(x:0, y:0)
         gradient.endPoint = CGPoint(x:1, y:1)
-        //For transparency:
-        // gradient.colors = colours.map { $0.withAlphaComponent(0.90).cgColor }
-        //gradient.locations = locations
         self.layer.addSublayer(gradient)
     }
-    
-   /*
-    
-    func applyGradientButton(colours: [UIColor]) -> Void {
-        self.applyGradientButton(colours, locations: nil)
-    }
-    
-    func applyGradientButton(colours: [UIColor], locations: [NSNumber]?) -> Void {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.frame = self.bounds
-        gradient.colors = colours.map { $0.cgColor }
-        gradient.locations = locations
-        self.layer.addSublayer(gradient)
-    }*/
+
  
     // extention for changing the radius of individual corners of a UIView
     func round(corners: UIRectCorner, radius: CGFloat) {
@@ -207,14 +183,12 @@ extension UIImage {
     // Extention for quick UIImage styling
     class func colorForNavBar(color: UIColor) -> UIImage {
         let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
-        //    Or if you need a thinner border :
-        //    let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 0.5)
+    
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
         
         context!.setFillColor(color.cgColor)
         context!.fill(rect)
-        
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -282,34 +256,26 @@ extension UINavigationBar
     /// Applies a background gradient with the given colors
     func applyNavigationGradient( colors : [UIColor]) {
         var frameAndStatusBar: CGRect = self.bounds
-        frameAndStatusBar.size.height += 20 // add 20 to account for the status bar
+        frameAndStatusBar.size.height += 20
         
         setBackgroundImage(UINavigationBar.gradient(size: frameAndStatusBar.size, colors: colors), for: .default)
     }
     
-    /// Creates a gradient image with the given settings
     static func gradient(size : CGSize, colors : [UIColor]) -> UIImage?
     {
-        // Turn the colors into CGColors
         let cgcolors = colors.map { $0.cgColor }
         
-        // Begin the graphics context
         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
         
-        // If no context was retrieved, then it failed
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
         
-        // From now on, the context gets ended if any return happens
         defer { UIGraphicsEndImageContext() }
         
-        // Create the Coregraphics gradient
         var locations : [CGFloat] = [0.0, 1.0]
         guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { return nil }
         
-        // Draw the gradient
         context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: size.width, y: 0.0), options: [])
         
-        // Generate the image (the defer takes care of closing the context)
         return UIGraphicsGetImageFromCurrentImageContext()
     }
 }

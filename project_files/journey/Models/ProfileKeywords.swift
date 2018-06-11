@@ -19,6 +19,6 @@ extension ProfileKeywords {
 
 
 class ProfileKeywords: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+    
     static let entityName = "ProfileKeywords"
 }

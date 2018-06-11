@@ -187,7 +187,6 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         lblTitle.textAlignment = .right
         lblTitle.font = fontInput
         lblTitle.textColor = blackColor
-        //lblTitle.backgroundColor = lightGreyColor.withAlphaComponent(0.5)
             
         lblDisplay.frame = CGRect(x: 0, y: 80 + ySlider, width: 60, height: 50)
         lblDisplay.text = "0" + "%"
@@ -403,8 +402,7 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
         
         let newEntry = NSEntityDescription.insertNewObject(forEntityName: "Entries", into: appDelegate.persistentContainer.viewContext) as! Entries
         
-       // let newSeverity = NSEntityDescription.insertNewObject(forEntityName: "EntryKeywords", into: appDelegate.persistentContainer.viewContext) as! EntryKeywords
-        
+     
         let keywords : [Keywords] = dataHelper.getAll()
         
         newEntry.title = title!
@@ -556,10 +554,6 @@ class CreateEntryViewController: UIViewController, CreateStep1Delegate {
             lblSub.removeFromSuperview()
             createHeaderMain()
             self.tabBarController?.tabBar.alpha = 1
-
-            //let entriesvc = storyboard?.instantiateViewController(withIdentifier: "tabbar") as! JournalTabBarController
-            //entriesvc.tabBarController?.selectedIndex = 1
-            //self.navigationController?.pushViewController(entriesvc, animated: true)
             
             var viewControllers = navigationController?.viewControllers
             viewControllers?.removeLast(1)

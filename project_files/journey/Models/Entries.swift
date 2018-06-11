@@ -23,6 +23,6 @@ extension Entries {
 
 
 class Entries: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+   
     static let entityName = "Entries"
 }

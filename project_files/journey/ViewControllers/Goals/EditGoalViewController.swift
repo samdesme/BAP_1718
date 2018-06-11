@@ -60,8 +60,6 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         override func viewDidLoad() {
             super.viewDidLoad()
             
-            
-            
             self.view.addSubview(scrollView)
             self.datePicker.datePickerMode = UIDatePickerMode.date
             self.datePicker.locale = Locale(identifier: "en_GB")
@@ -82,7 +80,6 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             
             scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
             scrollView.isScrollEnabled = true
-            //scrollView.backgroundColor = blueColor.withAlphaComponent(0.2)
             
             createForm()
             setUpSwitch()
@@ -192,19 +189,7 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             txtFieldDate.textColor = blackColor
             txtFieldDate.placeholder = "Add a date"
             
-            /*   let btnInput = UIButton()
-             btnInput.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.size.width - 30, height: viewToggle.frame.size.height)
-             btnInput.setTitle("click", for: .normal)
-             btnInput.backgroundColor = blueColor
-             btnInput.addTarget(self,action:#selector(textfieldActive(sender:)),
-             for:.touchUpInside)
-             viewToggle.addSubview(btnInput)
-             */
-            
-            //txtFieldDate.addConstraint(txtFieldDate.heightAnchor.constraint(equalToConstant: 20))
-            
             lblDeadline.frame = CGRect(x: 15, y: 0, width: viewToggle.frame.width/2, height: viewToggle.frame.size.height)
-            //lblDeadline.backgroundColor = blueColor.withAlphaComponent(0.2)
             lblDeadline.text = "Deadline: "
             lblDeadline.textAlignment = .left
             lblDeadline.font = fontMainRegular19
@@ -481,14 +466,6 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             newGoal.created = strNow
             newGoal.deadline = strGoal
             newGoal.accomplished = false
-            //newGoal.evaluation = Evaluation()
-            
-            // dataHelper.saveChanges()
-            
-            print("\(String(describing: arraySavedSelection))")
-            
-            //let savedEntry = dataHelper.getEntryById(id: newEntry.objectID)
-            
             
             
             do {
@@ -502,14 +479,9 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
                     
                     let keywordObject = dataHelper.getById(id: keywords[i].objectID)
                     
-                    //let newRelation = dataHelper.createSeverity(keyword: keywordObject!, entry: savedEntry!, severity: sliderValue)
-                    
                     newRelation.keyword = keywordObject!
                     newRelation.goal = newGoal
                     newRelation.rate = 0
-                    
-                    //dataHelper.saveChanges()
-                    
                     
                     do {
                         
@@ -652,11 +624,8 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         let goalFetchRequest = NSFetchRequest<Goals>(entityName: "Goals")
         let fetchRequestRelation = NSFetchRequest<GoalKeywords>(entityName: "GoalKeywords")
         
-        //let predicateRelation = NSPredicate(format: "date == %@", entryToEdit)
-        //entryFetchRequest.predicate = predicateRelation
-        
         let allGoals = try! context.fetch(goalFetchRequest)
-        
+
         for goal in allGoals {
             
             
@@ -719,9 +688,6 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
             //fetch data from custom added keywords and return them as an array
             let context = appDelegate.persistentContainer.viewContext
             let keywordFetchRequest = NSFetchRequest<Keywords>(entityName: "Keywords")
-            // let primarySortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-            
-            //keywordFetchRequest.sortDescriptors = [primarySortDescriptor]
             let allKeywords = try! context.fetch(keywordFetchRequest)
             
             for key in allKeywords {
@@ -823,15 +789,12 @@ class EditGoalViewController: UIViewController, CreateStep1Delegate {
         
         func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
         {
-            // text hasn't changed yet, you have to compute the text AFTER the edit yourself
             let updatedStringTitle = (self.form.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
             self.form.txtName.text = updatedStringTitle
             
             let updatedStringDescr = (self.form.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
             self.form.txtAbout.text = updatedStringDescr
-            // do whatever you need with this updated string (your code)
             
-            // always return true so that changes propagate
             return true
         }
         

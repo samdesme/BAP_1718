@@ -6,14 +6,6 @@
 //  Copyright © 2018 sam de smedt. All rights reserved.
 //
 
-//
-//  ProfileCreate1ViewController.swift
-//  journey
-//
-//  Created by sam de smedt on 02/04/2018.
-//  Copyright © 2018 sam de smedt. All rights reserved.
-//
-
 import UIKit
 import CoreData
 
@@ -179,16 +171,12 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        // text hasn't changed yet, you have to compute the text AFTER the edit yourself
         let updatedStringName = (self.editInfo.txtName.text as NSString?)?.replacingCharacters(in: range, with: string)
         self.editInfo.txtName.text = updatedStringName
         
         let updatedStringAbout = (self.editInfo.txtAbout.text as NSString?)?.replacingCharacters(in: range, with: string)
         self.editInfo.txtAbout.text = updatedStringAbout
-        // do whatever you need with this updated string (your code)
         
-        
-        // always return true so that changes propagate
         return true
     }
     
@@ -268,9 +256,7 @@ class ProfileEditInfoViewController: UIViewController, CreateStep1Delegate {
                                                         attributes: NavLinkAttr)
         
         let btnCreate = UIButton(type: .custom)
-        //btnCreate.setTitle("Add", for: .normal)
-        //btnCreate.setTitleColor(whiteColor, for: .normal)
-        //btnCreate.titleLabel?.font = fontBtnNavLink
+    
         btnCreate.setAttributedTitle(attributeString, for: .normal)
         btnCreate.addTarget(self, action: #selector(toMainPage), for: .touchUpInside)
         //add btn

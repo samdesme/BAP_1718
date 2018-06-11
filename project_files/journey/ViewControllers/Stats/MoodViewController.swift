@@ -47,34 +47,12 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     
-   /* var day = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    var month = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    var year = [0,0,0,0,0,0,0,0,0,0,0,0]
-
-     */
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.view.addSubview(scrollView)
-        
-        
-        
-        /*
-        do {
-            if let sourceName = self.configuration["source"] as? String,
-                let sourcePath = Bundle.main.path(forResource: sourceName, ofType: "json"),
-                let sourceData = try? Data(contentsOf: URL(fileURLWithPath: sourcePath)),
-                let sourceJson = try JSONSerialization.jsonObject(with: sourceData) as? [String: Any] {
-                self.data = sourceJson
-            }
-        } catch {
-            print("Error deserializing JSON: \(error)")
-        }
-        
-        */
-        
         tabBarController?.selectedIndex = 0
         self.title = "MOOD"
         self.view.backgroundColor = whiteColor
@@ -127,7 +105,6 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         // edit corner radius op the gradient layer
         gradientLayer.cornerRadius = 25
         
-        
         viewGraph1.layer.addSublayer(gradientLayer)
         scrollView.addSubview(viewGraph1)
         
@@ -145,7 +122,6 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         viewGraph2.layer.shadowColor = blackColor.cgColor
         viewGraph2.layer.shadowOffset = CGSize(width: 6, height: 6)
         viewGraph2.layer.shadowOpacity = 0.05
-        //viewGraph1.layer.shadowRadius = 5.0
         viewGraph2.layer.shadowRadius = 10.0
         
         scrollView.addSubview(viewGraph2)
@@ -170,30 +146,23 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         
         toolbar.frame = CGRect(x: 0, y: lblGraph.frame.size.height + 30, width: viewGraph1.frame.size.width, height: 44)
         toolbar.backgroundColor = UIColor.clear
-
         toolbar.segment.tintColor = whiteColor
         toolbar.segment.frame = CGRect(x: 15, y: 0, width: viewGraph1.frame.size.width - 30, height: 30)
         toolbar.segment.addTarget(self, action: #selector(self.actionSegment), for: .valueChanged)
-
         toolbar.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.any,barMetrics: UIBarMetrics.default)
-
         toolbar.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
         
         
         
         // Chartview layout
         
-   self.chartView1 = HIChartView(frame: CGRect(x: 15 + 30, y: lblGraph.frame.size.height + 15 + toolbar.frame.size.height + 30, width: viewGraph1.frame.size.width - 30 - 30, height: viewGraph1.frame.size.height - lblGraph.frame.size.height - toolbar.frame.size.height - 30*2))
+        self.chartView1 = HIChartView(frame: CGRect(x: 15 + 30, y: lblGraph.frame.size.height + 15 + toolbar.frame.size.height + 30, width: viewGraph1.frame.size.width - 30 - 30, height: viewGraph1.frame.size.height - lblGraph.frame.size.height - toolbar.frame.size.height - 30*2))
         
         getDataTime(period: "day")
         
-        chartView1.backgroundColor = UIColor.clear
-        
-     
+        self.chartView1.backgroundColor = UIColor.clear
         self.chartView1.delegate = self
-        
         self.chartView1.viewController = self
-        
         
         viewGraph1.addSubview(lblGraph)
         viewGraph1.addSubview(self.chartView1!)
@@ -209,7 +178,6 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         let scale = self.chartView1.frame.size.height/5
         
         sideView.frame = CGRect(x: 0, y: lblGraph.frame.size.height + 15 + toolbar.frame.size.height + 30, width: 30, height: chartView1.frame.size.height)
-        
         
         imgView1.image = UIImage(named: "ic_mood5_white")
         imgView2.image = UIImage(named: "ic_mood4_white")
@@ -251,9 +219,8 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         self.chartView2 = HIChartView(frame: CGRect(x: 15, y: lblGraph.frame.size.height, width: viewGraph2.frame.size.width - 30, height: viewGraph2.frame.size.height - lblGraph.frame.size.height - 15))
         
         getDataCount()
-        chartView2.backgroundColor = UIColor.clear
         
-    
+        self.chartView2.backgroundColor = UIColor.clear
         self.chartView2.delegate = self
         self.chartView2.viewController = self
         
@@ -412,8 +379,6 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
                 i = Int(entryPeriod)!
                 
                 
-                
-                
             }
             
             
@@ -439,9 +404,6 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
             
            
         }
-        
-        //print("arrCategories: \(String(describing: arrCategories))")
-        //print("arrayData: \(String(describing: arrayData))")
         
         self.chartView1.options = OptionsProvider.provideOptions(forChartType: "spline", series: arrayData.filter {$0 != 0}, xValues: arrCategories)
         
@@ -471,11 +433,8 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
                 arrCount[4] += 1
             
             }
-    
-
             
-     self.chartView2.options = OptionsProvider.provideOptions(forChartType: "column", series: arrCount, xValues: arrMoods)
-            
+            self.chartView2.options = OptionsProvider.provideOptions(forChartType: "column", series: arrCount, xValues: arrMoods)
             
         }
         
@@ -500,31 +459,6 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
         
     }
     
-    /*
-    @IBAction func actionSegment(_ sender: UISegmentedControl) {
-        var dataName: String = "day"
-        var arrayData: [Int]!
-        
-        switch sender.selectedSegmentIndex {
-        case 0:
-            dataName = "day"
-            arrayData = day
-            getDataTime(period: "day")
-        case 1:
-            dataName = "month"
-            arrayData = month
-        case 2:
-            dataName = "year"
-            arrayData = year
-        default:
-            break
-        }
-     }
-        
-        // self.chartView.options = OptionsProvider.provideOptions(forChartType: "spline", series: arrayData.filter {$0 != 0}, type: dataName, xValues: arrCategories)
-        
-     */
-    
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -534,7 +468,7 @@ class MoodViewController: UIViewController, HIChartViewDelegate {
     //MARK: - HIChartViewDelegate
     
     func chartViewDidLoad(_ chart: HIChartView!) {
-       // print("Did load chart \(chart!)")
+       // print("chart loaded")
     }
 
     override func didReceiveMemoryWarning() {

@@ -20,7 +20,7 @@ extension Evaluation {
 
 
 class Evaluation: NSManagedObject {
-    // Add this line, the string must be equal to your class name
+   
     static let entityName = "Evaluation"
 }
 

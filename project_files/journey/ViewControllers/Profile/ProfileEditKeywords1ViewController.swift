@@ -6,14 +6,6 @@
 //  Copyright © 2018 sam de smedt. All rights reserved.
 //
 
-//
-//  ProfileCreate3ViewController.swift
-//  journey
-//
-//  Created by sam de smedt on 13/04/2018.
-//  Copyright © 2018 sam de smedt. All rights reserved.
-//
-
 import UIKit
 import CoreData
 
@@ -292,11 +284,8 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
             NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
         let attributeString = NSMutableAttributedString(string: "Save",
                                                         attributes: NavLinkAttr)
-        
         let btnCreate = UIButton(type: .custom)
-        //btnCreate.setTitle("Add", for: .normal)
-        //btnCreate.setTitleColor(whiteColor, for: .normal)
-        //btnCreate.titleLabel?.font = fontBtnNavLink
+    
         btnCreate.setAttributedTitle(attributeString, for: .normal)
         btnCreate.addTarget(self, action: #selector(buttonFinish), for: .touchUpInside)
         //add btn
@@ -304,7 +293,6 @@ class ProfileEditKeywords1ViewController: UIViewController, UITableViewDelegate,
     }
     
     // SAVE EDIT
-    
     @objc func buttonFinish(sender:UIButton!)
     {
         //showAlertRanking()
